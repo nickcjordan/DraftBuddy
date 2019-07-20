@@ -10,40 +10,9 @@
 	<packaging>war</packaging>
 	<name>DraftBuddyUI</name>
 
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<java.version>1.8</java.version>
-		<jaunt.home>C:\dev\jars\jaunt1.5.9\jaunt1.5.9.jar</jaunt.home>
-		<jauntium.home>C:\dev\jars\jauntium0.9\jauntium0.9.jar</jauntium.home>
-	</properties>
-
 	<dependencies>
-
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<scope>test</scope>
-		</dependency>
-
-		<!-- Jaunt -->
-		<dependency>
-			<groupId>com.jaunt</groupId>
-			<artifactId>jaunt-api</artifactId>
-			<version>1.3.3</version>
-			<scope>system</scope>
-			<systemPath>${jaunt.home}</systemPath>
-		</dependency>
-
-		<!-- Jauntium -->
-		<dependency>
-			<groupId>com.jauntium</groupId>
-			<artifactId>jauntium</artifactId>
-			<version>0.9</version>
-			<scope>system</scope>
-			<systemPath>${jauntium.home}</systemPath>
-		</dependency>
-
-		<!-- Web -->
+	
+	<!-- Web -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
