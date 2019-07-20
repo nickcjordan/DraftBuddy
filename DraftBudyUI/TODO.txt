@@ -1,0 +1,37 @@
+UPGRADES::
+========
+
+BIG:
+-----
+-refactor controllers and extract class that holds all draft state
+-integrate data retrieval service from NewFantasy
+-automate downloading new stats
+-automate tier range numbers in properties
+-refactor to use 1 players page where you check boxes to filter the view rather than picking pages to show a view
+
+
+
+Medium:
+----------
+-add search and select with predictive text for live draft picking other players
+-show value column in suggestions
+-drafters page with view option to see small list of all team's players
+
+
+
+
+Small:
+-------
+-add team info on team page
+-set emoticon to falifa logo
+
+-add option to pick number of rounds on start page
+
+-REFACTOR HtmlParser class
+
+
+
+BUG FIXES::
+========
+-Fix tag manipulated suggestion list to properly weight the ordering... something weird is happening
+-percent bar not working
