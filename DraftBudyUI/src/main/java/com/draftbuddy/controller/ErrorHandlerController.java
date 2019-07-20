@@ -5,12 +5,13 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.web.ErrorAttributes;
-import org.springframework.boot.autoconfigure.web.ErrorController;
+import org.springframework.boot.web.servlet.error.ErrorAttributes;
+import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.context.request.WebRequest;
 
 import com.draftbuddy.Log;
 
@@ -54,7 +55,7 @@ public class ErrorHandlerController implements ErrorController {
 	}
 
 	private Map<String, Object> getErrorAttributes(HttpServletRequest aRequest, boolean includeStackTrace) {
-		return errorAttributes.getErrorAttributes(new ServletRequestAttributes(aRequest), includeStackTrace);
+		return errorAttributes.getErrorAttributes((WebRequest) new ServletRequestAttributes(aRequest), includeStackTrace);
 	}
 
 }
