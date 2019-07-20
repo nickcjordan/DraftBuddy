@@ -2,7 +2,8 @@ package com.falifa.draftbuddy.api.data.builder;
 
 import java.util.Map.Entry;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.falifa.draftbuddy.api.data.model.RawPlayerStats;
@@ -11,8 +12,8 @@ import com.falifa.draftbuddy.api.model.PositionStatsDetails;
 @Component
 public class PositionStatsDetailsBuilder {
 	
-	private static Logger log = Logger.getLogger(PositionStatsDetailsBuilder.class);
-
+	private static final Logger log = LoggerFactory.getLogger(PositionStatsDetailsBuilder.class);
+	
 	public PositionStatsDetails buildPositionStatsDetails(RawPlayerStats stats) {
 		PositionStatsDetails details = new PositionStatsDetails();
 		for (Entry<String, String> stat : stats.getStats().entrySet()) {

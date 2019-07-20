@@ -2,7 +2,8 @@ package com.falifa.draftbuddy.api.data;
 
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -14,8 +15,8 @@ import com.falifa.draftbuddy.api.model.Player;
 
 @Component
 public class PlayerStatsAPIAdapter {
-
-	private static Logger log = Logger.getLogger(PlayerStatsAPIAdapter.class);
+	
+	private static final Logger log = LoggerFactory.getLogger(PlayerStatsAPIAdapter.class);
 
 	@Value("${data.useCache}")
 	private boolean useCachedData;

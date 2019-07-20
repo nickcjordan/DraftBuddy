@@ -6,6 +6,8 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.springframework.beans.factory.annotation.Value;
+
 import com.falifa.draftbuddy.api.data.model.RawPlayerStats;
 import com.falifa.draftbuddy.api.data.model.WeekStatsResponse;
 import com.fasterxml.jackson.core.JsonParser;
@@ -16,7 +18,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 public class WeekStatsResponseDeserializer extends JsonDeserializer<WeekStatsResponse> {
 	
-	private String year = "2017";
+	@Value("${data.year}")
+	private String year;
 
 	@Override
 	public WeekStatsResponse deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {

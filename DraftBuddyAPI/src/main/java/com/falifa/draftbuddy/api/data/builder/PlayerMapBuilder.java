@@ -11,7 +11,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -25,8 +26,8 @@ import com.falifa.draftbuddy.api.model.Player;
 @Component
 public class PlayerMapBuilder {
 	
-	private static Logger log = Logger.getLogger(PlayerMapBuilder.class);
-	
+	private static final Logger log = LoggerFactory.getLogger(PlayerMapBuilder.class);
+
 	@Value("${data.weeksInSeason}")
 	private String weeksInSeason;
 	
@@ -86,7 +87,7 @@ public class PlayerMapBuilder {
 			executor.awaitTermination(30, TimeUnit.SECONDS);
 			log.info("All threads have returned");
 		} catch (InterruptedException e) {
-			log.error(e);
+			log.error("ERROR: ", e);
 		}
 	}
 

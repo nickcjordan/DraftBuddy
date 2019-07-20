@@ -1,11 +1,13 @@
 package com.falifa.draftbuddy.api.data.builder;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
 public class UrlBuilder {
 	
-	private static final String SEASON_YEAR = "2017";
+	@Value("${data.year}")
+	private String SEASON_YEAR;
 	
 	private static final String URL_BASE = "http://api.fantasy.nfl.com/v2";
 	private static final String AND = "&";
