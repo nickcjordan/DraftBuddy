@@ -18,12 +18,9 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 public class WeekStatsResponseDeserializer extends JsonDeserializer<WeekStatsResponse> {
 	
-	@Value("${data.year}")
-	private String year;
-
 	@Override
 	public WeekStatsResponse deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
-		return buildPlayerStats(((JsonNode) p.getCodec().readTree(p)).get("games").get("102018").get("players").fields());
+		return buildPlayerStats(((JsonNode) p.getCodec().readTree(p)).get("games").elements().next().get("players").fields());
 	}
 
 	private WeekStatsResponse buildPlayerStats(Iterator<Entry<String, JsonNode>> playerIterator) {
@@ -31,7 +28,7 @@ public class WeekStatsResponseDeserializer extends JsonDeserializer<WeekStatsRes
 		while(playerIterator.hasNext()) {
 			try {
 				Entry<String, JsonNode> playerEntry = playerIterator.next();
-				JsonNode weekNumberNode = playerEntry.getValue().get("stats").get("week").get(year);
+				JsonNode weekNumberNode = playerEntry.getValue().get("stats").get("week").elements().next();
 				String weekNumber = weekNumberNode.fieldNames().next();
 				RawPlayerStats stat = buildIndividualPlayerStats(playerEntry.getKey(), weekNumber, weekNumberNode.get(weekNumber).fields());
 				stats.put(playerEntry.getKey(), stat);

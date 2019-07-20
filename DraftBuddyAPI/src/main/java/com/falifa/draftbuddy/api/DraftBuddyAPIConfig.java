@@ -8,6 +8,7 @@ import org.springframework.cache.concurrent.ConcurrentMapCache;
 import org.springframework.cache.support.SimpleCacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
 @EnableCaching
@@ -16,7 +17,9 @@ public class DraftBuddyAPIConfig {
 	
 	@Bean
 	public RestTemplate restTemplate() {
-		return new RestTemplate();
+		RestTemplate template = new RestTemplate(new SimpleClientHttpRequestFactory());
+//		template.set
+		return template;
 	}
 	
 	@Bean

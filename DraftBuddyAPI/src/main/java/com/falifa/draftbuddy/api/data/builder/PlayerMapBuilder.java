@@ -31,14 +31,31 @@ public class PlayerMapBuilder {
 	@Value("${data.weeksInSeason}")
 	private String weeksInSeason;
 	
+	@Value("${data.cache.active}")
+	private boolean cacheIsActive;
+	
 	@Autowired
 	private PlayerStatsAPIDelegate delegate;
 
 	@Autowired
 	private PositionStatsDetailsBuilder statsBuilder;
 	
+	@Autowired
+	private DataFileCache cache;
+	
+	@Autowired
+	private UrlBuilder urls;
+	
 	public Map<String, Player> buildAndPopulatePlayerMap() {
+		if (cacheIsActive) {
+			return cache.getCachedCompleteData();
+		}
+		
+//		Map<String, Player> players = cache.getCachedRawStats();
+		//TODO uncomment when you want updated raw stats
 		Map<String, Player> players = buildPlayerMapWithRawStats();
+		cache.updateCacheWithRawStats(players);
+		
 		List<Player> playersToRemove = Collections.synchronizedList(new ArrayList<Player>());
 		
 		log.info("Initiating iterative threads...");
@@ -49,8 +66,9 @@ public class PlayerMapBuilder {
 		while (iterator.hasNext()) {
 			count++;
 			Player player = iterator.next();
-			executor.execute(new ThreadRunner(playersToRemove, delegate, player));
-			if (count >= 100) {
+			String baseUrl = urls.buildMetaDataBaseUrl();
+			executor.execute(new ThreadRunner(playersToRemove, player, baseUrl));
+			if (count >= 150) {
 				waitForThreads(executor);
 				executor = Executors.newCachedThreadPool();
 				count = 0;
@@ -61,6 +79,8 @@ public class PlayerMapBuilder {
 		for (Player playerToRemove : playersToRemove) {
 			players.remove(playerToRemove.getPlayerId());
 		}
+		
+		cache.updateCacheWithCompleteData(players);
 		return players;
 	}
 	

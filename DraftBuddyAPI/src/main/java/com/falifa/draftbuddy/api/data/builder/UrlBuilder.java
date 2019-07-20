@@ -6,10 +6,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class UrlBuilder {
 	
-	@Value("${data.year}")
-	private String SEASON_YEAR;
+	@Value("${data.year.previous}")
+	private String previousSeasonYear;
 	
-	private static final String URL_BASE = "http://api.fantasy.nfl.com/v2";
+	private static final String URL_BASE = "https://api.fantasy.nfl.com/v2";
 	private static final String AND = "&";
 	
 	private static final String WEEK_STATS_BASE_PATH = "/players/weekstats?";
@@ -21,14 +21,14 @@ public class UrlBuilder {
 	
 	public String buildWeekStatsUrl(int week) {
 		return new StringBuilder().append(URL_BASE).append(WEEK_STATS_BASE_PATH)
-				.append(SEASON_PARAM).append(SEASON_YEAR)
+				.append(SEASON_PARAM).append(previousSeasonYear)
 				.append(AND).append(WEEK_PARAM).append(week)
 				.toString();
 	}
 
-	public String buildMetaDataUrl(String playerId) {
+	public String buildMetaDataBaseUrl() {
 		return new StringBuilder().append(URL_BASE).append(META_DATA_BASE_PATH)
-				.append(AND).append(PLAYER_ID_PARAM).append(playerId)
+				.append(AND).append(PLAYER_ID_PARAM)
 				.toString();
 	}
 

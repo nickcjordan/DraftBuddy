@@ -16,11 +16,20 @@ public class PlayerManager {
 	
 	@Autowired
 	private PlayerMapBuilder builder;
+	
+	@Autowired
+	private PlayerDataStorage data;
 
-	@Cacheable("allPlayers")
-	public List<Player> getAllPlayers() {
+	public boolean updateAllPlayers() {
 		Map<String, Player> map = builder.buildAndPopulatePlayerMap();
-		return map.values().stream().collect(Collectors.toList());
+		return data.updateState(map);
+	}
+	
+	public List<Player> updateAndGetAllPlayers() {
+		Map<String, Player> map = builder.buildAndPopulatePlayerMap();
+		data.updateState(map);
+		List<Player> list = map.values().stream().collect(Collectors.toList());
+		return list;
 	}
 
 	

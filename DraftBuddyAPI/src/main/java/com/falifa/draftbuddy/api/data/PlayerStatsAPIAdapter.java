@@ -18,7 +18,7 @@ public class PlayerStatsAPIAdapter {
 	
 	private static final Logger log = LoggerFactory.getLogger(PlayerStatsAPIAdapter.class);
 
-	@Value("${data.useCache}")
+	@Value("${data.cache.active}")
 	private boolean useCachedData;
 
 	@Autowired
@@ -31,11 +31,11 @@ public class PlayerStatsAPIAdapter {
 		Map<String, Player> players = null;
 		if (useCachedData) { 	// return cached data
 			log.info("Using cached data...");
-			players = cache.getCachedData();
+			players = cache.getCachedCompleteData();
 		} else {						// build and return updated data
 			log.info("Making calls to get updated data...");
 			players = playerBuilder.buildAndPopulatePlayerMap();
-			cache.updateCacheWithData(players);
+			cache.updateCacheWithCompleteData(players);
 		}
 		return new PlayerStatsAPIResponse(players);
 	}

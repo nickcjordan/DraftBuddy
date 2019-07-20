@@ -16,7 +16,7 @@ public class PlayerMetaDataDeserializer extends JsonDeserializer<PlayerMetaData>
 		PlayerMetaData data = new PlayerMetaData();
 		JsonNode node = jp.getCodec().readTree(jp);
 		
-		JsonNode details = node.get("games").get("102018").get("players").fields().next().getValue();
+		JsonNode details = node.get("games").elements().next().get("players").elements().next();
 		
 		data.setByeWeek(details.get("byeWeek").asText());
 		data.setImageUrl(details.get("imageUrl").asText());
