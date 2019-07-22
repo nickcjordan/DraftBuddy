@@ -1,0 +1,57 @@
+package com.falifa.draftbuddy.ui.scraper.extractor;
+
+import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.falifa.draftbuddy.ui.model.player.Player;
+import com.falifa.draftbuddy.ui.model.player.PlayerNote;
+import com.falifa.draftbuddy.ui.scraper.JsonDataFileManager;
+import com.jaunt.Element;
+import com.jaunt.NotFound;
+
+@Component
+public class NotesExtractor {
+	
+	
+	private static final Logger log = LoggerFactory.getLogger(NotesExtractor.class);
+
+
+	@Autowired
+	private JsonDataFileManager playerManager;
+
+	public void extractPlayerNotesDataFromElement(Element div) {
+		for (Element playerDetail : div.findEach("<div>")) { // each player node
+			try {
+				String fantasyProsId = playerDetail.getAt("class").split(" ")[1].split("-")[2]; // grab fantasy pros id from top level div metadata
+				handlePlayerDetail(fantasyProsId, playerDetail);
+			} catch (NotFound e) {
+				log.error("Error parsing ID for player row :: " + playerDetail.toString(), e);
+			}
+		}
+		log.info("All player notes have been added");
+	}
+
+	private void handlePlayerDetail(String fantasyProsId, Element playerDetail) {
+		Player playerToPopulate = playerManager.getPlayerFromTemporaryStorage(fantasyProsId);
+		if (playerToPopulate != null) {
+			try {
+				Element detail = playerDetail.findFirst("<table>").findFirst("<tbody>").findFirst("<tr>").findFirst("<td class=\"text\">").findFirst("<div class=\"extra\">");
+				String noteText = detail.findFirst("<div class=\"player-note\">").getTextContent();
+				if (!noteText.trim().isEmpty()) {
+					String timestamp = detail.findFirst("<span class=\"pull-right timestamp\">").getTextContent();
+					playerToPopulate.getNotesMetadata().addNote(new PlayerNote(timestamp, noteText, "FantasyPros"));
+					playerManager.addUpdatedPlayer(fantasyProsId, playerToPopulate);
+				}
+			} catch (Exception e) {
+				log.error("ERROR parsing player notes :: " + playerDetail.toString(), e);
+			}
+		} else {
+			log.error("ERROR parsing notes :: No player found in temporary storage for fantasyProsId={}", fantasyProsId);
+		}
+	}
+
+}

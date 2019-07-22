@@ -2,7 +2,7 @@ package com.falifa.draftbuddy.ui.comparator;
 
 import java.util.Comparator;
 
-import com.falifa.draftbuddy.ui.model.Player;
+import com.falifa.draftbuddy.ui.model.player.Player;
 
 public class PlayerRankComparator implements Comparator<Player> {
 

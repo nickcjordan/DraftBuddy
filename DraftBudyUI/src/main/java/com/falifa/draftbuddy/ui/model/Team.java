@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.falifa.draftbuddy.ui.comparator.PlayerDraftedOrderComparator;
 import com.falifa.draftbuddy.ui.constants.Position;
+import com.falifa.draftbuddy.ui.model.player.Player;
 
 public class Team {
 

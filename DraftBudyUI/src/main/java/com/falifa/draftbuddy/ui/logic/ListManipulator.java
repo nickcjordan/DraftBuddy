@@ -10,8 +10,8 @@ import com.falifa.draftbuddy.ui.constants.Position;
 import com.falifa.draftbuddy.ui.constants.Tag;
 import com.falifa.draftbuddy.ui.controller.DraftController;
 import com.falifa.draftbuddy.ui.model.NFL;
-import com.falifa.draftbuddy.ui.model.Player;
 import com.falifa.draftbuddy.ui.model.Team;
+import com.falifa.draftbuddy.ui.model.player.Player;
 
 public class ListManipulator {
 	

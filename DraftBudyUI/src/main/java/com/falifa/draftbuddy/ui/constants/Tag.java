@@ -1,6 +1,6 @@
 package com.falifa.draftbuddy.ui.constants;
 
-import com.falifa.draftbuddy.ui.model.Player;
+import com.falifa.draftbuddy.ui.model.player.Player;
 
 public enum Tag {
 
@@ -41,39 +41,39 @@ public enum Tag {
 	}
 
 	public static boolean isRookie(Player player) {
-		return player.getTags().contains(ROOKIE.getTag());
+		return player.getDraftingDetails().getTags().contains(ROOKIE.getTag());
 	}
 	
 	public static boolean isSleeper(Player player) {
-		return player.getTags().contains(SLEEPER.getTag());
+		return player.getDraftingDetails().getTags().contains(SLEEPER.getTag());
 	}
 	
 	public static boolean isRisk(Player player) {
-		return player.getTags().contains(RISK.getTag());
+		return player.getDraftingDetails().getTags().contains(RISK.getTag());
 	}
 	
 	public static boolean isNewTeam(Player player) {
-		return player.getTags().contains(NEW_TEAM.getTag());
+		return player.getDraftingDetails().getTags().contains(NEW_TEAM.getTag());
 	}
 	
 	public static boolean isFavorite(Player player) {
-		return player.getTags().contains(FAVORITE.getTag());
+		return player.getDraftingDetails().getTags().contains(FAVORITE.getTag());
 	}
 	
 	public static boolean isRising(Player player) {
-		return player.getTags().contains(RISING.getTag());
+		return player.getDraftingDetails().getTags().contains(RISING.getTag());
 	}
 	
 	public static boolean isFalling(Player player) {
-		return player.getTags().contains(FALLING.getTag());
+		return player.getDraftingDetails().getTags().contains(FALLING.getTag());
 	}
 	
 	public static boolean isBust(Player player) {
-		return player.getTags().contains(BUST.getTag());
+		return player.getDraftingDetails().getTags().contains(BUST.getTag());
 	}
 	
 	public static boolean isInjuryRisk(Player player) {
-		return player.getTags().contains(INJURY_RISK.getTag());
+		return player.getDraftingDetails().getTags().contains(INJURY_RISK.getTag());
 	}
 
 	public String getIcon() {

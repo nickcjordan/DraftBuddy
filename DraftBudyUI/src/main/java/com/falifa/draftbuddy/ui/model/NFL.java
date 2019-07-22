@@ -18,6 +18,7 @@ import com.falifa.draftbuddy.ui.comparator.AlphabetizedTeamComparator;
 import com.falifa.draftbuddy.ui.comparator.PlayerADPComparator;
 import com.falifa.draftbuddy.ui.comparator.PlayerRankComparator;
 import com.falifa.draftbuddy.ui.constants.Position;
+import com.falifa.draftbuddy.ui.model.player.Player;
 
 public class NFL {
 
@@ -36,17 +37,17 @@ public class NFL {
 		playersById = builder.getPlayersById();
 		teams = builder.getTeams();
 		teamsById = builder.getTeamsById();
-		try {
-			builder.addNotesToPlayers();
-			builder.addTagsToPlayers();
-			builder.addOLineRankingsToPlayers();
-			builder.addTargetsToPlayers();
-			builder.addPictureLinksToPlayers();
-			builder.setPlayersToTarget();
-			builder.setProjections();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
+//		try {
+//			builder.addNotesToPlayers();
+//			builder.addTagsToPlayers();
+//			builder.addOLineRankingsToPlayers();
+//			builder.addTargetsToPlayers();
+//			builder.addPictureLinksToPlayers();
+//			builder.setPlayersToTarget();
+//			builder.setProjections();
+//		} catch (FileNotFoundException e) {
+//			e.printStackTrace();
+//		}
 	}
 	
 	public static HashMap<String, Player> getPlayerMap(){
@@ -74,46 +75,46 @@ public class NFL {
 		return teams.get(name);
 	}
 	
-	public static List<Player> getAvailablePlayersByPositionAsList(Position position){
-		List<Player> byPosition = new ArrayList<Player>();
-		for (Player player : players.values()){
-			if (player.getPosition().equals(position) && player.isAvailable()){
-				byPosition.add(player);
-			}
-		}
-		Collections.sort(byPosition, new PlayerADPComparator());
-		return byPosition;
-	}
-	
-	private static List<Player> getAllAvailablePlayers(Comparator<Player> comparator){
-		List<Player> allAvailable = new ArrayList<Player>();
-		for (Player player : players.values()){
-			if (player.isAvailable()){
-				allAvailable.add(player);
-			}
-		}
-		Collections.sort(allAvailable, comparator);
-		return allAvailable;
-	}
-	
-	public static List<Player> getAllAvailablePlayersByADP(){
-		return getAllAvailablePlayers(new PlayerADPComparator());
-	}
-	
-	public static List<Player> getAllAvailablePlayersByRank(){
-		return getAllAvailablePlayers(new PlayerRankComparator());
-	}
-	
-	public static List<Player> getAllPickedPlayersList(){
-		List<Player> allPicked = new ArrayList<Player>();
-		for (Player player : players.values()){
-			if (!player.isAvailable()){
-				allPicked.add(player);
-			}
-		}
-		Collections.sort(allPicked, new PlayerADPComparator());
-		return allPicked;
-	}
+//	public static List<Player> getAvailablePlayersByPositionAsList(Position position){
+//		List<Player> byPosition = new ArrayList<Player>();
+//		for (Player player : players.values()){
+//			if (player.getPosition().equals(position) && player.isAvailable()){
+//				byPosition.add(player);
+//			}
+//		}
+//		Collections.sort(byPosition, new PlayerADPComparator());
+//		return byPosition;
+//	}
+//	
+//	private static List<Player> getAllAvailablePlayers(Comparator<Player> comparator){
+//		List<Player> allAvailable = new ArrayList<Player>();
+//		for (Player player : players.values()){
+//			if (player.isAvailable()){
+//				allAvailable.add(player);
+//			}
+//		}
+//		Collections.sort(allAvailable, comparator);
+//		return allAvailable;
+//	}
+//	
+//	public static List<Player> getAllAvailablePlayersByADP(){
+//		return getAllAvailablePlayers(new PlayerADPComparator());
+//	}
+//	
+//	public static List<Player> getAllAvailablePlayersByRank(){
+//		return getAllAvailablePlayers(new PlayerRankComparator());
+//	}
+//	
+//	public static List<Player> getAllPickedPlayersList(){
+//		List<Player> allPicked = new ArrayList<Player>();
+//		for (Player player : players.values()){
+//			if (!player.isAvailable()){
+//				allPicked.add(player);
+//			}
+//		}
+//		Collections.sort(allPicked, new PlayerADPComparator());
+//		return allPicked;
+//	}
 	
 	public static Player getPlayer(List<String> split) {
 		return (players.get(split.get(1)) == null) ? players.get(extractTeamName(split)) : players.get(split.get(1));
@@ -140,15 +141,15 @@ public class NFL {
 		return player;
 	}
 
-	public static void resetPlayers() {
-		for(Player player : getPlayerMap().values()) {
-			resetPlayer(player);
-		}
-	}
+//	public static void resetPlayers() {
+//		for(Player player : getPlayerMap().values()) {
+//			resetPlayer(player);
+//		}
+//	}
 
-	private static void resetPlayer(Player player) {
-		player.setAvailable(true);
-		player.setRoundDrafted(0);
-	}
+//	private static void resetPlayer(Player player) {
+//		player.setAvailable(true);
+//		player.setRoundDrafted(0);
+//	}
 	
 }

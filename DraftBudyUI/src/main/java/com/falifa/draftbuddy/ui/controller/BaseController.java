@@ -23,8 +23,8 @@ import com.falifa.draftbuddy.ui.model.Draft;
 import com.falifa.draftbuddy.ui.model.DraftPick;
 import com.falifa.draftbuddy.ui.model.Drafter;
 import com.falifa.draftbuddy.ui.model.NFL;
-import com.falifa.draftbuddy.ui.model.Player;
 import com.falifa.draftbuddy.ui.model.RoundSpecificStrategy;
+import com.falifa.draftbuddy.ui.model.player.Player;
 
 @Controller
 public class BaseController {

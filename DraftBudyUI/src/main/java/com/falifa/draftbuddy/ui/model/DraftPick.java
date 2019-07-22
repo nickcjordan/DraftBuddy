@@ -1,5 +1,7 @@
 package com.falifa.draftbuddy.ui.model;
 
+import com.falifa.draftbuddy.ui.model.player.Player;
+
 public class DraftPick {
 
 	int pick;

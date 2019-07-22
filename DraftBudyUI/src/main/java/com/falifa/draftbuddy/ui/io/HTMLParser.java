@@ -13,8 +13,8 @@ import java.util.Map;
 import com.falifa.draftbuddy.ui.Log;
 import com.falifa.draftbuddy.ui.builder.TeamBuilder;
 import com.falifa.draftbuddy.ui.model.NFL;
-import com.falifa.draftbuddy.ui.model.Player;
 import com.falifa.draftbuddy.ui.model.Team;
+import com.falifa.draftbuddy.ui.model.player.Player;
 import com.jaunt.Element;
 import com.jaunt.UserAgent;
 
@@ -140,7 +140,7 @@ public class HTMLParser {
 				Log.err("Error building player from html:" + name + "\n" + e.getMessage());
 			}
 		} catch (Exception e) {
-			Log.err("Could not add notes from HTML: " + e.getMessage());
+			Log.err("Could not add data from HTML: " + e.getMessage());
 		} 
 		return players;
 	}

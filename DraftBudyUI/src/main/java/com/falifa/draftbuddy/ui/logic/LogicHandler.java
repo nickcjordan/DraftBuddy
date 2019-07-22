@@ -7,8 +7,8 @@ import com.falifa.draftbuddy.ui.Log;
 import com.falifa.draftbuddy.ui.controller.BaseController;
 import com.falifa.draftbuddy.ui.model.Drafter;
 import com.falifa.draftbuddy.ui.model.NFL;
-import com.falifa.draftbuddy.ui.model.Player;
 import com.falifa.draftbuddy.ui.model.Team;
+import com.falifa.draftbuddy.ui.model.player.Player;
 
 public class LogicHandler {
 

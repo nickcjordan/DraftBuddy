@@ -12,7 +12,7 @@ import java.util.TreeSet;
 import com.falifa.draftbuddy.ui.Log;
 import com.falifa.draftbuddy.ui.comparator.AlphabetizedPlayerComparator;
 import com.falifa.draftbuddy.ui.model.NFL;
-import com.falifa.draftbuddy.ui.model.Player;
+import com.falifa.draftbuddy.ui.model.player.Player;
 
 public class StatsCleaner {
 	

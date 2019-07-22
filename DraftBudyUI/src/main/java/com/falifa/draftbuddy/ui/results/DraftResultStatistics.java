@@ -6,7 +6,7 @@ import com.falifa.draftbuddy.ui.constants.Position;
 import com.falifa.draftbuddy.ui.exception.FalifaException;
 import com.falifa.draftbuddy.ui.model.Drafter;
 import com.falifa.draftbuddy.ui.model.NFL;
-import com.falifa.draftbuddy.ui.model.Player;
+import com.falifa.draftbuddy.ui.model.player.Player;
 
 public class DraftResultStatistics {
 

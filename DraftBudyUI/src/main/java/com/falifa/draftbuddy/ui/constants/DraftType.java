@@ -19,30 +19,18 @@ public enum DraftType {
 
 	private String[] getDraftOrder(String t) {
 		switch(t) {
-			case "real"		: return realOrder();
-			case "auto"	: return getAuto();
-			case "mock"	: return getMock();
+			case "real"		: return currentSet();
+			case "auto"	: return currentSet();
+			case "mock"	: return currentSet();
 		}
 		Log.err("did not find order: " + t);
 		return null;
 	}
 
-	private String[] getMock() {
-//		return FALIFA_LEAGUE;
+	private String[] currentSet() {
+		return FALIFA_LEAGUE;
 //		return NEELY_LEAGUE;
-		return WHOLE_FAMILY_LEAGUE;	
-		}
-		
-	private String[] getAuto() {
-//		return FALIFA_LEAGUE;
-//		return NEELY_LEAGUE;
-		return WHOLE_FAMILY_LEAGUE;	
-		}
-	
-	private String[] realOrder() {
-//		return FALIFA_LEAGUE;			
-//		return NEELY_LEAGUE;
-		return WHOLE_FAMILY_LEAGUE;
+//		return WHOLE_FAMILY_LEAGUE;	
 	}
 
 	public String[] getOrder() {
@@ -75,18 +63,18 @@ public enum DraftType {
 	}
 	
 	private String[] FALIFA_LEAGUE = new String[]{
-			"Chris T",
+			"Nick J",
+			"Nick W",
+			"Josh",
+			"Austin",
+			"Scott",
+			"Mason",
+			"Dan",
+			"Ryan",
 			"Chris R",
 			"Will",
 			"Matt",
-			"Nick J",
-			"Ryan",
-			"Josh",
-			"Mason",
-			"Nick W",
-			"Austin",
-			"Dan",
-			"Scott"
+			"Chris T"
 	};
 	
 	private String[] NEELY_LEAGUE = new String[]{

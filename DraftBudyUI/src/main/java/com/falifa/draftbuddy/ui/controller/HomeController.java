@@ -29,15 +29,16 @@ public class HomeController extends BaseController {
         return "home";
     }
     
-    @RequestMapping(value = "/update")
-    public String updateDataFiles() {
-    	Log.info("Updating data source files...");
-    	DataFileReader data = new DataFileReader();
-    	String dataFilePath = data.getDataFilePathFromFantasyProsWebsite(ECR_FANTASYPROS_URL);
-    	Log.info("Downloading from dataFilePath: " + dataFilePath);
-    	data.downloadFileFromUrl(dataFilePath, ECR_FANTASYPROS_TEST_PATH);
-        return "/";
-    }
+//    @RequestMapping(value = "/ui/updateDataFiles")
+//    public String updateDataFiles() {
+//    	Log.info("Updating data source files...");
+//    	DataFileReader data = ;
+//    	data.
+////    	String dataFilePath = data.getDataFilePathFromFantasyProsWebsite(ECR_FANTASYPROS_URL);
+////    	Log.info("Downloading from dataFilePath: " + dataFilePath);
+////    	new DataFileReader().downloadFileFromUrl(dataFilePath, ECR_FANTASYPROS_TEST_PATH);
+//        return "/";
+//    }
 	
 	// to hit this with "type" --> "http://localhost:8080/init?appRunType=type"
     @RequestMapping(value = "/start")

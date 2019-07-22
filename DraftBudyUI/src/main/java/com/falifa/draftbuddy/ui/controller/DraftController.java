@@ -21,7 +21,7 @@ import com.falifa.draftbuddy.ui.logic.LogicHandler;
 import com.falifa.draftbuddy.ui.model.DraftPick;
 import com.falifa.draftbuddy.ui.model.Drafter;
 import com.falifa.draftbuddy.ui.model.NFL;
-import com.falifa.draftbuddy.ui.model.Player;
+import com.falifa.draftbuddy.ui.model.player.Player;
 import com.falifa.draftbuddy.ui.results.ResultsProcessor;
 
 @Controller
@@ -32,7 +32,7 @@ public class DraftController extends BaseController {
 		errorMessage = null;
 		Player player = NFL.getPlayer(resolvePlayerId(playerId));
 		Log.deb("doPickForDrafter :: picking player " + player.getPlayerName());
-		if (!player.isAvailable()) {
+		if (!player.getDraftingDetails().isAvailable()) {
 			Log.err("doPickForDrafter : " + currentDrafter.getName() + " :: player " + player.getPlayerName() + " is not available");
 			addAttributes(model);
 			errorMessage = player.getPlayerName() + " is not available";

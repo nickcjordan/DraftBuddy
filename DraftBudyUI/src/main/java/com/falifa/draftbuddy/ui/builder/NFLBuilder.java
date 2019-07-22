@@ -1,7 +1,7 @@
 package com.falifa.draftbuddy.ui.builder;
 
 import static com.falifa.draftbuddy.ui.constants.DataSourcePaths.DST_PROJECTIONS_PATH;
-import static com.falifa.draftbuddy.ui.constants.DataSourcePaths.ECR_FANTASYPROS_PATH;
+import static com.falifa.draftbuddy.ui.constants.DataSourcePaths.FANTASYPROS_RANKINGS_HTML_FILE_PATH;
 import static com.falifa.draftbuddy.ui.constants.DataSourcePaths.K_PROJECTIONS_PATH;
 import static com.falifa.draftbuddy.ui.constants.DataSourcePaths.NFL_TEAM_NAMES_PATH;
 import static com.falifa.draftbuddy.ui.constants.DataSourcePaths.OLINERANK_TO_PLAYER_MAPPING_PATH;
@@ -28,8 +28,8 @@ import com.falifa.draftbuddy.ui.controller.BaseController;
 import com.falifa.draftbuddy.ui.io.DataFileReader;
 import com.falifa.draftbuddy.ui.io.HTMLParser;
 import com.falifa.draftbuddy.ui.model.NFL;
-import com.falifa.draftbuddy.ui.model.Player;
 import com.falifa.draftbuddy.ui.model.Team;
+import com.falifa.draftbuddy.ui.model.player.Player;
 import com.jaunt.Element;
 import com.jaunt.UserAgent;
 
@@ -73,141 +73,121 @@ public class NFLBuilder {
 	public HashMap<Integer, Team> getTeamsById() {
 		return teamsById;
 	}
-
-//	private void addPlayersToPlayerLists() throws FileNotFoundException {
-//		for (List<String> split : dataReader.getSplitLinesFromFile(ECR_FANTASYPROS_PATH, true, ",")) {
-//			if (split.get(CSVFieldMapping.POS.getIndex()).contains("TOL")) { // TOL == Total Offensive Line?
-//				continue;
-//			}
-//			try {
-//				Player player = PlayerBuilder.buildPlayer(split);
-//				players.put(player.getPlayerName(), player);
-//				TeamBuilder.addPlayerToTeam(player, teams.get(player.getTeamName()));
-//				playersById.put(player.getId(), player);
-//			} catch (Exception e) {
-//				Log.err("ERROR adding player to players list: " + split.get(CSVFieldMapping.PLAYER_NAME.getIndex()) + " :: " + e.getMessage());
-//			}
-//		}
-//	}
 	
 	private void addPlayersToPlayerLists() throws FileNotFoundException {
 		for (Player player : parser.getPlayersFromHtml()) {
-//			Player player = PlayerBuilder.buildPlayer(split);
 			players.put(player.getPlayerName(), player);
 			TeamBuilder.addPlayerToTeam(player, teams.get(player.getTeamName()));
 			playersById.put(player.getId(), player);
 		}
 	}
-
+//
 	private void addTeamsToTeamLists() throws FileNotFoundException {
 		int id = 1;
 		for (List<String> split : dataReader.getSplitLinesFromFile(NFL_TEAM_NAMES_PATH, true, ",")) {
 			Team team = TeamBuilder.buildTeamFromInput(id++, split);
-//			if (team.getAbbrev().equals("FA")) {
-//				System.out.println();
-//			}
 			teams.put(team.getName(), team);
 			teams.put(team.getAbbrev(), team);
 			teamsById.put(team.getId(), team);
 		}
 	}
-
-	public void addNotesToPlayers() throws FileNotFoundException {
-		// https://www.fantasypros.com/nfl/notes/draft-overall.php?type=PPR
-		parser.addNotesFromHtml();
-		
-		for (List<String> split : dataReader.getSplitLinesFromFile(PLAYERNOTES_EXPERTS_PATH, true, ",")) {
-			try {
-				PlayerBuilder.addAdditionalNote(split);
-			} catch (Exception e) {
-				Log.err("Could not add notes: " + e.getMessage());
-			}
-		}
-		for (List<String> split : dataReader.getSplitLinesFromFile(PLAYERNOTES_CUSTOM_PATH, true, ",")) {
-			try {
-				PlayerBuilder.addAdditionalNote(split);
-			} catch (Exception e) {
-				Log.err("Could not add notes: " + e.getMessage());
-			}
-		}
-	}
-
-	public void addTagsToPlayers() throws FileNotFoundException {
-		for (List<String> split : dataReader.getSplitLinesFromFile(TAGS_CUSTOM_PATH, true, ",")) {
-			try {
-				PlayerBuilder.addTag(split);
-			} catch (Exception e) {
-				Log.err("Could not set tags for " + split.get(0) + " :: " + e.getMessage());
-			}
-		}
-	}
-
-	public void addOLineRankingsToPlayers() throws FileNotFoundException {
-		for (List<String> split : dataReader.getSplitLinesFromFile(OLINERANK_TO_PLAYER_MAPPING_PATH, true, ",")) {
-			try {
-				PlayerBuilder.addOLineRankings(split);
-			} catch (Exception e) {
-				Log.err("Could not set o line rank for " + split.get(0) + " :: " + e.getMessage());
-			}
-		}
-	}
-
-	public void addTargetsToPlayers() throws FileNotFoundException {
-		for (List<String> split : dataReader.getSplitLinesFromFile(PREVIOUS_SEASON_TARGET_SHARE_PATH, true, ",")) {
-			try {
-				PlayerBuilder.addPlayerTargets(split);
-			} catch (Exception e) {
-				Log.err("Could not set targets for " + split.get(0) + " :: " + e.getMessage());
-			}
-		}
-	}
-
-	public void addPictureLinksToPlayers() throws FileNotFoundException {
-		for (List<String> split : dataReader.getSplitLinesFromFile(PLAYER_PICTURES_PATH, true, ",")) {
-			try {
-				PlayerBuilder.addPlayerPicLinks(split);
-			} catch (Exception e) {
-				Log.err("Could not set picture links for " + split.get(0) + " :: " + e.getMessage());
-			}
-		}
-	}
-
-	public void setPlayersToTarget() throws FileNotFoundException {
-		for (String name : dataReader.getLinesFromFile(PLAYERS_TO_TARGET_PATH)) {
-			try {
-				PlayerBuilder.setPlayerAsATarget(name);
-			} catch (Exception e) {
-				Log.err("Could not set player as a target: " + name + " :: " + e.getMessage());
-			}
-		}
-	}
-	
-	public void setProjections() throws FileNotFoundException {
-		setPlayerProjections(QB_PROJECTIONS_PATH); //"Player","Team","ATT","CMP","YDS","TDS","INTS","ATT","YDS","TDS","FL","FPTS"
-		setPlayerProjections(RB_PROJECTIONS_PATH); //"Player","Team","ATT","YDS","TDS","REC","YDS","TDS","FL","FPTS"
-		setPlayerProjections(WR_PROJECTIONS_PATH); //"Player","Team","REC","YDS","TDS","ATT","YDS","TDS","FL","FPTS"
-		setPlayerProjections(TE_PROJECTIONS_PATH); //"Player","Team","REC","YDS","TDS","FL","FPTS"
-		setPlayerProjections(K_PROJECTIONS_PATH); //"Player","Team","FG","FGA","XPT","FPTS"
-		setPlayerProjections(DST_PROJECTIONS_PATH); //"Player","Team","SACK","INT","FR","FF","TD","SAFETY","PA","YDS_AGN","FPTS"
-	}
-
-	private void setPlayerProjections(String filePath) throws FileNotFoundException {
-		List<List<String>> splitLines = dataReader.getSplitLinesFromFile(filePath, false, "\",\"");
-		List<String> headers = splitLines.get(0);
-		for (List<String> split : splitLines.subList(1, splitLines.size())) {
-			try {
-				PlayerBuilder.setPlayerProjections(headers, split);
-			} catch (Exception e) {
-				Log.err("Could not set  projections: " + split.get(0) + " :: " + e.getMessage());
-			}
-		}
-	}
-
-	public static void populateCurrentPlayerValue() {
-		for (Player p : NFL.getPlayerMap().values()) {
-			p.setCurrentPlayerValue(BaseController.pickNumber - Integer.valueOf(p.getAdp()));
-		}
-			
-	}
+//
+//	public void addNotesToPlayers() throws FileNotFoundException {
+//		// https://www.fantasypros.com/nfl/notes/draft-overall.php?type=PPR
+//		parser.addNotesFromHtml();
+//		
+//		for (List<String> split : dataReader.getSplitLinesFromFile(PLAYERNOTES_EXPERTS_PATH, true, ",")) {
+//			try {
+//				PlayerBuilder.addAdditionalNote(split);
+//			} catch (Exception e) {
+//				Log.err("Could not add notes: " + e.getMessage());
+//			}
+//		}
+//		for (List<String> split : dataReader.getSplitLinesFromFile(PLAYERNOTES_CUSTOM_PATH, true, ",")) {
+//			try {
+//				PlayerBuilder.addAdditionalNote(split);
+//			} catch (Exception e) {
+//				Log.err("Could not add notes: " + e.getMessage());
+//			}
+//		}
+//	}
+//
+//	public void addTagsToPlayers() throws FileNotFoundException {
+//		for (List<String> split : dataReader.getSplitLinesFromFile(TAGS_CUSTOM_PATH, true, ",")) {
+//			try {
+//				PlayerBuilder.addTag(split);
+//			} catch (Exception e) {
+//				Log.err("Could not set tags for " + split.get(0) + " :: " + e.getMessage());
+//			}
+//		}
+//	}
+//
+//	public void addOLineRankingsToPlayers() throws FileNotFoundException {
+//		for (List<String> split : dataReader.getSplitLinesFromFile(OLINERANK_TO_PLAYER_MAPPING_PATH, true, ",")) {
+//			try {
+//				PlayerBuilder.addOLineRankings(split);
+//			} catch (Exception e) {
+//				Log.err("Could not set o line rank for " + split.get(0) + " :: " + e.getMessage());
+//			}
+//		}
+//	}
+//
+//	public void addTargetsToPlayers() throws FileNotFoundException {
+//		for (List<String> split : dataReader.getSplitLinesFromFile(PREVIOUS_SEASON_TARGET_SHARE_PATH, true, ",")) {
+//			try {
+//				PlayerBuilder.addPlayerTargets(split);
+//			} catch (Exception e) {
+//				Log.err("Could not set targets for " + split.get(0) + " :: " + e.getMessage());
+//			}
+//		}
+//	}
+//
+//	public void addPictureLinksToPlayers() throws FileNotFoundException {
+//		for (List<String> split : dataReader.getSplitLinesFromFile(PLAYER_PICTURES_PATH, true, ",")) {
+//			try {
+//				PlayerBuilder.addPlayerPicLinks(split);
+//			} catch (Exception e) {
+//				Log.err("Could not set picture links for " + split.get(0) + " :: " + e.getMessage());
+//			}
+//		}
+//	}
+//
+//	public void setPlayersToTarget() throws FileNotFoundException {
+//		for (String name : dataReader.getLinesFromFile(PLAYERS_TO_TARGET_PATH)) {
+//			try {
+//				PlayerBuilder.setPlayerAsATarget(name);
+//			} catch (Exception e) {
+//				Log.err("Could not set player as a target: " + name + " :: " + e.getMessage());
+//			}
+//		}
+//	}
+//	
+//	public void setProjections() throws FileNotFoundException {
+//		setPlayerProjections(QB_PROJECTIONS_PATH); //"Player","Team","ATT","CMP","YDS","TDS","INTS","ATT","YDS","TDS","FL","FPTS"
+//		setPlayerProjections(RB_PROJECTIONS_PATH); //"Player","Team","ATT","YDS","TDS","REC","YDS","TDS","FL","FPTS"
+//		setPlayerProjections(WR_PROJECTIONS_PATH); //"Player","Team","REC","YDS","TDS","ATT","YDS","TDS","FL","FPTS"
+//		setPlayerProjections(TE_PROJECTIONS_PATH); //"Player","Team","REC","YDS","TDS","FL","FPTS"
+//		setPlayerProjections(K_PROJECTIONS_PATH); //"Player","Team","FG","FGA","XPT","FPTS"
+//		setPlayerProjections(DST_PROJECTIONS_PATH); //"Player","Team","SACK","INT","FR","FF","TD","SAFETY","PA","YDS_AGN","FPTS"
+//	}
+//
+//	private void setPlayerProjections(String filePath) throws FileNotFoundException {
+//		List<List<String>> splitLines = dataReader.getSplitLinesFromFile(filePath, false, "\",\"");
+//		List<String> headers = splitLines.get(0);
+//		for (List<String> split : splitLines.subList(1, splitLines.size())) {
+//			try {
+//				PlayerBuilder.setPlayerProjections(headers, split);
+//			} catch (Exception e) {
+//				Log.err("Could not set  projections: " + split.get(0) + " :: " + e.getMessage());
+//			}
+//		}
+//	}
+//
+//	public static void populateCurrentPlayerValue() {
+//		for (Player p : NFL.getPlayerMap().values()) {
+//			p.getDraftingDetails().setCurrentPlayerValue(BaseController.pickNumber - Integer.valueOf(p.getRankMetadata().getAdp()));
+//		}
+//			
+//	}
 
 }
