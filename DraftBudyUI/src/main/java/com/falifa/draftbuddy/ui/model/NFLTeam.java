@@ -1,31 +1,59 @@
 package com.falifa.draftbuddy.ui.model;
 
-public class NFLTeam extends Team {
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-	String abbrev;
-	String city;
+import com.falifa.draftbuddy.ui.constants.NflTeam;
+import com.falifa.draftbuddy.ui.constants.Position;
+import com.falifa.draftbuddy.ui.model.player.Player;
+
+public class NFLTeam {
+
+	private String fantasyProsId;
+	private NflTeam team;
+	private Map<Position, List<Player>> playersByPosition;
+	private List<Player> players;
 	
-	public NFLTeam(String city, String name, String abbrev, int id) {
-		super(name, city, id, abbrev);
-		this.abbrev = abbrev;
-		this.city = city;
-		this.fullName = city + " " + String.format("%-15s", name);
+	public NFLTeam(String fantasyProsId, NflTeam team) {
+		this.fantasyProsId = fantasyProsId;
+		this.team = team;
+		initFields();
 	}
 
-	public String getAbbrev() {
-		return abbrev;
-	}
-
-	public void setAbbrev(String abbrev) {
-		this.abbrev = abbrev;
-	}
-
-	public String getCity() {
-		return city;
-	}
-
-	public void setCity(String city) {
-		this.city = city;
+	private void initFields() {
+		playersByPosition = new HashMap<Position, List<Player>>();
+		playersByPosition.put(Position.QUARTERBACK, new ArrayList<Player>());
+		playersByPosition.put(Position.RUNNINGBACK, new ArrayList<Player>());
+		playersByPosition.put(Position.WIDERECEIVER, new ArrayList<Player>());
+		playersByPosition.put(Position.TIGHTEND, new ArrayList<Player>());
+		playersByPosition.put(Position.KICKER, new ArrayList<Player>());
+		playersByPosition.put(Position.DEFENSE, new ArrayList<Player>());
+		this.players = new ArrayList<Player>();
 	}
 	
+	public List<Player> getAllPlayers() {
+		return players;
+	}
+	
+	public List<Player> getPlayersByPosition(Position p) {
+		return playersByPosition.get(p);
+	}
+
+	public String getFantasyProsId() {
+		return fantasyProsId;
+	}
+
+	public NflTeam getTeam() {
+		return team;
+	}
+	
+	public void addPlayer(Player player) {
+		List<Player> positionPlayers = playersByPosition.get(player.getPosition());
+		if (positionPlayers != null) {
+			positionPlayers.add(player);
+		}
+		players.add(player);
+	}
 }

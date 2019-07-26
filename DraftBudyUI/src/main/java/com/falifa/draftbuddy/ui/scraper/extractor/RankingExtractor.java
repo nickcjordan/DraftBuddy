@@ -1,24 +1,20 @@
 package com.falifa.draftbuddy.ui.scraper.extractor;
 
-import static com.falifa.draftbuddy.ui.constants.DataSourcePaths.PPR_RANKINGS_HTML_PATH;
-
-import java.io.File;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.falifa.draftbuddy.ui.Log;
+import com.falifa.draftbuddy.ui.constants.NflTeam;
 import com.falifa.draftbuddy.ui.constants.Position;
 import com.falifa.draftbuddy.ui.model.player.Player;
+import com.falifa.draftbuddy.ui.scraper.JsonDataFileManager;
 import com.jaunt.Element;
 import com.jaunt.NotFound;
-import com.jaunt.UserAgent;
 
 @Component
 public class RankingExtractor {
@@ -29,6 +25,9 @@ public class RankingExtractor {
 	private int tierStartIndex = 1;
 	private Map<String, Player> players;
 	Map<String, String> tierPositionMap;
+	
+	@Autowired
+	private JsonDataFileManager dataManager;
 	
 	private void initializeDefaults() { 
 		currentTier = 0;
@@ -73,7 +72,7 @@ public class RankingExtractor {
 		if (iter.hasNext()) { String rank = iter.next().getTextContent(); p.getRankMetadata().setOverallRank(rank); p.setId(rank); } // overall ppr rank :: set both id and rank this 
 		if (iter.hasNext()) { handleMetaDataRow(iter.next().findFirst("<input>"), p); } // show/hide checkbox :: acts as data source for ID, NAME, TEAM, & POSITION
 		if (iter.hasNext()) { iter.next(); } // name label :: skip because I already have the name
-		if (iter.hasNext()) { p.getRankMetadata().setPositionRank(iter.next().getTextContent().replace(p.getPos(), "")); } // position rank
+		if (iter.hasNext()) { p.getRankMetadata().setPositionRank(iter.next().getTextContent().replace(p.getPosition().getAbbrev(), "")); } // position rank
 		if (iter.hasNext()) { p.setBye(iter.next().getTextContent()); } // bye week
 		if (iter.hasNext()) { p.getRankMetadata().setBestRank(iter.next().getTextContent()); } // best ranking
 		if (iter.hasNext()) { p.getRankMetadata().setWorstRank(iter.next().getTextContent()); } // worst ranking
@@ -87,10 +86,12 @@ public class RankingExtractor {
 	private void handleMetaDataRow(Element dataElement, Player p) throws NotFound {
 		p.setFantasyProsId(dataElement.getAt("data-id"));
 		p.setPlayerName(dataElement.getAt("data-name"));
-		p.setTeamName(dataElement.getAt("data-team"));
+		p.setTeam(NflTeam.findNflTeamFromAbbreviation(dataElement.getAt("data-team")));
 		String pos = dataElement.getAt("data-position");
 		p.setPosition(Position.get(pos));
-		p.setPos(pos);
+		if (pos.equalsIgnoreCase(Position.DEFENSE.getAbbrev())) {
+			dataManager.addTeamToNfl(p.getFantasyProsId(), p.getTeam());
+		}
 	}
 
 	private void parseTierNumberRow(Element row) throws NotFound {
@@ -101,7 +102,7 @@ public class RankingExtractor {
 	}
 	
 	public String getCorrectAdp(String s) {
-		String num = (s.equals("NA") || s.trim().equals("") || s.equals("-")) ? "999" : s;
+		String num = (s.equals("NA") || s.trim().equals("") || s.equals("-")) ? "1111" : s;
 		return String.valueOf(Math.round(Double.valueOf(num.replace(",", ""))));
 	}
 }

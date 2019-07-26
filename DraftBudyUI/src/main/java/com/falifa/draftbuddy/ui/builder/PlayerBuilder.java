@@ -6,7 +6,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.falifa.draftbuddy.ui.Log;
 import com.falifa.draftbuddy.ui.constants.Tag;
 import com.falifa.draftbuddy.ui.exception.FalifaException;
 import com.falifa.draftbuddy.ui.model.NFL;

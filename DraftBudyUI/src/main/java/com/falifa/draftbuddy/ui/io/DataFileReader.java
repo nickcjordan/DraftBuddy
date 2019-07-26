@@ -31,47 +31,47 @@ public class DataFileReader {
 
 	private static final Logger log = LoggerFactory.getLogger(DataFileReader.class);
 
-	public List<List<String>> getSplitLinesFromFile(String fileName, boolean skipHeader, String regex) throws FileNotFoundException {
-		List<List<String>> splitLinesList = new ArrayList<>();
-		Scanner scanner = new Scanner(new File(fileName));
-		if (skipHeader && scanner.hasNextLine()) {
-			scanner.nextLine(); // move past header
-		}
-		while (scanner.hasNextLine()) {
-			String line = scanner.nextLine();
-			if ((!StringUtils.isEmpty(line)) && (!line.equals("\"\""))) {
-				List<String> split = splitAndCleanupLine(line, regex);
-				splitLinesList.add(split);
-			}
-		}
-		scanner.close();
-		return splitLinesList;
-	}
-
-	private List<String> splitAndCleanupLine(String line, String regex) {
-		List<String> splitLine = new ArrayList<String>();
-		for (String text : line.split(regex)) {
-			String edited = (text == null || StringUtils.isEmpty(text.trim()) || text.trim().equals("\"\"")) ? "-" : text.trim();
-			splitLine.add(edited.replaceAll("\"", ""));
-		}
-		return splitLine;
-	}
-
-	public List<String> getLinesFromFile(String fileName) throws FileNotFoundException {
-		List<String> names = new ArrayList<String>();
-		Scanner scanner = new Scanner(new File(fileName));
-		if (scanner.hasNextLine()) {
-			scanner.nextLine(); // move past header
-		}
-		while (scanner.hasNextLine()) {
-			String line = scanner.nextLine();
-			if ((!StringUtils.isEmpty(line)) && (!line.equals("\"\""))) {
-				names.add(line);
-			}
-		}
-		scanner.close();
-		return names;
-	}
+//	public List<List<String>> getSplitLinesFromFile(String fileName, boolean skipHeader, String regex) throws FileNotFoundException {
+//		List<List<String>> splitLinesList = new ArrayList<>();
+//		Scanner scanner = new Scanner(new File(fileName));
+//		if (skipHeader && scanner.hasNextLine()) {
+//			scanner.nextLine(); // move past header
+//		}
+//		while (scanner.hasNextLine()) {
+//			String line = scanner.nextLine();
+//			if ((!StringUtils.isEmpty(line)) && (!line.equals("\"\""))) {
+//				List<String> split = splitAndCleanupLine(line, regex);
+//				splitLinesList.add(split);
+//			}
+//		}
+//		scanner.close();
+//		return splitLinesList;
+//	}
+//
+//	private List<String> splitAndCleanupLine(String line, String regex) {
+//		List<String> splitLine = new ArrayList<String>();
+//		for (String text : line.split(regex)) {
+//			String edited = (text == null || StringUtils.isEmpty(text.trim()) || text.trim().equals("\"\"")) ? "-" : text.trim();
+//			splitLine.add(edited.replaceAll("\"", ""));
+//		}
+//		return splitLine;
+//	}
+//
+//	public List<String> getLinesFromFile(String fileName) throws FileNotFoundException {
+//		List<String> names = new ArrayList<String>();
+//		Scanner scanner = new Scanner(new File(fileName));
+//		if (scanner.hasNextLine()) {
+//			scanner.nextLine(); // move past header
+//		}
+//		while (scanner.hasNextLine()) {
+//			String line = scanner.nextLine();
+//			if ((!StringUtils.isEmpty(line)) && (!line.equals("\"\""))) {
+//				names.add(line);
+//			}
+//		}
+//		scanner.close();
+//		return names;
+//	}
 
 //	public String getDataFilePathFromFantasyProsWebsite(String url) {
 //		try {

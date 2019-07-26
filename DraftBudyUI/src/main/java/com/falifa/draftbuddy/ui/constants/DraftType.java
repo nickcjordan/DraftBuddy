@@ -1,8 +1,5 @@
 package com.falifa.draftbuddy.ui.constants;
 
-import com.falifa.draftbuddy.ui.Log;
-import com.falifa.draftbuddy.ui.controller.BaseController;
-
 public enum DraftType {
 	
 	REAL_DRAFT("real"),
@@ -23,7 +20,6 @@ public enum DraftType {
 			case "auto"	: return currentSet();
 			case "mock"	: return currentSet();
 		}
-		Log.err("did not find order: " + t);
 		return null;
 	}
 
@@ -52,13 +48,9 @@ public enum DraftType {
 	public static DraftType getDraftType(String type) {
 		for (DraftType dt : DraftType.values()) {
 			if (dt.getType().equals(type)) {
-				if (type.equals("mock") || type.equals("auto")) {
-					BaseController.mockDraftMode = true;
-				}
 				return dt;
 			}
 		}
-		Log.err("Could not find DraftType of \"" + type + "\".");
 		return null;
 	}
 	

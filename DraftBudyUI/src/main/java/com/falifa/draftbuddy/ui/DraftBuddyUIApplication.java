@@ -6,15 +6,15 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
 @SpringBootApplication
-public class DraftLauncher extends SpringBootServletInitializer {
+public class DraftBuddyUIApplication extends SpringBootServletInitializer {
 
 	@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-		return application.sources(DraftLauncher.class);
+		return application.sources(DraftBuddyUIApplication.class);
 	}
 
 	public static void main(String[] args) throws Exception {
-		SpringApplication.run(DraftLauncher.class, args);
+		SpringApplication.run(DraftBuddyUIApplication.class, args);
 	}
 
 }

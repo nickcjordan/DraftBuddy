@@ -31,9 +31,9 @@ public class HtmlDataFileParser {
 	}
 
 
-//	public String parseTableDataFromFantasyProsADP() {
-//		return pullTableHtmlOutOfFile(FANTASYPROS_ADP_HTML_FILE_PATH, "<table id=\"data\"");
-//	}
+	public String parseTableDataFromFantasyProsADP() {
+		return pullTableHtmlOutOfFile(FANTASYPROS_ADP_HTML_FILE_PATH, "<table id=\"data\"");
+	}
 
 
 	public String parseTableDataFromFantasyProsNotes() {

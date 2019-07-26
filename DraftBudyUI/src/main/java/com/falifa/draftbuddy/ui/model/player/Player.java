@@ -1,26 +1,7 @@
 package com.falifa.draftbuddy.ui.model.player;
 
-import static com.falifa.draftbuddy.ui.constants.CSVFieldMapping.ADP;
-import static com.falifa.draftbuddy.ui.constants.CSVFieldMapping.AVG;
-import static com.falifa.draftbuddy.ui.constants.CSVFieldMapping.BEST;
-import static com.falifa.draftbuddy.ui.constants.CSVFieldMapping.BYE;
-import static com.falifa.draftbuddy.ui.constants.CSVFieldMapping.PLAYER_NAME;
-import static com.falifa.draftbuddy.ui.constants.CSVFieldMapping.RANK;
-import static com.falifa.draftbuddy.ui.constants.CSVFieldMapping.STD_DEV;
-import static com.falifa.draftbuddy.ui.constants.CSVFieldMapping.TEAM_NAME;
-import static com.falifa.draftbuddy.ui.constants.CSVFieldMapping.VERSUS_ADP;
-import static com.falifa.draftbuddy.ui.constants.CSVFieldMapping.WORST;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.springframework.util.StringUtils;
-
-import com.falifa.draftbuddy.ui.Log;
+import com.falifa.draftbuddy.ui.constants.NflTeam;
 import com.falifa.draftbuddy.ui.constants.Position;
-import com.falifa.draftbuddy.ui.controller.BaseController;
 
 public class Player {
 
@@ -28,10 +9,9 @@ public class Player {
 	String fantasyProsId;
 	int tier;
 	private String playerName;	
-	private String teamName;	
-	private String pos;				
 	private Position position;
 	private String bye;
+	private NflTeam team;
 	
 	private DraftingDetails draftingDetails;
 
@@ -39,10 +19,10 @@ public class Player {
 	private PlayerStatistics projectedStats;
 
 	private RankMetadata rankMetadata;
-	private NflTeamMetadata nflTeamMetadata; // TODO add to this
+	private NflTeamMetadata nflTeamMetadata;
 	private OffensiveLineMetadata oLineData;
 	private PictureMetadata pictureMetadata;
-	private NotesMetadata notesMetadata; //TODO add to this
+	private NotesMetadata notesMetadata;
 	
 	public Player() {
 		this.draftingDetails = new DraftingDetails();
@@ -77,10 +57,6 @@ public class Player {
 		this.draftingDetails.addBackup(cuff);
 	}
 
-	public String stats(){
-		return playerName + "   (" + this.rankMetadata.getPositionRank() + "/" + this.rankMetadata.getOverallRank() + ") [" + pos + ", " + teamName + ", bye:" + bye + "]";
-	}
-	
 	public String getNameAndTags() {
 		return (draftingDetails.getTags() == null || draftingDetails.getTags().isEmpty()) ? playerName : playerName + " [" + draftingDetails.getTags() + "]";
 	}
@@ -115,22 +91,6 @@ public class Player {
 
 	public void setPlayerName(String playerName) {
 		this.playerName = playerName;
-	}
-
-	public String getTeamName() {
-		return teamName;
-	}
-
-	public void setTeamName(String teamName) {
-		this.teamName = teamName;
-	}
-
-	public String getPos() {
-		return pos;
-	}
-
-	public void setPos(String pos) {
-		this.pos = pos;
 	}
 
 	public Position getPosition() {
@@ -211,6 +171,14 @@ public class Player {
 
 	public void setNotesMetadata(NotesMetadata notesMetadata) {
 		this.notesMetadata = notesMetadata;
+	}
+
+	public NflTeam getTeam() {
+		return team;
+	}
+
+	public void setTeam(NflTeam team) {
+		this.team = team;
 	}
 	
 }

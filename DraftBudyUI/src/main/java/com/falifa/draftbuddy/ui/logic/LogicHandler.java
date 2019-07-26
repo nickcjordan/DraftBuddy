@@ -1,66 +1,155 @@
 package com.falifa.draftbuddy.ui.logic;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
-import com.falifa.draftbuddy.ui.Log;
-import com.falifa.draftbuddy.ui.controller.BaseController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
+
+import com.falifa.draftbuddy.ui.comparator.PlayerADPComparator;
+import com.falifa.draftbuddy.ui.constants.Position;
+import com.falifa.draftbuddy.ui.constants.Tag;
+import com.falifa.draftbuddy.ui.data.DraftState;
+import com.falifa.draftbuddy.ui.manager.NFLTeamManager;
 import com.falifa.draftbuddy.ui.model.Drafter;
-import com.falifa.draftbuddy.ui.model.NFL;
-import com.falifa.draftbuddy.ui.model.Team;
 import com.falifa.draftbuddy.ui.model.player.Player;
 
+@Component
 public class LogicHandler {
-
-	Drafter drafter;
-	List<Player> suggestions;
-	int numOfRounds;
-	private Team team;
-	ListManipulator manipulator;
 	
-	public LogicHandler(Drafter drafter) {
-		this.drafter = drafter;
-		this.team = drafter.getDraftedTeam();
-		this.suggestions = new ArrayList<Player>(NFL.getAllAvailablePlayersByADP());
-		this.manipulator = new ListManipulator(suggestions, team);
-	}
+	private static final Logger log = LoggerFactory.getLogger(LogicHandler.class);
+	
+	@Autowired
+	private DraftState draftState;
 
-
-	public List<Player> getMySuggestions() {
-		for (Player player : NFL.getAllAvailablePlayersByADP()) {
-			manipulator.removeTooEarlyPositions(player);
-			manipulator.removeTooFullPositions(player);
+	@Autowired
+	private NFLTeamManager nflTeams;
+	
+	public List<Player> getMySuggestions(Drafter currentDrafter) {
+		List<Player> suggestions = getPlayersForPositionsThatAreEmptyIfLateInDraft(currentDrafter);
+		if (CollectionUtils.isEmpty(suggestions)) {
+			suggestions = nflTeams.getAllAvailablePlayersByADP().stream().filter(p -> 
+				isAtLeastInitialRoundForPosition(p.getPosition().getAbbrev()) &&
+				positionSlotIsNotFull(p, currentDrafter) && 
+				hasNotFilledEarlyRoundMaxForPositionCount(p, currentDrafter) // if already drafted a qb or te, probably want to wait until later to relook at them
+			).collect(Collectors.toList());
+			doTagLogic(suggestions);
 		}
-		manipulator.doTagLogic();
-		suggestions = manipulator.checkForEmptyPositions();
 		return suggestions;
 	}
 	
-	public Player getAiPick() {
-		for (Player player : NFL.getAllAvailablePlayersByADP()) {
-//			manipulator.removeTooEarlyPositions(player); removing from AI functionality
-			manipulator.removeTooFullPositions(player);
-		}
-		suggestions = manipulator.checkForEmptyPositions();
-		if (BaseController.mockDraftMode) {
-			return suggestions.get(RandomIndexGenerator.generate());
-		}
-		return suggestions.get(0);
+	private boolean isAtLeastInitialRoundForPosition(String pos) {
+		return (draftState.getCurrentRoundNumber() >= prop(pos.toLowerCase() + "Init"));
+	}
+
+	private boolean hasNotFilledEarlyRoundMaxForPositionCount(Player p, Drafter currentDrafter) {
+		return (p.getPosition().equals(Position.QUARTERBACK) || (p.getPosition().equals(Position.TIGHTEND))) 
+				&&	(currentDrafter.getDraftedTeam().getPlayersByPosition(p.getPosition()).size() > 0) // has at least 1 player?
+				&&	(draftState.getCurrentRoundNumber() < prop("te_qb_reintroduceRound")); // late enough in the draft for qb and te?
+	}
+
+	private boolean positionSlotIsNotFull(Player p, Drafter currentDrafter) {
+		return (currentDrafter.getDraftedTeam().getPlayersByPosition(p.getPosition()).size() >= prop(p.getPosition().getAbbrev().toLowerCase() + "Limit"));
 	}
 	
-	public List<Integer> getDraftPickIndexList() {
+	private List<Player> getPlayersForPositionsThatAreEmptyIfLateInDraft(Drafter currentDrafter) {
+		List<Player> positionsThatHaveNotBeenDrafted = new ArrayList<Player>();
+		for (Entry<Position, List<Player>> draftedPositionList : currentDrafter.getDraftedTeam().getPlayersByPosition().entrySet()) {
+			if ((draftedPositionList.getValue().size() == 0) && (draftState.getCurrentRoundNumber() >= draftState.getNumberOfRounds() - prop(draftedPositionList.getKey().getAbbrev().toLowerCase() + "Warn"))) {
+				log.info("addIfPositionIsEmptyAndItIsLateEnoughToMatter " + currentDrafter.getDraftedTeam().getName() + " :: adding position = " + draftedPositionList.getKey().getName());
+				positionsThatHaveNotBeenDrafted.addAll(nflTeams.getAvailablePlayersByPositionAsList(draftedPositionList.getKey()));
+			}
+		}
+		if (!positionsThatHaveNotBeenDrafted.isEmpty()) {
+			log.info("checkForEmptyPositions : " + currentDrafter.getDraftedTeam().getName() + " has not filled all positions :: replacing suggestions with players from empty positions");
+			Collections.sort(positionsThatHaveNotBeenDrafted, new PlayerADPComparator());
+		}
+		return positionsThatHaveNotBeenDrafted;
+	}
+	
+	
+	public Player getAiPick(Drafter currentComputerDrafter) {
+		List<Player> suggestions = getPlayersForPositionsThatAreEmptyIfLateInDraft(currentComputerDrafter);
+		if (CollectionUtils.isEmpty(suggestions)) {
+			suggestions = nflTeams.getAllAvailablePlayersByADP().stream().filter(p -> positionSlotIsNotFull(p, currentComputerDrafter)).collect(Collectors.toList());
+		}
+		return draftState.mockDraftMode ? suggestions.get(RandomIndexGenerator.generate(draftState.pickNumber, draftState.roundNum)) : suggestions.get(0);
+	}
+	
+	public List<Integer> getDraftPickIndexList(Drafter currentDrafter) {
 		List<Integer> list = new ArrayList<Integer>();
-		int nextRoundNum = BaseController.roundNum + 1;
-		for (int i = nextRoundNum; i <= BaseController.getNumberOfRounds(); i++) {
+		int nextRoundNum = draftState.roundNum + 1;
+		for (int i = nextRoundNum; i <= draftState.getNumberOfRounds(); i++) {
 			if (i%2 == 0) { // if round is even
-				list.add((i * BaseController.draft.getDrafters().size()) - (drafter.getDraftOrderNumber() - 1));
+				list.add((i * draftState.draft.getDrafters().size()) - (currentDrafter.getDraftOrderNumber() - 1));
 			} else { // if round is odd
-				list.add(((i-1) * BaseController.draft.getDrafters().size() ) + drafter.getDraftOrderNumber());
+				list.add(((i-1) * draftState.draft.getDrafters().size() ) + currentDrafter.getDraftOrderNumber());
 			}
 		}
 		return list;
 	}
 	
 	
+	private void doTagLogic(List<Player> suggestions) {
+		ArrayList<Player> copy = new ArrayList<Player>(suggestions);
+		for (Player player : copy) {
+			for (Tag tag : Tag.values()) {
+				if (player.getDraftingDetails().getTags().contains(tag.getTag())) {
+					shiftPlayerByTag(tag, player, suggestions);
+				}
+			}
+		}
+	}
 	
+	private void shiftPlayerByTag(Tag tag, Player playerReference, List<Player> suggestions) {
+		if (tag.getShift() > 0) {
+			for (int i = 0; i < tag.getShift(); i++) {
+				movePlayerUp(playerReference, suggestions);
+			}
+		} else if (tag.getShift() < 0) {
+			for (int i = tag.getShift(); i < 0; i++) {
+				movePlayerDown(playerReference, suggestions);
+			}
+		}
+	}
+	
+	public void movePlayerUp(Player player, List<Player> suggestions) {
+		int current = suggestions.indexOf(player);
+		if (current == 0) { return; }
+		
+		Player other = suggestions.get(current - 1);
+		
+		if (withinTenPercent(player, other)) {
+			suggestions.set(current, other);
+			suggestions.set(current - 1, player);
+		}
+		
+	}
+	
+	public void movePlayerDown(Player player, List<Player> suggestions) {
+		int current = suggestions.indexOf(player);
+		if (current == suggestions.size() - 1) { return; }
+		
+		Player other = suggestions.get(current + 1);
+		
+		if (withinTenPercent(player, other)) {
+		suggestions.set(current, other);
+		suggestions.set(current + 1, player);
+		}
+	}
+
+	private boolean withinTenPercent(Player player, Player other) {
+		return Math.abs(Integer.parseInt(player.getRankMetadata().getAdp()) - Integer.parseInt(other.getRankMetadata().getAdp())) <= 9;
+	}
+
+	private int prop(String prop) {
+		return Integer.valueOf(System.getProperty(prop));
+	}
+
 }

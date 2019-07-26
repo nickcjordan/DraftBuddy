@@ -16,26 +16,27 @@ import com.jaunt.NotFound;
 @Component
 public class NotesExtractor {
 	
-	
 	private static final Logger log = LoggerFactory.getLogger(NotesExtractor.class);
-
 
 	@Autowired
 	private JsonDataFileManager playerManager;
 
-	public void extractPlayerNotesDataFromElement(Element div) {
+	public boolean extractPlayerNotesDataFromElement(Element div) {
+		boolean allSuccess = true;
 		for (Element playerDetail : div.findEach("<div>")) { // each player node
 			try {
 				String fantasyProsId = playerDetail.getAt("class").split(" ")[1].split("-")[2]; // grab fantasy pros id from top level div metadata
-				handlePlayerDetail(fantasyProsId, playerDetail);
+				allSuccess &= handlePlayerDetail(fantasyProsId, playerDetail);
 			} catch (NotFound e) {
 				log.error("Error parsing ID for player row :: " + playerDetail.toString(), e);
+				allSuccess = false;
 			}
 		}
-		log.info("All player notes have been added");
+		log.info("All player notes have been parsed");
+		return allSuccess;
 	}
 
-	private void handlePlayerDetail(String fantasyProsId, Element playerDetail) {
+	private boolean handlePlayerDetail(String fantasyProsId, Element playerDetail) {
 		Player playerToPopulate = playerManager.getPlayerFromTemporaryStorage(fantasyProsId);
 		if (playerToPopulate != null) {
 			try {
@@ -45,13 +46,17 @@ public class NotesExtractor {
 					String timestamp = detail.findFirst("<span class=\"pull-right timestamp\">").getTextContent();
 					playerToPopulate.getNotesMetadata().addNote(new PlayerNote(timestamp, noteText, "FantasyPros"));
 					playerManager.addUpdatedPlayer(fantasyProsId, playerToPopulate);
+					return true;
 				}
 			} catch (Exception e) {
 				log.error("ERROR parsing player notes :: " + playerDetail.toString(), e);
 			}
 		} else {
-			log.error("ERROR parsing notes :: No player found in temporary storage for fantasyProsId={}", fantasyProsId);
+//			log.error("ERROR parsing notes :: No player found in temporary storage for fantasyProsId={}", fantasyProsId);
 		}
+		return false;
 	}
+	
+	//TODO add for personal notes
 
 }

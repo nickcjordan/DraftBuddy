@@ -28,6 +28,8 @@ public class DataSourcePaths {
 	}
 	
 	public static final String MASTER_PLAYERS_JSON_FILE_PATH = "src/main/resources/data/master/players.json";
+	public static final String MASTER_NFL_TEAMS_JSON_FILE_PATH = "src/main/resources/data/master/nfl.json";
+	
 	
 //	public static final String FANTASYPROS__URL = FANTASYPROS_BASE_URL + "/rankings/ppr-cheatsheets.php";
 //	public static final String FANTASYPROS__HTML_FILE_PATH = "src/main/resources/data/html/ppr_rankings.html";

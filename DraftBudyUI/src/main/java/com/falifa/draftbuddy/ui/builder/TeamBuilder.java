@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
-import com.falifa.draftbuddy.ui.Log;
 import com.falifa.draftbuddy.ui.model.Draft;
 import com.falifa.draftbuddy.ui.model.NFL;
 import com.falifa.draftbuddy.ui.model.NFLTeam;
@@ -20,22 +19,22 @@ public class TeamBuilder {
 		setNameMappings();
 	}
 	
-	public static Team buildTeamFromInput(int id, List<String> split) {
-		return new NFLTeam(split.get(0), split.get(1), split.get(2), id);
-	}
-	
-	public static String getProperTeamName(String teamName) {
-		String name = teamName.length() > 3 ? mascotToTeamNameMapping.get(teamName) : teamName;
-		return name == null ? teamName : name;
-	}
-
-	public static String getMascotByTeamName(String teamName) {
-		return teamNameToMascotMapping.get(teamName);
-	}
-	
-	public static String getTeamNameByMascot(String mascot) {
-		return mascotToTeamNameMapping.get(mascot);
-	}
+//	public static Team buildTeamFromInput(int id, List<String> split) {
+//		return new NFLTeam(split.get(0), split.get(1), split.get(2), id);
+//	}
+//	
+//	public static String getProperTeamName(String teamName) {
+//		String name = teamName.length() > 3 ? mascotToTeamNameMapping.get(teamName) : teamName;
+//		return name == null ? teamName : name;
+//	}
+//
+//	public static String getMascotByTeamName(String teamName) {
+//		return teamNameToMascotMapping.get(teamName);
+//	}
+//	
+//	public static String getTeamNameByMascot(String mascot) {
+//		return mascotToTeamNameMapping.get(mascot);
+//	}
 	
 	private static void setNameMappings() {
 		mascotToTeamNameMapping.put("Dolphins", "MIA");
@@ -74,59 +73,6 @@ public class TeamBuilder {
 		
 		for (Entry<String, String> entry : mascotToTeamNameMapping.entrySet()) {
 			teamNameToMascotMapping.put(entry.getValue(), entry.getKey());
-		}
-	}
-
-	public static void addPlayerToTeam(Player player, Team team) {
-			String pos = player.getPos();
-			//Log.deb(player.getNameAndId());
-	
-			try {
-				if (pos.equals("QB")){
-					team.getQb().add(player);
-					checkIfHandcuff(player, team.getQb());
-				} if (pos.equals("RB")){
-					team.getRb().add(player);
-					checkIfHandcuff(player, team.getRb());
-				} if (pos.equals("WR")){
-					team.getWr().add(player);
-					checkIfHandcuff(player, team.getWr());
-				} if (pos.equals("TE")){
-					team.getTe().add(player);
-					checkIfHandcuff(player, team.getTe());
-				} if (pos.equals("K")){
-					team.getK().add(player);
-					checkIfHandcuff(player, team.getK());
-				} if (pos.equals("DST")){
-					team.getD().add(player);
-					checkIfHandcuff(player, team.getD());
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-	}
-	
-	public static void addPlayerToDraftersTeam(Player player, Team team) {
-		String pos = player.getPos();
-
-		if (pos.equals("QB")){
-			team.getQb().add(player);
-		} if (pos.equals("RB")){
-			team.getRb().add(player);
-		} if (pos.equals("WR")){
-			team.getWr().add(player);
-		} if (pos.equals("TE")){
-			team.getTe().add(player);
-		} if (pos.equals("K")){
-			team.getK().add(player);
-		} if (pos.equals("DST")){
-			team.getD().add(player);
-		}
-}
-	
-	private static void checkIfHandcuff(Player player, List<Player> positionList) {
-		if (positionList.size() > 1) {
-			positionList.get(0).addHandcuff(player);
 		}
 	}
 

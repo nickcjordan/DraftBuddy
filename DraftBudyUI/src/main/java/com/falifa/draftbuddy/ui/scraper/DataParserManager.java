@@ -30,15 +30,18 @@ public class DataParserManager {
 		boolean success = true;
 		success &= parseAndUpdateFantasyProsRankings();
 		success &= parseAndUpdateFantasyProsNotes();
-//		success &= parseAndUpdateFantasyProsADP();
-//		success &= parseAndUpdateFantasyProsRookiesRankings();
-//		success &= parseAndUpdateFantasyProsPositionalProjections();
-		if (success) {
-			log.info("All data sources have been updated :: calling off to save all player data json to cache file...");
-			success &= updater.updateJsonCacheFilesWithParsedData();
-		} else {
-			log.error("ERROR occured when trying to update all data sources, json cache will not get updated");
-		}
+		success &= parseAndUpdateFantasyProsADP();
+		success &= parseAndUpdateFantasyProsRookiesRankings();
+		success &= parseAndUpdateFantasyProsPositionalProjections();
+		
+		updater.updateJsonCacheFilesWithParsedData();
+		
+//		if (success) {
+//			log.info("All data sources have been updated :: calling off to save all player data json to cache file...");
+//			success &= updater.updateJsonCacheFilesWithParsedData();
+//		} else {
+//			log.error("ERROR occured when trying to update all data sources, json cache will not get updated");
+//		}
 		return success;
 	}
 	
@@ -49,35 +52,23 @@ public class DataParserManager {
 	}
 
 	private boolean parseAndUpdateFantasyProsNotes() {
-		
 		String htmlTable = htmlParser.parseTableDataFromFantasyProsNotes();
-		extractor.extractPlayerDataFromFantasyProsNotes(htmlTable);
-		
-		return true; // TODO
+		return extractor.extractPlayerDataFromFantasyProsNotes(htmlTable);
 	}
 	
-//	private boolean parseAndUpdateFantasyProsADP() {
-//		
-//		String htmlTable = htmlParser.parseTableDataFromFantasyProsADP();
-//		Map<String, Player> playerData = extractor.extractPlayerDataFromFantasyProsADP(htmlTable);
-//		
-//		return false; // TODO
-//	}
+	private boolean parseAndUpdateFantasyProsADP() {
+		String htmlTable = htmlParser.parseTableDataFromFantasyProsADP();
+		return extractor.extractPlayerDataFromFantasyProsADP(htmlTable);
+	}
 	
 	private boolean parseAndUpdateFantasyProsRookiesRankings() {
-		
 		String htmlTable = htmlParser.parseTableDataFromFantasyProsRookiesRankings();
-		Map<String, Player> playerData = extractor.extractPlayerDataFromFantasyProsRookiesRankings(htmlTable);
-		
-		return false; // TODO
+		return extractor.extractPlayerDataFromFantasyProsRookiesRankings(htmlTable);
 	}
 
 	private boolean parseAndUpdateFantasyProsProjectionsByPosition(String position) {
-		
 		String htmlTable = htmlParser.parseTableDataFromFantasyProsPositionalProjections(position);
-		Map<String, Player> playerData = extractor.extractPlayerDataFromFantasyProsPositionalProjections(position, htmlTable);
-		
-		return false; // TODO
+		return extractor.extractPlayerDataFromFantasyProsPositionalProjections(position, htmlTable);
 	}
 
 

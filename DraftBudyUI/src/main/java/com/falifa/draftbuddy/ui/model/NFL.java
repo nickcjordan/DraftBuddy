@@ -12,8 +12,6 @@ import java.util.List;
 
 import org.springframework.util.StringUtils;
 
-import com.falifa.draftbuddy.ui.Log;
-import com.falifa.draftbuddy.ui.builder.NFLBuilder;
 import com.falifa.draftbuddy.ui.comparator.AlphabetizedTeamComparator;
 import com.falifa.draftbuddy.ui.comparator.PlayerADPComparator;
 import com.falifa.draftbuddy.ui.comparator.PlayerRankComparator;
@@ -22,21 +20,21 @@ import com.falifa.draftbuddy.ui.model.player.Player;
 
 public class NFL {
 
-	static HashMap<String, Player> players;
-	static HashMap<Integer, Player> playersById;
-	static HashMap<String, Team> teams;
-	static HashMap<Integer, Team> teamsById;
-	
-	static {
-		initNFL();
-	}
-	
-	public static void initNFL() {
-		NFLBuilder builder = new NFLBuilder();
-		players = builder.getPlayers();
-		playersById = builder.getPlayersById();
-		teams = builder.getTeams();
-		teamsById = builder.getTeamsById();
+//	static HashMap<String, Player> players;
+//	static HashMap<Integer, Player> playersById;
+//	static HashMap<String, Team> teams;
+//	static HashMap<Integer, Team> teamsById;
+//	
+//	static {
+//		initNFL();
+//	}
+//	
+//	public static void initNFL() {
+//		NFLBuilder builder = new NFLBuilder();
+//		players = builder.getPlayers();
+//		playersById = builder.getPlayersById();
+//		teams = builder.getTeams();
+//		teamsById = builder.getTeamsById();
 //		try {
 //			builder.addNotesToPlayers();
 //			builder.addTagsToPlayers();
@@ -48,32 +46,32 @@ public class NFL {
 //		} catch (FileNotFoundException e) {
 //			e.printStackTrace();
 //		}
-	}
-	
-	public static HashMap<String, Player> getPlayerMap(){
-		return players;
-	}
-	
-	public static  HashMap<String, Team> getTeamMap(){
-		return teams;
-	}
-	
-	public static List<Team> getTeamList(){
-		ArrayList<Team> teamList = new ArrayList<Team>();
-		for (Team team : teamsById.values()) {
-			teamList.add(team);
-		}
-		Collections.sort(teamList, new AlphabetizedTeamComparator());
-		return teamList;
-	}
-	
-	public static Team getTeam(int id) {
-		return teamsById.get(id);
-	}
-	
-	public Team getTeam(String name) {
-		return teams.get(name);
-	}
+//	}
+//	
+//	public static HashMap<String, Player> getPlayerMap(){
+//		return players;
+//	}
+//	
+//	public static  HashMap<String, Team> getTeamMap(){
+//		return teams;
+//	}
+//	
+//	public static List<Team> getTeamList(){
+//		ArrayList<Team> teamList = new ArrayList<Team>();
+//		for (Team team : teamsById.values()) {
+//			teamList.add(team);
+//		}
+//		Collections.sort(teamList, new AlphabetizedTeamComparator());
+//		return teamList;
+//	}
+//	
+//	public static Team getTeam(int id) {
+//		return teamsById.get(id);
+//	}
+//	
+//	public Team getTeam(String name) {
+//		return teams.get(name);
+//	}
 	
 //	public static List<Player> getAvailablePlayersByPositionAsList(Position position){
 //		List<Player> byPosition = new ArrayList<Player>();
@@ -104,7 +102,7 @@ public class NFL {
 //	public static List<Player> getAllAvailablePlayersByRank(){
 //		return getAllAvailablePlayers(new PlayerRankComparator());
 //	}
-//	
+	
 //	public static List<Player> getAllPickedPlayersList(){
 //		List<Player> allPicked = new ArrayList<Player>();
 //		for (Player player : players.values()){
@@ -115,31 +113,31 @@ public class NFL {
 //		Collections.sort(allPicked, new PlayerADPComparator());
 //		return allPicked;
 //	}
-	
-	public static Player getPlayer(List<String> split) {
-		return (players.get(split.get(1)) == null) ? players.get(extractTeamName(split)) : players.get(split.get(1));
-	}
-	
-	private static String extractTeamName(List<String> split) {
-		String name = split.get(TEAM_NAME.getIndex());
-		if (StringUtils.isEmpty(name) || name.equals("NA") || name.equals("-")) {
-			String[] splitText = split.get(PLAYER_NAME.getIndex()).split(" ");
-			split.set(TEAM_NAME.getIndex(), splitText[splitText.length - 1]); // "Dallas Cowboys" --> split.set("Cowboys")
-		}
-		return split.get(TEAM_NAME.getIndex());
-	}
-	
-	public static Player getPlayer(int id) {
-		return playersById.get(id);
-	}
-
-	public static Player getPlayer(String p) {
-		Player player = players.get(p);
-		if (player == null) {
-			throw new RuntimeException("Player " + p + " not found in players map");
-		}
-		return player;
-	}
+//	
+//	public static Player getPlayer(List<String> split) {
+//		return (players.get(split.get(1)) == null) ? players.get(extractTeamName(split)) : players.get(split.get(1));
+//	}
+//	
+//	private static String extractTeamName(List<String> split) {
+//		String name = split.get(TEAM_NAME.getIndex());
+//		if (StringUtils.isEmpty(name) || name.equals("NA") || name.equals("-")) {
+//			String[] splitText = split.get(PLAYER_NAME.getIndex()).split(" ");
+//			split.set(TEAM_NAME.getIndex(), splitText[splitText.length - 1]); // "Dallas Cowboys" --> split.set("Cowboys")
+//		}
+//		return split.get(TEAM_NAME.getIndex());
+//	}
+//	
+//	public static Player getPlayer(int id) {
+//		return playersById.get(id);
+//	}
+//
+//	public static Player getPlayer(String p) {
+//		Player player = players.get(p);
+//		if (player == null) {
+//			throw new RuntimeException("Player " + p + " not found in players map");
+//		}
+//		return player;
+//	}
 
 //	public static void resetPlayers() {
 //		for(Player player : getPlayerMap().values()) {

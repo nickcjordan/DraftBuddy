@@ -3,9 +3,7 @@ package com.falifa.draftbuddy.ui.results;
 import java.util.List;
 
 import com.falifa.draftbuddy.ui.constants.Position;
-import com.falifa.draftbuddy.ui.exception.FalifaException;
 import com.falifa.draftbuddy.ui.model.Drafter;
-import com.falifa.draftbuddy.ui.model.NFL;
 import com.falifa.draftbuddy.ui.model.player.Player;
 
 public class DraftResultStatistics {
@@ -29,10 +27,17 @@ public class DraftResultStatistics {
 
 	private boolean findIfDraftedHandcuff() {
 		List<Player> rbs = drafter.getDraftedTeam().getPlayersByPosition(Position.RUNNINGBACK);
-		try { 
-			Player handcuff = NFL.getPlayer(rbs.get(0).getHandcuff());
-			return ((handcuff != null) && (rbs.contains(handcuff)));
-		} catch (Exception e) {return false;}
+		try {
+			Player startingRb = rbs.get(0).getDraftingDetails().getBackups().get(0);
+			for (Player backup : rbs) {
+				if (!startingRb.getFantasyProsId().equals(backup.getFantasyProsId())) {
+					if (startingRb.getTeam().getAbbreviation().equals(backup.getTeam().getAbbreviation())) {
+						return true; // found another rb on drafted list from same NFL team
+					}
+				}
+			}
+		} catch (Exception e) {}
+		return false;
 	}
 
 	private int findAverageOverallRank(List<List<Player>> positions) {
@@ -49,7 +54,7 @@ public class DraftResultStatistics {
 	private int findPositionAv(List<Player> position) {
 		int posSum = 0;
 		for (Player player : position) {
-			posSum += Integer.parseInt(player.getPos_rank());
+			posSum += Integer.parseInt(player.getRankMetadata().getPositionRank());
 		}
 		return (position.size() > 0) ?(posSum/position.size()) : 0;
 	}

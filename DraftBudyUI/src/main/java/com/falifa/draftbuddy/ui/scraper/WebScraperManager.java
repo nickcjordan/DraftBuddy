@@ -36,10 +36,10 @@ public class WebScraperManager {
 		if (updateDataSources()) {
 			log.info("Data source files updated :: beginning parsing...");
 			if (parserManager.parseAllDataSources()) {
-				log.info("All JSON files have been updated from html data source files");
+				log.info("Entire update process completed successfully");
 				return true;
 			} else {
-				log.info("ERROR updating JSON files from html data source files");
+				log.info("Update process finished with errors");
 			}
 		} 
 			return false;

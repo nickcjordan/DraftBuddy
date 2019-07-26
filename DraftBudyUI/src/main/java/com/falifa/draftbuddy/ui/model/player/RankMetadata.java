@@ -10,6 +10,7 @@ public class RankMetadata {
 	private String stdDev;
 	private String adp;
 	private String vsAdp;
+	private String rookieRanking;
 	
 	public String getOverallRank() {
 		return overallRank;
@@ -58,6 +59,12 @@ public class RankMetadata {
 	}
 	public void setVsAdp(String vsAdp) {
 		this.vsAdp = vsAdp;
+	}
+	public String getRookieRanking() {
+		return rookieRanking;
+	}
+	public void setRookieRanking(String rookieRanking) {
+		this.rookieRanking = rookieRanking;
 	}
 	
 }
