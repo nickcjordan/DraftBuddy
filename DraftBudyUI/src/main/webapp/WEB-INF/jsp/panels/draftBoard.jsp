@@ -23,12 +23,12 @@
 							    	<td class="drafted">
 							    		<a class="nameLink" data-toggle="modal" data-target="#${drafter.getDraftedTeam().getAllInDraftedOrder().get(i).id}playerModal">
 							    			<c:choose>
-												<c:when test="${player.pos.equals('QB')}"><span class="badge badge-warning draft-board-badge">${player.pos} ${player.pos_rank}</span></c:when>
-												<c:when test="${player.pos.equals('RB')}"><span class="badge badge-info draft-board-badge">${player.pos} ${player.pos_rank}</span></c:when>
-												<c:when test="${player.pos.equals('WR')}"><span class="badge badge-success draft-board-badge">${player.pos} ${player.pos_rank}</span></c:when>
-												<c:when test="${player.pos.equals('TE')}"><span class="badge badge-error draft-board-badge">${player.pos} ${player.pos_rank}</span></c:when>
-												<c:when test="${player.pos.equals('K')}"><span class="badge draft-board-badge">${player.pos} ${player.pos_rank}</span></c:when>
-												<c:otherwise><span class="badge badge-inverse draft-board-badge">${player.pos} ${player.pos_rank}</span></c:otherwise>
+												<c:when test="${player.getPosition().getAbbrev().equals('QB')}"><span class="badge badge-warning draft-board-badge">${player.getPosition().getAbbrev()} ${player.getRankMetadata().getPositionRank()}</span></c:when>
+												<c:when test="${player.getPosition().getAbbrev().equals('RB')}"><span class="badge badge-info draft-board-badge">${player.getPosition().getAbbrev()} ${player.getRankMetadata().getPositionRank()}</span></c:when>
+												<c:when test="${player.getPosition().getAbbrev().equals('WR')}"><span class="badge badge-success draft-board-badge">${player.getPosition().getAbbrev()} ${player.getRankMetadata().getPositionRank()}</span></c:when>
+												<c:when test="${player.getPosition().getAbbrev().equals('TE')}"><span class="badge badge-error draft-board-badge">${player.getPosition().getAbbrev()} ${player.getRankMetadata().getPositionRank()}</span></c:when>
+												<c:when test="${player.getPosition().getAbbrev().equals('K')}"><span class="badge draft-board-badge">${player.getPosition().getAbbrev()} ${player.getRankMetadata().getPositionRank()}</span></c:when>
+												<c:otherwise><span class="badge badge-inverse draft-board-badge">${player.getPosition().getAbbrev()} ${player.getRankMetadata().getPositionRank()}</span></c:otherwise>
 											</c:choose>
 							    			<%-- ${drafter.getDraftedTeam().getAllInDraftedOrder().get(i).getPlayerName()} --%>
 							    			${player.getPlayerName()}

@@ -27,8 +27,10 @@
 		
 		</div>
 
-		<c:if test="<%=fantasy.controller.BaseController.errorMessage != null%>">
-			<script>alert("<%=fantasy.controller.BaseController.errorMessage%>");</script>
+		<c:if test="${error} != null">
+			<script>
+				alert("${error}");
+			</script>
 		</c:if>
 
 		<%@include file="../common/progressBar.jsp"%>

@@ -16,6 +16,8 @@ public class NFLTeam {
 	private Map<Position, List<Player>> playersByPosition;
 	private List<Player> players;
 	
+	public NFLTeam() { initFields(); }
+	
 	public NFLTeam(String fantasyProsId, NflTeam team) {
 		this.fantasyProsId = fantasyProsId;
 		this.team = team;
@@ -33,7 +35,8 @@ public class NFLTeam {
 		this.players = new ArrayList<Player>();
 	}
 	
-	public List<Player> getAllPlayers() {
+	
+	public List<Player> getPlayers() {
 		return players;
 	}
 	

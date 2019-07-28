@@ -7,15 +7,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.falifa.draftbuddy.ui.constants.DataSourcePaths;
 import com.falifa.draftbuddy.ui.constants.Position;
 import com.falifa.draftbuddy.ui.model.player.Player;
 
 @Component
 public class DataParserManager {
 	
-	
 	private static final Logger log = LoggerFactory.getLogger(DataParserManager.class);
-
 	
 	@Autowired
 	private HtmlDataFileParser htmlParser;
@@ -33,7 +32,6 @@ public class DataParserManager {
 		success &= parseAndUpdateFantasyProsADP();
 		success &= parseAndUpdateFantasyProsRookiesRankings();
 		success &= parseAndUpdateFantasyProsPositionalProjections();
-		
 		updater.updateJsonCacheFilesWithParsedData();
 		
 //		if (success) {

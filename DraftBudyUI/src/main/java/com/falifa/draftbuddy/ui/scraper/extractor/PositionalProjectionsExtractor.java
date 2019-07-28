@@ -11,9 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.falifa.draftbuddy.ui.model.player.Player;
-import com.falifa.draftbuddy.ui.model.player.StatisticValue;
+import com.falifa.draftbuddy.ui.model.player.stats.StatisticCategory;
+import com.falifa.draftbuddy.ui.model.player.stats.StatisticValue;
 import com.falifa.draftbuddy.ui.scraper.JsonDataFileManager;
-import com.falifa.draftbuddy.ui.scraper.extractor.model.StatisticCategory;
 import com.jaunt.Element;
 import com.jaunt.Elements;
 import com.jaunt.NotFound;
@@ -49,7 +49,7 @@ public class PositionalProjectionsExtractor {
 			if (p != null) {
 				Iterator<Element> statsIterator = playerRow.findEach("<td>").iterator();
 				for (StatisticCategory category : categories) {
-					p.getProjectedStats().addStatCategory(buildPlayerStatCategory(category, statsIterator));
+					p.getProjectedRawStatsDetails().addStatCategory(buildPlayerStatCategory(category, statsIterator));
 				}
 				return true;
 			}
@@ -62,9 +62,6 @@ public class PositionalProjectionsExtractor {
 	private StatisticCategory buildPlayerStatCategory(StatisticCategory category, Iterator<Element> statsIterator) {
 		StatisticCategory newCat = new StatisticCategory();
 		for (StatisticValue val : category.getColumns()) {
-			if (val.getName() == null) {
-				System.out.println();
-			}
 			if (statsIterator.hasNext()) {
 				Element dataElement = statsIterator.next();
 				if (!val.getName().equals("SKIP")) {

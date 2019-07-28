@@ -11,31 +11,31 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.falifa.draftbuddy.api.data.builder.DataFileCache;
-import com.falifa.draftbuddy.api.model.Player;
+import com.falifa.draftbuddy.api.model.PlayerTO;
 
 @Component
 public class PlayerDataStorage {
 
-	private Map<String, Player> playerIdMap;
-	private Map<String, Player> playerNameMap;
-	private List<Player> players;
+	private Map<String, PlayerTO> playerIdMap;
+	private Map<String, PlayerTO> playerNameMap;
+	private List<PlayerTO> players;
 	
 	@Autowired
 	private DataFileCache cache;
 	
-	public List<Player> getAllPlayers() {
+	public List<PlayerTO> getAllPlayers() {
 		return players;
 	}
 	
-	public Player getPlayerById(String id) {
+	public PlayerTO getPlayerById(String id) {
 		return playerIdMap.get(id);
 	}
 	
-	public Player getPlayerByName(String name) {
+	public PlayerTO getPlayerByName(String name) {
 		return playerNameMap.get(name);
 	}
 
-	public boolean updateState(Map<String, Player> map) {
+	public boolean updateState(Map<String, PlayerTO> map) {
 		try {
 			playerIdMap.putAll(map);
 			cache.updateCacheWithCompleteData(playerIdMap);
@@ -63,12 +63,15 @@ public class PlayerDataStorage {
 		playerNameMap = buildPlayerNameMap();
 	}
 
-	private Map<String, Player> buildPlayerNameMap() {
-		Map<String, Player> temp = new HashMap<String, Player>();
-		playerIdMap.forEach((String id, Player p) -> temp.put(p.getPlayerName(), p));
+	private Map<String, PlayerTO> buildPlayerNameMap() {
+		Map<String, PlayerTO> temp = new HashMap<String, PlayerTO>();
+		playerIdMap.forEach((String id, PlayerTO p) -> temp.put(p.getPlayerName(), p));
 		return temp;
 	}
-	
-	
+
+	public Map<String, PlayerTO> getPlayerNameMap() {
+		return playerNameMap;
+	}
+
 
 }

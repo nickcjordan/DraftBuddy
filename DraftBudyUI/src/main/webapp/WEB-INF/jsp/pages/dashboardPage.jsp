@@ -55,6 +55,7 @@
 				</div>
 				<div class="tab-pane fade" id="rank" role="tabpanel" aria-labelledby="rank-tab">
 					<c:set var="playerListContent" value="${playersSortedByRank}" scope="application"></c:set>
+					<c:set var="testVar" value="hi" scope="application"></c:set>
 					<%@include file="../tables/dash_suggestionTable.jsp"%>
 				</div>
 			</div>
@@ -62,9 +63,9 @@
 </div>
 
 
-	<c:if test="<%=fantasy.controller.BaseController.errorMessage != null%>">
+	<c:if test="${error} != null">
 		<script>
-			alert("<%=fantasy.controller.BaseController.errorMessage%>");
+			alert("${error}");
 		</script>
 	</c:if>
 

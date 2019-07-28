@@ -32,6 +32,9 @@ public class WebScraperManager {
 	@Autowired
 	private DataParserManager parserManager;
 	
+	@Autowired
+	private JsonDataFileManager updater;
+	
 	public boolean updateAllData() {
 		if (updateDataSources()) {
 			log.info("Data source files updated :: beginning parsing...");
@@ -48,28 +51,28 @@ public class WebScraperManager {
 	public boolean updateDataSources() {
 		boolean success = true;
 		// TODO this is working so just turn on when ready to use
-//		success &= updateFantasyProsPPRRankingsDataSource();
-//		success &= updateFantasyProsADPDataSource();
-//		success &= updateFantasyProsNotesDataSource();
-//		success &= updateFantasyProsRookiesRankingsDataSource();
-//		success &= updateFantasyProsPositionalProjectionsDataSource();
+		success &= updateFantasyProsPPRRankingsDataSource();
+		success &= updateFantasyProsADPDataSource();
+		success &= updateFantasyProsNotesDataSource();
+		success &= updateFantasyProsRookiesRankingsDataSource();
+		success &= updateFantasyProsPositionalProjectionsDataSource();
 		return success;
 	}
 
 	private boolean updateFantasyProsPPRRankingsDataSource() {
-		return downloadFileFromUrl(FANTASYPROS_RANKINGS_URL, FANTASYPROS_RANKINGS_HTML_FILE_PATH);
+		return updater.downloadFileFromUrl(FANTASYPROS_RANKINGS_URL, FANTASYPROS_RANKINGS_HTML_FILE_PATH);
 	}
 
 	private boolean updateFantasyProsADPDataSource() {
-		return downloadFileFromUrl(FANTASYPROS_ADP_URL, FANTASYPROS_ADP_HTML_FILE_PATH);
+		return updater.downloadFileFromUrl(FANTASYPROS_ADP_URL, FANTASYPROS_ADP_HTML_FILE_PATH);
 	}
 
 	private boolean updateFantasyProsNotesDataSource() {
-		return downloadFileFromUrl(FANTASYPROS_NOTES_URL, FANTASYPROS_NOTES_HTML_FILE_PATH);
+		return updater.downloadFileFromUrl(FANTASYPROS_NOTES_URL, FANTASYPROS_NOTES_HTML_FILE_PATH);
 	}
 
 	private boolean updateFantasyProsRookiesRankingsDataSource() {
-		return downloadFileFromUrl(FANTASYPROS_ROOKIES_RANKINGS_URL, FANTASYPROS_ROOKIES_RANKINGS_HTML_FILE_PATH);
+		return updater.downloadFileFromUrl(FANTASYPROS_ROOKIES_RANKINGS_URL, FANTASYPROS_ROOKIES_RANKINGS_HTML_FILE_PATH);
 	}
 
 	private boolean updateFantasyProsPositionalProjectionsDataSource() {
@@ -77,20 +80,9 @@ public class WebScraperManager {
 		for (Position pos : Position.values()) {
 			String positionalUrl = DataSourcePaths.buildPositionalPath(pos.getAbbrev().toLowerCase(), FANTASYPROS_POSITIONAL_PROJECTIONS_BASE_URL);
 			String positionalFilePath = DataSourcePaths.buildPositionalPath(pos.getAbbrev().toLowerCase(), FANTASYPROS_POSITIONAL_PROJECTIONS_BASE_HTML_FILE_PATH);
-			allPositionUpdatesSuccessful &= downloadFileFromUrl(positionalUrl, positionalFilePath);
+			allPositionUpdatesSuccessful &= updater.downloadFileFromUrl(positionalUrl, positionalFilePath);
 		}
 		return allPositionUpdatesSuccessful;
 	}
 	
-	private boolean downloadFileFromUrl(String sourceUrl, String destPath) {
-		try (InputStream in = new URL(sourceUrl).openStream()) {
-			Files.copy(in, new File(destPath).toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING);
-			log.info("Successfully downloaded file at url {} to file path {}", sourceUrl, destPath);
-			return true;
-		} catch (Exception e) {
-			log.error("ERROR downloading file at url {} to file path {} :: message={}", sourceUrl, destPath, e.getMessage());
-			return false;
-		}
-	}
-
 }

@@ -21,7 +21,7 @@ import com.falifa.draftbuddy.api.data.PlayerStatsAPIDelegate;
 import com.falifa.draftbuddy.api.data.ThreadRunner;
 import com.falifa.draftbuddy.api.data.model.RawPlayerStats;
 import com.falifa.draftbuddy.api.data.model.WeekStatsResponse;
-import com.falifa.draftbuddy.api.model.Player;
+import com.falifa.draftbuddy.api.model.PlayerTO;
 
 @Component
 public class PlayerMapBuilder {
@@ -46,26 +46,26 @@ public class PlayerMapBuilder {
 	@Autowired
 	private UrlBuilder urls;
 	
-	public Map<String, Player> buildAndPopulatePlayerMap() {
+	public Map<String, PlayerTO> buildAndPopulatePlayerMap() {
 		if (cacheIsActive) {
 			return cache.getCachedCompleteData();
 		}
 		
 //		Map<String, Player> players = cache.getCachedRawStats();
 		//TODO uncomment when you want updated raw stats
-		Map<String, Player> players = buildPlayerMapWithRawStats();
+		Map<String, PlayerTO> players = buildPlayerMapWithRawStats();
 		cache.updateCacheWithRawStats(players);
 		
-		List<Player> playersToRemove = Collections.synchronizedList(new ArrayList<Player>());
+		List<PlayerTO> playersToRemove = Collections.synchronizedList(new ArrayList<PlayerTO>());
 		
 		log.info("Initiating iterative threads...");
-		Iterator<Player> iterator = players.values().iterator();
+		Iterator<PlayerTO> iterator = players.values().iterator();
 		int count = 0;
 		ExecutorService executor = Executors.newCachedThreadPool();
 		
 		while (iterator.hasNext()) {
 			count++;
-			Player player = iterator.next();
+			PlayerTO player = iterator.next();
 			String baseUrl = urls.buildMetaDataBaseUrl();
 			executor.execute(new ThreadRunner(playersToRemove, player, baseUrl));
 			if (count >= 150) {
@@ -76,7 +76,7 @@ public class PlayerMapBuilder {
 		}
 		waitForThreads(executor);
 		
-		for (Player playerToRemove : playersToRemove) {
+		for (PlayerTO playerToRemove : playersToRemove) {
 			players.remove(playerToRemove.getPlayerId());
 		}
 		
@@ -84,8 +84,8 @@ public class PlayerMapBuilder {
 		return players;
 	}
 	
-	private Map<String, Player> buildPlayerMapWithRawStats() {
-		Map<String, Player> players = new HashMap<String, Player>();
+	private Map<String, PlayerTO> buildPlayerMapWithRawStats() {
+		Map<String, PlayerTO> players = new HashMap<String, PlayerTO>();
 		for (int week = 1; week <= Integer.valueOf(weeksInSeason); week++) {
 			populatePlayerMapWithWeeklyStats(players, delegate.retrieveAllWeekStats(week));
 		}
@@ -93,9 +93,9 @@ public class PlayerMapBuilder {
 		return players;
 	}
 
-	private void populatePlayerMapWithWeeklyStats(Map<String, Player> players, WeekStatsResponse response) {
+	private void populatePlayerMapWithWeeklyStats(Map<String, PlayerTO> players, WeekStatsResponse response) {
 		for (Entry<String, RawPlayerStats> entry : response.getStats().entrySet()) {
-			Player player = (players.containsKey(entry.getKey())) ? players.get(entry.getKey()) : new Player(entry.getKey());
+			PlayerTO player = (players.containsKey(entry.getKey())) ? players.get(entry.getKey()) : new PlayerTO(entry.getKey());
 			player.getStatsByWeek().put(Integer.toString(response.getWeekNumber()), statsBuilder.buildPositionStatsDetails(entry.getValue()));
 			players.put(player.getPlayerId(), player);
 		}

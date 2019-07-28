@@ -37,10 +37,9 @@
 			<%@include file="../tables/playerTableByTeam.jsp"%>
 		</div>
 
-		<c:if
-			test="<%=fantasy.controller.BaseController.errorMessage != null%>">
+		<c:if test="${error} != null">
 			<script>
-				alert("<%=fantasy.controller.BaseController.errorMessage%>");
+				alert("${error}");
 			</script>
 		</c:if>
 

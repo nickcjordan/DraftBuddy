@@ -1,41 +1,49 @@
 package com.falifa.draftbuddy.ui.logic;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import com.falifa.draftbuddy.ui.model.Draft;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
+@Component
 public class RandomIndexGenerator {
 	
-	static ArrayList<Integer> percentages;
+	@Value( "${pickNumberToStartAIVariability}" )
+	private int aiVariabilityRound;
 	
-	static {
-		percentages = buildPercentages();
+	@Value( "${percent0}" )
+	private int perc0;
+	@Value( "${percent1}" )
+	private int perc1;
+	@Value( "${percent2}" )
+	private int perc2;
+	@Value( "${percent3}" )
+	private int perc3;
+	@Value( "${percent4}" )
+	private int perc4;
+	@Value( "${percent5}" )
+	private int perc5;
+	
+	private List<Integer> percentageList;
+	
+	public RandomIndexGenerator() {
+		this.percentageList = buildPercentages();
 	}
-
-	public static int generate(int pickNumber, int roundNumber) {
-		
-		if (pickNumber < Integer.valueOf(System.getProperty("pickNumberToStartAIVariability"))) {
+	
+	public int generate(int pickNumber, int roundNumber) {
+		if (pickNumber < aiVariabilityRound) {
 			return 0; // first X picks are set to standard ADP
 		}
-		
 		int x = (int) Math.round(Math.random()*99);
-		
 		int changed = x;
 		if (roundNumber < 2) {
 			changed = (int) (x * (0.9));
 		}
-		
-		int index = percentages.get(changed);
-		return index;
+		return percentageList.get(changed);
 	}
 	
-	private static ArrayList<Integer> buildPercentages() {
-		int perc0 = Integer.parseInt(System.getProperty("percent0"));
-		int perc1 = Integer.parseInt(System.getProperty("percent1"));
-		int perc2 = Integer.parseInt(System.getProperty("percent2"));
-		int perc3 = Integer.parseInt(System.getProperty("percent3"));
-		int perc4 = Integer.parseInt(System.getProperty("percent4"));
-		int perc5 = Integer.parseInt(System.getProperty("percent5"));
+	private ArrayList<Integer> buildPercentages() {
 		ArrayList<Integer> list = new ArrayList<Integer>();
 		for (int i = 0; i < perc0; i++)	{ list.add(0); }
 		for (int i = 0; i < perc1; i++)	{ list.add(1); }

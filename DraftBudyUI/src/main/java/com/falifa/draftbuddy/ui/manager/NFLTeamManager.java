@@ -4,16 +4,27 @@ import static com.falifa.draftbuddy.ui.constants.DataSourcePaths.MASTER_NFL_TEAM
 import static com.falifa.draftbuddy.ui.constants.DataSourcePaths.MASTER_PLAYERS_JSON_FILE_PATH;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
+import com.falifa.draftbuddy.api.model.PlayerTO;
+import com.falifa.draftbuddy.ui.api.ApiDataDelegate;
+import com.falifa.draftbuddy.ui.api.PlayerNameMatcher;
+import com.falifa.draftbuddy.ui.builder.PlayerPopulator;
 import com.falifa.draftbuddy.ui.comparator.PlayerADPComparator;
 import com.falifa.draftbuddy.ui.comparator.PlayerRankComparator;
 import com.falifa.draftbuddy.ui.constants.Position;
@@ -29,30 +40,113 @@ public class NFLTeamManager {
 	private static final Logger log = LoggerFactory.getLogger(NFLTeamManager.class);
 
 	private Map<String, Player> playersById;
+	private Map<String, String> playerNameToIdMap;
+	private Map<String, PlayerTO> playerStatsTOMap;
 	private Map<String, NFLTeam> teamsByAbbreviation;
+	
+	private ArrayList<String> playerNameToIdMapFailedToFind;
+
+	@Autowired
+	private PlayerPopulator playerPopulator;
+	
+	@Autowired
+	private ApiDataDelegate dataDelegate;
+	
+	@Autowired
+	private PlayerNameMatcher nameMatcher;
+
 
 	public NFLTeamManager() {
-		initializeNFL();
+		this.playersById = new HashMap<String, Player>();
+		this.teamsByAbbreviation = new HashMap<String, NFLTeam>();
+		this.playerStatsTOMap = new HashMap<String, PlayerTO>();
+		this.playerNameToIdMap = new HashMap<String, String>();
+		this.playerNameToIdMapFailedToFind = new ArrayList<String>();
 	}
 
 	public void initializeNFL() {
-		ObjectMapper mapper = new ObjectMapper();
 		try {
-			MasterPlayersTO playersTO = mapper.readValue(new File(MASTER_PLAYERS_JSON_FILE_PATH), MasterPlayersTO.class);
-			playersById = playersTO.getPlayers();
+			populateMasterPlayersFromJsonFile();
+			populateMasterTeamsFromJsonFile();
+			populatePlayerStatsFieldsPriorToApi();
+			populatePlayerStatsFromApi();
+			populateManuallySetFieldValues();
+			log.info("NFL initialized with {} teams and {} players", teamsByAbbreviation.size(), playersById.size());
+		} catch (Exception e) {
+			log.error("ERROR initializing master players from json", e);
+		}
+	}
 
-			MasterTeamTO teamsTO = mapper.readValue(new File(MASTER_NFL_TEAMS_JSON_FILE_PATH), MasterTeamTO.class);
-			teamsByAbbreviation = teamsTO.getTeams();
-
+	private void populatePlayerStatsFieldsPriorToApi() {
+		if (!CollectionUtils.isEmpty(playersById) && !CollectionUtils.isEmpty(teamsByAbbreviation)) {
 			for (Player player : playersById.values()) {
+				if (player.getPlayerName() != null) {
+					playerNameToIdMap.put(nameMatcher.filter(player.getPlayerName()), player.getFantasyProsId());
+					nameMatcher.addAlternateNames(player.getPlayerName(), player.getFantasyProsId());
+				}
+			}
+		}
+	}
+
+	private void populatePlayerStatsFromApi() {
+		int count = 0;
+		playerStatsTOMap = Optional.ofNullable(dataDelegate.getPlayersMapFromApi()).orElse(playerStatsTOMap);
+		for (Entry<String, PlayerTO> entry : playerStatsTOMap.entrySet()) {
+			if (entry.getKey() == null) {
+				log.error("NULL name found in playerStatsTOMap :: id={}", entry.getValue().getPlayerId());
+			} else {
+				String id = null;
+				id = (playerNameToIdMap.containsKey(nameMatcher.filter(entry.getKey()))) ? playerNameToIdMap.get(nameMatcher.filter(entry.getKey())) : nameMatcher.checkForClosestMatch(entry.getKey());
+				if (playersById.containsKey(id)) {
+					playerPopulator.populatePlayerWithStatsFromTO(playersById.get(id), entry.getValue());
+					count++;
+				} else {
+					log.debug("ERROR playersById did not contain key={}", id);
+					playerNameToIdMapFailedToFind.add(entry.getKey());
+				}
+			}
+		}
+		if (playerNameToIdMapFailedToFind.size() > 0) {
+			log.error("Processed {} players from API that were not found in FantasyPros data :: [{}]", playerNameToIdMapFailedToFind.size(), playerNameToIdMapFailedToFind.stream().collect(Collectors.joining(", ")));
+		}
+		log.info("Successfully populated {} out of {} players with stats from API", count, playerStatsTOMap.size());
+	}
+
+	private void populateManuallySetFieldValues() {
+		if (!CollectionUtils.isEmpty(playersById) && !CollectionUtils.isEmpty(teamsByAbbreviation)) {
+			for (Player player : playersById.values()) {
+				populateRemainingFieldsForPlayer(player);
 				NFLTeam team = teamsByAbbreviation.get(player.getTeam().getAbbreviation());
 				if (team != null) {
 					team.addPlayer(player);
 				}
 			}
+		}
+	}
 
+	private void populateRemainingFieldsForPlayer(Player player) {
+		player.getDraftingDetails().setAvailable(true);
+		playerPopulator.populateMapStats(player);
+		playerPopulator.populatePlayerProjectedTotalsFields(player);
+	}
+
+	private void populateMasterTeamsFromJsonFile() {
+		try {
+			teamsByAbbreviation = new ObjectMapper().readValue(new File(MASTER_NFL_TEAMS_JSON_FILE_PATH), MasterTeamTO.class).getTeams();
+		} catch (FileNotFoundException ex) {
+			log.error("Did not find master teams json at path={}", MASTER_NFL_TEAMS_JSON_FILE_PATH);
 		} catch (Exception e) {
-			log.error("ERROR initializing master players from json", e);
+			log.error("ERROR extracting master teams json from file at path={}", MASTER_NFL_TEAMS_JSON_FILE_PATH);
+		}
+	}
+
+	private void populateMasterPlayersFromJsonFile() {
+		try {
+			this.playersById = new ObjectMapper().readValue(new File(MASTER_PLAYERS_JSON_FILE_PATH), MasterPlayersTO.class).getPlayers();
+		} catch (FileNotFoundException ex) {
+			log.error("Did not find master players json at path={}", MASTER_PLAYERS_JSON_FILE_PATH);
+		} catch (Exception e) {
+			log.error("ERROR extracting master players json from file at path={}", MASTER_PLAYERS_JSON_FILE_PATH);
 		}
 	}
 
@@ -98,8 +192,10 @@ public class NFLTeamManager {
 	public List<Player> getAvailablePlayersByPositionAsList(Position position) {
 		List<Player> byPosition = new ArrayList<Player>();
 		for (Player player : playersById.values()) {
-			if (player.getPosition().equals(position) && player.getDraftingDetails().isAvailable()) {
-				byPosition.add(player);
+			if (player != null) {
+				if (position.equals(player.getPosition()) && player.getDraftingDetails().isAvailable()) {
+					byPosition.add(player);
+				}
 			}
 		}
 		Collections.sort(byPosition, new PlayerADPComparator());

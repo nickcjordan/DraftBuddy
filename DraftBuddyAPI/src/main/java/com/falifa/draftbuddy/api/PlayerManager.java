@@ -9,7 +9,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
 import com.falifa.draftbuddy.api.data.builder.PlayerMapBuilder;
-import com.falifa.draftbuddy.api.model.Player;
+import com.falifa.draftbuddy.api.model.PlayerTO;
 
 @Component
 public class PlayerManager {
@@ -21,14 +21,14 @@ public class PlayerManager {
 	private PlayerDataStorage data;
 
 	public boolean updateAllPlayers() {
-		Map<String, Player> map = builder.buildAndPopulatePlayerMap();
+		Map<String, PlayerTO> map = builder.buildAndPopulatePlayerMap();
 		return data.updateState(map);
 	}
 	
-	public List<Player> updateAndGetAllPlayers() {
-		Map<String, Player> map = builder.buildAndPopulatePlayerMap();
+	public List<PlayerTO> updateAndGetAllPlayers() {
+		Map<String, PlayerTO> map = builder.buildAndPopulatePlayerMap();
 		data.updateState(map);
-		List<Player> list = map.values().stream().collect(Collectors.toList());
+		List<PlayerTO> list = map.values().stream().collect(Collectors.toList());
 		return list;
 	}
 

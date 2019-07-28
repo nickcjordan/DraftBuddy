@@ -9,6 +9,5 @@
 </div>
 
 <script>
-	var percent = "<%=fantasy.controller.BaseController.getPercent()%>";
-	document.getElementById("progress-bar").style.width = percent + "%";
+	document.getElementById("progress-bar").style.width = ${progressPercent} + "%";
 </script>

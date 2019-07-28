@@ -1,10 +1,11 @@
 package com.falifa.draftbuddy.ui.constants;
 
 public class DataSourcePaths {
+
+	public static final String PLAYER_IMAGES_BASE_FILE_PATH = "src/main/resources/data/img/";
 	
 	public static final String FANTASYPROS_BASE_URL = "https://www.fantasypros.com/nfl";
 	public static final String FANTASYPROS_BASE_HTML_FILE_PATH = "src/main/resources/data/html/fantasyPros/";
-	
 	
 
 	public static final String FANTASYPROS_RANKINGS_URL = FANTASYPROS_BASE_URL + "/rankings/ppr-cheatsheets.php";

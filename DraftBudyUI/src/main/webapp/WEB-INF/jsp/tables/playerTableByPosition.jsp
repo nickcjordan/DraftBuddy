@@ -23,28 +23,28 @@
 		</thead>
 		<tbody>
 			<c:forEach items="${playerList}" var="player">
-				<tr class="tier${player.tier}">
+				<tr class="tier${player.getTier()}">
 					<td class="id-posList">
-						<a href="/pickPlayer?playerId=${player.id}">
-				        	<span class="badge-adp">${player.rank}</span>
+						<a href="/pickPlayer?playerId=${player.getFantasyProsId()}">
+				        	<span class="badge-adp">${player.getRankMetadata().getOverallRank()}</span>
 			      		</a>
 					</td>
-					<%-- <td class="name-posList"><a class="nameLink" data-toggle="modal" data-target="#${player.id}playerModal"><strong>${player.getNameAndTags()}</strong></a></td> --%>
+					<%-- <td class="name-posList"><a class="nameLink" data-toggle="modal" data-target="#${player.getFantasyProsId()}playerModal"><strong>${player.getNameAndTags()}</strong></a></td> --%>
 					<td class="name-posList">
-						<a class="nameLink" data-toggle="modal" data-target="#${player.id}playerModal">
+						<a class="nameLink" data-toggle="modal" data-target="#${player.getFantasyProsId()}playerModal">
 							<c:choose>
 								<c:when test="${currentRoundHandcuffs.contains(player)}">
 									<c:choose>
 										<c:when test="${player.isPlayerToTarget()}">
-											<span class="handcuff-player-text"><strong>${player.playerName}</strong></span>
+											<span class="handcuff-player-text"><strong>${player.getPlayerName()}</strong></span>
 										</c:when>
-										<c:otherwise><span class="handcuff-player-text">${player.playerName}</span></c:otherwise>
+										<c:otherwise><span class="handcuff-player-text">${player.getPlayerName()}</span></c:otherwise>
 									</c:choose>
 								</c:when>
 								<c:otherwise>
 									<c:choose>
-										<c:when test="${player.isPlayerToTarget()}"><strong>${player.playerName}</strong></c:when>
-										<c:otherwise>${player.playerName}</c:otherwise>
+										<c:when test="${player.isPlayerToTarget()}"><strong>${player.getPlayerName()}</strong></c:when>
+										<c:otherwise>${player.getPlayerName()}</c:otherwise>
 									</c:choose>
 								</c:otherwise>
 							</c:choose>
@@ -58,9 +58,9 @@
 					
 					<td class="tags-posList">
 						<c:choose>
-							<c:when test="${player.icons==null}">&nbsp;</c:when>
+							<c:when test="${.getDraftingDetails().getIcons()==null}">&nbsp;</c:when>
 							<c:otherwise>
-								<c:forEach items="${player.icons}" var="icon">
+								<c:forEach items="${.getDraftingDetails().getIcons()}" var="icon">
 									<span class="${icon}" aria-hidden="true"></span>
 								</c:forEach>
 							</c:otherwise>
@@ -68,23 +68,23 @@
 					</td>
 					<td class="pos-posList">
 						<c:choose>
-							<c:when test="${player.pos.equals('QB')}"><span class="badge badge-warning">${player.pos} ${player.pos_rank}</span></c:when>
-							<c:when test="${player.pos.equals('RB')}"><span class="badge badge-info">${player.pos} ${player.pos_rank}</span></c:when>
-							<c:when test="${player.pos.equals('WR')}"><span class="badge badge-success">${player.pos} ${player.pos_rank}</span></c:when>
-							<c:when test="${player.pos.equals('TE')}"><span class="badge badge-error">${player.pos} ${player.pos_rank}</span></c:when>
-							<c:when test="${player.pos.equals('K')}"><span class="badge">${player.pos} ${player.pos_rank}</span></c:when>
-							<c:otherwise><span class="badge badge-inverse">${player.pos} ${player.pos_rank}</span></c:otherwise>
+							<c:when test="${player.getPosition().getAbbrev().equals('QB')}"><span class="badge badge-warning">${player.getPosition().getAbbrev()} ${player.getRankMetadata().getPositionRank()}</span></c:when>
+							<c:when test="${player.getPosition().getAbbrev().equals('RB')}"><span class="badge badge-info">${player.getPosition().getAbbrev()} ${player.getRankMetadata().getPositionRank()}</span></c:when>
+							<c:when test="${player.getPosition().getAbbrev().equals('WR')}"><span class="badge badge-success">${player.getPosition().getAbbrev()} ${player.getRankMetadata().getPositionRank()}</span></c:when>
+							<c:when test="${player.getPosition().getAbbrev().equals('TE')}"><span class="badge badge-error">${player.getPosition().getAbbrev()} ${player.getRankMetadata().getPositionRank()}</span></c:when>
+							<c:when test="${player.getPosition().getAbbrev().equals('K')}"><span class="badge">${player.getPosition().getAbbrev()} ${player.getRankMetadata().getPositionRank()}</span></c:when>
+							<c:otherwise><span class="badge badge-inverse">${player.getPosition().getAbbrev()} ${player.getRankMetadata().getPositionRank()}</span></c:otherwise>
 						</c:choose>
 					</td>
-					<td class="adp-posList">${player.adp}</td>
-					<td class="team-posList">${player.teamName}</td>
-					<td class="bye-posList">${player.bye}</td>
-					<td class="id-posList">${player.best}</td>
-					<td class="id-posList">${player.avg}</td>
-					<td class="id-posList">${player.worst}</td>
-					<td class="id-posList">${player.std_dev}</td>
-					<td class="id-posList">${player.versus}</td>
-					<td class="handcuff-posList">${player.checkForHandcuff()}</td>
+					<td class="adp-posList">${player.getRankMetadata().getAdp()}</td>
+					<td class="team-posList">${player.getTeam().getAbbreviation()}</td>
+					<td class="bye-posList">${player.getBye()}</td>
+					<td class="id-posList">${player.getRankMetadata().getBestRank()}</td>
+					<td class="id-posList">${player.getRankMetadata().getAvgRank()}</td>
+					<td class="id-posList">${player.getRankMetadata().getWorstRank()}</td>
+					<td class="id-posList">${player.getStdDev()}</td>
+					<td class="id-posList">${player.getRankMetadata().getVsAdp()}</td>
+					<td class="handcuff-posList">${player..getDraftingDetails().getHandcuffs()}</td>
 				</tr>
 				
 			</c:forEach>

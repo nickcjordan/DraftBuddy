@@ -12,6 +12,15 @@
 
 	<dependencies>
 
+		<!-- for LevenshteinDistance -->
+		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-text -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-text</artifactId>
+			<version>1.7</version>
+		</dependency>
+
+
 		<!-- Web -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

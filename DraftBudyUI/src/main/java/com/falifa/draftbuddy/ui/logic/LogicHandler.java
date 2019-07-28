@@ -1,9 +1,13 @@
 package com.falifa.draftbuddy.ui.logic;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.Properties;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
@@ -31,11 +35,25 @@ public class LogicHandler {
 	@Autowired
 	private NFLTeamManager nflTeams;
 	
+	@Autowired
+	private RandomIndexGenerator randomGenerator;
+
+	private Properties props;
+	
+	public LogicHandler() {
+		props = new Properties();
+		try {
+			props.load(new FileInputStream(new File("src/main/resources/application.properties")));
+		} catch (IOException e) {
+			e.printStackTrace(); // TODO
+		}
+	}
+	
 	public List<Player> getMySuggestions(Drafter currentDrafter) {
 		List<Player> suggestions = getPlayersForPositionsThatAreEmptyIfLateInDraft(currentDrafter);
 		if (CollectionUtils.isEmpty(suggestions)) {
 			suggestions = nflTeams.getAllAvailablePlayersByADP().stream().filter(p -> 
-				isAtLeastInitialRoundForPosition(p.getPosition().getAbbrev()) &&
+				isAtLeastInitialRoundForPosition(p) &&
 				positionSlotIsNotFull(p, currentDrafter) && 
 				hasNotFilledEarlyRoundMaxForPositionCount(p, currentDrafter) // if already drafted a qb or te, probably want to wait until later to relook at them
 			).collect(Collectors.toList());
@@ -44,18 +62,30 @@ public class LogicHandler {
 		return suggestions;
 	}
 	
-	private boolean isAtLeastInitialRoundForPosition(String pos) {
-		return (draftState.getCurrentRoundNumber() >= prop(pos.toLowerCase() + "Init"));
+	private boolean isAtLeastInitialRoundForPosition(Player p) {
+		try {
+			return (draftState.getCurrentRoundNumber() >= prop(p.getPosition().getAbbrev().toLowerCase() + "Init"));
+		} catch (Exception e) {
+			return false;
+		}
 	}
 
 	private boolean hasNotFilledEarlyRoundMaxForPositionCount(Player p, Drafter currentDrafter) {
-		return (p.getPosition().equals(Position.QUARTERBACK) || (p.getPosition().equals(Position.TIGHTEND))) 
-				&&	(currentDrafter.getDraftedTeam().getPlayersByPosition(p.getPosition()).size() > 0) // has at least 1 player?
-				&&	(draftState.getCurrentRoundNumber() < prop("te_qb_reintroduceRound")); // late enough in the draft for qb and te?
+		try {
+			return (p.getPosition().equals(Position.QUARTERBACK) || (p.getPosition().equals(Position.TIGHTEND))) 
+					&&	(currentDrafter.getDraftedTeam().getPlayersByPosition(p.getPosition()).size() > 0) // has at least 1 player?
+					&&	(draftState.getCurrentRoundNumber() < prop("te_qb_reintroduceRound")); // late enough in the draft for qb and te?
+		} catch (Exception e) {
+			return false;
+		}
 	}
 
 	private boolean positionSlotIsNotFull(Player p, Drafter currentDrafter) {
-		return (currentDrafter.getDraftedTeam().getPlayersByPosition(p.getPosition()).size() >= prop(p.getPosition().getAbbrev().toLowerCase() + "Limit"));
+		try {
+			return (currentDrafter.getDraftedTeam().getPlayersByPosition(p.getPosition()).size() >= prop(p.getPosition().getAbbrev().toLowerCase() + "Limit"));
+		} catch (Exception e) {
+			return false;
+		}
 	}
 	
 	private List<Player> getPlayersForPositionsThatAreEmptyIfLateInDraft(Drafter currentDrafter) {
@@ -79,7 +109,7 @@ public class LogicHandler {
 		if (CollectionUtils.isEmpty(suggestions)) {
 			suggestions = nflTeams.getAllAvailablePlayersByADP().stream().filter(p -> positionSlotIsNotFull(p, currentComputerDrafter)).collect(Collectors.toList());
 		}
-		return draftState.mockDraftMode ? suggestions.get(RandomIndexGenerator.generate(draftState.pickNumber, draftState.roundNum)) : suggestions.get(0);
+		return draftState.mockDraftMode ? suggestions.get(randomGenerator.generate(draftState.pickNumber, draftState.roundNum)) : suggestions.get(0);
 	}
 	
 	public List<Integer> getDraftPickIndexList(Drafter currentDrafter) {
@@ -149,7 +179,7 @@ public class LogicHandler {
 	}
 
 	private int prop(String prop) {
-		return Integer.valueOf(System.getProperty(prop));
+		return Integer.valueOf(props.getProperty(prop));
 	}
 
 }

@@ -1,27 +1,17 @@
 package com.falifa.draftbuddy.ui.data;
 
-import static com.falifa.draftbuddy.ui.constants.DataSourcePaths.DRAFTSTRATEGY_CUSTOM_PATH;
-import static com.falifa.draftbuddy.ui.constants.DataSourcePaths.DRAFT_LOGIC_PROPERTIES_PATH;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 import com.falifa.draftbuddy.ui.constants.DraftType;
-import com.falifa.draftbuddy.ui.io.DataFileReader;
-import com.falifa.draftbuddy.ui.logic.LogicHandler;
 import com.falifa.draftbuddy.ui.manager.NFLTeamManager;
 import com.falifa.draftbuddy.ui.model.Draft;
 import com.falifa.draftbuddy.ui.model.DraftPick;
@@ -32,19 +22,16 @@ import com.falifa.draftbuddy.ui.model.player.Player;
 @Component
 public class DraftState {
 	
-	
-	private static final Logger log = LoggerFactory.getLogger(DraftState.class);
-
+	@Value( "${numberOfRounds}" )
+	public int NUMBER_OF_ROUNDS;
 	
 	public int pickNumber = 1;
 	public int roundNum = 0;
-	public int NUMBER_OF_ROUNDS;
 	public int draftOrderIndex = 0;
 	
 	public boolean mockDraftMode;
 	
 	public Drafter currentDrafter;
-	
 	public Draft draft;
 	public DraftType draftType;
 	public List<DraftPick> draftPicks;
@@ -56,14 +43,11 @@ public class DraftState {
 	@Autowired
 	protected NFLTeamManager nflTeams;
 	
-	public DraftState() {
-		initializeDraft();
-	}
+	public DraftState() {}
 	
 	public void initializeDraft() {
     	strategyByRound = getStrategyFromFile();
     	errorMessage = null;
-    	NUMBER_OF_ROUNDS = Integer.valueOf(System.getProperty("numberOfRounds"));
     	draftPicks = new ArrayList<>();
     	roundNum = 1;
     	pickNumber = 1;

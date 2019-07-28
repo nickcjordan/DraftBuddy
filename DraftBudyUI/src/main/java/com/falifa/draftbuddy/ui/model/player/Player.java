@@ -2,12 +2,14 @@ package com.falifa.draftbuddy.ui.model.player;
 
 import com.falifa.draftbuddy.ui.constants.NflTeam;
 import com.falifa.draftbuddy.ui.constants.Position;
+import com.falifa.draftbuddy.ui.model.player.stats.RawStatsDetails;
+import com.falifa.draftbuddy.ui.model.player.stats.positional.PlayerPositionalStats;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class Player {
 
-	String id;
-	String fantasyProsId;
-	int tier;
+	private String fantasyProsId;
+	private int tier;
 	private String playerName;	
 	private Position position;
 	private String bye;
@@ -15,58 +17,45 @@ public class Player {
 	
 	private DraftingDetails draftingDetails;
 
-	private PlayerStatistics priorStats;
-	private PlayerStatistics projectedStats;
+	private RawStatsDetails priorRawStatsDetails;
+	private RawStatsDetails projectedRawStatsDetails;
+	
+	private PlayerPositionalStats positionalStats;
 
 	private RankMetadata rankMetadata;
 	private NflTeamMetadata nflTeamMetadata;
-	private OffensiveLineMetadata oLineData;
+	private OffensiveLineMetadata offensiveLineMetadata;
 	private PictureMetadata pictureMetadata;
 	private NotesMetadata notesMetadata;
 	
 	public Player() {
 		this.draftingDetails = new DraftingDetails();
-		this.priorStats = new PlayerStatistics();
-		this.projectedStats = new PlayerStatistics();
+		this.priorRawStatsDetails = new RawStatsDetails();
+		this.projectedRawStatsDetails = new RawStatsDetails();
 		this.rankMetadata = new RankMetadata();
 		this.nflTeamMetadata = new NflTeamMetadata();
-		this.oLineData = new OffensiveLineMetadata();
+		this.offensiveLineMetadata = new OffensiveLineMetadata();
 		this.pictureMetadata = new PictureMetadata();
 		this.notesMetadata = new NotesMetadata();
+		this.positionalStats = new PlayerPositionalStats();
 	}
-	
-	
+	@JsonIgnore
 	public String checkForHandcuff() {
 		return (draftingDetails.getHandcuffs() == null) ? " - " : draftingDetails.getHandcuffs();
 	}
 	
-	public String getShort() {
-		return "(" + id + ") " + getNameAndTags(); 
-	}
-	
-	public String getNameAndId() {
-		return "(" + id + ") " + getPlayerName(); 
-	}
-	
+	@JsonIgnore
 	@Override
 	public String toString() {
 		return playerName;
 	}
-
+	@JsonIgnore
 	public void addHandcuff(Player cuff) {
 		this.draftingDetails.addBackup(cuff);
 	}
-
+	@JsonIgnore
 	public String getNameAndTags() {
 		return (draftingDetails.getTags() == null || draftingDetails.getTags().isEmpty()) ? playerName : playerName + " [" + draftingDetails.getTags() + "]";
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
 	}
 
 	public String getFantasyProsId() {
@@ -109,20 +98,20 @@ public class Player {
 		this.bye = bye;
 	}
 
-	public PlayerStatistics getPriorStats() {
-		return priorStats;
+	public RawStatsDetails getPriorRawStatsDetails() {
+		return priorRawStatsDetails;
 	}
 
-	public void setPriorStats(PlayerStatistics priorStats) {
-		this.priorStats = priorStats;
+	public void setPriorRawStatsDetails(RawStatsDetails priorRawStatsDetails) {
+		this.priorRawStatsDetails = priorRawStatsDetails;
 	}
 
-	public PlayerStatistics getProjectedStats() {
-		return projectedStats;
+	public RawStatsDetails getProjectedRawStatsDetails() {
+		return projectedRawStatsDetails;
 	}
 
-	public void setProjectedStats(PlayerStatistics projectedStats) {
-		this.projectedStats = projectedStats;
+	public void setProjectedRawStatsDetails(RawStatsDetails projectedRawStatsDetails) {
+		this.projectedRawStatsDetails = projectedRawStatsDetails;
 	}
 
 	public DraftingDetails getDraftingDetails() {
@@ -149,12 +138,12 @@ public class Player {
 		this.nflTeamMetadata = nflTeamMetadata;
 	}
 
-	public OffensiveLineMetadata getoLineData() {
-		return oLineData;
+	public OffensiveLineMetadata getOffensiveLineMetadata() {
+		return offensiveLineMetadata;
 	}
 
-	public void setoLineData(OffensiveLineMetadata oLineData) {
-		this.oLineData = oLineData;
+	public void setOffensiveLineMetadata(OffensiveLineMetadata oLineData) {
+		this.offensiveLineMetadata = oLineData;
 	}
 
 	public PictureMetadata getPictureMetadata() {
@@ -179,6 +168,12 @@ public class Player {
 
 	public void setTeam(NflTeam team) {
 		this.team = team;
+	}
+	public PlayerPositionalStats getPositionalStats() {
+		return positionalStats;
+	}
+	public void setPositionalStats(PlayerPositionalStats positionalStats) {
+		this.positionalStats = positionalStats;
 	}
 	
 }

@@ -25,32 +25,32 @@
 					
 					<c:set var="player" value="${pick.player}" scope="page"/>
 					<c:choose>
-						<c:when test="${player.pos.equals('QB')}">
-							<td class="Pos"><span class="badge badge-warning">${player.pos}</span></td>
+						<c:when test="${player.getPosition().getAbbrev().equals('QB')}">
+							<td class="Pos"><span class="badge badge-warning">${player.getPosition().getAbbrev()}</span></td>
 						</c:when>
-						<c:when test="${player.pos.equals('RB')}">
-							<td class="Pos"><span class="badge badge-info">${player.pos}</span></td>
+						<c:when test="${player.getPosition().getAbbrev().equals('RB')}">
+							<td class="Pos"><span class="badge badge-info">${player.getPosition().getAbbrev()}</span></td>
 						</c:when>
-						<c:when test="${player.pos.equals('WR')}">
-							<td class="Pos"><span class="badge badge-success">${player.pos}</span></td>
+						<c:when test="${player.getPosition().getAbbrev().equals('WR')}">
+							<td class="Pos"><span class="badge badge-success">${player.getPosition().getAbbrev()}</span></td>
 						</c:when>
-						<c:when test="${player.pos.equals('TE')}">
-							<td class="Pos"><span class="badge badge-error">${player.pos}</span></td>
+						<c:when test="${player.getPosition().getAbbrev().equals('TE')}">
+							<td class="Pos"><span class="badge badge-error">${player.getPosition().getAbbrev()}</span></td>
 						</c:when>
-						<c:when test="${player.pos.equals('K')}">
-							<td class="Pos"><span class="badge">${player.pos}</span></td>
+						<c:when test="${player.getPosition().getAbbrev().equals('K')}">
+							<td class="Pos"><span class="badge">${player.getPosition().getAbbrev()}</span></td>
 						</c:when>
 						<c:otherwise>
-							<td class="Pos"><span class="badge badge-inverse">${player.pos}</span></td>
+							<td class="Pos"><span class="badge badge-inverse">${player.getPosition().getAbbrev()}</span></td>
 						</c:otherwise>
 					</c:choose>
 					
 					<c:choose>
 						<c:when test="${pick.drafter.name.equals(currentDrafter.name)}">
-					<td class="Player"><a class="nameLink" data-toggle="modal" data-target="#${pick.player.id}playerModal"><b>${pick.player.getPlayerName()}</b></a></td>
+					<td class="Player"><a class="nameLink" data-toggle="modal" data-target="#${pick.player.getFantasyProsId()}playerModal"><b>${pick.player.getPlayerName()}</b></a></td>
 						</c:when>
 						<c:otherwise>
-					<td class="Player"><a class="nameLink" data-toggle="modal" data-target="#${pick.player.id}playerModal">${pick.player.getPlayerName()}</a></td>
+					<td class="Player"><a class="nameLink" data-toggle="modal" data-target="#${pick.player.getFantasyProsId()}playerModal">${pick.player.getPlayerName()}</a></td>
 						</c:otherwise>
 					</c:choose>
 					

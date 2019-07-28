@@ -46,6 +46,7 @@ public class DraftController {
 	// to hit this with "type" --> "http://localhost:8080/init?appRunType=type"
 	@RequestMapping(value = "/start")
 	public String start(@RequestParam(required=false, defaultValue="real") String appRunType, Model model) throws FalifaException {
+		init(model);
 		draftState.mockDraftMode = (appRunType.equalsIgnoreCase("mock") || appRunType.equalsIgnoreCase("auto"));
 		draftState.draftType = DraftType.getDraftType(appRunType);
 		log.info(appRunType + " :: " + draftState.draftType);

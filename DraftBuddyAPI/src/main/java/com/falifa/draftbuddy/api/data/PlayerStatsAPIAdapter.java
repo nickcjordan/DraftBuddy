@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import com.falifa.draftbuddy.api.data.builder.DataFileCache;
 import com.falifa.draftbuddy.api.data.builder.PlayerMapBuilder;
 import com.falifa.draftbuddy.api.data.model.PlayerStatsAPIResponse;
-import com.falifa.draftbuddy.api.model.Player;
+import com.falifa.draftbuddy.api.model.PlayerTO;
 
 @Component
 public class PlayerStatsAPIAdapter {
@@ -28,7 +28,7 @@ public class PlayerStatsAPIAdapter {
 	private PlayerMapBuilder playerBuilder;
 
 	public PlayerStatsAPIResponse getAllPlayerStats() {
-		Map<String, Player> players = null;
+		Map<String, PlayerTO> players = null;
 		if (useCachedData) { 	// return cached data
 			log.info("Using cached data...");
 			players = cache.getCachedCompleteData();

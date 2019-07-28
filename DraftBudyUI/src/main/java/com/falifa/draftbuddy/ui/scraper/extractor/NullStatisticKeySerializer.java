@@ -20,6 +20,6 @@ public class NullStatisticKeySerializer extends StdSerializer<Object> {
      
     @Override
     public void serialize(Object nullKey, JsonGenerator jsonGenerator, SerializerProvider unused) throws IOException, JsonProcessingException {
-        jsonGenerator.writeFieldName("STAT");
+        jsonGenerator.writeFieldName("ALL");
     }
 }

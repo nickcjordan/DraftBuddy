@@ -6,17 +6,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.falifa.draftbuddy.api.data.model.PlayerMetaData;
-import com.falifa.draftbuddy.api.model.Player;
+import com.falifa.draftbuddy.api.model.PlayerTO;
 
 public class ThreadRunner implements Runnable {
 
 	private static final Logger log = LoggerFactory.getLogger(ThreadRunner.class);
 	
-	private Player player;
-	private List<Player> playersToRemove;
+	private PlayerTO player;
+	private List<PlayerTO> playersToRemove;
 	private String baseUrl;
 	
-	public ThreadRunner(List<Player> playersToRemove, Player player, String baseUrl) {
+	public ThreadRunner(List<PlayerTO> playersToRemove, PlayerTO player, String baseUrl) {
 		this.playersToRemove = playersToRemove;
 		this.player = player;
 		this.baseUrl = baseUrl;
@@ -32,7 +32,7 @@ public class ThreadRunner implements Runnable {
 		}
 	}
 	
-	private boolean isFantasyPosition(Player p, String position) {
+	private boolean isFantasyPosition(PlayerTO p, String position) {
 		boolean yes = (position.equals("QB") | position.equals("RB") | position.equals("WR") | position.equals("TE") | position.equals("K") | position.equals("DEF"));
 //		return (position.equals("QB") | position.equals("RB") | position.equals("WR") | position.equals("TE") | position.equals("K"));
 		if (!yes) {
@@ -41,7 +41,7 @@ public class ThreadRunner implements Runnable {
 		return yes;
 	}
 
-	private void populatePlayerWithMetaData(Player player, PlayerMetaData data) {
+	private void populatePlayerWithMetaData(PlayerTO player, PlayerMetaData data) {
 		player.setByeWeek(data.getByeWeek());
 		player.setImageUrl(data.getImageUrl());
 		player.setNflTeamId(data.getNflTeamId());
@@ -51,11 +51,11 @@ public class ThreadRunner implements Runnable {
 		player.setTeamName(data.getNflTeamAbbr());
 	}
 	
-	public Player getPlayer() {
+	public PlayerTO getPlayer() {
 		return player;
 	}
 
-	public void setPlayer(Player player) {
+	public void setPlayer(PlayerTO player) {
 		this.player = player;
 	}
 

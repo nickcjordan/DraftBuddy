@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class DraftingDetails {
 	
 	private int currentPlayerValue;
@@ -46,7 +48,6 @@ public class DraftingDetails {
 	public void setHandcuff(boolean handcuff) {
 		this.handcuff = handcuff;
 	}
-
 	public int getRoundDrafted() {
 		return roundDrafted;
 	}
@@ -71,6 +72,7 @@ public class DraftingDetails {
 	public void setBackups(List<Player> backups) {
 		this.backups = backups;
 	}
+	@JsonIgnore
 	public void addBackup(Player backup) {
 		this.backups.add(backup);
 		this.handcuffs = Optional.ofNullable(handcuffs).map(str -> str + ", " + backup.getPlayerName()).orElse(backup.getPlayerName());
@@ -81,32 +83,14 @@ public class DraftingDetails {
 	public void setIcons(List<String> icons) {
 		this.icons = icons;
 	}
+	@JsonIgnore
 	public void addIcon(String icon) {
 		this.icons.add(icon);
 	}
-
 	public int getCurrentPlayerValue() {
 		return currentPlayerValue;
 	}
-
 	public void setCurrentPlayerValue(int currentPlayerValue) {
 		this.currentPlayerValue = currentPlayerValue;
 	}
-
-	public boolean isAPlayerToTarget() {
-		return playerToTarget;
-	}
-
-	public void setAsPlayerToTarget(boolean playerToTarget) {
-		this.playerToTarget = playerToTarget;
-	}
-
-	public boolean isAHandcuff() {
-		return handcuff;
-	}
-
-	public void setAsHandcuff(boolean handcuff) {
-		this.handcuff = handcuff;
-	}
-	
 }

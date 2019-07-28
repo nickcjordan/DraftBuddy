@@ -6,6 +6,8 @@ public class PlayerNote {
 	private String text;
 	private String source;
 	
+	public PlayerNote() {}
+	
 	public PlayerNote(String timestamp, String text, String source) {
 		this.timestamp = timestamp;
 		this.text = text;

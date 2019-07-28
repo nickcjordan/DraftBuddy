@@ -7,19 +7,19 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class PlayerListResponse {
 	
 	@JsonProperty
-	private List<Player> players;
+	private List<PlayerTO> players;
 	
 	public PlayerListResponse() {}
 
-	public PlayerListResponse(List<Player> players) {
+	public PlayerListResponse(List<PlayerTO> players) {
 		this.players = players;
 	}
 
-	public List<Player> getPlayers() {
+	public List<PlayerTO> getPlayers() {
 		return players;
 	}
 
-	public void setPlayers(List<Player> players) {
+	public void setPlayers(List<PlayerTO> players) {
 		this.players = players;
 	}
 

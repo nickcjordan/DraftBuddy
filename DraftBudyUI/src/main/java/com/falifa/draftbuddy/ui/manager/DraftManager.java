@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
 
-import com.falifa.draftbuddy.ui.builder.TeamBuilder;
 import com.falifa.draftbuddy.ui.comparator.DraftSelectionOrderComparator;
 import com.falifa.draftbuddy.ui.comparator.UserDraftOrderComparator;
 import com.falifa.draftbuddy.ui.data.DraftState;
@@ -101,7 +100,7 @@ public class DraftManager {
 		addPlayerToDraftersTeam(draftedPlayer, drafter.getDraftedTeam());
 		draftedPlayer.getDraftingDetails().setAvailable(false);
 		for (Player handcuff : draftedPlayer.getDraftingDetails().getBackups()) {
-			handcuff.getDraftingDetails().setAsHandcuff(true);
+			handcuff.getDraftingDetails().setHandcuff(true);
 		}
 		return new DraftPick(draftState.pickNumber, draftState.roundNum, drafter, draftedPlayer);
 	}

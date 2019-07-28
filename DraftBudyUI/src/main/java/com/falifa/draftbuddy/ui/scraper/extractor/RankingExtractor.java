@@ -69,7 +69,7 @@ public class RankingExtractor {
 	}
 
 	private void buildPlayerFromDataTableRow(Player p, Iterator<Element> iter) throws NotFound {
-		if (iter.hasNext()) { String rank = iter.next().getTextContent(); p.getRankMetadata().setOverallRank(rank); p.setId(rank); } // overall ppr rank :: set both id and rank this 
+		if (iter.hasNext()) { String rank = iter.next().getTextContent(); p.getRankMetadata().setOverallRank(rank); } // overall ppr rank
 		if (iter.hasNext()) { handleMetaDataRow(iter.next().findFirst("<input>"), p); } // show/hide checkbox :: acts as data source for ID, NAME, TEAM, & POSITION
 		if (iter.hasNext()) { iter.next(); } // name label :: skip because I already have the name
 		if (iter.hasNext()) { p.getRankMetadata().setPositionRank(iter.next().getTextContent().replace(p.getPosition().getAbbrev(), "")); } // position rank
