@@ -1,4 +1,4 @@
-package com.falifa.draftbuddy.ui.builder;
+package com.falifa.draftbuddy.ui.data;
 
 import java.util.Map;
 import java.util.Map.Entry;

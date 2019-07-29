@@ -52,6 +52,7 @@ public class DraftController {
 		log.info(appRunType + " :: " + draftState.draftType);
 		draftState.draft = new Draft(draftState.draftType.getOrder());
 		draftState.currentDrafter = draftState.draft.getDrafters().get(0);
+		draftManager.setOptimizedDrafter(draftState.draft);
 		modelUpdater.updateCommonAttributes(draftState.currentDrafter, model);
 		return (draftState.draftType.equals(DraftType.AUTO_DRAFT)) ? draftManager.autoDraft(draftState.currentDrafter, model) 
 				: (draftState.draftType.equals(DraftType.MOCK_DRAFT ))  ? draftManager.mockDraft(draftState.currentDrafter, model) : "pages/dashboardPage";

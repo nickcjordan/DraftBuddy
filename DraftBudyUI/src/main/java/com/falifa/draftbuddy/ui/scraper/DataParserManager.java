@@ -32,6 +32,7 @@ public class DataParserManager {
 		success &= parseAndUpdateFantasyProsADP();
 		success &= parseAndUpdateFantasyProsRookiesRankings();
 		success &= parseAndUpdateFantasyProsPositionalProjections();
+		success &= parseAndUpdateFantasyProsTargetLeaders();
 		updater.updateJsonCacheFilesWithParsedData();
 		
 //		if (success) {
@@ -42,7 +43,7 @@ public class DataParserManager {
 //		}
 		return success;
 	}
-	
+
 	private boolean parseAndUpdateFantasyProsRankings() {
 		String htmlTable = htmlParser.parseTableDataFromFantasyProsRankings();
 		Map<String, Player> playerData = extractor.extractPlayerDataFromFantasyProsRankings(htmlTable);
@@ -57,6 +58,11 @@ public class DataParserManager {
 	private boolean parseAndUpdateFantasyProsADP() {
 		String htmlTable = htmlParser.parseTableDataFromFantasyProsADP();
 		return extractor.extractPlayerDataFromFantasyProsADP(htmlTable);
+	}
+	
+	private boolean parseAndUpdateFantasyProsTargetLeaders() {
+		String htmlTable = htmlParser.parseTableDataFromFantasyProsTargetLeaders();
+		return extractor.extractPlayerDataFromFantasyProsTargetLeaders(htmlTable);
 	}
 	
 	private boolean parseAndUpdateFantasyProsRookiesRankings() {

@@ -1,6 +1,6 @@
 package com.falifa.draftbuddy.ui.scraper;
 
-import static com.falifa.draftbuddy.ui.constants.DataSourcePaths.FANTASYPROS_ADP_HTML_FILE_PATH;
+import static com.falifa.draftbuddy.ui.constants.DataSourcePaths.*;
 import static com.falifa.draftbuddy.ui.constants.DataSourcePaths.FANTASYPROS_ADP_URL;
 import static com.falifa.draftbuddy.ui.constants.DataSourcePaths.FANTASYPROS_NOTES_HTML_FILE_PATH;
 import static com.falifa.draftbuddy.ui.constants.DataSourcePaths.FANTASYPROS_NOTES_URL;
@@ -56,7 +56,12 @@ public class WebScraperManager {
 		success &= updateFantasyProsNotesDataSource();
 		success &= updateFantasyProsRookiesRankingsDataSource();
 		success &= updateFantasyProsPositionalProjectionsDataSource();
+		success &= updateFantasyProsTargetLeadersDataSource();
 		return success;
+	}
+
+	private boolean updateFantasyProsTargetLeadersDataSource() {
+		return updater.downloadFileFromUrl(FANTASYPROS_TARGET_LEADERS_URL, FANTASYPROS_TARGET_LEADERS_HTML_FILE_PATH);
 	}
 
 	private boolean updateFantasyProsPPRRankingsDataSource() {

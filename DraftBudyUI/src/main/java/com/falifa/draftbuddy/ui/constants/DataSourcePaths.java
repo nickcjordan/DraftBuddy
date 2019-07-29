@@ -20,7 +20,10 @@ public class DataSourcePaths {
 	public static final String FANTASYPROS_ROOKIES_RANKINGS_URL = FANTASYPROS_BASE_URL + "/rankings/rookies.php";
 	public static final String FANTASYPROS_ROOKIES_RANKINGS_HTML_FILE_PATH = FANTASYPROS_BASE_HTML_FILE_PATH + "fantasy_pros_rookies_rankings.html";
 	
-	public static final String FANTASYPROS_POSITIONAL_PROJECTIONS_BASE_URL = FANTASYPROS_BASE_URL + "/projections/%s.php?week=draft";
+	public static final String FANTASYPROS_TARGET_LEADERS_URL = FANTASYPROS_BASE_URL + "/reports/targets/";
+	public static final String FANTASYPROS_TARGET_LEADERS_HTML_FILE_PATH = FANTASYPROS_BASE_HTML_FILE_PATH + "fantasy_pros_target_leaders.html";
+	
+	public static final String FANTASYPROS_POSITIONAL_PROJECTIONS_BASE_URL = FANTASYPROS_BASE_URL + "/projections/%s.php?scoring=PPR&week=draft";
 	public static final String FANTASYPROS_POSITIONAL_PROJECTIONS_BASE_HTML_FILE_PATH = FANTASYPROS_BASE_HTML_FILE_PATH + "fantasy_pros_positional_projections_%s.html";
 	
 	public static String buildPositionalPath(String position, String path) {

@@ -1,4 +1,4 @@
-package com.falifa.draftbuddy.ui.builder;
+package com.falifa.draftbuddy.ui.data;
 
 import java.util.Map;
 
@@ -50,6 +50,27 @@ public class PlayerPopulator {
 			log.error("ERROR setting total projected points for player=" + player.getPlayerName() + " :: id=" + player.getFantasyProsId(), e);
 		}
 	}
+	
+	public void populatePlayerPriorTotalsFields(Player player) {
+		try  {
+			Map<String, StatisticCategory> stats = player.getPriorRawStatsDetails().getStats();
+			if (stats.size() > 0) {
+				String priorTotal = stats.containsKey(MISC) ? stats.get(MISC).getStat(TOTAL_FANTASY_POINTS) : null;
+				if (priorTotal != null) {
+					player.getPositionalStats().setPriorTotalPoints(priorTotal);
+					player.getPositionalStats().setPriorAveragePointsPerGame(String.valueOf(Double.valueOf(priorTotal) / Double.valueOf(player.getPriorRawStatsDetails().getWeeksOfData())));
+				} else {
+					log.debug("ERROR :: first null pointer trying to extract total prior points for player=" + player.getPlayerName() + " :: id=" + player.getFantasyProsId());
+				}
+			} else {
+				log.debug("No FantasyPros projection data found when trying to sum projection totals :: player={} :: id={}", player.getPlayerName(), player.getFantasyProsId());
+			}
+		} catch (NullPointerException e) {
+			log.error("ERROR :: null pointer trying to extract total projected points for player=" + player.getPlayerName() + " :: id=" + player.getFantasyProsId());
+		} catch (Exception e) {
+			log.error("ERROR setting total projected points for player=" + player.getPlayerName() + " :: id=" + player.getFantasyProsId(), e);
+		}
+	}
 
 	public void populatePlayerWithStatsFromTO(Player player, PlayerTO to) {
 		try  {
@@ -65,6 +86,7 @@ public class PlayerPopulator {
 
 	private void handleStatsByWeek(Player player, Map<String, PositionStatsDetails> statsByWeek) {
 			 try {
+				 player.getPriorRawStatsDetails().setWeeksOfData(statsByWeek.size());
 				 if (player.getPosition() != null) {
 					 switch (player.getPosition()) {
 					 case QUARTERBACK : positionalStatsBuilder.buildQuarterbackStats(statsByWeek, player); break;

@@ -8,6 +8,7 @@ public class Drafter {
 	private int draftOrderNumber;
 	private Team draftedTeam;
 	private DraftResultStatistics draftResultStats;
+	private boolean optimized;
 	
 	public Drafter(String name, int draftOrderNumber, Team draftedTeam) {
 		this.name = name;
@@ -45,6 +46,14 @@ public class Drafter {
 
 	public DraftResultStatistics getDraftResultStats() {
 		return draftResultStats;
+	}
+
+	public boolean isOptimized() {
+		return optimized;
+	}
+
+	public void setOptimized(boolean optimized) {
+		this.optimized = optimized;
 	}
 	
 }

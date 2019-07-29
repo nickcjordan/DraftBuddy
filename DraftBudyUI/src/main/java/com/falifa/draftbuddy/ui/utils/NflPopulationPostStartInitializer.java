@@ -1,4 +1,4 @@
-package com.falifa.draftbuddy.ui;
+package com.falifa.draftbuddy.ui.utils;
 
 import java.util.Optional;
 
@@ -22,7 +22,6 @@ public class NflPopulationPostStartInitializer implements ApplicationListener<Co
 	@Override
 	public void onApplicationEvent(ContextRefreshedEvent event) {
 		teamManager.initializeNFL();
-		log.info("Initialized {} players in the NFLTeamManager", Optional.ofNullable(teamManager.getAllAvailablePlayersByADP()).map(x -> x.size()).orElse(0));
 	}
 
 }

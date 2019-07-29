@@ -2,8 +2,8 @@ package com.falifa.draftbuddy.ui.model.player;
 
 import com.falifa.draftbuddy.ui.constants.NflTeam;
 import com.falifa.draftbuddy.ui.constants.Position;
+import com.falifa.draftbuddy.ui.model.player.stats.PlayerPositionalStats;
 import com.falifa.draftbuddy.ui.model.player.stats.RawStatsDetails;
-import com.falifa.draftbuddy.ui.model.player.stats.positional.PlayerPositionalStats;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class Player {
@@ -23,7 +23,6 @@ public class Player {
 	private PlayerPositionalStats positionalStats;
 
 	private RankMetadata rankMetadata;
-	private NflTeamMetadata nflTeamMetadata;
 	private OffensiveLineMetadata offensiveLineMetadata;
 	private PictureMetadata pictureMetadata;
 	private NotesMetadata notesMetadata;
@@ -33,7 +32,6 @@ public class Player {
 		this.priorRawStatsDetails = new RawStatsDetails();
 		this.projectedRawStatsDetails = new RawStatsDetails();
 		this.rankMetadata = new RankMetadata();
-		this.nflTeamMetadata = new NflTeamMetadata();
 		this.offensiveLineMetadata = new OffensiveLineMetadata();
 		this.pictureMetadata = new PictureMetadata();
 		this.notesMetadata = new NotesMetadata();
@@ -128,14 +126,6 @@ public class Player {
 
 	public void setRankMetadata(RankMetadata rankMetadata) {
 		this.rankMetadata = rankMetadata;
-	}
-
-	public NflTeamMetadata getNflTeamMetadata() {
-		return nflTeamMetadata;
-	}
-
-	public void setNflTeamMetadata(NflTeamMetadata nflTeamMetadata) {
-		this.nflTeamMetadata = nflTeamMetadata;
 	}
 
 	public OffensiveLineMetadata getOffensiveLineMetadata() {

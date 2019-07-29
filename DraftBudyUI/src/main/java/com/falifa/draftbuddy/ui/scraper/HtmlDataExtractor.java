@@ -15,6 +15,7 @@ import com.falifa.draftbuddy.ui.scraper.extractor.NotesExtractor;
 import com.falifa.draftbuddy.ui.scraper.extractor.PositionalProjectionsExtractor;
 import com.falifa.draftbuddy.ui.scraper.extractor.RankingExtractor;
 import com.falifa.draftbuddy.ui.scraper.extractor.RookieRankingExtractor;
+import com.falifa.draftbuddy.ui.scraper.extractor.TargetLeadersExtractor;
 import com.jaunt.UserAgent;
 
 @Component
@@ -36,6 +37,9 @@ public class HtmlDataExtractor {
 	
 	@Autowired
 	private PositionalProjectionsExtractor positionalProjectionsExtractor;
+	
+	@Autowired
+	private TargetLeadersExtractor targetLeadersExtractor;
 	
 
 	public Map<String, Player> extractPlayerDataFromFantasyProsRankings(String htmlTable) {
@@ -97,6 +101,19 @@ public class HtmlDataExtractor {
 			success = positionalProjectionsExtractor.extractPositionalProjectionDataFromElement(userAgent.openContent(htmlTable).findFirst("<table>"));
 		} catch (Exception e) {
 			log.error("Error extracting Positional Projections data from html table :: " + position, e);
+		} finally {
+			try { userAgent.close(); } catch (IOException e) { e.printStackTrace(); }
+		}
+		return success;
+	}
+
+	public boolean extractPlayerDataFromFantasyProsTargetLeaders(String htmlTable) {
+		UserAgent userAgent = new UserAgent();
+		boolean success = false;
+		try {
+			success = targetLeadersExtractor.extractTargetLeaderDataFromElement(userAgent.openContent(htmlTable).findFirst("<table>"));
+		} catch (Exception e) {
+			log.error("Error extracting Target Leaders data from html table", e);
 		} finally {
 			try { userAgent.close(); } catch (IOException e) { e.printStackTrace(); }
 		}

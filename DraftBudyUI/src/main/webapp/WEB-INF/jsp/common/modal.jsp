@@ -33,8 +33,8 @@
 										</h3></li>
 										<li class="list-group-item modal-list-item">
 											<h3><strong>Prev Season Targets: </strong>
-												<span class="modal-spacer">Avg:<span class="modal-spacer">${player.getAvgTargets()}</span></span>
-												<span class="modal-spacer">Total:<span class="modal-spacer">${player.getTotalTargets()}</span></span>
+												<span class="modal-spacer">Avg:<span class="modal-spacer">${player.getPositionalStats().getPriorAverageTargetsPerGame()}</span></span>
+												<span class="modal-spacer">Total:<span class="modal-spacer">${player.getPositionalStats().getPriorTotalTargets()}</span></span>
 											</h3>
 										</li>
 										<li class="list-group-item modal-list-item">
@@ -57,15 +57,15 @@
 							</ul>
 						</div>
 					</div>
-					<c:if test="${!player.getProjectedPts().equals('-')}">
+					<c:if test="${!player.getPositionalStats().getProjectedTotalPoints().equals('-')}">
 						<div class="row proj-row"> 
 							<div class="col-sm-2 proj-title-box">
 								<div class="row proj-stat-header-text proj-title"><strong>Proj Pts:</strong></div>
-								<div class="row proj-stat-text-title proj-stat-text proj-title proj-title-bottom">${player.getProjectedPts()}</div>
+								<div class="row proj-stat-text-title proj-stat-text proj-title proj-title-bottom">${player.getPositionalStats().getProjectedTotalPoints()}</div>
 							</div>
 							<div class="col-sm-10 proj-stats-box">
 								<div class="proj-stat-box-header"><strong>Proj:</strong></div>
-								<c:forEach items="${player.getProjectedStats().entrySet()}" var="stat">
+								<c:forEach items="${player.getProjectedRawStatsDetails().getStats().entrySet()}" var="stat">
 									<div class="proj-stat-box">
 										<div class="row proj-stat-header-text"><strong>${stat.getKey()}</strong></div>
 										<div class="row proj-stat-text">${stat.getValue()}</div>

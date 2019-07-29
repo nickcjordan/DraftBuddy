@@ -50,7 +50,7 @@
 							</c:choose>
 						</a>
 					</td>
-					<td class="proj-pts-posList"><strong>${player.projectedPts}</strong></td>
+					<td class="proj-pts-posList"><strong>${player.getPositionalStats().getProjectedTotalPoints()}</strong></td>
 					
 					<td class="value-posList">
 						<%@include file="../common/valueBadge.jsp"%>

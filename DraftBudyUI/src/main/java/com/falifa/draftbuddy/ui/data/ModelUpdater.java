@@ -3,6 +3,7 @@ package com.falifa.draftbuddy.ui.data;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map.Entry;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +16,9 @@ import com.falifa.draftbuddy.ui.logic.LogicHandler;
 import com.falifa.draftbuddy.ui.manager.NFLTeamManager;
 import com.falifa.draftbuddy.ui.model.Drafter;
 import com.falifa.draftbuddy.ui.model.NFLTeam;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 
 @Component
 public class ModelUpdater {
@@ -36,7 +40,8 @@ public class ModelUpdater {
 		updateCurrentDrafterAttributes(currentDrafter, model);
 		updateDraftStateAttributes(model);
       	updateNflTeamListsAttributes(model);
-      	log.info("Models updated for common");
+      	log.info("Models updated for all fields :: updated for drafter={}", currentDrafter.getName());
+      	printModel(model);
 	}
 	
 	private void updateCommonAttributesSubset(Model model) {
@@ -47,13 +52,14 @@ public class ModelUpdater {
 		model.addAttribute("allPlayersList", nflTeams.getAllAvailablePlayersByADP());
 		model.addAttribute("error", draftState.errorMessage);
 		log.info("Models updated for common subset");
+		printModel(model);
 	}
 
 	public void updateCurrentDrafterAttributes(Drafter currentDrafter, Model model) {
 		model.addAttribute("currentDrafter", currentDrafter);
 		model.addAttribute("currentDraftedTeam", currentDrafter.getDraftedTeam());
 		model.addAttribute("draftersPickNumberList", handler.getDraftPickIndexList(currentDrafter));
-		model.addAttribute("playersSortedBySuggestions", currentDrafter.getName().equals("Nick J") ? handler.getMySuggestions(currentDrafter) : handler.getAiPick(currentDrafter));
+		model.addAttribute("playersSortedBySuggestions", handler.getSortedSuggestedPlayers(currentDrafter));
 		for (Position position : Position.values()) {
 			model.addAttribute("drafted" + position.getAbbrev(), draftState.currentDrafter.getDraftedTeam().getPlayersByPosition(position)); 
 		}
@@ -126,6 +132,17 @@ public class ModelUpdater {
     	model.addAttribute("pickNumber", draftState.pickNumber);
     	updateCommonAttributesSubset(model);
     	log.info("Models updated for draftboard page");
+	}
+	
+	private void printModel(Model model) {
+		ObjectWriter writer = new ObjectMapper().writer();
+//		for (Entry<String, Object> entry : model.asMap().entrySet()) {
+//			try {
+//				System.out.println("\n\n\t" + entry.getKey() + ":\n" + writer.writeValueAsString(entry.getValue()) + "\n\n");
+//			} catch (JsonProcessingException e) {
+//				e.printStackTrace(); // TODO
+//			}
+//		}
 	}
 	
 }

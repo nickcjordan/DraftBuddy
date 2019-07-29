@@ -60,7 +60,7 @@
 							</c:choose>
 						</a>
 					</td>
-					<td class="proj-pts-suggest"><strong>${player.projectedPts}</strong></td>
+					<td class="proj-pts-suggest"><strong>${player.getPositionalStats().getProjectedTotalPoints()}</strong></td>
 					
 					<td class="value-suggest">
 						<%@include file="../common/valueBadge.jsp"%>

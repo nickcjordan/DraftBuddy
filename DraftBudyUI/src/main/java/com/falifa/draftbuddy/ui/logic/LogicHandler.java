@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
@@ -38,6 +39,7 @@ public class LogicHandler {
 	@Autowired
 	private RandomIndexGenerator randomGenerator;
 
+	
 	private Properties props;
 	
 	public LogicHandler() {
@@ -45,45 +47,70 @@ public class LogicHandler {
 		try {
 			props.load(new FileInputStream(new File("src/main/resources/application.properties")));
 		} catch (IOException e) {
-			e.printStackTrace(); // TODO
+			log.error("ERROR loading properties from LogicHandler properties files", e);
 		}
 	}
 	
-	public List<Player> getMySuggestions(Drafter currentDrafter) {
+	public List<Player> getSortedSuggestedPlayers(Drafter currentDrafter) {
+		return currentDrafter.isOptimized() ? getOptimizedSuggestions(currentDrafter) : getAiSuggestions(currentDrafter);
+	}
+	
+	public List<Player> getOptimizedSuggestions(Drafter currentDrafter) {
 		List<Player> suggestions = getPlayersForPositionsThatAreEmptyIfLateInDraft(currentDrafter);
 		if (CollectionUtils.isEmpty(suggestions)) {
 			suggestions = nflTeams.getAllAvailablePlayersByADP().stream().filter(p -> 
 				isAtLeastInitialRoundForPosition(p) &&
-				positionSlotIsNotFull(p, currentDrafter) && 
-				hasNotFilledEarlyRoundMaxForPositionCount(p, currentDrafter) // if already drafted a qb or te, probably want to wait until later to relook at them
+				positionSlotIsNotFull(p, currentDrafter) //&& 
+//				hasNotFilledEarlyRoundMaxForPositionCount(p, currentDrafter) // if already drafted a qb or te, probably want to wait until later to relook at them
 			).collect(Collectors.toList());
-			doTagLogic(suggestions);
+			reorderSuggestionsBasedOnTagLogic(suggestions);
+		}
+		return suggestions;
+	}
+	
+	public Player getAiPick(Drafter currentComputerDrafter) {
+		List<Player> suggestedAiList = getAiSuggestions(currentComputerDrafter);
+		return draftState.mockDraftMode ? suggestedAiList.get(randomGenerator.generate(draftState.pickNumber, draftState.roundNum)) : suggestedAiList.get(0);
+	}
+	
+	public List<Player> getAiSuggestions(Drafter currentComputerDrafter) {
+		List<Player> suggestions = getPlayersForPositionsThatAreEmptyIfLateInDraft(currentComputerDrafter);
+		if (CollectionUtils.isEmpty(suggestions)) {
+			suggestions = nflTeams.getAllAvailablePlayersByADP().stream().filter(p -> positionSlotIsNotFull(p, currentComputerDrafter)).collect(Collectors.toList());
 		}
 		return suggestions;
 	}
 	
 	private boolean isAtLeastInitialRoundForPosition(Player p) {
+		if (p.getPosition() == null) { return false; }
 		try {
 			return (draftState.getCurrentRoundNumber() >= prop(p.getPosition().getAbbrev().toLowerCase() + "Init"));
 		} catch (Exception e) {
+			log.error("ERROR in isAtLeastInitialRoundForPosition for player=" + p.getPlayerName());
 			return false;
 		}
 	}
 
-	private boolean hasNotFilledEarlyRoundMaxForPositionCount(Player p, Drafter currentDrafter) {
-		try {
-			return (p.getPosition().equals(Position.QUARTERBACK) || (p.getPosition().equals(Position.TIGHTEND))) 
-					&&	(currentDrafter.getDraftedTeam().getPlayersByPosition(p.getPosition()).size() > 0) // has at least 1 player?
-					&&	(draftState.getCurrentRoundNumber() < prop("te_qb_reintroduceRound")); // late enough in the draft for qb and te?
-		} catch (Exception e) {
-			return false;
-		}
-	}
+//	private boolean hasNotFilledEarlyRoundMaxForPositionCount(Player p, Drafter currentDrafter) {
+//		if (p.getPosition() == null) { return false; }
+//		try {
+//			if (p.getPosition().equals(Position.QUARTERBACK) || (p.getPosition().equals(Position.TIGHTEND))) {
+//				return (currentDrafter.getDraftedTeam().getPlayersByPosition(p.getPosition()).size() > 0) // has at least 1 player?
+//				&&	(draftState.getCurrentRoundNumber() < prop("te_qb_reintroduceRound")); // late enough in the draft for qb and te?
+//				
+//			}
+//		} catch (Exception e) {
+//			log.error("ERROR in hasNotFilledEarlyRoundMaxForPositionCount for player=" + p.getPlayerName());
+//			return false;
+//		}
+//	}
 
 	private boolean positionSlotIsNotFull(Player p, Drafter currentDrafter) {
+		if (p.getPosition() == null) { return false; }
 		try {
-			return (currentDrafter.getDraftedTeam().getPlayersByPosition(p.getPosition()).size() >= prop(p.getPosition().getAbbrev().toLowerCase() + "Limit"));
+			return (currentDrafter.getDraftedTeam().getPlayersByPosition(p.getPosition()).size() < prop(p.getPosition().getAbbrev().toLowerCase() + "Limit"));
 		} catch (Exception e) {
+			log.error("ERROR in positionSlotIsNotFull for player=" + p.getPlayerName());
 			return false;
 		}
 	}
@@ -104,14 +131,6 @@ public class LogicHandler {
 	}
 	
 	
-	public Player getAiPick(Drafter currentComputerDrafter) {
-		List<Player> suggestions = getPlayersForPositionsThatAreEmptyIfLateInDraft(currentComputerDrafter);
-		if (CollectionUtils.isEmpty(suggestions)) {
-			suggestions = nflTeams.getAllAvailablePlayersByADP().stream().filter(p -> positionSlotIsNotFull(p, currentComputerDrafter)).collect(Collectors.toList());
-		}
-		return draftState.mockDraftMode ? suggestions.get(randomGenerator.generate(draftState.pickNumber, draftState.roundNum)) : suggestions.get(0);
-	}
-	
 	public List<Integer> getDraftPickIndexList(Drafter currentDrafter) {
 		List<Integer> list = new ArrayList<Integer>();
 		int nextRoundNum = draftState.roundNum + 1;
@@ -126,14 +145,16 @@ public class LogicHandler {
 	}
 	
 	
-	private void doTagLogic(List<Player> suggestions) {
+	private void reorderSuggestionsBasedOnTagLogic(List<Player> suggestions) {
 		ArrayList<Player> copy = new ArrayList<Player>(suggestions);
 		for (Player player : copy) {
-			for (Tag tag : Tag.values()) {
-				if (player.getDraftingDetails().getTags().contains(tag.getTag())) {
-					shiftPlayerByTag(tag, player, suggestions);
+			try {
+				for (Tag tag : Tag.values()) {
+					if (player.getDraftingDetails().getTags().contains(tag.getTag())) {
+						shiftPlayerByTag(tag, player, suggestions);
+					}
 				}
-			}
+			} catch (NullPointerException e){  }
 		}
 	}
 	

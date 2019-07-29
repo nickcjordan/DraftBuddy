@@ -7,6 +7,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
 
@@ -16,6 +17,7 @@ import com.falifa.draftbuddy.ui.data.DraftState;
 import com.falifa.draftbuddy.ui.data.ModelUpdater;
 import com.falifa.draftbuddy.ui.exception.FalifaException;
 import com.falifa.draftbuddy.ui.logic.LogicHandler;
+import com.falifa.draftbuddy.ui.model.Draft;
 import com.falifa.draftbuddy.ui.model.DraftPick;
 import com.falifa.draftbuddy.ui.model.Drafter;
 import com.falifa.draftbuddy.ui.model.Team;
@@ -26,6 +28,9 @@ import com.falifa.draftbuddy.ui.results.ResultsProcessor;
 public class DraftManager {
 	
 	private static final Logger log = LoggerFactory.getLogger(DraftManager.class);
+	
+	@Value("${optimizedDrafterName}")
+	private String optimizedDrafterName;
 	
 	@Autowired
 	private DraftState draftState;
@@ -40,22 +45,20 @@ public class DraftManager {
 	private ModelUpdater modelUpdater;
 	
 	public String mockDraft(Drafter currentDrafter, Model model) throws FalifaException {
-    	if (currentDrafter.getName().equals("Nick J")) {
-    		return "pages/dashboardPage";
-		}
+    	if (currentDrafter.getName().equals(optimizedDrafterName)) { return "pages/dashboardPage"; }
 		Player player = handler.getAiPick(draftState.currentDrafter);
 		doBaseDraft(player, currentDrafter, model);
     	return draftHasCompleted() ? prepareResults(model) : mockDraft(currentDrafter, model);
     }
     
     public String autoDraft(Drafter currentDrafter, Model model) throws FalifaException {
-    	Player player = (draftState.currentDrafter.getName().equals("Nick J")) ? handler.getMySuggestions(draftState.currentDrafter).get(0) : handler.getAiPick(draftState.currentDrafter);
+    	Player player = (draftState.currentDrafter.getName().equals(optimizedDrafterName)) ? handler.getOptimizedSuggestions(draftState.currentDrafter).get(0) : handler.getAiPick(draftState.currentDrafter);
     	doBaseDraft(player, currentDrafter, model);
     	return draftHasCompleted() ? prepareResults(model) : autoDraft(currentDrafter, model);
     }
     
 	public String resolvePlayerId(String playerId) {
-		return !playerId.isEmpty() ? playerId : draftState.currentDrafter.getName().equals("Nick J") ? handler.getMySuggestions(draftState.currentDrafter).get(0).getFantasyProsId() : handler.getAiPick(draftState.currentDrafter).getFantasyProsId();
+		return !playerId.isEmpty() ? playerId : draftState.currentDrafter.getName().equals(optimizedDrafterName) ? handler.getOptimizedSuggestions(draftState.currentDrafter).get(0).getFantasyProsId() : handler.getAiPick(draftState.currentDrafter).getFantasyProsId();
 	}
 
     public String prepareResults(Model model) {
@@ -72,7 +75,7 @@ public class DraftManager {
 		Collections.sort(draftState.draftPicks, new DraftSelectionOrderComparator());
 		checkIfEndOfRound();
 		draftState.moveToNextDrafter();
-//		NFLBuilder.populateCurrentPlayerValue();
+		nflTeams.setCurrentPlayerValue();
 		setCorrectHandcuffsForCurrentDrafter(currentDrafter);
 		modelUpdater.updateCommonAttributes(currentDrafter, model);
 	}
@@ -140,5 +143,13 @@ public class DraftManager {
 			team.getD().add(player);
 		}
 }
+
+	public void setOptimizedDrafter(Draft draft) {
+		 for (Drafter drafter : draft.getDrafters()) {
+			 if (drafter.getName().equals(optimizedDrafterName)) {
+				 drafter.setOptimized(true);
+			 }
+		 }
+	}
 
 }

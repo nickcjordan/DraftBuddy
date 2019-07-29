@@ -45,6 +45,9 @@ public class HtmlDataFileParser {
 		return pullTableHtmlOutOfFile(FANTASYPROS_ROOKIES_RANKINGS_HTML_FILE_PATH, "<table id=\"rank-data\">");
 	}
 
+	public String parseTableDataFromFantasyProsTargetLeaders() {
+		return pullTableHtmlOutOfFile(FANTASYPROS_TARGET_LEADERS_HTML_FILE_PATH, "<table id=\"data\">");
+	}
 
 	public String parseTableDataFromFantasyProsPositionalProjections(String position) {
 		return pullTableHtmlOutOfFile(DataSourcePaths.buildPositionalPath(position, FANTASYPROS_POSITIONAL_PROJECTIONS_BASE_HTML_FILE_PATH), "<table id=\"data\">");
@@ -64,5 +67,6 @@ public class HtmlDataFileParser {
 		}
 		return html;
 	}
+
 
 }
