@@ -11,9 +11,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.falifa.draftbuddy.ui.constants.DraftType;
 import com.falifa.draftbuddy.ui.data.DraftState;
 import com.falifa.draftbuddy.ui.data.ModelUpdater;
-import com.falifa.draftbuddy.ui.exception.FalifaException;
-import com.falifa.draftbuddy.ui.manager.DraftManager;
-import com.falifa.draftbuddy.ui.manager.NFLTeamManager;
+import com.falifa.draftbuddy.ui.data.NFLTeamManager;
+import com.falifa.draftbuddy.ui.drafting.DraftManager;
 import com.falifa.draftbuddy.ui.model.Draft;
 import com.falifa.draftbuddy.ui.model.Drafter;
 import com.falifa.draftbuddy.ui.model.player.Player;
@@ -43,9 +42,9 @@ public class DraftController {
 		return "home";
 	}
 	
-	// to hit this with "type" --> "http://localhost:8080/init?appRunType=type"
+	// to hit this with "type" --> "http://localhost:8080/start?appRunType=type"
 	@RequestMapping(value = "/start")
-	public String start(@RequestParam(required=false, defaultValue="real") String appRunType, Model model) throws FalifaException {
+	public String start(@RequestParam(required=false, defaultValue="real") String appRunType, Model model) {
 		init(model);
 		draftState.mockDraftMode = (appRunType.equalsIgnoreCase("mock") || appRunType.equalsIgnoreCase("auto"));
 		draftState.draftType = DraftType.getDraftType(appRunType);
@@ -53,25 +52,25 @@ public class DraftController {
 		draftState.draft = new Draft(draftState.draftType.getOrder());
 		draftState.currentDrafter = draftState.draft.getDrafters().get(0);
 		draftManager.setOptimizedDrafter(draftState.draft);
-		modelUpdater.updateCommonAttributes(draftState.currentDrafter, model);
-		return (draftState.draftType.equals(DraftType.AUTO_DRAFT)) ? draftManager.autoDraft(draftState.currentDrafter, model) 
-				: (draftState.draftType.equals(DraftType.MOCK_DRAFT ))  ? draftManager.mockDraft(draftState.currentDrafter, model) : "pages/dashboardPage";
+		modelUpdater.updateCommonAttributes(model);
+		return (draftState.draftType.equals(DraftType.AUTO_DRAFT)) ? draftManager.autoDraft(model) 
+				: (draftState.draftType.equals(DraftType.MOCK_DRAFT ))  ? draftManager.mockDraft(model) : "pages/dashboardPage";
 	}
 
 	@RequestMapping(value = "/pickPlayer")
-    public String doPickForDrafter(@RequestParam(defaultValue="") String playerId, Model model) throws FalifaException {
-		Drafter current = draftState.getCurrentDrafter();
+    public String doPickForDrafter(@RequestParam(defaultValue="") String playerId, Model model) {
 		draftState.setErrorMessage(null);
 		Player player = nflTeams.getPlayerById(draftManager.resolvePlayerId(playerId));
 		log.info("doPickForDrafter :: picking player " + player.getPlayerName());
 		if (!player.getDraftingDetails().isAvailable()) {
-			log.error("doPickForDrafter : " + current.getName() + " :: player " + player.getPlayerName() + " is not available");
-			modelUpdater.updateCommonAttributes(current, model);
+			log.error("doPickForDrafter : " + draftState.getCurrentDrafter().getName() + " :: player " + player.getPlayerName() + " is not available");
 			draftState.setErrorMessage(player.getPlayerName() + " is not available");
+			modelUpdater.updateCommonAttributes(model);
 			return "pages/dashboardPage";
 		}
-		draftManager.doBaseDraft(player, current, model);
-    	return draftManager.draftHasCompleted() ? draftManager.prepareResults(model) : draftState.mockDraftMode ? draftManager.mockDraft(current, model) : "pages/dashboardPage";
+		draftManager.doBaseDraft(player, model);
+    	return draftManager.draftHasCompleted() ? draftManager.prepareResults(model) 
+    			: draftState.mockDraftMode ? draftManager.mockDraft(model) : "pages/dashboardPage";
     }
 
 }

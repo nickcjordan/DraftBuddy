@@ -12,7 +12,6 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 import com.falifa.draftbuddy.ui.constants.DraftType;
-import com.falifa.draftbuddy.ui.manager.NFLTeamManager;
 import com.falifa.draftbuddy.ui.model.Draft;
 import com.falifa.draftbuddy.ui.model.DraftPick;
 import com.falifa.draftbuddy.ui.model.Drafter;
@@ -46,31 +45,13 @@ public class DraftState {
 	public DraftState() {}
 	
 	public void initializeDraft() {
-    	strategyByRound = getStrategyFromFile();
     	errorMessage = null;
-    	draftPicks = new ArrayList<>();
+    	draftPicks = new ArrayList<DraftPick>();
     	roundNum = 1;
     	pickNumber = 1;
     	draftOrderIndex = 0;
-//    	StatsCleaner.cleanupTags();
-//    	StatsCleaner.cleanupNickNotes();
-    	
     	System.out.println("\n\n<^>     Ready to Draft     <^>\n\n");
 	}
-
-	protected Map<String, RoundSpecificStrategy> getStrategyFromFile() {
-		Map<String, RoundSpecificStrategy> map = new HashMap<String, RoundSpecificStrategy>();
-//		try {
-//			for (List<String> split : new DataFileReader().getSplitLinesFromFile(DRAFTSTRATEGY_CUSTOM_PATH, true, ",")) {
-//				RoundSpecificStrategy strategy = buildStrategy(split);
-//				map.put(strategy.getRound(), strategy);
-//			}
-//		} catch (FileNotFoundException e) {
-//			log.error("ERROR :: could not find strategies file: " + e.getMessage());
-//		}
-		return map;
-	}
-	
 
 	public List<Drafter> getCorrectlyOrderedDrafterList() {
 		List<Drafter> drafterList = new ArrayList<Drafter>(draft.getDrafters());
@@ -80,29 +61,12 @@ public class DraftState {
 		return drafterList;
 	}
 
-	private RoundSpecificStrategy buildStrategy(List<String> split) {
-		RoundSpecificStrategy strategy = new RoundSpecificStrategy();
-		strategy.setRound(split.get(0));
-		strategy.setStrategyText(split.get(1));
-		strategy.setTargetPositions(split.get(2));
-		strategy.setTargetPlayers(buildListOfTargetPlayers(split));
-		return strategy;
-	}
-
-	private List<String> buildListOfTargetPlayers(List<String> split) {
-		List<String> players = new ArrayList<String>();
-		for (int i = 3; i < split.size(); i++) {
-			players.add(split.get(i));
-		}
-		return players;
-	}
-
 	public double getPercent() {
 		double percent = 0;
 		if (pickNumber == 1) {
 			return 0;
 		}
-//		percent = (((pickNumber - 1) / (NUMBER_OF_ROUNDS * draft.getDrafters().size())) * 100);
+		percent = (((pickNumber - 1) / (NUMBER_OF_ROUNDS * draft.getDrafters().size())) * 100);
 		double x = (NUMBER_OF_ROUNDS * draft.getDrafters().size());
 		double y = ((pickNumber - 1) / x);
 		double perc = (y * 100);
@@ -113,10 +77,6 @@ public class DraftState {
 		return percent;
 	}
 	
-//	public List<Player> getSuggestedAvailablePlayers(Drafter drafter) {
-//		return new LogicHandler(drafter).getMySuggestions();
-//	}
-    
 	public int getPickNumber() {
 		return pickNumber;
 	}
@@ -125,8 +85,9 @@ public class DraftState {
 		return roundNum;
 	}
 	
-	public void moveToNextDrafter() {
+	public Drafter moveToNextDrafter() {
 		currentDrafter = draft.getDrafters().get(++draftOrderIndex);
+		return currentDrafter;
 	}
 
 	public Drafter getCurrentDrafter() {
@@ -184,14 +145,6 @@ public class DraftState {
 	public void setStrategyByRound(Map<String, RoundSpecificStrategy> strategyByRound) {
 		this.strategyByRound = strategyByRound;
 	}
-
-//	public List<Player> getCurrentRoundHandcuffs() {
-//		return currentRoundHandcuffs;
-//	}
-//
-//	public void setCurrentRoundHandcuffs(List<Player> currentRoundHandcuffs) {
-//		this.currentRoundHandcuffs = currentRoundHandcuffs;
-//	}
 
 	public NFLTeamManager getNflTeams() {
 		return nflTeams;

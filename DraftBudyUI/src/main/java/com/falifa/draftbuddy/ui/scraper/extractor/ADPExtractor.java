@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.falifa.draftbuddy.ui.constants.NflTeam;
+import com.falifa.draftbuddy.ui.constants.NflTeamMetadata;
 import com.falifa.draftbuddy.ui.model.player.Player;
 import com.falifa.draftbuddy.ui.scraper.JsonDataFileManager;
 import com.jaunt.Element;
@@ -46,7 +46,7 @@ public class ADPExtractor {
 			newPlayer.setFantasyProsId(fantasyProsId);
 			newPlayer.setPlayerName(name);
 			newPlayer.getRankMetadata().setAdp(pprAdp);
-			newPlayer.setTeam(NflTeam.findNflTeamFromAbbreviation(teamNameAbbrev));
+			newPlayer.setTeam(NflTeamMetadata.findNflTeamFromAbbreviation(teamNameAbbrev));
 			playerManager.addUpdatedPlayer(fantasyProsId, newPlayer);
 		} 
 	}

@@ -5,8 +5,8 @@ import com.falifa.draftbuddy.ui.model.player.Player;
 public enum Tag {
 
 	RISK("!", 0, "glyphicon glyphicon-exclamation-sign"),
-	SLEEPER("$", 2, "glyphicon glyphicon-usd"),
-	ROOKIE("R", 1, "glyphicon glyphicon-registration-mark"),
+	SLEEPER("$", 1, "glyphicon glyphicon-usd"),
+	ROOKIE("R", 0, "glyphicon glyphicon-registration-mark"),
 	NEW_TEAM("@", 0, "glyphicon glyphicon-share-alt"),
 	FAVORITE("*", 3, "glyphicon glyphicon-thumbs-up"),
 	RISING("+", 1, "glyphicon glyphicon-arrow-up"),

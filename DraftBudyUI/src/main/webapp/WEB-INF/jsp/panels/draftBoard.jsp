@@ -6,13 +6,13 @@
 			<thead class="thead-inverse">
 				<tr>
 					<th class="drafted-id">#</th>
-					<c:forEach items="${draft.getOrderedNames()}" var="drafter">
+					<c:forEach items="${draft.getDraft().getOrderedNames()}" var="drafter">
 						<th class="drafted-name">${drafter}</th>
 					</c:forEach>
 				</tr>
 			</thead>
 			<tbody class="draft-board">
-				<c:forEach var = "i" begin = "0" end = "${roundNumber - 1}">
+				<c:forEach var = "i" begin = "0" end = "${draftState.roundNum - 1}">
 					<tr>
 						<td class="drafted-id2"><strong>${i+1}</strong></td>
 						<c:forEach items="${drafters}" var="drafter">
@@ -21,7 +21,7 @@
 							    <c:when test="${drafter.getDraftedTeam().getAllInDraftedOrder().size() > i }">
 									<c:set var="player" value="${drafter.getDraftedTeam().getAllInDraftedOrder().get(i)}" scope="page"/>
 							    	<td class="drafted">
-							    		<a class="nameLink" data-toggle="modal" data-target="#${drafter.getDraftedTeam().getAllInDraftedOrder().get(i).id}playerModal">
+							    		<a class="nameLink" data-toggle="modal" data-target="#${player.getFantasyProsId()}playerModal">
 							    			<c:choose>
 												<c:when test="${player.getPosition().getAbbrev().equals('QB')}"><span class="badge badge-warning draft-board-badge">${player.getPosition().getAbbrev()} ${player.getRankMetadata().getPositionRank()}</span></c:when>
 												<c:when test="${player.getPosition().getAbbrev().equals('RB')}"><span class="badge badge-info draft-board-badge">${player.getPosition().getAbbrev()} ${player.getRankMetadata().getPositionRank()}</span></c:when>

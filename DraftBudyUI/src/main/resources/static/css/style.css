@@ -1343,6 +1343,13 @@ html, body {
 
 .update-data-files-button {
 	background-color: #6a6a6a;
+	font-size: 12pt;
+}
+.intro-alternate {
+	text-align: center;
+	padding-top: 100px;
+	padding-left: 20px;
+	opacity: 0.4;
 }
 
 .proj-stat-box {

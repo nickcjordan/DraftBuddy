@@ -1,4 +1,4 @@
-package com.falifa.draftbuddy.ui.comparator;
+package com.falifa.draftbuddy.ui.drafting.sort;
 
 import java.util.Comparator;
 

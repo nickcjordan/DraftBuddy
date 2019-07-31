@@ -1,4 +1,4 @@
-package com.falifa.draftbuddy.ui.logic;
+package com.falifa.draftbuddy.ui.drafting;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,13 +25,8 @@ public class RandomIndexGenerator {
 	@Value( "${percent5}" )
 	private int perc5;
 	
-	private List<Integer> percentageList;
-	
-	public RandomIndexGenerator() {
-		this.percentageList = buildPercentages();
-	}
-	
 	public int generate(int pickNumber, int roundNumber) {
+		List<Integer> percentageList = buildPercentages();
 		if (pickNumber < aiVariabilityRound) {
 			return 0; // first X picks are set to standard ADP
 		}

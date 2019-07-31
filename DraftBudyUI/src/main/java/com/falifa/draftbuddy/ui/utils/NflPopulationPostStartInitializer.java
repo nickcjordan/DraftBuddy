@@ -9,7 +9,7 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
-import com.falifa.draftbuddy.ui.manager.NFLTeamManager;
+import com.falifa.draftbuddy.ui.data.NFLTeamManager;
 
 @Component
 public class NflPopulationPostStartInitializer implements ApplicationListener<ContextRefreshedEvent> {

@@ -50,7 +50,7 @@ public class PlayerNameMatcher {
 		return fullName.split(" ")[1];
 	}
 
-	public String checkForClosestMatch(String fullName) {
+	public String findIdForClosestMatchingName(String fullName) {
 		String id = null;
 		String original = null;
 		String filteredOriginal = null;

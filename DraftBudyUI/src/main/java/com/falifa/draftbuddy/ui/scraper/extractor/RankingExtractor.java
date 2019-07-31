@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.falifa.draftbuddy.ui.constants.NflTeam;
+import com.falifa.draftbuddy.ui.constants.NflTeamMetadata;
 import com.falifa.draftbuddy.ui.constants.Position;
 import com.falifa.draftbuddy.ui.model.player.Player;
 import com.falifa.draftbuddy.ui.scraper.JsonDataFileManager;
@@ -86,7 +86,7 @@ public class RankingExtractor {
 	private void handleMetaDataRow(Element dataElement, Player p) throws NotFound {
 		p.setFantasyProsId(dataElement.getAt("data-id"));
 		p.setPlayerName(dataElement.getAt("data-name"));
-		p.setTeam(NflTeam.findNflTeamFromAbbreviation(dataElement.getAt("data-team")));
+		p.setTeam(NflTeamMetadata.findNflTeamFromAbbreviation(dataElement.getAt("data-team")));
 		String pos = dataElement.getAt("data-position");
 		p.setPosition(Position.get(pos));
 		if (pos.equalsIgnoreCase(Position.DEFENSE.getAbbrev())) {

@@ -26,7 +26,7 @@
 					<ul
 						class="nav nav2 nav-pills nav-stacked nav2-stacked nav-stacked-teams">
 						<c:forEach items="${allTeams}" var="currentTeam">
-							<li><a href="/nflTeams?teamId=${currentTeam.id}">${currentTeam.fullName}</a></li>
+							<li><a href="/nflTeams?teamId=${currentTeam.getTeam().getAbbreviation()}">${currentTeam.getTeam().getFullName()}</a></li>
 						</c:forEach>
 					</ul>
 				</div>

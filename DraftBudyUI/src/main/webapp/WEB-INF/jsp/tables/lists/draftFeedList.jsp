@@ -10,15 +10,15 @@
 			</tr>
 		</thead>
 		<tbody>
-			<c:forEach items="${draftPicks}" var="pick">
+			<c:forEach items="${draft.getDraftPicks()}" var="pick">
 				<tr>
 					<td class="P-num">${pick.round}.<strong>${pick.pick}</strong></td>
 					<c:choose>
-						<c:when test="${pick.drafter.name.equals('Nick J') || pick.drafter.name.equals(currentDrafter.name)}">
-							<td class="Drafter"><b>${pick.drafter.name}</b></td>
+						<c:when test="${pick.drafter.getName().equals('Nick J') || pick.drafter.getName().equals(currentDrafter.getName())}">
+							<td class="Drafter"><b>${pick.drafter.getName()}</b></td>
 						</c:when>
 						<c:otherwise>
-							<td class="Drafter">${pick.drafter.name}</td>
+							<td class="Drafter">${pick.drafter.getName()}</td>
 						</c:otherwise>
 					</c:choose>
 					
@@ -46,7 +46,7 @@
 					</c:choose>
 					
 					<c:choose>
-						<c:when test="${pick.drafter.name.equals(currentDrafter.name)}">
+						<c:when test="${pick.drafter.getName().equals(currentDrafter.getName())}">
 					<td class="Player"><a class="nameLink" data-toggle="modal" data-target="#${pick.player.getFantasyProsId()}playerModal"><b>${pick.player.getPlayerName()}</b></a></td>
 						</c:when>
 						<c:otherwise>

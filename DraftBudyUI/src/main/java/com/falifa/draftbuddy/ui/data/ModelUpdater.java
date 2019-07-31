@@ -3,6 +3,7 @@ package com.falifa.draftbuddy.ui.data;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import org.slf4j.Logger;
@@ -12,10 +13,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
 
 import com.falifa.draftbuddy.ui.constants.Position;
-import com.falifa.draftbuddy.ui.logic.LogicHandler;
-import com.falifa.draftbuddy.ui.manager.NFLTeamManager;
+import com.falifa.draftbuddy.ui.drafting.LogicHandler;
 import com.falifa.draftbuddy.ui.model.Drafter;
 import com.falifa.draftbuddy.ui.model.NFLTeam;
+import com.falifa.draftbuddy.ui.model.RoundSpecificStrategy;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
@@ -36,58 +37,43 @@ public class ModelUpdater {
 	@Autowired
 	private LogicHandler handler;
 
-	public void updateCommonAttributes(Drafter currentDrafter, Model model) {
-		updateCurrentDrafterAttributes(currentDrafter, model);
+	public void updateCommonAttributes(Model model) {
+		updateCurrentDrafterAttributes(model);
 		updateDraftStateAttributes(model);
       	updateNflTeamListsAttributes(model);
-      	log.info("Models updated for all fields :: updated for drafter={}", currentDrafter.getName());
+      	log.info("Models updated for all fields :: updated for drafter={}", draftState.getCurrentDrafter().getName());
       	printModel(model);
 	}
 	
 	private void updateCommonAttributesSubset(Model model) {
-		model.addAttribute("roundNumber", draftState.roundNum);
-		model.addAttribute("pickNumber", draftState.pickNumber);
-		model.addAttribute("progressPercent", draftState.getPercent());
-		model.addAttribute("currentRoundHandcuffs", draftState.currentRoundHandcuffs);
-		model.addAttribute("allPlayersList", nflTeams.getAllAvailablePlayersByADP());
 		model.addAttribute("error", draftState.errorMessage);
 		log.info("Models updated for common subset");
 		printModel(model);
 	}
 
-	public void updateCurrentDrafterAttributes(Drafter currentDrafter, Model model) {
-		model.addAttribute("currentDrafter", currentDrafter);
-		model.addAttribute("currentDraftedTeam", currentDrafter.getDraftedTeam());
-		model.addAttribute("draftersPickNumberList", handler.getDraftPickIndexList(currentDrafter));
-		model.addAttribute("playersSortedBySuggestions", handler.getSortedSuggestedPlayers(currentDrafter));
+	public void updateCurrentDrafterAttributes(Model model) {
+		model.addAttribute("currentDrafter", draftState.getCurrentDrafter());
+		model.addAttribute("draftersPickNumberList", handler.getDraftPickIndexList(draftState.getCurrentDrafter()));
+		model.addAttribute("playersSortedBySuggestions", handler.getSortedSuggestedPlayers(draftState.getCurrentDrafter()));
 		for (Position position : Position.values()) {
 			model.addAttribute("drafted" + position.getAbbrev(), draftState.currentDrafter.getDraftedTeam().getPlayersByPosition(position)); 
 		}
-		log.info("Models updated for drafter attributes");
+		log.info("Models updated for drafter={}", draftState.getCurrentDrafter().getName());
 	}
 
 	public void updateNflTeamListsAttributes(Model model) {
 		model.addAttribute("playersSortedByAdp", nflTeams.getAllAvailablePlayersByADP());
       	model.addAttribute("playersSortedByRank", nflTeams.getAllAvailablePlayersByRank());
-      	model.addAttribute("allPlayersList", nflTeams.getAllAvailablePlayersByADP());
-      	model.addAttribute("playerList", nflTeams.getAllAvailablePlayersByADP());
-        for (Position position : Position.values()) {
-        	model.addAttribute(position.getAbbrev() + "List", nflTeams.getAvailablePlayersByPositionAsList(position));
-        }
         log.info("Models updated for team list attributes");
 	}
 
 	public void updateDraftStateAttributes(Model model) {
-		model.addAttribute("error", draftState.errorMessage);
 		model.addAttribute("progressPercent", draftState.getPercent());
 		model.addAttribute("draft", draftState);
-		model.addAttribute("draftType", draftState.draftType);
-        model.addAttribute("currentRoundHandcuffs", draftState.currentRoundHandcuffs);
-        model.addAttribute("roundNumber", ((draftState.roundNum < draftState.NUMBER_OF_ROUNDS) ? draftState.roundNum : draftState.NUMBER_OF_ROUNDS));
-        model.addAttribute("pickNumber", draftState.pickNumber);
-        model.addAttribute("draftPicks", draftState.draftPicks);
+        model.addAttribute("roundNumber", Math.min(draftState.roundNum, draftState.NUMBER_OF_ROUNDS));
       	model.addAttribute("drafters", draftState.getCorrectlyOrderedDrafterList());
-      	model.addAttribute("strategy", draftState.strategyByRound.get(String.valueOf(draftState.roundNum)));
+      	model.addAttribute("strategy", draftState.getStrategyByRound().get(String.valueOf(draftState.roundNum)));
+      	updateCommonAttributesSubset(model);
       	log.info("Models updated for draft state attributes");
 	}
 	
@@ -104,11 +90,11 @@ public class ModelUpdater {
         log.info("Models updated for position page");
 	}
 
-	public void updateModelForTeamPage(String teamId, Model model) {
-		NFLTeam team = nflTeams.getTeam(teamId.replace("'", ""));
+	public void updateModelForTeamPage(String teamAbbrev, Model model) {
+		NFLTeam team = nflTeams.getTeam(teamAbbrev);
 		model.addAttribute("team", team);
 		model.addAttribute("teamName", team.getTeam().getFullName());
-		model.addAttribute("allTeams", nflTeams.getTeamsByAbbreviation());
+		model.addAttribute("allTeams", nflTeams.getTeamsSortedByAbbreviation());
         updateCommonAttributesSubset(model);
         log.info("Models updated for team page");
 	}
@@ -128,14 +114,17 @@ public class ModelUpdater {
     	}
     	model.addAttribute("drafters", drafterList);
     	model.addAttribute("draft", draftState.draft);
-    	model.addAttribute("roundNumber", draftState.roundNum);
-    	model.addAttribute("pickNumber", draftState.pickNumber);
     	updateCommonAttributesSubset(model);
     	log.info("Models updated for draftboard page");
 	}
 	
 	private void printModel(Model model) {
-		ObjectWriter writer = new ObjectMapper().writer();
+		System.out.println("\n\nMODEL:\n");
+		for (String name : model.asMap().keySet()) {
+			System.out.println("\t" + name);
+		}
+		
+//		ObjectWriter writer = new ObjectMapper().writer();
 //		for (Entry<String, Object> entry : model.asMap().entrySet()) {
 //			try {
 //				System.out.println("\n\n\t" + entry.getKey() + ":\n" + writer.writeValueAsString(entry.getValue()) + "\n\n");

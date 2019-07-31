@@ -5,20 +5,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.falifa.draftbuddy.ui.constants.NflTeam;
+import com.falifa.draftbuddy.ui.constants.NflTeamMetadata;
 import com.falifa.draftbuddy.ui.constants.Position;
 import com.falifa.draftbuddy.ui.model.player.Player;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class NFLTeam {
 
 	private String fantasyProsId;
-	private NflTeam team;
+	private NflTeamMetadata team;
 	private Map<Position, List<Player>> playersByPosition;
 	private List<Player> players;
 	
 	public NFLTeam() { initFields(); }
 	
-	public NFLTeam(String fantasyProsId, NflTeam team) {
+	public NFLTeam(String fantasyProsId, NflTeamMetadata team) {
 		this.fantasyProsId = fantasyProsId;
 		this.team = team;
 		initFields();
@@ -40,15 +41,21 @@ public class NFLTeam {
 		return players;
 	}
 	
+	@JsonIgnore
 	public List<Player> getPlayersByPosition(Position p) {
 		return playersByPosition.get(p);
+	}
+	
+	@JsonIgnore
+	public List<Player> getPlayersByPosition(String pos) {
+		return playersByPosition.get(Position.get(pos.toUpperCase()));
 	}
 
 	public String getFantasyProsId() {
 		return fantasyProsId;
 	}
 
-	public NflTeam getTeam() {
+	public NflTeamMetadata getTeam() {
 		return team;
 	}
 	

@@ -22,8 +22,8 @@
 				<li><a href="/drafters">Drafters</a></li>
 				<li><a href="/draftBoard">Draft Board</a></li>
 				<li><div class="roundHeader">
-						<span class="big-badge">Round ${roundNumber}</span>&nbsp;&nbsp;&nbsp;
-						<span class="big-badge">Pick ${pickNumber}</span>
+						<span class="big-badge">Round ${draftState.roundNum}</span>&nbsp;&nbsp;&nbsp;
+						<span class="big-badge">Pick ${draftState.pickNumber}</span>
 					</div></li>
 			</ul>
 
@@ -43,7 +43,7 @@
 </nav>
 
 <div class="container-fluid">
-	<c:forEach items="${allPlayersList}" var="player">
+	<c:forEach items="${playersSortedByAdp}" var="player">
 		<%@include file="../common/modal.jsp"%>
 	</c:forEach>
 </div>

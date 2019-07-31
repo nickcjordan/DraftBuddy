@@ -1,4 +1,4 @@
-package com.falifa.draftbuddy.ui.logic;
+package com.falifa.draftbuddy.ui.drafting;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -17,11 +17,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
-import com.falifa.draftbuddy.ui.comparator.PlayerADPComparator;
 import com.falifa.draftbuddy.ui.constants.Position;
 import com.falifa.draftbuddy.ui.constants.Tag;
 import com.falifa.draftbuddy.ui.data.DraftState;
-import com.falifa.draftbuddy.ui.manager.NFLTeamManager;
+import com.falifa.draftbuddy.ui.data.NFLTeamManager;
+import com.falifa.draftbuddy.ui.drafting.sort.PlayerADPComparator;
 import com.falifa.draftbuddy.ui.model.Drafter;
 import com.falifa.draftbuddy.ui.model.player.Player;
 

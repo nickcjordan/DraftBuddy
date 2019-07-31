@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.falifa.draftbuddy.ui.manager.NFLTeamManager;
+import com.falifa.draftbuddy.ui.data.NFLTeamManager;
 import com.falifa.draftbuddy.ui.model.player.Player;
 
 @RestController

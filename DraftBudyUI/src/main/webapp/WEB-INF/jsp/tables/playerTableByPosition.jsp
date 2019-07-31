@@ -33,9 +33,9 @@
 					<td class="name-posList">
 						<a class="nameLink" data-toggle="modal" data-target="#${player.getFantasyProsId()}playerModal">
 							<c:choose>
-								<c:when test="${currentRoundHandcuffs.contains(player)}">
+								<c:when test="${draftState.currentRoundHandcuffs.contains(player)}">
 									<c:choose>
-										<c:when test="${player.isPlayerToTarget()}">
+										<c:when test="${player.getDraftingDetails().isPlayerToTarget()}">
 											<span class="handcuff-player-text"><strong>${player.getPlayerName()}</strong></span>
 										</c:when>
 										<c:otherwise><span class="handcuff-player-text">${player.getPlayerName()}</span></c:otherwise>
@@ -43,7 +43,7 @@
 								</c:when>
 								<c:otherwise>
 									<c:choose>
-										<c:when test="${player.isPlayerToTarget()}"><strong>${player.getPlayerName()}</strong></c:when>
+										<c:when test="${player.getDraftingDetails().isPlayerToTarget()}"><strong>${player.getPlayerName()}</strong></c:when>
 										<c:otherwise>${player.getPlayerName()}</c:otherwise>
 									</c:choose>
 								</c:otherwise>
@@ -58,9 +58,9 @@
 					
 					<td class="tags-posList">
 						<c:choose>
-							<c:when test="${.getDraftingDetails().getIcons()==null}">&nbsp;</c:when>
+							<c:when test="${player.getDraftingDetails().getIcons()==null}">&nbsp;</c:when>
 							<c:otherwise>
-								<c:forEach items="${.getDraftingDetails().getIcons()}" var="icon">
+								<c:forEach items="${player.getDraftingDetails().getIcons()}" var="icon">
 									<span class="${icon}" aria-hidden="true"></span>
 								</c:forEach>
 							</c:otherwise>
@@ -82,9 +82,9 @@
 					<td class="id-posList">${player.getRankMetadata().getBestRank()}</td>
 					<td class="id-posList">${player.getRankMetadata().getAvgRank()}</td>
 					<td class="id-posList">${player.getRankMetadata().getWorstRank()}</td>
-					<td class="id-posList">${player.getStdDev()}</td>
+					<td class="id-posList">${player.getRankMetadata().getStdDev()}</td>
 					<td class="id-posList">${player.getRankMetadata().getVsAdp()}</td>
-					<td class="handcuff-posList">${player..getDraftingDetails().getHandcuffs()}</td>
+					<td class="handcuff-posList">${player.getDraftingDetails().getHandcuffs()}</td>
 				</tr>
 				
 			</c:forEach>

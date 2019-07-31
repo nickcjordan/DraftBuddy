@@ -1,6 +1,6 @@
 package com.falifa.draftbuddy.ui.model.player;
 
-import com.falifa.draftbuddy.ui.constants.NflTeam;
+import com.falifa.draftbuddy.ui.constants.NflTeamMetadata;
 import com.falifa.draftbuddy.ui.constants.Position;
 import com.falifa.draftbuddy.ui.model.player.stats.PlayerPositionalStats;
 import com.falifa.draftbuddy.ui.model.player.stats.RawStatsDetails;
@@ -13,7 +13,7 @@ public class Player {
 	private String playerName;	
 	private Position position;
 	private String bye;
-	private NflTeam team;
+	private NflTeamMetadata team;
 	
 	private DraftingDetails draftingDetails;
 
@@ -152,11 +152,11 @@ public class Player {
 		this.notesMetadata = notesMetadata;
 	}
 
-	public NflTeam getTeam() {
+	public NflTeamMetadata getTeam() {
 		return team;
 	}
 
-	public void setTeam(NflTeam team) {
+	public void setTeam(NflTeamMetadata team) {
 		this.team = team;
 	}
 	public PlayerPositionalStats getPositionalStats() {

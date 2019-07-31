@@ -15,6 +15,7 @@
     <!-- Brand and toggle -->
     <div class="navbar-header">
       <a class="navbar-brand front-brand" href="/">Falifa Industries</a>
+			<div class="intro-alternate"><p><a class="btn btn-block btn-primary update-data-files-button" href="/updateAll">Update Data Files</a></p></div>
     </div>
 	    
 	    
@@ -23,7 +24,6 @@
 			<div class="intro"><p><a class="btn btn-block btn-primary" href="/start?appRunType=mock">Mock Draft</a></p></div>
 			<div class="intro"><p><a class="btn btn-block btn-primary" href="/start?appRunType=real">Real Draft</a></p></div>
 			<div class="intro"><p><a class="btn btn-block btn-primary" href="/start?appRunType=auto">Auto Draft</a></p></div>
-			<!-- <div class="intro"><p><a class="btn btn-block btn-primary update-data-files-button" href="/update">Update Data Files</a></p></div> -->
 		</div>
 	    
 	    

@@ -1,7 +1,9 @@
-package com.falifa.draftbuddy.ui.manager;
+package com.falifa.draftbuddy.ui.data;
 
-import static com.falifa.draftbuddy.ui.constants.DataSourcePaths.MASTER_NFL_TEAMS_JSON_FILE_PATH;
+import static com.falifa.draftbuddy.ui.constants.DataSourcePaths.*;
 import static com.falifa.draftbuddy.ui.constants.DataSourcePaths.MASTER_PLAYERS_JSON_FILE_PATH;
+import static com.falifa.draftbuddy.ui.constants.DataSourcePaths.PLAYER_TAGS_FILE_PATH;
+import static com.falifa.draftbuddy.ui.constants.DataSourcePaths.TAGS_CUSTOM_PATH;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -13,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
@@ -24,14 +27,15 @@ import org.springframework.util.CollectionUtils;
 import com.falifa.draftbuddy.api.model.PlayerTO;
 import com.falifa.draftbuddy.ui.api.ApiDataDelegate;
 import com.falifa.draftbuddy.ui.api.PlayerNameMatcher;
-import com.falifa.draftbuddy.ui.comparator.PlayerADPComparator;
-import com.falifa.draftbuddy.ui.comparator.PlayerRankComparator;
 import com.falifa.draftbuddy.ui.constants.Position;
-import com.falifa.draftbuddy.ui.data.DraftState;
-import com.falifa.draftbuddy.ui.data.PlayerPopulator;
+import com.falifa.draftbuddy.ui.drafting.sort.AlphabetizedPlayerComparator;
+import com.falifa.draftbuddy.ui.drafting.sort.AlphabetizedTeamComparator;
+import com.falifa.draftbuddy.ui.drafting.sort.PlayerADPComparator;
+import com.falifa.draftbuddy.ui.drafting.sort.PlayerRankComparator;
 import com.falifa.draftbuddy.ui.model.MasterPlayersTO;
 import com.falifa.draftbuddy.ui.model.MasterTeamTO;
 import com.falifa.draftbuddy.ui.model.NFLTeam;
+import com.falifa.draftbuddy.ui.model.RoundSpecificStrategy;
 import com.falifa.draftbuddy.ui.model.player.Player;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -44,21 +48,23 @@ public class NFLTeamManager {
 	private Map<String, String> playerNameToIdMap;
 	private Map<String, PlayerTO> playerStatsTOMap;
 	private Map<String, NFLTeam> teamsByAbbreviation;
-	
+
 	private ArrayList<String> playerNameToIdMapFailedToFind;
-	
+
 	@Autowired
 	private DraftState draftState;
 
 	@Autowired
 	private PlayerPopulator playerPopulator;
-	
+
 	@Autowired
 	private ApiDataDelegate dataDelegate;
-	
+
 	@Autowired
 	private PlayerNameMatcher nameMatcher;
 
+	@Autowired
+	private StrategyFileHandler strategyHandler;
 
 	public NFLTeamManager() {
 		this.playersById = new HashMap<String, Player>();
@@ -77,6 +83,9 @@ public class NFLTeamManager {
 			populatePlayerStatsFromApi();
 			populateManuallySetFieldValuesAndPutOnTeam();
 			populateNflTeamSpecificFieldValues();
+			populatePlayersWithTags();
+			updateDraftStrategyDataFromFile();
+
 			log.info("NFL initialized with {} teams and {} players", teamsByAbbreviation.size(), playersById.size());
 		} catch (Exception e) {
 			log.error("ERROR initializing master players from json", e);
@@ -102,7 +111,7 @@ public class NFLTeamManager {
 				log.error("NULL name found in playerStatsTOMap :: id={}", entry.getValue().getPlayerId());
 			} else {
 				String id = null;
-				id = (playerNameToIdMap.containsKey(nameMatcher.filter(entry.getKey()))) ? playerNameToIdMap.get(nameMatcher.filter(entry.getKey())) : nameMatcher.checkForClosestMatch(entry.getKey());
+				id = getCorrectIdFromName(entry.getKey());
 				if (playersById.containsKey(id)) {
 					Player p = playersById.get(id);
 					playerPopulator.populatePlayerWithStatsFromTO(p, entry.getValue());
@@ -114,9 +123,15 @@ public class NFLTeamManager {
 			}
 		}
 		if (playerNameToIdMapFailedToFind.size() > 0) {
-			log.error("{} players from API response were not found in existing data from FantasyPros :: [{}]", playerNameToIdMapFailedToFind.size(), playerNameToIdMapFailedToFind.stream().collect(Collectors.joining(", ")));
+			log.error("{} players from API response were not found in existing data from FantasyPros :: [{}]", playerNameToIdMapFailedToFind.size(),
+					playerNameToIdMapFailedToFind.stream().collect(Collectors.joining(", ")));
 		}
 		log.info("Successfully populated stats of {} players out of the {} found in the API response", count, playerStatsTOMap.size());
+	}
+
+	private String getCorrectIdFromName(String playerName) {
+		return (playerNameToIdMap.containsKey(nameMatcher.filter(playerName))) ? playerNameToIdMap.get(nameMatcher.filter(playerName))
+				: nameMatcher.findIdForClosestMatchingName(playerName);
 	}
 
 	private void populateManuallySetFieldValuesAndPutOnTeam() {
@@ -130,7 +145,7 @@ public class NFLTeamManager {
 			}
 		}
 	}
-	
+
 	private void populateNflTeamSpecificFieldValues() {
 		if (!CollectionUtils.isEmpty(teamsByAbbreviation)) {
 			for (NFLTeam team : teamsByAbbreviation.values()) {
@@ -139,7 +154,7 @@ public class NFLTeamManager {
 						List<Player> positionPlayers = team.getPlayersByPosition(pos);
 						Collections.sort(positionPlayers, new PlayerADPComparator());
 						Player starter = positionPlayers.get(0);
-						for (Player backup : positionPlayers.subList(1, positionPlayers.size()-1)) {
+						for (Player backup : positionPlayers.subList(1, positionPlayers.size() - 1)) {
 							starter.getDraftingDetails().addBackup(backup);
 						}
 					} catch (Exception e) {
@@ -155,6 +170,9 @@ public class NFLTeamManager {
 		playerPopulator.populateMapStats(player);
 		playerPopulator.populatePlayerProjectedTotalsFields(player);
 		playerPopulator.populatePlayerPriorTotalsFields(player);
+		if (player.getRankMetadata().getOverallRank() == null) {
+			player.getRankMetadata().setOverallRank(String.valueOf(playersById.size()));
+		}
 	}
 
 	private void populateMasterTeamsFromJsonFile() {
@@ -177,6 +195,55 @@ public class NFLTeamManager {
 		}
 	}
 
+	private void updateDraftStrategyDataFromFile() {
+		Map<String, RoundSpecificStrategy> strategy = new HashMap<String, RoundSpecificStrategy>();
+		try {
+			for (List<String> split : strategyHandler.getSplitLinesFromFile(DRAFT_STRATEGY_BY_ROUND_FILE_PATH, true)) {
+				if (split.size() > 1) {
+					strategy.put(split.get(0), strategyHandler.buildRoundSpecificStrategy(split));
+				}
+			}
+		} catch (Exception e) {
+			log.error("ERROR populating players with tags", e);
+		}
+		draftState.setStrategyByRound(strategy);
+	}
+
+	private void populatePlayersWithTags() {
+		try {
+			for (List<String> split : strategyHandler.getSplitLinesFromFile(PLAYER_TAGS_FILE_PATH, true)) {
+				if (split.size() > 1) {
+					Player p = getPlayerFromName(split.get(0));
+					if (p != null) {
+						strategyHandler.addTagsToPlayer(p, split.get(1));
+					} else {
+						log.error("Could not find player for name={}", split.get(0));
+					}
+				}
+			}
+		} catch (Exception e) {
+			log.error("ERROR populating players with tags", e);
+		}
+		cleanupTags();
+	}
+
+	private void cleanupTags() {
+		try {
+			TreeSet<Player> sorted = new TreeSet<Player>(new AlphabetizedPlayerComparator());
+			for (List<String> split : strategyHandler.getSplitLinesFromFile(TAGS_CUSTOM_PATH, true)) {
+				Player p = getPlayerFromName(split.get(0));
+				if (p != null) {
+					sorted.add(p);
+				} else {
+					log.error("ERROR cleaning up players :: Player not found = {}", split.get(0));
+				}
+			}
+			strategyHandler.updateTagFileWithCleanedUpResults(sorted);
+		} catch (Exception e) {
+			log.error("ERROR cleaning up tags", e);
+		}
+	}
+
 	public Map<String, Player> getPlayersById() {
 		return playersById;
 	}
@@ -189,8 +256,25 @@ public class NFLTeamManager {
 		return teamsByAbbreviation;
 	}
 
+	public List<NFLTeam> getTeamsSortedByAbbreviation() {
+		List<NFLTeam> teamsCollection = new ArrayList<NFLTeam>(teamsByAbbreviation.values());
+		Collections.sort(teamsCollection, new AlphabetizedTeamComparator());
+		return teamsCollection;
+	}
+
 	public void setTeamsByAbbreviation(Map<String, NFLTeam> teamsByAbbreviation) {
 		this.teamsByAbbreviation = teamsByAbbreviation;
+	}
+
+	public Player getPlayerFromName(String playerName) {
+		String id = nameMatcher.findIdForClosestMatchingName(playerName);
+		if (id != null) {
+			log.debug("Getting player from name :: Found ID={} from player name={}", id, playerName);
+			if (playersById.containsKey(id)) {
+				return playersById.get(id);
+			}
+		}
+		return null;
 	}
 
 	public Player getPlayerById(String fantasyProsId) {
@@ -228,7 +312,7 @@ public class NFLTeamManager {
 		Collections.sort(byPosition, new PlayerADPComparator());
 		return byPosition;
 	}
-	
+
 	public NFLTeam getTeam(String abbrev) {
 		return teamsByAbbreviation.get(abbrev);
 	}

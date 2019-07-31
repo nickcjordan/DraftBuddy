@@ -1,4 +1,4 @@
-package com.falifa.draftbuddy.ui.manager;
+package com.falifa.draftbuddy.ui.drafting;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -11,12 +11,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
 
-import com.falifa.draftbuddy.ui.comparator.DraftSelectionOrderComparator;
-import com.falifa.draftbuddy.ui.comparator.UserDraftOrderComparator;
 import com.falifa.draftbuddy.ui.data.DraftState;
 import com.falifa.draftbuddy.ui.data.ModelUpdater;
-import com.falifa.draftbuddy.ui.exception.FalifaException;
-import com.falifa.draftbuddy.ui.logic.LogicHandler;
+import com.falifa.draftbuddy.ui.data.NFLTeamManager;
+import com.falifa.draftbuddy.ui.drafting.sort.DraftSelectionOrderComparator;
+import com.falifa.draftbuddy.ui.drafting.sort.UserDraftOrderComparator;
 import com.falifa.draftbuddy.ui.model.Draft;
 import com.falifa.draftbuddy.ui.model.DraftPick;
 import com.falifa.draftbuddy.ui.model.Drafter;
@@ -44,21 +43,23 @@ public class DraftManager {
 	@Autowired
 	private ModelUpdater modelUpdater;
 	
-	public String mockDraft(Drafter currentDrafter, Model model) throws FalifaException {
-    	if (currentDrafter.getName().equals(optimizedDrafterName)) { return "pages/dashboardPage"; }
-		Player player = handler.getAiPick(draftState.currentDrafter);
-		doBaseDraft(player, currentDrafter, model);
-    	return draftHasCompleted() ? prepareResults(model) : mockDraft(currentDrafter, model);
+	public String mockDraft(Model model) {
+    	if (draftState.getCurrentDrafter().isOptimized()) { return "pages/dashboardPage"; }
+    	else {
+    		Player player = handler.getAiPick(draftState.getCurrentDrafter());
+    		doBaseDraft(player, model);
+    		return draftHasCompleted() ? prepareResults(model) : mockDraft(model);
+    	}
     }
     
-    public String autoDraft(Drafter currentDrafter, Model model) throws FalifaException {
-    	Player player = (draftState.currentDrafter.getName().equals(optimizedDrafterName)) ? handler.getOptimizedSuggestions(draftState.currentDrafter).get(0) : handler.getAiPick(draftState.currentDrafter);
-    	doBaseDraft(player, currentDrafter, model);
-    	return draftHasCompleted() ? prepareResults(model) : autoDraft(currentDrafter, model);
+    public String autoDraft(Model model) {
+    	Player player = (draftState.currentDrafter.isOptimized()) ? handler.getOptimizedSuggestions(draftState.currentDrafter).get(0) : handler.getAiPick(draftState.currentDrafter);
+    	doBaseDraft(player, model);
+    	return draftHasCompleted() ? prepareResults(model) : autoDraft(model);
     }
     
 	public String resolvePlayerId(String playerId) {
-		return !playerId.isEmpty() ? playerId : draftState.currentDrafter.getName().equals(optimizedDrafterName) ? handler.getOptimizedSuggestions(draftState.currentDrafter).get(0).getFantasyProsId() : handler.getAiPick(draftState.currentDrafter).getFantasyProsId();
+		return !playerId.isEmpty() ? playerId : draftState.currentDrafter.isOptimized() ? handler.getOptimizedSuggestions(draftState.currentDrafter).get(0).getFantasyProsId() : handler.getAiPick(draftState.currentDrafter).getFantasyProsId();
 	}
 
     public String prepareResults(Model model) {
@@ -69,15 +70,15 @@ public class DraftManager {
     	return "pages/resultsPage";
     }
     
-	public void doBaseDraft(Player player, Drafter currentDrafter, Model model) {
+	public void doBaseDraft(Player player, Model model) {
 		log.info("Player picked = " + player.getPlayerName());
-		draftState.draftPicks.add(draftPlayer(draftState.currentDrafter, player));
-		Collections.sort(draftState.draftPicks, new DraftSelectionOrderComparator());
+		draftState.getDraftPicks().add(draftPlayer(draftState.getCurrentDrafter(), player));
+		Collections.sort(draftState.getDraftPicks(), new DraftSelectionOrderComparator());
 		checkIfEndOfRound();
 		draftState.moveToNextDrafter();
 		nflTeams.setCurrentPlayerValue();
-		setCorrectHandcuffsForCurrentDrafter(currentDrafter);
-		modelUpdater.updateCommonAttributes(currentDrafter, model);
+		setCorrectHandcuffsForCurrentDrafter(draftState.getCurrentDrafter());
+		modelUpdater.updateCommonAttributes(model);
 	}
     
 	private void setCorrectHandcuffsForCurrentDrafter(Drafter currentDrafter) {
@@ -105,7 +106,7 @@ public class DraftManager {
 		for (Player handcuff : draftedPlayer.getDraftingDetails().getBackups()) {
 			handcuff.getDraftingDetails().setHandcuff(true);
 		}
-		return new DraftPick(draftState.pickNumber, draftState.roundNum, drafter, draftedPlayer);
+		return new DraftPick(draftState.getPickNumber(), draftState.getRoundNum(), drafter, draftedPlayer);
 	}
     
 	public boolean draftHasCompleted() {

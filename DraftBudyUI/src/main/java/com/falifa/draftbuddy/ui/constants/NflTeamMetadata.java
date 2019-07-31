@@ -1,6 +1,6 @@
 package com.falifa.draftbuddy.ui.constants;
 
-public enum NflTeam {
+public enum NflTeamMetadata {
 	
 	DOLPHINS("Dolphins", "MIA", "Miami"),
 	RAIDERS("Raiders", "OAK", "Oakland"),
@@ -40,7 +40,7 @@ public enum NflTeam {
 	private String abbreviation;
 	private String city;
 	
-	NflTeam(String mascot, String abbreviation, String city) {
+	NflTeamMetadata(String mascot, String abbreviation, String city) {
 		this.mascot = mascot;
 		this.abbreviation = abbreviation;
 		this.city = city;
@@ -70,9 +70,9 @@ public enum NflTeam {
 		this.city = city;
 	}
 	
-	public static NflTeam findNflTeamFromAbbreviation(String abbreviation) {
-		NflTeam selectedTeam = null;
-		for (NflTeam team : NflTeam.values()) {
+	public static NflTeamMetadata findNflTeamFromAbbreviation(String abbreviation) {
+		NflTeamMetadata selectedTeam = null;
+		for (NflTeamMetadata team : NflTeamMetadata.values()) {
 			if (team.getAbbreviation().equalsIgnoreCase(abbreviation)) {
 				selectedTeam = team;
 			}

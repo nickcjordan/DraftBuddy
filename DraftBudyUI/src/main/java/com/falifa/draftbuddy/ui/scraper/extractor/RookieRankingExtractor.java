@@ -41,7 +41,7 @@ public class RookieRankingExtractor {
 				return true;
 			} catch (NotFound e) {}
 		} else {
-//			log.info("Did not find rookie in temporary storage :: fantasyProsId={} :: row={}", fantasyProsId, playerRow.toString());
+			log.debug("Did not find rookie in temporary storage :: fantasyProsId={} :: row={}", fantasyProsId, playerRow.toString());
 		}
 		return false;
 	}

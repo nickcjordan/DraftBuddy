@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import com.falifa.draftbuddy.ui.constants.Tag;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class DraftingDetails {
@@ -92,5 +93,15 @@ public class DraftingDetails {
 	}
 	public void setCurrentPlayerValue(int currentPlayerValue) {
 		this.currentPlayerValue = currentPlayerValue;
+	}
+	@JsonIgnore
+	public void addTags(String newTags) {
+		this.tags = this.tags != null ? this.tags + newTags : newTags;
+		for (int i = 0; i < newTags.length(); i++) {
+			String tagLocation = Tag.getIconClassFromTag(newTags.charAt(i));
+			if (!this.icons.contains(tagLocation)) {
+				this.icons.add(tagLocation);
+			}
+		}
 	}
 }

@@ -34,13 +34,6 @@ public class DataParserManager {
 		success &= parseAndUpdateFantasyProsPositionalProjections();
 		success &= parseAndUpdateFantasyProsTargetLeaders();
 		updater.updateJsonCacheFilesWithParsedData();
-		
-//		if (success) {
-//			log.info("All data sources have been updated :: calling off to save all player data json to cache file...");
-//			success &= updater.updateJsonCacheFilesWithParsedData();
-//		} else {
-//			log.error("ERROR occured when trying to update all data sources, json cache will not get updated");
-//		}
 		return success;
 	}
 
@@ -75,8 +68,6 @@ public class DataParserManager {
 		return extractor.extractPlayerDataFromFantasyProsPositionalProjections(position, htmlTable);
 	}
 
-
-	
 	private boolean parseAndUpdateFantasyProsPositionalProjections() {
 		boolean success = true;
 		for (Position pos : Position.values()) {

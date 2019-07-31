@@ -29,7 +29,7 @@
 			<c:forEach items="${playerListContent}" var="player" varStatus="status">
 				<!-- set next pick number divider bar -->
 				<c:choose>
-					<c:when test="${draftersPickNumberList.size() > pickIndex && draftersPickNumberList.get(pickIndex) == (status.index + pickNumber)}">
+					<c:when test="${draftersPickNumberList.size() > pickIndex && draftersPickNumberList.get(pickIndex) == (status.index + draftState.pickNumber)}">
 						<c:set var="pickIndex" value="${pickIndex + 1}" scope="application"/>
 						<tr class="center table-divider"><td><b>Your Next Pick</b></td><td><b>Your Next Pick</b></td><td><b>Your Next Pick</b></td><td><b>Your Next Pick</b></td></tr>
 					</c:when>
@@ -43,7 +43,7 @@
 					<td class="name-suggest">
 						<a class="nameLink" data-toggle="modal" data-target="#${player.getFantasyProsId()}playerModal">
 							<c:choose>
-								<c:when test="${currentRoundHandcuffs.contains(player)}">
+								<c:when test="${draftState.currentRoundHandcuffs.contains(player)}">
 									<c:choose>
 										<c:when test="${player.getDraftingDetails().isPlayerToTarget()}">
 											<span class="handcuff-player-text"><strong>${player.getPlayerName()}</strong></span>

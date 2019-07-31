@@ -15,27 +15,27 @@
 			<tbody>
 				
 			<tr class="posLine"><td class="no-border"><strong>QB</strong></td></tr>
-			<c:forEach items="${team.qb}" var="player">
+			<c:forEach items="${team.getPlayersByPosition(\"qb\")}" var="player">
 				<%@include file="lists/playerList.jsp"%>
 			</c:forEach>
 			<tr class="posLine"><td class="no-border"><strong>RB</strong></td></tr>
-			<c:forEach items="${team.rb}" var="player">
+			<c:forEach items="${team.getPlayersByPosition(\"rb\")}" var="player">
 				<%@include file="lists/playerList.jsp"%>
 			</c:forEach>
 			<tr class="posLine"><td class="no-border"><strong>WR</strong></td></tr>
-			<c:forEach items="${team.wr}" var="player">
+			<c:forEach items="${team.getPlayersByPosition(\"wr\")}" var="player">
 				<%@include file="lists/playerList.jsp"%>
 			</c:forEach>
 			<tr class="posLine"><td class="no-border"><strong>TE</strong></td></tr>
-			<c:forEach items="${team.te}" var="player">
+			<c:forEach items="${team.getPlayersByPosition(\"te\")}" var="player">
 				<%@include file="lists/playerList.jsp"%>
 			</c:forEach>
 			<tr class="posLine"><td class="no-border"><strong>K</strong></td></tr>
-			<c:forEach items="${team.k}" var="player">
+			<c:forEach items="${team.getPlayersByPosition(\"k\")}" var="player">
 				<%@include file="lists/playerList.jsp"%>
 			</c:forEach>
 			<tr class="posLine"><td class="no-border"><strong>DST</strong></td></tr>
-			<c:forEach items="${team.d}" var="player">
+			<c:forEach items="${team.getPlayersByPosition(\"d\")}" var="player">
 				<%@include file="lists/playerList.jsp"%>
 			</c:forEach>
 				

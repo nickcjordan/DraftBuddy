@@ -12,10 +12,10 @@ import java.util.List;
 
 import org.springframework.util.StringUtils;
 
-import com.falifa.draftbuddy.ui.comparator.AlphabetizedTeamComparator;
-import com.falifa.draftbuddy.ui.comparator.PlayerADPComparator;
-import com.falifa.draftbuddy.ui.comparator.PlayerRankComparator;
 import com.falifa.draftbuddy.ui.constants.Position;
+import com.falifa.draftbuddy.ui.drafting.sort.AlphabetizedTeamComparator;
+import com.falifa.draftbuddy.ui.drafting.sort.PlayerADPComparator;
+import com.falifa.draftbuddy.ui.drafting.sort.PlayerRankComparator;
 import com.falifa.draftbuddy.ui.model.player.Player;
 
 public class NFL {

@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.falifa.draftbuddy.ui.constants.DataSourcePaths;
-import com.falifa.draftbuddy.ui.constants.NflTeam;
+import com.falifa.draftbuddy.ui.constants.NflTeamMetadata;
 import com.falifa.draftbuddy.ui.model.MasterPlayersTO;
 import com.falifa.draftbuddy.ui.model.MasterTeamTO;
 import com.falifa.draftbuddy.ui.model.NFLTeam;
@@ -33,7 +33,7 @@ public class JsonDataFileManager {
 	public JsonDataFileManager() {
 		this.players = new ConcurrentHashMap<String, Player>();
 		this.nflTeams = new ConcurrentHashMap<String, NFLTeam>();
-		nflTeams.put("FA", new NFLTeam("", NflTeam.FREE_AGENTS));
+		nflTeams.put("FA", new NFLTeam("", NflTeamMetadata.FREE_AGENTS));
 	}
 
 	public boolean addPlayerDataToExisting(Map<String, Player> playerData) {
@@ -78,7 +78,7 @@ public class JsonDataFileManager {
 		return nflTeams;
 	}
 	
-	public void addTeamToNfl(String fantasyProsId, NflTeam team) {
+	public void addTeamToNfl(String fantasyProsId, NflTeamMetadata team) {
 		nflTeams.put(team.getAbbreviation(), new NFLTeam(fantasyProsId, team));
 	}
 	
