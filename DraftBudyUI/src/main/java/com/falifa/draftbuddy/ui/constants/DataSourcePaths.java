@@ -2,7 +2,9 @@ package com.falifa.draftbuddy.ui.constants;
 
 public class DataSourcePaths {
 
-	public static final String PLAYER_IMAGES_BASE_FILE_PATH = "src/main/resources/data/img/";
+	public static final String PLAYER_IMAGES_FILE_PATH = "/images/players/";
+	public static final String WEB_RESOURCES_BASE_FILE_PATH = "src/main/webapp";
+	public static final String PLAYER_IMAGES_BASE_FILE_PATH = WEB_RESOURCES_BASE_FILE_PATH + PLAYER_IMAGES_FILE_PATH;
 
 	public static final String PLAYER_TAGS_FILE_PATH = "src/main/resources/data/tags.csv";
 	public static final String DRAFT_STRATEGY_BY_ROUND_FILE_PATH = "src/main/resources/data/strategyByRound.csv";

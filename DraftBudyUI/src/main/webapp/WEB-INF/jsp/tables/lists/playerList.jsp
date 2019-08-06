@@ -1,11 +1,11 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<tr>
+<tr class="white-cell">
 	<td class="id-3"><a href="/pickPlayer?playerId=${player.getFantasyProsId()}">
 			<span class="badge-adp-players">${player.getRankMetadata().getAdp()}</span>
 	</a></td>
 	<td class="name-3"><a class="nameLink" data-toggle="modal"
 		data-target="#${player.getFantasyProsId()}playerModal"> <c:choose>
-				<c:when test="${draftState.currentRoundHandcuffs.contains(player)}">
+				<c:when test="${draft.getCurrentRoundHandcuffs().contains(player)}">
 					<c:choose>
 						<c:when test="${player.getDraftingDetails().isPlayerToTarget()}">
 							<span class="handcuff-player-text"><strong>${player.getPlayerName()}</strong></span>

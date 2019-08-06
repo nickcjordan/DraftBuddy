@@ -3,6 +3,9 @@ package com.falifa.draftbuddy.ui.model.player;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
+import org.apache.commons.lang3.StringUtils;
 
 import com.falifa.draftbuddy.ui.constants.Tag;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -10,6 +13,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class DraftingDetails {
 	
 	private int currentPlayerValue;
+	private String currentPlayerValueBadgeClass;
+	private String vsValueBadgeClass;
 	private int roundDrafted;
 	private boolean available;
 	private boolean rookie;
@@ -23,6 +28,7 @@ public class DraftingDetails {
 	public DraftingDetails() {
 		this.backups = new ArrayList<Player>();
 		this.icons = new ArrayList<String>();
+		this.tags = "";
 	}
 	
 	public boolean isAvailable() {
@@ -72,11 +78,15 @@ public class DraftingDetails {
 	}
 	public void setBackups(List<Player> backups) {
 		this.backups = backups;
+		this.backups = this.backups.stream().distinct().collect(Collectors.toList());
 	}
 	@JsonIgnore
 	public void addBackup(Player backup) {
-		this.backups.add(backup);
-		this.handcuffs = Optional.ofNullable(handcuffs).map(str -> str + ", " + backup.getPlayerName()).orElse(backup.getPlayerName());
+		if (!this.backups.contains(backup)) {
+			this.backups.add(backup);
+		}
+		String newHandcuffs = this.backups.stream().map(p -> p.getPlayerName()).collect(Collectors.joining(", "));
+		this.handcuffs = Optional.ofNullable(newHandcuffs).orElse(backup.getPlayerName());
 	}
 	public List<String> getIcons() {
 		return icons;
@@ -94,9 +104,29 @@ public class DraftingDetails {
 	public void setCurrentPlayerValue(int currentPlayerValue) {
 		this.currentPlayerValue = currentPlayerValue;
 	}
+	
+	public String getCurrentPlayerValueBadgeClass() {
+		return currentPlayerValueBadgeClass;
+	}
+
+	public void setCurrentPlayerValueBadgeClass(String currentPlayerValueBadgeClass) {
+		this.currentPlayerValueBadgeClass = currentPlayerValueBadgeClass;
+	}
+	
+	public String getVsValueBadgeClass() {
+		return vsValueBadgeClass;
+	}
+
+	public void setVsValueBadgeClass(String vsValueBadgeClass) {
+		this.vsValueBadgeClass = vsValueBadgeClass;
+	}
+
 	@JsonIgnore
 	public void addTags(String newTags) {
-		this.tags = this.tags != null ? this.tags + newTags : newTags;
+		this.tags = !StringUtils.isEmpty(this.tags) ? this.tags + newTags : newTags;
+		StringBuilder sb = new StringBuilder();
+		tags.chars().distinct().forEach(c -> sb.append((char) c));
+		tags = sb.toString();
 		for (int i = 0; i < newTags.length(); i++) {
 			String tagLocation = Tag.getIconClassFromTag(newTags.charAt(i));
 			if (!this.icons.contains(tagLocation)) {

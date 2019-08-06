@@ -44,10 +44,14 @@ public class DraftManager {
 	private ModelUpdater modelUpdater;
 	
 	public String mockDraft(Model model) {
-    	if (draftState.getCurrentDrafter().isOptimized()) { return "pages/dashboardPage"; }
+    	if (draftState.getCurrentDrafter().isOptimized()) { 
+//    		draftState.getTimeIncrement("right before exiting java");
+    		return "pages/dashboardPage"; 
+    	}
     	else {
     		Player player = handler.getAiPick(draftState.getCurrentDrafter());
     		doBaseDraft(player, model);
+//    		log.info("Middle of turn :: elapsed time = {}", draftState.getTime());
     		return draftHasCompleted() ? prepareResults(model) : mockDraft(model);
     	}
     }
@@ -71,7 +75,7 @@ public class DraftManager {
     }
     
 	public void doBaseDraft(Player player, Model model) {
-		log.info("Player picked = " + player.getPlayerName());
+		log.info("{}.{} :: {} --> {}", draftState.getRoundNum(), draftState.getDraftOrderIndex(), draftState.getCurrentDrafter().getName(), player.getPlayerName());
 		draftState.getDraftPicks().add(draftPlayer(draftState.getCurrentDrafter(), player));
 		Collections.sort(draftState.getDraftPicks(), new DraftSelectionOrderComparator());
 		checkIfEndOfRound();
@@ -88,7 +92,7 @@ public class DraftManager {
 				players.add(handcuff);
 			}
 		}
-		draftState.currentRoundHandcuffs = players;
+		draftState.setCurrentRoundHandcuffs(players);
 	}
 
 //	public List<Drafter> getCorrectlyOrderedDrafterList() {

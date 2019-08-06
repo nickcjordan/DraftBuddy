@@ -1,6 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
-<h3 class="drafter-title">${drafter.name}:</h3>
+<h3 class="drafter-title white-title">${drafter.name}:</h3>
 
 <table class="table table-sm table-striped header-fixed dash condensed-players">
 	<thead class="thead-inverse">

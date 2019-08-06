@@ -25,7 +25,7 @@ public class RookieRankingExtractor {
 				String fantasyProsId = playerRow.getAt("data-id"); // grab fantasy pros id from top level div metadata
 				allSuccess &= handlePlayerRow(fantasyProsId, playerRow);
 			} catch (NotFound e) {
-				log.error("Error parsing ID for player row :: " + playerRow.toString());
+				log.debug("Error parsing ID for player row :: " + playerRow.toString());
 			}
 		}
 		log.info("All Rookie rankings have been parsed");
@@ -42,6 +42,7 @@ public class RookieRankingExtractor {
 			} catch (NotFound e) {}
 		} else {
 			log.debug("Did not find rookie in temporary storage :: fantasyProsId={} :: row={}", fantasyProsId, playerRow.toString());
+			return true;
 		}
 		return false;
 	}

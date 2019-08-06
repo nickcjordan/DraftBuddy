@@ -1,6 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <div class="fill-body-wrapper">
-	<div class="center"><h3><strong>${positionName}:</strong></h3></div>
+	<div class="center"><h3 class="white-title"><strong>${positionName}:</strong></h3></div>
 		<table class="table table-sm header-fixed positions outer-scrollbar">
 					<thead class="thead-inverse">
 			<tr>
@@ -33,7 +33,7 @@
 					<td class="name-posList">
 						<a class="nameLink" data-toggle="modal" data-target="#${player.getFantasyProsId()}playerModal">
 							<c:choose>
-								<c:when test="${draftState.currentRoundHandcuffs.contains(player)}">
+								<c:when test="${draft.getCurrentRoundHandcuffs().contains(player)}">
 									<c:choose>
 										<c:when test="${player.getDraftingDetails().isPlayerToTarget()}">
 											<span class="handcuff-player-text"><strong>${player.getPlayerName()}</strong></span>
@@ -53,7 +53,7 @@
 					<td class="proj-pts-posList"><strong>${player.getPositionalStats().getProjectedTotalPoints()}</strong></td>
 					
 					<td class="value-posList">
-						<%@include file="../common/valueBadge.jsp"%>
+						<span class="badge badge-val badge-${player.getDraftingDetails().getCurrentPlayerValueBadgeClass()}"><strong>${player.getDraftingDetails().getCurrentPlayerValue()}</strong></span>
 					</td>
 					
 					<td class="tags-posList">
@@ -67,14 +67,7 @@
 						</c:choose>
 					</td>
 					<td class="pos-posList">
-						<c:choose>
-							<c:when test="${player.getPosition().getAbbrev().equals('QB')}"><span class="badge badge-warning">${player.getPosition().getAbbrev()} ${player.getRankMetadata().getPositionRank()}</span></c:when>
-							<c:when test="${player.getPosition().getAbbrev().equals('RB')}"><span class="badge badge-info">${player.getPosition().getAbbrev()} ${player.getRankMetadata().getPositionRank()}</span></c:when>
-							<c:when test="${player.getPosition().getAbbrev().equals('WR')}"><span class="badge badge-success">${player.getPosition().getAbbrev()} ${player.getRankMetadata().getPositionRank()}</span></c:when>
-							<c:when test="${player.getPosition().getAbbrev().equals('TE')}"><span class="badge badge-error">${player.getPosition().getAbbrev()} ${player.getRankMetadata().getPositionRank()}</span></c:when>
-							<c:when test="${player.getPosition().getAbbrev().equals('K')}"><span class="badge">${player.getPosition().getAbbrev()} ${player.getRankMetadata().getPositionRank()}</span></c:when>
-							<c:otherwise><span class="badge badge-inverse">${player.getPosition().getAbbrev()} ${player.getRankMetadata().getPositionRank()}</span></c:otherwise>
-						</c:choose>
+						<span class="badge draft-board-badge ${player.getPosition().getBadgeClass()}">${player.getPosition().getAbbrev()} ${player.getRankMetadata().getPositionRank()}</span>
 					</td>
 					<td class="adp-posList">${player.getRankMetadata().getAdp()}</td>
 					<td class="team-posList">${player.getTeam().getAbbreviation()}</td>

@@ -2,6 +2,7 @@ package com.falifa.draftbuddy.ui.scraper.extractor;
 
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +41,8 @@ public class NotesExtractor {
 		Player playerToPopulate = playerManager.getPlayerFromTemporaryStorage(fantasyProsId);
 		if (playerToPopulate != null) {
 			try {
-				Element detail = playerDetail.findFirst("<table>").findFirst("<tbody>").findFirst("<tr>").findFirst("<td class=\"text\">").findFirst("<div class=\"extra\">");
+				Element row = playerDetail.findFirst("<table>").findFirst("<tbody>").findFirst("<tr>");
+				Element detail = row.findFirst("<td class=\"text\">").findFirst("<div class=\"extra\">");
 				String noteText = detail.findFirst("<div class=\"player-note\">").getTextContent();
 				if (!noteText.trim().isEmpty()) {
 					String timestamp = detail.findFirst("<span class=\"pull-right timestamp\">").getTextContent();
@@ -48,11 +50,15 @@ public class NotesExtractor {
 					playerManager.addUpdatedPlayer(fantasyProsId, playerToPopulate);
 					return true;
 				}
+				String imgLocation = row.findFirst("<td class=\"photo\">").findFirst("<img>").getAtString("src");
+				if (StringUtils.isNotEmpty(imgLocation)) {
+					playerToPopulate.getPictureMetadata().setPicLink(imgLocation);
+				}
 			} catch (Exception e) {
 				log.error("ERROR parsing player notes :: " + playerDetail.toString(), e);
 			}
 		} else {
-//			log.error("ERROR parsing notes :: No player found in temporary storage for fantasyProsId={}", fantasyProsId);
+			log.debug("ERROR parsing notes :: No player found in temporary storage for fantasyProsId={}", fantasyProsId);
 		}
 		return false;
 	}

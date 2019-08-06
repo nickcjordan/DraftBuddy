@@ -11,7 +11,7 @@
 <script src="js/jquery-slim.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 </head>
-<body>
+<body class="dark-falifa-bg">
 	<div class="container-fluid">
 
 		<%@include file="../common/nav.jsp"%>
@@ -19,8 +19,8 @@
 		<div class="col-md-1">
 			<div class="menu">
 				<div class="navbar-header">
-					<ul class="nav nav4 nav-pills nav-stacked nav4">
-						<li><h3 class="center posPad">
+					<ul class="nav nav-pills nav-stacked positionPageNav">
+						<li><h3 class="center posPad white-title">
 								<strong>Positions:</strong>
 							</h3></li>
 						<li><a href="/pos">All Available</a></li>

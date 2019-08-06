@@ -84,7 +84,7 @@ public class LogicHandler {
 	private boolean isAtLeastInitialRoundForPosition(Player p) {
 		if (p.getPosition() == null) { return false; }
 		try {
-			return (draftState.getCurrentRoundNumber() >= prop(p.getPosition().getAbbrev().toLowerCase() + "Init"));
+			return (draftState.getRoundNum() >= prop(p.getPosition().getAbbrev().toLowerCase() + "Init"));
 		} catch (Exception e) {
 			log.error("ERROR in isAtLeastInitialRoundForPosition for player=" + p.getPlayerName());
 			return false;
@@ -118,7 +118,7 @@ public class LogicHandler {
 	private List<Player> getPlayersForPositionsThatAreEmptyIfLateInDraft(Drafter currentDrafter) {
 		List<Player> positionsThatHaveNotBeenDrafted = new ArrayList<Player>();
 		for (Entry<Position, List<Player>> draftedPositionList : currentDrafter.getDraftedTeam().getPlayersByPosition().entrySet()) {
-			if ((draftedPositionList.getValue().size() == 0) && (draftState.getCurrentRoundNumber() >= draftState.getNumberOfRounds() - prop(draftedPositionList.getKey().getAbbrev().toLowerCase() + "Warn"))) {
+			if ((draftedPositionList.getValue().size() == 0) && (draftState.getRoundNum() >= draftState.getNumberOfRounds() - prop(draftedPositionList.getKey().getAbbrev().toLowerCase() + "Warn"))) {
 				log.info("addIfPositionIsEmptyAndItIsLateEnoughToMatter " + currentDrafter.getDraftedTeam().getName() + " :: adding position = " + draftedPositionList.getKey().getName());
 				positionsThatHaveNotBeenDrafted.addAll(nflTeams.getAvailablePlayersByPositionAsList(draftedPositionList.getKey()));
 			}
@@ -129,21 +129,6 @@ public class LogicHandler {
 		}
 		return positionsThatHaveNotBeenDrafted;
 	}
-	
-	
-	public List<Integer> getDraftPickIndexList(Drafter currentDrafter) {
-		List<Integer> list = new ArrayList<Integer>();
-		int nextRoundNum = draftState.roundNum + 1;
-		for (int i = nextRoundNum; i <= draftState.getNumberOfRounds(); i++) {
-			if (i%2 == 0) { // if round is even
-				list.add((i * draftState.draft.getDrafters().size()) - (currentDrafter.getDraftOrderNumber() - 1));
-			} else { // if round is odd
-				list.add(((i-1) * draftState.draft.getDrafters().size() ) + currentDrafter.getDraftOrderNumber());
-			}
-		}
-		return list;
-	}
-	
 	
 	private void reorderSuggestionsBasedOnTagLogic(List<Player> suggestions) {
 		ArrayList<Player> copy = new ArrayList<Player>(suggestions);

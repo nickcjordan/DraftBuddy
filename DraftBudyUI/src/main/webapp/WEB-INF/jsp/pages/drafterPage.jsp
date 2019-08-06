@@ -12,7 +12,7 @@
 <link href="css/style.css" rel="stylesheet">
 </head>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<body>
+<body class="dark-falifa-bg">
 	<div class="container-fluid">
 
 		<%@include file="../common/nav.jsp"%>

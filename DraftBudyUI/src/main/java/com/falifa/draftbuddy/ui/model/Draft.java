@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Draft {
 
-	int roundNumber;
+//	int roundNumber;
 	List<Drafter> drafters;
 	String[] orderedNames;
 	
@@ -28,13 +28,13 @@ public class Draft {
 		Collections.reverse(drafters);
 	}
 
-	public int getRoundNumber() {
-		return roundNumber;
-	}
-
-	public void increaseRoundNumber() {
-		this.roundNumber++;
-	}
+//	public int getRoundNumber() {
+//		return roundNumber;
+//	}
+//
+//	public void increaseRoundNumber() {
+//		this.roundNumber++;
+//	}
 
 	public List<Drafter> getDrafters() {
 		return drafters;
@@ -52,9 +52,9 @@ public class Draft {
 		this.orderedNames = orderedNames;
 	}
 
-	public void setRoundNumber(int roundNumber) {
-		this.roundNumber = roundNumber;
-	}
-	
+//	public void setRoundNumber(int roundNumber) {
+//		this.roundNumber = roundNumber;
+//	}
+//	
 	
 }

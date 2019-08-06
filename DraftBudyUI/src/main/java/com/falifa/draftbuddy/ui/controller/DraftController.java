@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -36,7 +37,7 @@ public class DraftController {
 	
 	
 	@RequestMapping(value = "/")
-	public String init(Model model) {
+	public String init() {
 		nflTeams.initializeNFL();
 		draftState.initializeDraft();
 		return "home";
@@ -45,13 +46,15 @@ public class DraftController {
 	// to hit this with "type" --> "http://localhost:8080/start?appRunType=type"
 	@RequestMapping(value = "/start")
 	public String start(@RequestParam(required=false, defaultValue="real") String appRunType, Model model) {
-		init(model);
+//		draftState.startTimer();
+		if (CollectionUtils.isEmpty(draftState.getDraftPicks())) { init(); }
 		draftState.mockDraftMode = (appRunType.equalsIgnoreCase("mock") || appRunType.equalsIgnoreCase("auto"));
 		draftState.draftType = DraftType.getDraftType(appRunType);
 		log.info(appRunType + " :: " + draftState.draftType);
 		draftState.draft = new Draft(draftState.draftType.getOrder());
 		draftState.currentDrafter = draftState.draft.getDrafters().get(0);
 		draftManager.setOptimizedDrafter(draftState.draft);
+		draftState.initializeDraftersDraftPickIndexList();
 		modelUpdater.updateCommonAttributes(model);
 		return (draftState.draftType.equals(DraftType.AUTO_DRAFT)) ? draftManager.autoDraft(model) 
 				: (draftState.draftType.equals(DraftType.MOCK_DRAFT ))  ? draftManager.mockDraft(model) : "pages/dashboardPage";
@@ -59,9 +62,10 @@ public class DraftController {
 
 	@RequestMapping(value = "/pickPlayer")
     public String doPickForDrafter(@RequestParam(defaultValue="") String playerId, Model model) {
+//		draftState.startTimer();
 		draftState.setErrorMessage(null);
 		Player player = nflTeams.getPlayerById(draftManager.resolvePlayerId(playerId));
-		log.info("doPickForDrafter :: picking player " + player.getPlayerName());
+		log.debug("doPickForDrafter :: picking player " + player.getPlayerName());
 		if (!player.getDraftingDetails().isAvailable()) {
 			log.error("doPickForDrafter : " + draftState.getCurrentDrafter().getName() + " :: player " + player.getPlayerName() + " is not available");
 			draftState.setErrorMessage(player.getPlayerName() + " is not available");

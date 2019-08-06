@@ -33,6 +33,7 @@ public class DataParserManager {
 		success &= parseAndUpdateFantasyProsRookiesRankings();
 		success &= parseAndUpdateFantasyProsPositionalProjections();
 		success &= parseAndUpdateFantasyProsTargetLeaders();
+		success &= updater.parseAndUpdateStatsFromAPI();
 		updater.updateJsonCacheFilesWithParsedData();
 		return success;
 	}

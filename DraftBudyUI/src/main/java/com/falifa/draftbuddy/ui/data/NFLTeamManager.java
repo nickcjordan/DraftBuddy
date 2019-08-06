@@ -1,6 +1,7 @@
 package com.falifa.draftbuddy.ui.data;
 
-import static com.falifa.draftbuddy.ui.constants.DataSourcePaths.*;
+import static com.falifa.draftbuddy.ui.constants.DataSourcePaths.DRAFT_STRATEGY_BY_ROUND_FILE_PATH;
+import static com.falifa.draftbuddy.ui.constants.DataSourcePaths.MASTER_NFL_TEAMS_JSON_FILE_PATH;
 import static com.falifa.draftbuddy.ui.constants.DataSourcePaths.MASTER_PLAYERS_JSON_FILE_PATH;
 import static com.falifa.draftbuddy.ui.constants.DataSourcePaths.PLAYER_TAGS_FILE_PATH;
 import static com.falifa.draftbuddy.ui.constants.DataSourcePaths.TAGS_CUSTOM_PATH;
@@ -27,6 +28,7 @@ import org.springframework.util.CollectionUtils;
 import com.falifa.draftbuddy.api.model.PlayerTO;
 import com.falifa.draftbuddy.ui.api.ApiDataDelegate;
 import com.falifa.draftbuddy.ui.api.PlayerNameMatcher;
+import com.falifa.draftbuddy.ui.constants.NflTeamMetadata;
 import com.falifa.draftbuddy.ui.constants.Position;
 import com.falifa.draftbuddy.ui.drafting.sort.AlphabetizedPlayerComparator;
 import com.falifa.draftbuddy.ui.drafting.sort.AlphabetizedTeamComparator;
@@ -44,21 +46,15 @@ public class NFLTeamManager {
 
 	private static final Logger log = LoggerFactory.getLogger(NFLTeamManager.class);
 
+	private static final String PLUS_SIGN = "&#43;";
+	private static final CharSequence MINUS_SIGN = "&#45;";
+
 	private Map<String, Player> playersById;
 	private Map<String, String> playerNameToIdMap;
-	private Map<String, PlayerTO> playerStatsTOMap;
 	private Map<String, NFLTeam> teamsByAbbreviation;
-
-	private ArrayList<String> playerNameToIdMapFailedToFind;
 
 	@Autowired
 	private DraftState draftState;
-
-	@Autowired
-	private PlayerPopulator playerPopulator;
-
-	@Autowired
-	private ApiDataDelegate dataDelegate;
 
 	@Autowired
 	private PlayerNameMatcher nameMatcher;
@@ -69,23 +65,19 @@ public class NFLTeamManager {
 	public NFLTeamManager() {
 		this.playersById = new HashMap<String, Player>();
 		this.teamsByAbbreviation = new HashMap<String, NFLTeam>();
-		this.playerStatsTOMap = new HashMap<String, PlayerTO>();
 		this.playerNameToIdMap = new HashMap<String, String>();
-		this.playerNameToIdMapFailedToFind = new ArrayList<String>();
 	}
 
 	public void initializeNFL() {
-		this.playerNameToIdMapFailedToFind = new ArrayList<String>();
 		try {
 			populateMasterPlayersFromJsonFile();
 			populateMasterTeamsFromJsonFile();
 			populatePlayerStatsFieldsPriorToApi();
-			populatePlayerStatsFromApi();
 			populateManuallySetFieldValuesAndPutOnTeam();
 			populateNflTeamSpecificFieldValues();
 			populatePlayersWithTags();
+			setCurrentPlayerValue();
 			updateDraftStrategyDataFromFile();
-
 			log.info("NFL initialized with {} teams and {} players", teamsByAbbreviation.size(), playersById.size());
 		} catch (Exception e) {
 			log.error("ERROR initializing master players from json", e);
@@ -101,37 +93,6 @@ public class NFLTeamManager {
 				}
 			}
 		}
-	}
-
-	private void populatePlayerStatsFromApi() {
-		int count = 0;
-		playerStatsTOMap = Optional.ofNullable(dataDelegate.getPlayersMapFromApi()).orElse(playerStatsTOMap);
-		for (Entry<String, PlayerTO> entry : playerStatsTOMap.entrySet()) {
-			if (entry.getKey() == null) {
-				log.error("NULL name found in playerStatsTOMap :: id={}", entry.getValue().getPlayerId());
-			} else {
-				String id = null;
-				id = getCorrectIdFromName(entry.getKey());
-				if (playersById.containsKey(id)) {
-					Player p = playersById.get(id);
-					playerPopulator.populatePlayerWithStatsFromTO(p, entry.getValue());
-					count++;
-				} else {
-					log.debug("ERROR playersById did not contain key={}", id);
-					playerNameToIdMapFailedToFind.add(entry.getKey());
-				}
-			}
-		}
-		if (playerNameToIdMapFailedToFind.size() > 0) {
-			log.error("{} players from API response were not found in existing data from FantasyPros :: [{}]", playerNameToIdMapFailedToFind.size(),
-					playerNameToIdMapFailedToFind.stream().collect(Collectors.joining(", ")));
-		}
-		log.info("Successfully populated stats of {} players out of the {} found in the API response", count, playerStatsTOMap.size());
-	}
-
-	private String getCorrectIdFromName(String playerName) {
-		return (playerNameToIdMap.containsKey(nameMatcher.filter(playerName))) ? playerNameToIdMap.get(nameMatcher.filter(playerName))
-				: nameMatcher.findIdForClosestMatchingName(playerName);
 	}
 
 	private void populateManuallySetFieldValuesAndPutOnTeam() {
@@ -167,11 +128,23 @@ public class NFLTeamManager {
 
 	private void populateRemainingFieldsForPlayer(Player player) {
 		player.getDraftingDetails().setAvailable(true);
-		playerPopulator.populateMapStats(player);
-		playerPopulator.populatePlayerProjectedTotalsFields(player);
-		playerPopulator.populatePlayerPriorTotalsFields(player);
 		if (player.getRankMetadata().getOverallRank() == null) {
 			player.getRankMetadata().setOverallRank(String.valueOf(playersById.size()));
+		}
+		if (player.getRankMetadata().getVsAdp() != null) {
+			String vs = player.getRankMetadata().getVsAdp();
+			Integer vsVal = null;
+			if (vs.contains(PLUS_SIGN)) {
+				vsVal = Integer.valueOf(vs.replace(PLUS_SIGN, "").replace(".0", "")).intValue();
+			} else if (vs.contains(MINUS_SIGN)) {
+				vsVal = -Integer.valueOf(vs.replace(MINUS_SIGN, "").replace(".0", "")).intValue();
+			} else {
+				vsVal = Integer.valueOf(vs.replace(".0", "")).intValue();
+			}
+			if (vsVal != null) {
+				player.getDraftingDetails().setVsValueBadgeClass(getValueBadgeClass(vsVal));
+				player.getRankMetadata().setVsAdp(String.valueOf(vsVal));
+			}
 		}
 	}
 
@@ -281,34 +254,40 @@ public class NFLTeamManager {
 		return playersById.get(fantasyProsId);
 	}
 
-	private List<Player> getAllAvailablePlayers(Comparator<Player> comparator) {
-		List<Player> allAvailable = new ArrayList<Player>();
-		for (Player player : playersById.values()) {
-			if (player.getDraftingDetails().isAvailable()) {
-				allAvailable.add(player);
-			}
-		}
+	private List<Player> getAllPlayers(Comparator<Player> comparator, boolean isAvailable) {
+		List<Player> allAvailable = playersById.values().stream().filter(p -> isAvailable == p.getDraftingDetails().isAvailable() && p.getPosition() != null).collect(Collectors.toList());
+		Collections.sort(allAvailable, comparator);
+		return allAvailable;
+	}
+	
+	private List<Player> getAllPlayers(Comparator<Player> comparator) {
+		List<Player> allAvailable = new ArrayList<Player>(playersById.values().stream().filter(p -> p.getPosition() != null).collect(Collectors.toList()));
 		Collections.sort(allAvailable, comparator);
 		return allAvailable;
 	}
 
 	public List<Player> getAllAvailablePlayersByADP() {
-		return getAllAvailablePlayers(new PlayerADPComparator());
+		return getAllPlayers(new PlayerADPComparator(), true);
 	}
 
 	public List<Player> getAllAvailablePlayersByRank() {
-		return getAllAvailablePlayers(new PlayerRankComparator());
+		return getAllPlayers(new PlayerRankComparator(), true);
+	}
+	
+	public List<Player> getAllUnavailablePlayersByADP() {
+		return getAllPlayers(new PlayerADPComparator(), false);
+	}
+	
+	public List<Player> getAllPlayersByADP() {
+		return getAllPlayers(new PlayerADPComparator());
+	}
+	
+	public Map<String, String> getPlayerNameToIdMap() {
+		return playerNameToIdMap;
 	}
 
 	public List<Player> getAvailablePlayersByPositionAsList(Position position) {
-		List<Player> byPosition = new ArrayList<Player>();
-		for (Player player : playersById.values()) {
-			if (player != null) {
-				if (position.equals(player.getPosition()) && player.getDraftingDetails().isAvailable()) {
-					byPosition.add(player);
-				}
-			}
-		}
+		List<Player> byPosition = playersById.values().stream().filter(p -> position.equals(p.getPosition()) && p.getDraftingDetails().isAvailable()).collect(Collectors.toList());
 		Collections.sort(byPosition, new PlayerADPComparator());
 		return byPosition;
 	}
@@ -319,8 +298,29 @@ public class NFLTeamManager {
 
 	public void setCurrentPlayerValue() {
 		for (Player p : playersById.values()) {
-			p.getDraftingDetails().setCurrentPlayerValue(draftState.getPickNumber() - Integer.valueOf(p.getRankMetadata().getAdp()));
+			int value = draftState.getPickNumber() - Integer.valueOf(p.getRankMetadata().getAdp());
+			p.getDraftingDetails().setCurrentPlayerValue(value);
+			p.getDraftingDetails().setCurrentPlayerValueBadgeClass(getValueBadgeClass(value));
 		}
+	}
+
+	private String getValueBadgeClass(int value) {
+		if (value <= -40) { return "neg-40";
+		} else if (value <= -20) { return "neg-20";
+		} else if (value <= -10) { return "neg-10";
+		} else if (value <= -5) { return "neg-5";
+		} else if (value <= -2) { return "neg-2";
+		} else if (value <= 2) { return "even";
+		} else if (value <= 5) { return "pos-2";
+		} else if (value <= 10) { return "pos-5";
+		} else if (value <= 20) { return "pos-10";
+		} else if (value <= 40) { return "pos-20";
+		} else { return "pos-40";
+		}
+	}
+
+	public List<NflTeamMetadata> getNflTeamsSortedByAbbreviation() {
+		return getTeamsSortedByAbbreviation().stream().map(t -> t.getTeam()).collect(Collectors.toList());
 	}
 
 	// public static List<Player> getAllPickedPlayersList(){

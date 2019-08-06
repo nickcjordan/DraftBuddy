@@ -25,7 +25,8 @@ public class DraftBuddyAPIConfig {
 	@Bean
     public CacheManager cacheManager() {
         SimpleCacheManager cacheManager = new SimpleCacheManager();
-        cacheManager.setCaches(Arrays.asList(	new ConcurrentMapCache("rawStatsPlayersMap"), 
+        cacheManager.setCaches(Arrays.asList(	
+        															new ConcurrentMapCache("rawStatsPlayersMap"), 
 //        															new ConcurrentMapCache("weekStatsResponse"), 
 //        															new ConcurrentMapCache("searchedMovieDetails"),
         															new ConcurrentMapCache("allPlayers"),

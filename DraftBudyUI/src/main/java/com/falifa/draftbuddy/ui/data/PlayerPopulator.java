@@ -1,5 +1,6 @@
 package com.falifa.draftbuddy.ui.data;
 
+import java.io.File;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -10,10 +11,11 @@ import org.springframework.stereotype.Component;
 
 import com.falifa.draftbuddy.api.model.PlayerTO;
 import com.falifa.draftbuddy.api.model.PositionStatsDetails;
+import com.falifa.draftbuddy.ui.constants.DataSourcePaths;
 import com.falifa.draftbuddy.ui.model.player.Player;
-import com.falifa.draftbuddy.ui.model.player.stats.RawStatsDetails;
 import com.falifa.draftbuddy.ui.model.player.stats.StatisticCategory;
 import com.falifa.draftbuddy.ui.model.player.stats.StatisticValue;
+import com.falifa.draftbuddy.ui.scraper.JsonDataFileManager;
 
 @Component
 public class PlayerPopulator {
@@ -111,6 +113,5 @@ public class PlayerPopulator {
 			 }
 		 }
 	}
-
-
+	
 }

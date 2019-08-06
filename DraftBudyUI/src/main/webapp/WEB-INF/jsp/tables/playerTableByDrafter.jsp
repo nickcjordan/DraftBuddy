@@ -1,6 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <div class="section">
-	<div class="center"><h3><strong>${teamName}'s Drafted Team:</strong></h3></div>
+	<div class="center"><h3 class="white-title"><strong>${teamName}'s Drafted Team:</strong></h3></div>
 		<table class="table table-sm table-striped header-fixed positions">
 			<thead class="thead-inverse">
 				<tr>

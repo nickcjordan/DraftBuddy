@@ -4,14 +4,14 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Draft Board Page</title>
+<title>Results Page</title>
 
 <link href="css/bootstrap.min.css" rel="stylesheet">
 <link href="css/style.css" rel="stylesheet">
 <script src="js/jquery-slim.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 </head>
-<body>
+<body class="dark-falifa-bg">
 	<div class="container-fluid">
 
 		<%@include file="../common/nav.jsp"%>

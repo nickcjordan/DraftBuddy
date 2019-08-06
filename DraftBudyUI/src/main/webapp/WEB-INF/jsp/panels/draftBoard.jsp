@@ -1,7 +1,7 @@
 <%@page import="fantasy.model.*"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <div class="section">
-	<div class="center"><h3 class="results-title"><strong>Draft Board:</strong></h3></div>
+	<div class="center table-responsive"><h3 class="results-title white-title"><strong>Draft Board:</strong></h3></div>
 		<table class="table table-sm table-striped header-fixed positions result-table ">
 			<thead class="thead-inverse">
 				<tr>
@@ -12,7 +12,7 @@
 				</tr>
 			</thead>
 			<tbody class="draft-board">
-				<c:forEach var = "i" begin = "0" end = "${draftState.roundNum - 1}">
+				<c:forEach var = "i" begin = "0" end = "${draft.getRoundNum() - 1}">
 					<tr>
 						<td class="drafted-id2"><strong>${i+1}</strong></td>
 						<c:forEach items="${drafters}" var="drafter">
@@ -20,18 +20,9 @@
 							<c:choose>
 							    <c:when test="${drafter.getDraftedTeam().getAllInDraftedOrder().size() > i }">
 									<c:set var="player" value="${drafter.getDraftedTeam().getAllInDraftedOrder().get(i)}" scope="page"/>
-							    	<td class="drafted">
-							    		<a class="nameLink" data-toggle="modal" data-target="#${player.getFantasyProsId()}playerModal">
-							    			<c:choose>
-												<c:when test="${player.getPosition().getAbbrev().equals('QB')}"><span class="badge badge-warning draft-board-badge">${player.getPosition().getAbbrev()} ${player.getRankMetadata().getPositionRank()}</span></c:when>
-												<c:when test="${player.getPosition().getAbbrev().equals('RB')}"><span class="badge badge-info draft-board-badge">${player.getPosition().getAbbrev()} ${player.getRankMetadata().getPositionRank()}</span></c:when>
-												<c:when test="${player.getPosition().getAbbrev().equals('WR')}"><span class="badge badge-success draft-board-badge">${player.getPosition().getAbbrev()} ${player.getRankMetadata().getPositionRank()}</span></c:when>
-												<c:when test="${player.getPosition().getAbbrev().equals('TE')}"><span class="badge badge-error draft-board-badge">${player.getPosition().getAbbrev()} ${player.getRankMetadata().getPositionRank()}</span></c:when>
-												<c:when test="${player.getPosition().getAbbrev().equals('K')}"><span class="badge draft-board-badge">${player.getPosition().getAbbrev()} ${player.getRankMetadata().getPositionRank()}</span></c:when>
-												<c:otherwise><span class="badge badge-inverse draft-board-badge">${player.getPosition().getAbbrev()} ${player.getRankMetadata().getPositionRank()}</span></c:otherwise>
-											</c:choose>
-							    			<%-- ${drafter.getDraftedTeam().getAllInDraftedOrder().get(i).getPlayerName()} --%>
-							    			${player.getPlayerName()}
+							    	<td class="drafted center">
+							    		<a class="nameLinkWhite" data-toggle="modal" data-target="#${player.getFantasyProsId()}playerModal">
+							    			<span class="badge draft-board-badge ${player.getPosition().getBadgeClass()}">${player.getPlayerName()}</span>
 						    			</a>
 						    		</td>
 							    </c:when>    

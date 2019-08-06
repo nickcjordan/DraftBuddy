@@ -1,6 +1,10 @@
 package com.falifa.draftbuddy.ui.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.falifa.draftbuddy.ui.results.DraftResultStatistics;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class Drafter {
 
@@ -9,11 +13,19 @@ public class Drafter {
 	private Team draftedTeam;
 	private DraftResultStatistics draftResultStats;
 	private boolean optimized;
+	private List<Integer> draftPickIndices;
 	
 	public Drafter(String name, int draftOrderNumber, Team draftedTeam) {
 		this.name = name;
 		this.draftOrderNumber = draftOrderNumber;
 		this.draftedTeam = draftedTeam;
+		this.draftPickIndices = new ArrayList<Integer>();
+	}
+	
+	@JsonIgnore
+	public boolean hasDraftPickIndex(int index) {
+		boolean hasIt = draftPickIndices.contains(index);
+		return hasIt;
 	}
 
 	public String getName() {
@@ -54,6 +66,14 @@ public class Drafter {
 
 	public void setOptimized(boolean optimized) {
 		this.optimized = optimized;
+	}
+
+	public List<Integer> getDraftPickIndices() {
+		return draftPickIndices;
+	}
+
+	public void setDraftPickIndices(List<Integer> draftPickIndices) {
+		this.draftPickIndices = draftPickIndices;
 	}
 	
 }

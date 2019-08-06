@@ -41,30 +41,31 @@ public class ModelUpdater {
 		updateCurrentDrafterAttributes(model);
 		updateDraftStateAttributes(model);
       	updateNflTeamListsAttributes(model);
-      	log.info("Models updated for all fields :: updated for drafter={}", draftState.getCurrentDrafter().getName());
+      	log.debug("Models updated for all fields :: updated for drafter={}", draftState.getCurrentDrafter().getName());
       	printModel(model);
 	}
 	
 	private void updateCommonAttributesSubset(Model model) {
 		model.addAttribute("error", draftState.errorMessage);
-		log.info("Models updated for common subset");
+		updateDraftStateAttributes(model);
+		log.debug("Models updated for common subset");
 		printModel(model);
 	}
 
 	public void updateCurrentDrafterAttributes(Model model) {
 		model.addAttribute("currentDrafter", draftState.getCurrentDrafter());
-		model.addAttribute("draftersPickNumberList", handler.getDraftPickIndexList(draftState.getCurrentDrafter()));
 		model.addAttribute("playersSortedBySuggestions", handler.getSortedSuggestedPlayers(draftState.getCurrentDrafter()));
 		for (Position position : Position.values()) {
 			model.addAttribute("drafted" + position.getAbbrev(), draftState.currentDrafter.getDraftedTeam().getPlayersByPosition(position)); 
 		}
-		log.info("Models updated for drafter={}", draftState.getCurrentDrafter().getName());
+		log.debug("Models updated for drafter={}", draftState.getCurrentDrafter().getName());
 	}
 
 	public void updateNflTeamListsAttributes(Model model) {
+		model.addAttribute("playersToBuildModalFor", nflTeams.getAllPlayersByADP());
 		model.addAttribute("playersSortedByAdp", nflTeams.getAllAvailablePlayersByADP());
       	model.addAttribute("playersSortedByRank", nflTeams.getAllAvailablePlayersByRank());
-        log.info("Models updated for team list attributes");
+        log.debug("Models updated for team list attributes");
 	}
 
 	public void updateDraftStateAttributes(Model model) {
@@ -73,56 +74,60 @@ public class ModelUpdater {
         model.addAttribute("roundNumber", Math.min(draftState.roundNum, draftState.NUMBER_OF_ROUNDS));
       	model.addAttribute("drafters", draftState.getCorrectlyOrderedDrafterList());
       	model.addAttribute("strategy", draftState.getStrategyByRound().get(String.valueOf(draftState.roundNum)));
-      	updateCommonAttributesSubset(model);
-      	log.info("Models updated for draft state attributes");
+      	log.debug("Models updated for draft state attributes");
 	}
 	
 
 	public void updateModelForPositionPage(String pos, Model model) {
 		if (pos.equals("all")) {
 	    	model.addAttribute("playerList", nflTeams.getAllAvailablePlayersByADP());
+	    	model.addAttribute("playersToBuildModalFor", nflTeams.getAllAvailablePlayersByADP());
 	    	model.addAttribute("positionName", "All Available Players");
 		} else {
 	    	model.addAttribute("playerList", nflTeams.getAvailablePlayersByPositionAsList(Position.get(pos)));
+	    	model.addAttribute("playersToBuildModalFor", nflTeams.getAvailablePlayersByPositionAsList(Position.get(pos)));
 	    	model.addAttribute("positionName", Position.get(pos).getName());
 		}
         updateCommonAttributesSubset(model);
-        log.info("Models updated for position page");
+        log.debug("Models updated for position page");
 	}
 
 	public void updateModelForTeamPage(String teamAbbrev, Model model) {
 		NFLTeam team = nflTeams.getTeam(teamAbbrev);
 		model.addAttribute("team", team);
 		model.addAttribute("teamName", team.getTeam().getFullName());
-		model.addAttribute("allTeams", nflTeams.getTeamsSortedByAbbreviation());
+		model.addAttribute("playersToBuildModalFor", team.getPlayers());
+		model.addAttribute("allTeams", nflTeams.getNflTeamsSortedByAbbreviation());
         updateCommonAttributesSubset(model);
-        log.info("Models updated for team page");
+        log.debug("Models updated for team page");
 	}
 
-	public void updateModelForDrafterPage(Drafter drafter, Model model) {
-		model.addAttribute("team", drafter.getDraftedTeam());
-		model.addAttribute("teamName", drafter.getName());
+	public void updateModelForDrafterPage(Model model) {
+//		model.addAttribute("team", drafter.getDraftedTeam());
+//		model.addAttribute("teamName", drafter.getName());
 		model.addAttribute("drafters", draftState.draft.getDrafters());
+		model.addAttribute("playersToBuildModalFor", nflTeams.getAllUnavailablePlayersByADP());
         updateCommonAttributesSubset(model);
-        log.info("Models updated for drafter page");
+        log.debug("Models updated for drafter page");
 	}
 
 	public void updateModelForDraftBoardPage(Model model) {
 		List<Drafter> drafterList = new ArrayList<Drafter>(draftState.draft.getDrafters());
+		model.addAttribute("playersToBuildModalFor", nflTeams.getAllUnavailablePlayersByADP());
     	if (!draftState.draft.getOrderedNames()[0].equals(drafterList.get(0).getName())) {
     		Collections.reverse(drafterList);
     	}
     	model.addAttribute("drafters", drafterList);
-    	model.addAttribute("draft", draftState.draft);
+    	model.addAttribute("draft", draftState);
     	updateCommonAttributesSubset(model);
-    	log.info("Models updated for draftboard page");
+    	log.debug("Models updated for draftboard page");
 	}
 	
 	private void printModel(Model model) {
-		System.out.println("\n\nMODEL:\n");
-		for (String name : model.asMap().keySet()) {
-			System.out.println("\t" + name);
-		}
+//		System.out.println("\n\nMODEL:\n");
+//		for (String name : model.asMap().keySet()) {
+//			System.out.println("\t" + name);
+//		}
 		
 //		ObjectWriter writer = new ObjectMapper().writer();
 //		for (Entry<String, Object> entry : model.asMap().entrySet()) {

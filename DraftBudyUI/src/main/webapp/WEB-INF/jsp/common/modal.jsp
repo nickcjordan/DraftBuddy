@@ -62,16 +62,23 @@
 							<div class="col-sm-2 proj-title-box">
 								<div class="row proj-stat-header-text proj-title"><strong>Proj Pts:</strong></div>
 								<div class="row proj-stat-text-title proj-stat-text proj-title proj-title-bottom">${player.getPositionalStats().getProjectedTotalPoints()}</div>
+								<div class="row proj-stat-header-text proj-title"><strong>Prior Pts:</strong></div>
+								<div class="row proj-stat-text-title proj-stat-text proj-title proj-title-bottom">${Math.floor(player.getPositionalStats().getPriorTotalPoints())}</div>
 							</div>
 							<div class="col-sm-10 proj-stats-box">
-								<div class="proj-stat-box-header"><strong>Proj:</strong></div>
-								<c:forEach items="${player.getProjectedRawStatsDetails().getStats().entrySet()}" var="stat">
-									<div class="proj-stat-box">
-										<div class="row proj-stat-header-text"><strong>${stat.getKey()}</strong></div>
-										<div class="row proj-stat-text">${stat.getValue()}</div>
-									</div>
-								</c:forEach>
-
+								<div class="row proj-stat-header-text-prior"><strong>Prior Year Totals:</strong></div>
+								<div class="row proj-stat-box">
+									<c:forEach items="${player.getPriorRawStatsDetails().getStats().entrySet()}" var="statCategoryEntry">
+										<div class="proj-stat-box">
+											<c:if test="${!statCategoryEntry.getKey().equalsIgnoreCase(\"MISC\")}">
+												<div class="row proj-stat-column-header-text"><strong>${statCategoryEntry.getKey()}</strong></div>
+											</c:if>
+											<c:forEach items="${statCategoryEntry.getValue().getColumns()}" var="stat">
+												<div class="row proj-stat-header-text"><strong>${stat.getName()}</strong>: ${Math.floor(stat.getValue())}</div>
+											</c:forEach>
+										</div>
+									</c:forEach>
+								</div>
 							</div>
 						</div>
 					</c:if>
@@ -79,7 +86,12 @@
 						<div class="row">
 							<div class="col-md-12">
 								<h3><strong>Player Notes:</strong></h3>
-								<h4 class="modal-notes">${player.getNotesMetadata()}</h4>
+								<c:forEach items="${player.getNotesMetadata().getNotes()}" var="note">
+									<div class="proj-stat-box">
+										<div class="row modal-note-header"><strong>${note.getSource()}</strong> - (${note.getTimestamp()})</div>
+										<div class="row modal-note-body"><p>${note.getText()}</p></div>
+									</div>
+								</c:forEach>
 							</div>
 						</div>
 					</c:if>

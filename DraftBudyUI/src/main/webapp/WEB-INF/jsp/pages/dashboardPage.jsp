@@ -13,22 +13,20 @@
     <script src="js/jquery-slim.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
   </head>
-  <body>
+  <body class="dark-falifa-bg">
   
   
 	<div class="container-fluid">
 	<%@include file="../common/nav.jsp"%>
-	
 	<div class="row">
 		<div class="col-md-2">
-			<div class="center thin-text"><h3><strong>Draft Feed:</strong></h3></div>
+			<div class="center thin-text"><h3 class="white-title"><strong>Draft Feed:</strong></h3></div>
 			<%@include file="../tables/lists/draftFeedList.jsp"%>
 		</div>
 		
-		
 		<div class="col-md-2">
 			<div class="row">
-				<div class="center thin-text"><h3><strong>${currentDrafter.name}'s Team:</strong></h3></div>
+				<div class="center thin-text"><h3 class="white-title"><strong>${currentDrafter.name}'s Team:</strong></h3></div>
 				<%@include file="../tables/dash_draftersTeamTable.jsp"%>
 			</div>
 			<div class="row">
@@ -36,13 +34,12 @@
 			</div>
 		</div>
 		
-		
 		<div class="col-md-8">
 			<ul class="nav nav-tabs all-suggestion-tabs" id="suggestionTableTab" role="tablist">
 				<li class="nav-item active suggestion-tab"><a class="nav-link suggestion-link" id="suggs-tab" data-toggle="tab" href="#suggs" role="tab" aria-controls="suggs" aria-selected="true">Suggestions</a></li>
 				<li class="nav-item suggestion-tab"><a class="nav-link suggestion-link" id="adp-tab" data-toggle="tab" href="#adp" role="tab" aria-controls="adp" aria-selected="false">ADP</a></li>
 				<li class="nav-item suggestion-tab"><a class="nav-link suggestion-link" id="rank-tab" data-toggle="tab" href="#rank" role="tab" aria-controls="rank" aria-selected="false">ECR</a></li>
-				<li class="center thin-text suggestion-title-tag"> <strong>Suggested Available Players:</strong></li>
+				<li class="center thin-text suggestion-title-tag"> <strong class="white-title">Suggested Available Players:</strong></li>
 			</ul>
 			<div class="tab-content" id="suggestionTableTabContent">
 				<div class="tab-pane fade active in" id="suggs" role="tabpanel" aria-labelledby="suggs-tab">
@@ -62,7 +59,6 @@
 	</div>
 </div>
 
-
 	<c:if test="${error} != null">
 		<script>
 			alert("${error}");
@@ -70,7 +66,6 @@
 	</c:if>
 
 	<%@include file="../common/progressBar.jsp"%>
-			
 	</div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 	<script type="text/javascript" src="js/fliplightbox.min.js"></script>

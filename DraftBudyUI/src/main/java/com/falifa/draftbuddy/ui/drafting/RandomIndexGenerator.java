@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
 @Component
 public class RandomIndexGenerator {
@@ -25,8 +26,16 @@ public class RandomIndexGenerator {
 	@Value( "${percent5}" )
 	private int perc5;
 	
+	List<Integer> percentageList;
+	
+	public RandomIndexGenerator() {
+		percentageList = buildPercentages();
+	}
+	
 	public int generate(int pickNumber, int roundNumber) {
-		List<Integer> percentageList = buildPercentages();
+		if (CollectionUtils.isEmpty(percentageList)) {
+			percentageList = buildPercentages();
+		}
 		if (pickNumber < aiVariabilityRound) {
 			return 0; // first X picks are set to standard ADP
 		}

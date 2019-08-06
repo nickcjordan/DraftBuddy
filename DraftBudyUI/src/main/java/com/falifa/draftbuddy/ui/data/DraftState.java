@@ -2,13 +2,14 @@ package com.falifa.draftbuddy.ui.data;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.time.StopWatch;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 import com.falifa.draftbuddy.ui.constants.DraftType;
@@ -17,9 +18,15 @@ import com.falifa.draftbuddy.ui.model.DraftPick;
 import com.falifa.draftbuddy.ui.model.Drafter;
 import com.falifa.draftbuddy.ui.model.RoundSpecificStrategy;
 import com.falifa.draftbuddy.ui.model.player.Player;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.deser.DataFormatReaders.Match;
 
 @Component
 public class DraftState {
+	
+	
+	private static final Logger log = LoggerFactory.getLogger(DraftState.class);
+
 	
 	@Value( "${numberOfRounds}" )
 	public int NUMBER_OF_ROUNDS;
@@ -40,19 +47,23 @@ public class DraftState {
 	public List<Player> currentRoundHandcuffs;
 	
 	@Autowired
-	protected NFLTeamManager nflTeams;
+	private NFLTeamManager nflTeams;
 	
-	public DraftState() {}
+	private StopWatch timer;
+	private long timeIncrementStart = 0l;
+	
+	public DraftState() { timer = new StopWatch(); }
 	
 	public void initializeDraft() {
     	errorMessage = null;
     	draftPicks = new ArrayList<DraftPick>();
+    	currentRoundHandcuffs = new ArrayList<Player>();
     	roundNum = 1;
     	pickNumber = 1;
     	draftOrderIndex = 0;
     	System.out.println("\n\n<^>     Ready to Draft     <^>\n\n");
 	}
-
+	
 	public List<Drafter> getCorrectlyOrderedDrafterList() {
 		List<Drafter> drafterList = new ArrayList<Drafter>(draft.getDrafters());
       	if (!draft.getOrderedNames()[0].equals(drafterList.get(0).getName())) {
@@ -61,30 +72,39 @@ public class DraftState {
 		return drafterList;
 	}
 
-	public double getPercent() {
+	public String getPercent() {  // TODO
 		double percent = 0;
 		if (pickNumber == 1) {
-			return 0;
+			return "0";
 		}
-		percent = (((pickNumber - 1) / (NUMBER_OF_ROUNDS * draft.getDrafters().size())) * 100);
-		double x = (NUMBER_OF_ROUNDS * draft.getDrafters().size());
-		double y = ((pickNumber - 1) / x);
-		double perc = (y * 100);
-		percent = (double)Math.round(percent * 100d) / 100d;
+		double totalPicks = (NUMBER_OF_ROUNDS * draft.getDrafters().size());
+		double div = ((pickNumber - 1) / totalPicks);
+		percent = (div * 100);
 		if (percent < 1) {
-			return 1;
+			return "1";
 		}
-		return percent;
+		return String.valueOf(Math.ceil(percent));
+	}
+	
+	public void initializeDraftersDraftPickIndexList() {
+		for (Drafter drafter : draft.getDrafters()) {
+			List<Integer> draftPickIndicies = new ArrayList<Integer>();
+			for (int roundNumber = 1; roundNumber <= NUMBER_OF_ROUNDS; roundNumber++) {
+				int numberOfDrafters = getDraft().getDrafters().size();
+				if (roundNumber%2 == 0) { // if round is even
+					draftPickIndicies.add((roundNumber * numberOfDrafters) - (drafter.getDraftOrderNumber()-1)); // start from the end of the round and subtract pick index for current round
+				} else { // if round is odd
+					draftPickIndicies.add(((roundNumber-1) * numberOfDrafters) + drafter.getDraftOrderNumber()); // start from beginning of round and add pick index for current round
+				}
+			}
+			drafter.setDraftPickIndices(draftPickIndicies);
+		}
 	}
 	
 	public int getPickNumber() {
 		return pickNumber;
 	}
 
-	public int getCurrentRoundNumber() {
-		return roundNum;
-	}
-	
 	public Drafter moveToNextDrafter() {
 		currentDrafter = draft.getDrafters().get(++draftOrderIndex);
 		return currentDrafter;
@@ -182,7 +202,40 @@ public class DraftState {
 		this.draftType = draftType;
 	}
 
+	public List<Player> getCurrentRoundHandcuffs() {
+		return currentRoundHandcuffs;
+	}
+
+	public void setCurrentRoundHandcuffs(List<Player> currentRoundHandcuffs) {
+		this.currentRoundHandcuffs = currentRoundHandcuffs;
+	}
+
 	
 	
+	// can be used to help monitor performance
+//	@JsonIgnore public void startTimer() { timer.start(); timeIncrementStart = 0; }
+//	@JsonIgnore public long getTime() { 
+//		return timer.getTime();
+//	}
+//	@JsonIgnore public long getTimeIncrement() { 
+//		long current = getTime();
+//		long res = current - timeIncrementStart;
+//		timeIncrementStart = current;
+//		log.info("Time increment = {}", res);
+//		return res;
+//	}
+//	@JsonIgnore public long getTimeIncrement(String text) { 
+//		long current = getTime();
+//		long res = current - timeIncrementStart;
+//		timeIncrementStart = current;
+//		log.info("Time increment = {} :: {}", res, text);
+//		return res;
+//	}
+//	@JsonIgnore public void stopTimer() { 
+//		log.info("Time increment = {}", getTimeIncrement());
+//		timer.stop(); 
+//		log.info("Final elapsed time = {}", getTime());
+//		timer.reset(); 
+//	}
 
 }

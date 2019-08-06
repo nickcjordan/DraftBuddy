@@ -1,12 +1,12 @@
 <%@page import="fantasy.model.*"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <div class="section">
-	<div class="center"><h3 class="results-title"><strong>Draft Analysis:</strong></h3></div>
+	<div class="center"><h3 class="results-title white-title"><strong>Draft Analysis:</strong></h3></div>
 		<table class="table table-sm table-striped header-fixed">
 			<thead class="thead-inverse">
 				<tr>
 					<th class="drafted-id"><strong>Avgs</strong></th>
-					<c:forEach items="${draft.getOrderedNames()}" var="drafter">
+					<c:forEach items="${draft.getDraft().getOrderedNames()}" var="drafter">
 						<th class="drafted-name">${drafter}</th>
 					</c:forEach>
 				</tr>

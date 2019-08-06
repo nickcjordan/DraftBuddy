@@ -1,5 +1,5 @@
 #	RISK("!"), SLEEPER("$"), ROOKIE("R"), NEW_TEAM("@"), FAVORITE("*"), RISING("+"), FALLING("-"), INJURY_RISK("i"), BUST("B")
-A.J. Green,
+A.J. Green,i
 Aaron Jones,*
 Adrian Peterson,*
 Alex Collins,
@@ -27,7 +27,7 @@ Curtis Samuel,+
 D.J. Moore,+
 Dalvin Cook,
 Dante Pettis,*$+
-Darrell Henderson,BRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR
+Darrell Henderson,BR
 Davante Adams,
 David Moore,$
 David Njoku,B
@@ -64,11 +64,11 @@ John Brown,
 Jordan Reed,
 Josh Allen,+
 Josh Gordon,
-Josh Jacobs,!RRRRRRRRRRRRRRRRRRRRRRRRRRRRRR
+Josh Jacobs,!R
 JuJu Smith-Schuster,
 Julian Edelman,
 Julio Jones,
-Justice Hill,$RRRRRRRRRRRRRRRRRRRRRRRRRRRRRR
+Justice Hill,$R
 Kalen Ballage,
 Keenan Allen,
 Keke Coutee,*
@@ -77,8 +77,8 @@ Kenyan Drake,
 Kerryon Johnson,-
 Kirk Cousins,
 Kyle Rudolph,!
-Kyler Murray,+RRRRRRRRRRRRRRRRRRRRRRRRRRRRRR
-Latavius Murray,+
+Kyler Murray,+R
+Latavius Murray,+*
 Le'Veon Bell,!B
 LeSean McCoy,
 Leonard Fournette,
@@ -94,12 +94,12 @@ Michael Gallup,
 Michael Thomas,
 Mike Gesicki,
 Mike Williams,+
-Miles Sanders,BRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR
+Miles Sanders,BR
 Mitch Trubisky,*+$
 Nelson Agholor,
 Nyheim Hines,
 O.J. Howard,
-Parris Campbell,+RRRRRRRRRRRRRRRRRRRRRRRRRRRRRR
+Parris Campbell,+R
 Patrick Mahomes,
 Peyton Barber,B
 Quincy Enunwa,
@@ -112,7 +112,7 @@ Robert Woods,
 Ronald Jones II,$
 Royce Freeman,
 Russell Wilson,B
-Sammy Watkins,
+Sammy Watkins,*
 Saquon Barkley,
 Sony Michel,!
 Stefon Diggs,

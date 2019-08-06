@@ -1,20 +1,33 @@
 package com.falifa.draftbuddy.ui.scraper;
 
-import static com.falifa.draftbuddy.ui.constants.DataSourcePaths.*;
+import static com.falifa.draftbuddy.ui.constants.DataSourcePaths.MASTER_NFL_TEAMS_JSON_FILE_PATH;
+import static com.falifa.draftbuddy.ui.constants.DataSourcePaths.MASTER_PLAYERS_JSON_FILE_PATH;
 
 import java.io.File;
 import java.io.InputStream;
 import java.net.URL;
 import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.falifa.draftbuddy.api.model.PlayerTO;
+import com.falifa.draftbuddy.ui.api.ApiDataDelegate;
+import com.falifa.draftbuddy.ui.api.PlayerNameMatcher;
 import com.falifa.draftbuddy.ui.constants.DataSourcePaths;
 import com.falifa.draftbuddy.ui.constants.NflTeamMetadata;
+import com.falifa.draftbuddy.ui.data.NFLTeamManager;
+import com.falifa.draftbuddy.ui.data.PlayerPopulator;
 import com.falifa.draftbuddy.ui.model.MasterPlayersTO;
 import com.falifa.draftbuddy.ui.model.MasterTeamTO;
 import com.falifa.draftbuddy.ui.model.NFLTeam;
@@ -24,16 +37,33 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Component
 public class JsonDataFileManager {
-	
+
 	private static final Logger log = LoggerFactory.getLogger(JsonDataFileManager.class);
-	
+
 	private Map<String, Player> players;
 	private Map<String, NFLTeam> nflTeams;
+
+	private ArrayList<String> playerNameToIdMapFailedToFind;
+	private Map<String, PlayerTO> playerStatsTOMap;
+
+	@Autowired
+	private NFLTeamManager nflTeamManager;
+
+	@Autowired
+	private ApiDataDelegate dataDelegate;
 	
+	@Autowired
+	private PlayerPopulator playerPopulator;
+	
+	@Autowired
+	private PlayerNameMatcher nameMatcher;
+
 	public JsonDataFileManager() {
 		this.players = new ConcurrentHashMap<String, Player>();
 		this.nflTeams = new ConcurrentHashMap<String, NFLTeam>();
 		nflTeams.put("FA", new NFLTeam("", NflTeamMetadata.FREE_AGENTS));
+		this.playerNameToIdMapFailedToFind = new ArrayList<String>();
+		this.playerStatsTOMap = new HashMap<String, PlayerTO>();
 	}
 
 	public boolean addPlayerDataToExisting(Map<String, Player> playerData) {
@@ -46,26 +76,25 @@ public class JsonDataFileManager {
 	}
 
 	public void addUpdatedPlayer(String fantasyProsId, Player player) {
-		 players.put(fantasyProsId, player);
+		players.put(fantasyProsId, player);
 	}
 
 	public boolean updateJsonCacheFilesWithParsedData() {
 		try {
-			parseAndDownloadImagesOfPlayersForOffline();
 			ObjectMapper mapper = new ObjectMapper();
 			mapper.getSerializerProvider().setNullKeySerializer(new NullStatisticKeySerializer());
 			mapper.writeValue(new File(MASTER_PLAYERS_JSON_FILE_PATH), new MasterPlayersTO(players));
 			log.info("Master players json successfully updated");
-			
+
 			mapper.writeValue(new File(MASTER_NFL_TEAMS_JSON_FILE_PATH), new MasterTeamTO(nflTeams));
 			log.info("Master team structure json initialized successfully");
 			return true;
 		} catch (Exception e) {
 			log.error("ERROR writing json files", e);
 			return false;
-		} 
+		}
 	}
-	
+
 	public boolean playerDoesNotExistInTemporaryStorage(String fantasyProsId) {
 		return !players.containsKey(fantasyProsId);
 	}
@@ -77,30 +106,11 @@ public class JsonDataFileManager {
 	public Map<String, NFLTeam> getNflTeams() {
 		return nflTeams;
 	}
-	
+
 	public void addTeamToNfl(String fantasyProsId, NflTeamMetadata team) {
 		nflTeams.put(team.getAbbreviation(), new NFLTeam(fantasyProsId, team));
 	}
-	
-	private boolean parseAndDownloadImagesOfPlayersForOffline() {
-		boolean success = true;
-		for (Player p : getPlayers().values()) {
-			String filePath = DataSourcePaths.PLAYER_IMAGES_BASE_FILE_PATH + p.getFantasyProsId() + ".png";
-			try {
-				String picLink = p.getPictureMetadata().getPicLink();
-				if (picLink != null) {
-					downloadFileFromUrl(picLink, filePath);
-					p.getPictureMetadata().setPicLocation(filePath);
-					success &= true;
-				}
-			} catch (Exception e) {
-				log.error("ERROR trying to download image file at " + p.getPictureMetadata().getPicLink() + " to " + filePath, e);
-				success = false;
-			}
-		}
-		return success;
-	}
-	
+
 	public boolean downloadFileFromUrl(String sourceUrl, String destPath) {
 		try (InputStream in = new URL(sourceUrl).openStream()) {
 			Files.copy(in, new File(destPath).toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING);
@@ -111,5 +121,64 @@ public class JsonDataFileManager {
 			return false;
 		}
 	}
+
+	public boolean parseAndUpdateStatsFromAPI() {
+		int count = 0;
+		playerStatsTOMap = Optional.ofNullable(dataDelegate.getPlayersMapFromApi()).orElse(playerStatsTOMap);
+		for (Entry<String, PlayerTO> entry : playerStatsTOMap.entrySet()) {
+			if (entry.getKey() == null) {
+				log.error("NULL name found in playerStatsTOMap :: id={}", entry.getValue().getPlayerId());
+			} else {
+				String id = null;
+				id = getCorrectIdFromName(entry.getKey());
+				if (nflTeamManager.getPlayersById().containsKey(id)) {
+					Player p = nflTeamManager.getPlayersById().get(id);
+					playerPopulator.populatePlayerWithStatsFromTO(p, entry.getValue());
+					playerPopulator.populateMapStats(p);
+					playerPopulator.populatePlayerProjectedTotalsFields(p);
+					playerPopulator.populatePlayerPriorTotalsFields(p);
+					downloadPictureFileAndSetField(p);
+					addUpdatedPlayer(p.getFantasyProsId(), p);
+					count++;
+				} else {
+					log.debug("ERROR playersById did not contain key={}", id);
+					playerNameToIdMapFailedToFind.add(entry.getKey());
+				}
+			}
+		}
+		if (playerNameToIdMapFailedToFind.size() > 0) {
+			log.error("{} players from API response were not found in existing data from FantasyPros :: [{}]", playerNameToIdMapFailedToFind.size(),
+					playerNameToIdMapFailedToFind.stream().collect(Collectors.joining(", ")));
+		}
+		log.info("Successfully populated stats of {} players out of the {} found in the API response", count, playerStatsTOMap.size());
+		return true;
+	}
 	
+
+	private void downloadPictureFileAndSetField(Player p) {
+		String picturePath = p.getPlayerName().replaceAll("[^a-zA-Z]+","") + ".png";
+		String filePath = DataSourcePaths.PLAYER_IMAGES_BASE_FILE_PATH + picturePath;
+		String webImagePath = DataSourcePaths.PLAYER_IMAGES_FILE_PATH + picturePath;
+		if (!new File(filePath).exists()) {
+				try {
+					String picLink = p.getPictureMetadata().getSmallPicLink() == null ? p.getPictureMetadata().getPicLink() : p.getPictureMetadata().getSmallPicLink();
+					if (picLink != null) {
+						downloadFileFromUrl(picLink, filePath);
+						p.getPictureMetadata().setPicLocation(webImagePath);
+					} else {
+						log.error("No picture link populated for player {}", p.getPlayerName());
+					}
+				} catch (Exception e) {
+					log.error("ERROR trying to download image file at " + p.getPictureMetadata().getPicLink() + " to " + filePath, e);
+				}
+			}
+		if (StringUtils.isEmpty(p.getPictureMetadata().getPicLocation()) && StringUtils.isNotEmpty(webImagePath)) {
+			p.getPictureMetadata().setPicLocation(webImagePath);
+		}
+	}
+	
+	private String getCorrectIdFromName(String playerName) {
+		return (nflTeamManager.getPlayerNameToIdMap().containsKey(nameMatcher.filter(playerName))) ? nflTeamManager.getPlayerNameToIdMap().get(nameMatcher.filter(playerName))
+				: nameMatcher.findIdForClosestMatchingName(playerName);
+	}
 }

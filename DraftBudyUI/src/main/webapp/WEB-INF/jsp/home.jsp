@@ -4,18 +4,18 @@
 
 	<head>
 		<meta charset="UTF-8">
-		<title>Fantasy Home</title>
+		<title>Draft Buddy</title>
 		<link href="css/bootstrap.min.css" rel="stylesheet">
 		<link href="css/style.css" rel="stylesheet">
 	</head>
 	
-	<body>
+	<body class="dark-falifa-bg">
 	    
 	    
     <!-- Brand and toggle -->
     <div class="navbar-header">
-      <a class="navbar-brand front-brand" href="/">Falifa Industries</a>
-			<div class="intro-alternate"><p><a class="btn btn-block btn-primary update-data-files-button" href="/updateAll">Update Data Files</a></p></div>
+      <a class="navbar-brand front-brand white-title" href="/">Falifa Industries Presents: The Draft Buddy</a>
+			<div class="intro-alternate"><p><a class="btn btn-block btn-primary update-data-files-button" href="/updateAll">Update Player Data</a></p></div>
     </div>
 	    
 	    
