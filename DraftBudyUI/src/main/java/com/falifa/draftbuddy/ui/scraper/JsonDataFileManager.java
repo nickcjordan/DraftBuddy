@@ -4,8 +4,15 @@ import static com.falifa.draftbuddy.ui.constants.DataSourcePaths.MASTER_NFL_TEAM
 import static com.falifa.draftbuddy.ui.constants.DataSourcePaths.MASTER_PLAYERS_JSON_FILE_PATH;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.channels.Channels;
+import java.nio.channels.FileChannel;
+import java.nio.channels.ReadableByteChannel;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -51,10 +58,10 @@ public class JsonDataFileManager {
 
 	@Autowired
 	private ApiDataDelegate dataDelegate;
-	
+
 	@Autowired
 	private PlayerPopulator playerPopulator;
-	
+
 	@Autowired
 	private PlayerNameMatcher nameMatcher;
 
@@ -114,7 +121,7 @@ public class JsonDataFileManager {
 	public boolean downloadFileFromUrl(String sourceUrl, String destPath) {
 		try (InputStream in = new URL(sourceUrl).openStream()) {
 			Files.copy(in, new File(destPath).toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING);
-			log.info("Successfully downloaded file at url {} to file path {}", sourceUrl, destPath);
+			log.info("Download SUCCESS :: url={} :: file path={}", sourceUrl, destPath);
 			return true;
 		} catch (Exception e) {
 			log.error("ERROR downloading file at url {} to file path {} :: message={}", sourceUrl, destPath, e.getMessage());
@@ -133,11 +140,8 @@ public class JsonDataFileManager {
 				id = getCorrectIdFromName(entry.getKey());
 				if (nflTeamManager.getPlayersById().containsKey(id)) {
 					Player p = nflTeamManager.getPlayersById().get(id);
-					playerPopulator.populatePlayerWithStatsFromTO(p, entry.getValue());
-					playerPopulator.populateMapStats(p);
-					playerPopulator.populatePlayerProjectedTotalsFields(p);
+					playerPopulator.populatePlayerWithPriorStatsFromTO(p, entry.getValue());
 					playerPopulator.populatePlayerPriorTotalsFields(p);
-					downloadPictureFileAndSetField(p);
 					addUpdatedPlayer(p.getFantasyProsId(), p);
 					count++;
 				} else {
@@ -153,32 +157,47 @@ public class JsonDataFileManager {
 		log.info("Successfully populated stats of {} players out of the {} found in the API response", count, playerStatsTOMap.size());
 		return true;
 	}
-	
 
 	private void downloadPictureFileAndSetField(Player p) {
-		String picturePath = p.getPlayerName().replaceAll("[^a-zA-Z]+","") + ".png";
+		String picturePath = p.getPlayerName().replaceAll("[^a-zA-Z]+", "");
 		String filePath = DataSourcePaths.PLAYER_IMAGES_BASE_FILE_PATH + picturePath;
 		String webImagePath = DataSourcePaths.PLAYER_IMAGES_FILE_PATH + picturePath;
+		String picLink = p.getPictureMetadata().getPicLink() == null ? p.getPictureMetadata().getSmallPicLink() : p.getPictureMetadata().getPicLink();
+		if (picLink != null) {
+			String ext = picLink.substring(picLink.lastIndexOf(".")); // get file extension from link
+			webImagePath += ext;
+			filePath += ext;
+		}
 		if (!new File(filePath).exists()) {
-				try {
-					String picLink = p.getPictureMetadata().getSmallPicLink() == null ? p.getPictureMetadata().getPicLink() : p.getPictureMetadata().getSmallPicLink();
-					if (picLink != null) {
-						downloadFileFromUrl(picLink, filePath);
-						p.getPictureMetadata().setPicLocation(webImagePath);
-					} else {
-						log.error("No picture link populated for player {}", p.getPlayerName());
+			try {
+				if (picLink != null) {
+					if (!picLink.contains("http")) { // set protocol if not present
+						picLink = "http:" + picLink;
 					}
-				} catch (Exception e) {
-					log.error("ERROR trying to download image file at " + p.getPictureMetadata().getPicLink() + " to " + filePath, e);
+					downloadFileFromUrl(picLink, filePath);
+					p.getPictureMetadata().setPicLocation(webImagePath);
+				} else {
+					log.debug("No picture link populated for player {}", p.getPlayerName());
 				}
+			} catch (Exception e) {
+				log.error("ERROR trying to download image file at " + p.getPictureMetadata().getPicLink() + " to " + filePath, e);
 			}
-		if (StringUtils.isEmpty(p.getPictureMetadata().getPicLocation()) && StringUtils.isNotEmpty(webImagePath)) {
-			p.getPictureMetadata().setPicLocation(webImagePath);
+			if (StringUtils.isEmpty(p.getPictureMetadata().getPicLocation()) && StringUtils.isNotEmpty(webImagePath)) {
+				p.getPictureMetadata().setPicLocation(webImagePath);
+			}
 		}
 	}
-	
+
 	private String getCorrectIdFromName(String playerName) {
 		return (nflTeamManager.getPlayerNameToIdMap().containsKey(nameMatcher.filter(playerName))) ? nflTeamManager.getPlayerNameToIdMap().get(nameMatcher.filter(playerName))
 				: nameMatcher.findIdForClosestMatchingName(playerName);
+	}
+
+	public boolean downloadAndSetPlayerImages() {
+		for (Player p : players.values().stream().distinct().collect(Collectors.toList())) {
+			downloadPictureFileAndSetField(p);
+			addUpdatedPlayer(p.getFantasyProsId(), p);
+		}
+		return true;
 	}
 }

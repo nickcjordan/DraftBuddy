@@ -38,8 +38,10 @@ public class PlayerPopulator {
 			if (stats.size() > 0) {
 				String projectedTotal = stats.containsKey(ALL) ? stats.get(ALL).getStat(TOTAL_FANTASY_POINTS) : stats.containsKey(MISC) ? stats.get(MISC).getStat(TOTAL_FANTASY_POINTS) : null;
 				if (projectedTotal != null) {
-					player.getPositionalStats().setProjectedTotalPoints(projectedTotal);
-					player.getPositionalStats().setProjectedAveragePointsPerGame(String.valueOf(Double.valueOf(projectedTotal) / Double.valueOf(weeksInSeason)));
+					int totalVal = Double.valueOf(projectedTotal).intValue();
+					Double avg = totalVal / Double.valueOf(weeksInSeason);
+					player.getPositionalStats().setProjectedTotalPoints(String.valueOf(totalVal));
+					player.getPositionalStats().setProjectedAveragePointsPerGame(String.valueOf(avg));
 				} else {
 					log.error("ERROR :: first null pointer trying to extract total projected points for player=" + player.getPlayerName() + " :: id=" + player.getFantasyProsId());
 				}
@@ -59,8 +61,10 @@ public class PlayerPopulator {
 			if (stats.size() > 0) {
 				String priorTotal = stats.containsKey(MISC) ? stats.get(MISC).getStat(TOTAL_FANTASY_POINTS) : null;
 				if (priorTotal != null) {
-					player.getPositionalStats().setPriorTotalPoints(priorTotal);
-					player.getPositionalStats().setPriorAveragePointsPerGame(String.valueOf(Double.valueOf(priorTotal) / Double.valueOf(player.getPriorRawStatsDetails().getWeeksOfData())));
+					int totalVal = Double.valueOf(priorTotal).intValue();
+					Double avg = totalVal / Double.valueOf(player.getPriorRawStatsDetails().getWeeksOfData());
+					player.getPositionalStats().setPriorTotalPoints(String.valueOf(totalVal));
+					player.getPositionalStats().setPriorAveragePointsPerGame(String.valueOf(avg));
 				} else {
 					log.debug("ERROR :: first null pointer trying to extract total prior points for player=" + player.getPlayerName() + " :: id=" + player.getFantasyProsId());
 				}
@@ -74,7 +78,7 @@ public class PlayerPopulator {
 		}
 	}
 
-	public void populatePlayerWithStatsFromTO(Player player, PlayerTO to) {
+	public void populatePlayerWithPriorStatsFromTO(Player player, PlayerTO to) {
 		try  {
 			player.getPictureMetadata().setSmallPicLink(to.getSmallImageUrl());
 			player.getPictureMetadata().setPicLink(to.getImageUrl());
@@ -91,12 +95,12 @@ public class PlayerPopulator {
 				 player.getPriorRawStatsDetails().setWeeksOfData(statsByWeek.size());
 				 if (player.getPosition() != null) {
 					 switch (player.getPosition()) {
-					 case QUARTERBACK : positionalStatsBuilder.buildQuarterbackStats(statsByWeek, player); break;
-					 case RUNNINGBACK : positionalStatsBuilder.buildRunningbackStats(statsByWeek, player); break;
-					 case WIDERECEIVER : positionalStatsBuilder.buildWideReceiverStats(statsByWeek, player); break;
-					 case TIGHTEND : positionalStatsBuilder.buildTightEndStats(statsByWeek, player); break;
-					 case DEFENSE : positionalStatsBuilder.buildDefenseStats(statsByWeek, player); break;
-					 case KICKER : positionalStatsBuilder.buildKickerStats(statsByWeek, player); break;
+						 case QUARTERBACK : positionalStatsBuilder.buildQuarterbackStats(statsByWeek, player); break;
+						 case RUNNINGBACK : positionalStatsBuilder.buildRunningbackStats(statsByWeek, player); break;
+						 case WIDERECEIVER : positionalStatsBuilder.buildWideReceiverStats(statsByWeek, player); break;
+						 case TIGHTEND : positionalStatsBuilder.buildTightEndStats(statsByWeek, player); break;
+						 case DEFENSE : positionalStatsBuilder.buildDefenseStats(statsByWeek, player); break;
+						 case KICKER : positionalStatsBuilder.buildKickerStats(statsByWeek, player); break;
 					 }
 				 } else {
 					 log.debug("No Position assigned to player when trying to populate player stats from API weekly stats map :: player={} :: id={}", player.getPlayerName(), player.getFantasyProsId());
@@ -106,7 +110,7 @@ public class PlayerPopulator {
 			 }
 		 }
 
-	public void populateMapStats(Player player) {
+	public void populateProjectedStatsMap(Player player) {
 		 for (StatisticCategory category : player.getProjectedRawStatsDetails().getStatsList()) {
 			 for (StatisticValue stat : category.getColumns()) {
 				 category.getStats().put(stat.getName(), stat);

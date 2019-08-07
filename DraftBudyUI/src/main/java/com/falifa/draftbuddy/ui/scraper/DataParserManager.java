@@ -34,6 +34,7 @@ public class DataParserManager {
 		success &= parseAndUpdateFantasyProsPositionalProjections();
 		success &= parseAndUpdateFantasyProsTargetLeaders();
 		success &= updater.parseAndUpdateStatsFromAPI();
+		success &= updater.downloadAndSetPlayerImages();
 		updater.updateJsonCacheFilesWithParsedData();
 		return success;
 	}

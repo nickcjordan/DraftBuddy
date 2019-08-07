@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.falifa.draftbuddy.ui.data.PlayerPopulator;
 import com.falifa.draftbuddy.ui.model.player.Player;
 import com.falifa.draftbuddy.ui.model.player.stats.StatisticCategory;
 import com.falifa.draftbuddy.ui.model.player.stats.StatisticValue;
@@ -27,6 +28,9 @@ public class PositionalProjectionsExtractor {
 	
 	@Autowired
 	private JsonDataFileManager playerManager;
+	
+	@Autowired
+	private PlayerPopulator playerPopulator;
 
 	public boolean extractPositionalProjectionDataFromElement(Element table) throws NotFound {
 		List<StatisticCategory> categories = buildStatisticsCategories(table.findFirst("<thead>").findEach("<tr>"));
@@ -51,6 +55,8 @@ public class PositionalProjectionsExtractor {
 				for (StatisticCategory category : categories) {
 					p.getProjectedRawStatsDetails().addStatCategory(buildPlayerStatCategory(category, statsIterator));
 				}
+				playerPopulator.populateProjectedStatsMap(p);
+				playerPopulator.populatePlayerProjectedTotalsFields(p);
 				return true;
 			}
 		} catch (Exception e) {
@@ -61,6 +67,7 @@ public class PositionalProjectionsExtractor {
 
 	private StatisticCategory buildPlayerStatCategory(StatisticCategory category, Iterator<Element> statsIterator) {
 		StatisticCategory newCat = new StatisticCategory();
+		newCat.setName(category.getName());
 		for (StatisticValue val : category.getColumns()) {
 			if (statsIterator.hasNext()) {
 				Element dataElement = statsIterator.next();

@@ -3,14 +3,15 @@
 	<table class="table table-sm header-fixed dash tabbed-table thin-celled-table outer-scrollbar">
 		<thead class="thead-inverse">
 			<tr>
-				<th class="id-suggest">Adp</th>
+				<th class="id-suggest">ADP</th>
+				<th class="pos_rank-suggest">ECR</th>
 				<th class="name-suggest">Name</th>
 				<th class="proj-pts-suggest">PrjPts</th>
+				<th class="proj-pts-suggest">PriorPts</th>
 				<th class="value-suggest"><span title="" data-placement="top" data-html="true" data-toggle="tooltip" data-original-title="Current number of picks player differs from their original <b>ADP</b>">Value</span> <script>$('span').tooltip();</script></th>
 				<th class="vsadp-suggest"><span title="" data-placement="top" data-html="true" data-toggle="tooltip" data-original-title="How far away the player's <b>ADP</b> is from the player's <b>Overall Rank</b>">VsAdp</span> <script>$('span').tooltip();</script></th>
 				<th class="tags-suggest">Tags</th>
 				<th class="pos-suggest">Pos</th>
-				<th class="pos_rank-suggest">Rnk</th>
 				<th class="team-suggest">Team</th>
 				<th class="bye-suggest">Bye</th>
 				<th class="stddev-suggest"><span title="" data-placement="top" data-html="true" data-toggle="tooltip" data-original-title="How <b>unsure</b> people are of this player. This measures how much a set of values drifts from the <b>Average</b>, or <em>'a measure confidence'</em> in statistical conclusions">St-Dv</span><script>$('span').tooltip();</script></th>
@@ -31,6 +32,7 @@
 
 				<tr class="tier${player.getTier()}">
 					<td class="id-suggest"><a href="/pickPlayer?playerId=${player.getFantasyProsId()}"> <span class="badge-adp">${player.getRankMetadata().getAdp()}</span>
+					<td class="pos_rank-suggest"><span class="badge-adp">${player.getRankMetadata().getOverallRank()}</span></td>
 					</a></td>
 					<td class="name-suggest">
 						<a class="nameLink" data-toggle="modal" data-target="#${player.getFantasyProsId()}playerModal"> 
@@ -51,6 +53,7 @@
 						</a>
 					</td>
 					<td class="proj-pts-suggest"><strong>${player.getPositionalStats().getProjectedTotalPoints()}</strong></td>
+					<td class="proj-pts-suggest"><strong>${player.getPositionalStats().getPriorTotalPoints()}</strong></td>
 
 					<td class="value-suggest"><span class="badge badge-val badge-${player.getDraftingDetails().getCurrentPlayerValueBadgeClass()}"><strong>${player.getDraftingDetails().getCurrentPlayerValue()}</strong></span></td>
 					
@@ -69,7 +72,6 @@
 
 					<td class="pos-suggest"><span class="badge draft-board-badge ${player.getPosition().getBadgeClass()}">${player.getPosition().getAbbrev()}${player.getRankMetadata().getPositionRank()}</span></td>
 
-					<td class="pos_rank-suggest"><span class="badge-adp">${player.getRankMetadata().getOverallRank()}</span></td>
 
 					<td class="team-suggest">${player.getTeam().getAbbreviation()}</td>
 					<td class="bye-suggest">${player.getBye()}</td>

@@ -60,7 +60,7 @@ public class Player {
 	public void setFantasyProsId(String fantasyProsId) {
 		this.fantasyProsId = fantasyProsId;
 	}
-
+	
 	public int getTier() {
 		return tier;
 	}

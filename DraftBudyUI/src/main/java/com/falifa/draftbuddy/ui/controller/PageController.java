@@ -15,10 +15,8 @@ import com.falifa.draftbuddy.ui.model.Drafter;
 @Controller
 public class PageController {
 	
-	
 	private static final Logger log = LoggerFactory.getLogger(PageController.class);
 
-	
 	@Autowired
 	private DraftState draftState;
 	

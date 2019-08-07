@@ -48,12 +48,12 @@ public class NotesExtractor {
 					String timestamp = detail.findFirst("<span class=\"pull-right timestamp\">").getTextContent();
 					playerToPopulate.getNotesMetadata().addNote(new PlayerNote(timestamp, noteText, "FantasyPros"));
 					playerManager.addUpdatedPlayer(fantasyProsId, playerToPopulate);
-					return true;
 				}
 				String imgLocation = row.findFirst("<td class=\"photo\">").findFirst("<img>").getAtString("src");
-				if (StringUtils.isNotEmpty(imgLocation)) {
-					playerToPopulate.getPictureMetadata().setPicLink(imgLocation);
+				if (StringUtils.isNotEmpty(imgLocation) && StringUtils.isEmpty(playerToPopulate.getPictureMetadata().getSmallPicLink())) {
+					playerToPopulate.getPictureMetadata().setSmallPicLink(imgLocation);
 				}
+				playerManager.addUpdatedPlayer(fantasyProsId, playerToPopulate);
 			} catch (Exception e) {
 				log.error("ERROR parsing player notes :: " + playerDetail.toString(), e);
 			}

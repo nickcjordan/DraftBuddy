@@ -3,6 +3,8 @@ package com.falifa.draftbuddy.ui.data;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.falifa.draftbuddy.api.model.PositionStatsDetails;
@@ -12,14 +14,19 @@ import com.falifa.draftbuddy.ui.model.player.stats.StatisticValue;
 
 @Component
 public class PositionalStatsBuilder {
+	
+	private static final Logger log = LoggerFactory.getLogger(PositionalStatsBuilder.class);
 
+	private static final String FANTASY_POINTS = "FPTS";
 	private static final String PASSING = "PASSING";
 	private static final String RECEIVING = "RECEIVING";
 	private static final String RUSHING = "RUSHING";
 	private static final String MISC = "MISC";
 	private static final String ALL = "ALL";
+	private static final String ZERO = "0";
 
 	public void buildQuarterbackStats(Map<String, PositionStatsDetails> statsByWeek, Player player) {
+		zeroOutPriorTotal(player, MISC);
 		for (Entry<String, PositionStatsDetails> entry : statsByWeek.entrySet()) {
 			addStatValuesToTotalsForPassing(entry.getValue(), player);
 			addStatValuesToTotalsForRushing(entry.getValue(), player);
@@ -27,8 +34,8 @@ public class PositionalStatsBuilder {
 		}
 	}
 	
-
 	public void buildRunningbackStats(Map<String, PositionStatsDetails> statsByWeek, Player player) {
+		zeroOutPriorTotal(player, MISC);
 		for (Entry<String, PositionStatsDetails> entry : statsByWeek.entrySet()) {
 			addStatValuesToTotalsForReceiving(entry.getValue(), player);
 			addStatValuesToTotalsForRushing(entry.getValue(), player);
@@ -37,6 +44,7 @@ public class PositionalStatsBuilder {
 	}
 
 	public void buildWideReceiverStats(Map<String, PositionStatsDetails> statsByWeek, Player player) {
+		zeroOutPriorTotal(player, MISC);
 		for (Entry<String, PositionStatsDetails> entry : statsByWeek.entrySet()) {
 			addStatValuesToTotalsForReceiving(entry.getValue(), player);
 			addStatValuesToTotalsForRushing(entry.getValue(), player);
@@ -45,6 +53,7 @@ public class PositionalStatsBuilder {
 	}
 
 	public void buildTightEndStats(Map<String, PositionStatsDetails> statsByWeek, Player player) {
+		zeroOutPriorTotal(player, MISC);
 		for (Entry<String, PositionStatsDetails> entry : statsByWeek.entrySet()) {
 			addStatValuesToTotalsForReceiving(entry.getValue(), player);
 			addStatValuesToTotalsForRushing(entry.getValue(), player);
@@ -53,16 +62,25 @@ public class PositionalStatsBuilder {
 	}
 
 	public void buildDefenseStats(Map<String, PositionStatsDetails> statsByWeek, Player player) {
+		zeroOutPriorTotal(player, ALL);
 		for (Entry<String, PositionStatsDetails> entry : statsByWeek.entrySet()) {
 			addStatValuesToTotalsForAll(entry.getValue(), player);
 		}
 	}
 
-
 	public void buildKickerStats(Map<String, PositionStatsDetails> statsByWeek, Player player) {
+		zeroOutPriorTotal(player, ALL);
 		for (Entry<String, PositionStatsDetails> entry : statsByWeek.entrySet()) {
 			addStatValuesToTotalsForKicker(entry.getValue(), player);
 			addStatValuesToTotalsForAll(entry.getValue(), player);
+		}
+	}
+	
+	private void zeroOutPriorTotal(Player player, String categoryName) {
+		try {
+			player.getPriorRawStatsDetails().getStatCategory(categoryName).getStatisticValue(FANTASY_POINTS).setValue(ZERO);
+		} catch (Exception e) {
+			log.debug("ERROR setting prior point totals to 0 for player={}", player.getPlayerName());
 		}
 	}
 
@@ -126,7 +144,7 @@ public class PositionalStatsBuilder {
 			 category.setName(MISC);
 			 player.getPriorRawStatsDetails().addStatCategory(category);
 		 }
-		 addValueToStatCategoryTotal("FPTS", week.getTotalPointsScored(), category);
+		 addValueToStatCategoryTotal(FANTASY_POINTS, week.getTotalPointsScored(), category);
 	}
 	
 	private void addStatValuesToTotalsForAll(PositionStatsDetails week, Player player) {
@@ -136,7 +154,7 @@ public class PositionalStatsBuilder {
 			 category.setName(ALL);
 			 player.getPriorRawStatsDetails().addStatCategory(category);
 		 }
-		 addValueToStatCategoryTotal("FPTS", week.getTotalPointsScored(), category);
+		 addValueToStatCategoryTotal(FANTASY_POINTS, week.getTotalPointsScored(), category);
 	}
 
 	private void addValueToStatCategoryTotal(String stat, int addition, StatisticCategory category) {

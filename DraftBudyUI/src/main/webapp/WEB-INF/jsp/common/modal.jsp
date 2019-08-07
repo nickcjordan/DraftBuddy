@@ -4,7 +4,9 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<form action="/pickPlayer" method="post">
-				<h1 class="modal-title" id="${player.getFantasyProsId()}playerModalTitle"><strong>${player.getPlayerName()}</strong><span class="modal-spacer"><small>${player.getPosition().getAbbrev()} - ${player.getRankMetadata().getPositionRank()}</small></span>
+				<h1 class="modal-title" id="${player.getFantasyProsId()}playerModalTitle"><strong>${player.getPlayerName()}</strong>
+					<span class="modal-spacer"><small>${player.getPosition().getAbbrev()} - ${player.getRankMetadata().getPositionRank()}</small></span>
+					<span class="modal-spacer"><small>ID: ${player.getFantasyProsId()}</small></span>
 			        <button type="submit" value="${player.getFantasyProsId()}" name="playerId" class="btn btn-default modal-pick-button">Pick Player</button>
 		      </h1></form>
 			</div>

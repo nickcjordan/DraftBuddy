@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -55,5 +56,10 @@ public class StatisticCategory {
 	public void setStats(Map<String, StatisticValue> stats) {
 		this.stats = stats;
 	}
+	@Override
+	public String toString() {
+		return getName() + " :: " + columns.stream().map(val -> val.toString()).collect(Collectors.joining(","));
+	}
+	
 	
 }
