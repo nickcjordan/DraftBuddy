@@ -161,29 +161,31 @@ public class JsonDataFileManager {
 	private void downloadPictureFileAndSetField(Player p) {
 		String picturePath = p.getPlayerName().replaceAll("[^a-zA-Z]+", "");
 		String filePath = DataSourcePaths.PLAYER_IMAGES_BASE_FILE_PATH + picturePath;
+		String filePathWithExtension = filePath;
 		String webImagePath = DataSourcePaths.PLAYER_IMAGES_FILE_PATH + picturePath;
+		String webImagePathWithExtension = webImagePath;
 		String picLink = p.getPictureMetadata().getPicLink() == null ? p.getPictureMetadata().getSmallPicLink() : p.getPictureMetadata().getPicLink();
-		if (picLink != null) {
+		if (StringUtils.isNotEmpty(picLink)) {
 			String ext = picLink.substring(picLink.lastIndexOf(".")); // get file extension from link
-			webImagePath += ext;
-			filePath += ext;
+			filePathWithExtension += ext;
+			webImagePathWithExtension += ext;
 		}
-		if (!new File(filePath).exists()) {
+		if (!new File(filePath + ".png").exists() && !new File(filePath + ".jpg").exists()) {
 			try {
 				if (picLink != null) {
 					if (!picLink.contains("http")) { // set protocol if not present
 						picLink = "http:" + picLink;
 					}
-					downloadFileFromUrl(picLink, filePath);
-					p.getPictureMetadata().setPicLocation(webImagePath);
+					downloadFileFromUrl(picLink, filePathWithExtension);
+					p.getPictureMetadata().setPicLocation(filePathWithExtension);
 				} else {
 					log.debug("No picture link populated for player {}", p.getPlayerName());
 				}
 			} catch (Exception e) {
-				log.error("ERROR trying to download image file at " + p.getPictureMetadata().getPicLink() + " to " + filePath, e);
+				log.error("ERROR trying to download image file at " + p.getPictureMetadata().getPicLink() + " to " + filePathWithExtension, e);
 			}
-			if (StringUtils.isEmpty(p.getPictureMetadata().getPicLocation()) && StringUtils.isNotEmpty(webImagePath)) {
-				p.getPictureMetadata().setPicLocation(webImagePath);
+			if (StringUtils.isEmpty(p.getPictureMetadata().getPicLocation()) && StringUtils.isNotEmpty(webImagePathWithExtension)) {
+				p.getPictureMetadata().setPicLocation(webImagePathWithExtension);
 			}
 		}
 	}

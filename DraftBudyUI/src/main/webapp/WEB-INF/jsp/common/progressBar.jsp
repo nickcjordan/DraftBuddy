@@ -11,3 +11,9 @@
 <script>
 	document.getElementById("progress-bar").style.width = ${draft.getPercent()} + "%";
 </script>
+
+<div class="container-fluid">
+	<c:forEach items="${playersToBuildModalFor}" var="player">
+		<%@include file="../common/modal.jsp"%>
+	</c:forEach>
+</div>

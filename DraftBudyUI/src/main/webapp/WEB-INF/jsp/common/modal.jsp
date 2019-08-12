@@ -1,97 +1,197 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<div class="modal fade player-modal" id="${player.getFantasyProsId()}playerModal" tabindex="-1" role="dialog" aria-labelledby="${player.getFantasyProsId()}playerModalTitle" aria-hidden="true">
+<div class="modal fade player-modal" id="${player.getFantasyProsId()}playerModal" tabindex="-1" role="dialog" aria-labelledby="${player.getFantasyProsId()}playerModalTitle"
+	aria-hidden="true">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
 				<form action="/pickPlayer" method="post">
-				<h1 class="modal-title" id="${player.getFantasyProsId()}playerModalTitle"><strong>${player.getPlayerName()}</strong>
-					<span class="modal-spacer"><small>${player.getPosition().getAbbrev()} - ${player.getRankMetadata().getPositionRank()}</small></span>
-					<span class="modal-spacer"><small>ID: ${player.getFantasyProsId()}</small></span>
-			        <button type="submit" value="${player.getFantasyProsId()}" name="playerId" class="btn btn-default modal-pick-button">Pick Player</button>
-		      </h1></form>
+					<h1 class="modal-title" id="${player.getFantasyProsId()}playerModalTitle">
+						<strong>${player.getPlayerName()}</strong> <span class="modal-spacer"><small>${player.getPosition().getAbbrev()} -
+								${player.getRankMetadata().getPositionRank()}</small></span>
+					<button type="submit" value="${player.getFantasyProsId()}" name="playerId" class="btn btn-default modal-pick-button">Pick Player</button>
+					<span class="modal-id-text"><small>ID: ${player.getFantasyProsId()}</small></span>
+					</h1>
+				</form>
 			</div>
-			<div class="modal-body col-sm-12">
+			<div class="modal-body">
 				<div class="container-fluid">
 					<div class="row">
-						<div class="col-sm-10">
-							<div class="row">
-								<div class="col-sm-3 no-pad">
-									<div class="player-modal-pic-wrapper">
-										<img src="${player.getPictureMetadata().getPicLocation()}" class="img-fluid img-thumbnail" alt="No Photo Available">
-									</div>
-								</div>
-								<div class="col-sm-9 no-pad">
-								  	<ul class="list-group">
-										<li class="list-group-item modal-list-item"><h3>
-											<strong>Tier: </strong><span class="modal-spacer">${player.getTier()}</span><span class="modal-spacer"></span><span class="modal-spacer"></span>
-											<strong>Team: </strong><span class="modal-spacer">${player.getTeam().getAbbreviation()}</span><span class="modal-spacer"></span><span class="modal-spacer"></span>
-											<strong>Bye: </strong><span class="modal-spacer">${player.getBye()}</span>
-										</h3></li>
-										<li class="list-group-item modal-list-item"><h3><strong>O-Line: </strong>
-											<span class="modal-spacer">Rank:<span class="modal-spacer">${player.getOffensiveLineMetadata().getRank()}</span></span>
-											<span class="modal-spacer">Run:<span class="modal-spacer">${player.getOffensiveLineMetadata().getRushingScore()}</span></span>
-											<span class="modal-spacer">Pass:<span class="modal-spacer">${player.getOffensiveLineMetadata().getPassingScore()}</span></span>
-											<span class="modal-spacer">Avg:<span class="modal-spacer">${player.getOffensiveLineMetadata().getAvgScore()}</span></span>
-										</h3></li>
-										<li class="list-group-item modal-list-item">
-											<h3><strong>Prev Season Targets: </strong>
-												<span class="modal-spacer">Avg:<span class="modal-spacer">${player.getPositionalStats().getPriorAverageTargetsPerGame()}</span></span>
-												<span class="modal-spacer">Total:<span class="modal-spacer">${player.getPositionalStats().getPriorTotalTargets()}</span></span>
-											</h3>
-										</li>
-										<li class="list-group-item modal-list-item">
-											<h3><strong>Rank Metrics: </strong>
-												<span class="modal-spacer">Best:<span class="modal-spacer">${player.getRankMetadata().getBestRank()}</span></span>
-												<span class="modal-spacer">Avg:<span class="modal-spacer">${player.getRankMetadata().getAvgRank()}</span></span>
-												<span class="modal-spacer">Worst:<span class="modal-spacer">${player.getRankMetadata().getWorstRank()}</span></span>
-											</h3>
-										</li>
-										<li class="list-group-item modal-list-item"><h3><strong>Backups: </strong><span class="modal-spacer">${player.getDraftingDetails().getHandcuffs()}</span></h3></li>
-									</ul>
-								</div>
+						<div class="col-sm-3">
+							<div class="player-modal-pic-wrapper">
+								<img src="${player.getPictureMetadata().getPicLocation()}" class="img-fluid img-thumbnail" alt="No Photo Available">
+								<table class="table table-bordered table-sm modal-table">
+									<thead>
+										<tr>
+											<th scope="col">Tier</th>
+											<th scope="col">Team</th>
+											<th scope="col">Bye</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>${player.getTier()}</td>
+											<td>${player.getTeam().getAbbreviation()}</td>
+											<td>${player.getBye()}</td>
+										</tr>
+									</tbody>
+								</table>
 							</div>
 						</div>
-						<div class="col-sm-2">
-							<ul class="list-group">
-								<li class="list-group-item modal-list-item"><h3><strong>Rank:</strong><span class="modal-spacer modal-stat">${player.getRankMetadata().getOverallRank()}</span> </h3></li>
-								<li class="list-group-item modal-list-item"><h3><strong>Adp:</strong><span class="modal-spacer modal-stat">${player.getRankMetadata().getAdp()}</span> </h3></li>
-								<li class="list-group-item modal-list-item"><h3><strong>Vs. Adp:</strong><span class="modal-spacer modal-stat">${player.getRankMetadata().getVsAdp()}</span></h3></li>
-							</ul>
+						<div class="col-sm-3 space-on-top-col">
+							<table class="table table-bordered table-sm modal-table">
+								<thead>
+									<tr>
+										<th class="modal-top-category" class="modal-top-category" scope="col" colspan="3">Draft Position</th>
+									</tr>
+									<tr>
+										<th scope="col">ADP</th>
+										<th scope="col">Value</th>
+										<th scope="col">VsADP</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>${player.getRankMetadata().getAdp()}</td>
+										<td><span class="badge badge-val badge-${player.getDraftingDetails().getCurrentPlayerValueBadgeClass()}"><strong>${player.getDraftingDetails().getCurrentPlayerValue()}</strong></span></td>
+										<td><span class="badge badge-val badge-${player.getDraftingDetails().getVsValueBadgeClass()}"><strong>${player.getRankMetadata().getVsAdp()}</strong></span></td>
+									</tr>
+								</tbody>
+							</table>
+
+							<table class="table table-bordered table-sm modal-table">
+								<thead>
+									<tr>
+										<th class="modal-top-category" scope="col" colspan="3">Ranking</th>
+									</tr>
+									<tr>
+										<th scope="col">Best</th>
+										<th scope="col">Avg</th>
+										<th scope="col">Worst</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>${player.getRankMetadata().getBestRank()}</td>
+										<td>${player.getRankMetadata().getAvgRank()}</td>
+										<td>${player.getRankMetadata().getWorstRank()}</td>
+									</tr>
+								</tbody>
+							</table>
+
+						</div>
+						<div class="col-sm-3 space-on-top-col">
+
+							<c:if test="${player.getPositionalStats().getProjectedTotalPoints() != null}">
+								<table class="table table-bordered table-sm modal-table">
+									<thead>
+										<tr>
+											<th class="modal-top-category" scope="col" colspan="2">Prior Pts</th>
+											<th class="modal-top-category" scope="col" colspan="2">Proj Pts</th>
+										</tr>
+										<tr>
+											<th scope="col">Avg</th>
+											<th scope="col">Tot</th>
+											<th scope="col">Avg</th>
+											<th scope="col">Tot</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>${player.getPositionalStats().getPriorAveragePointsPerGame()}</td>
+											<td>${player.getPositionalStats().getPriorTotalPoints()}</td>
+											<td>${player.getPositionalStats().getProjectedAveragePointsPerGame()}</td>
+											<td>${player.getPositionalStats().getProjectedTotalPoints()}</td>
+										</tr>
+									</tbody>
+								</table>
+							</c:if>
+							
+							<c:if test="${player.getPositionalStats().getPriorTotalTargets() != null}">
+								<table class="table table-bordered table-sm modal-table">
+									<thead>
+										<tr>
+											<th class="modal-top-category" scope="col" colspan="2">Prior Targets</th>
+										</tr>
+										<tr>
+											<th scope="col">Avg</th>
+											<th scope="col">Total</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>${player.getPositionalStats().getPriorAverageTargetsPerGame()}</td>
+											<td>${player.getPositionalStats().getPriorTotalTargets()}</td>
+										</tr>
+									</tbody>
+								</table>
+							</c:if>
+						</div>
+						<div class="col-sm-3 space-on-top-col">
+							<c:if test="${player.getDraftingDetails().getHandcuffs() != null}">
+								<ul class="list-group backups-list">
+									<li class="list-group-item modal-list-item">
+										<h3><b>Backups</b></h3>
+									</li>
+									<li class="list-group-item modal-list-item">
+										<div class="modal-backups-text">${player.getDraftingDetails().getHandcuffs()}</div>
+									</li>
+								</ul>
+							</c:if>
 						</div>
 					</div>
-					<c:if test="${!player.getPositionalStats().getProjectedTotalPoints().equals('-')}">
-						<div class="row proj-row"> 
-							<div class="col-sm-2 proj-title-box">
-								<div class="row proj-stat-header-text proj-title"><strong>Proj Pts:</strong></div>
-								<div class="row proj-stat-text-title proj-stat-text proj-title proj-title-bottom">${player.getPositionalStats().getProjectedTotalPoints()}</div>
-								<div class="row proj-stat-header-text proj-title"><strong>Prior Pts:</strong></div>
-								<div class="row proj-stat-text-title proj-stat-text proj-title proj-title-bottom">${Math.floor(player.getPositionalStats().getPriorTotalPoints())}</div>
-							</div>
-							<div class="col-sm-10 proj-stats-box">
-								<div class="row proj-stat-header-text-prior"><strong>Prior Year Totals:</strong></div>
-								<div class="row proj-stat-box">
-									<c:forEach items="${player.getPriorRawStatsDetails().getStats().entrySet()}" var="statCategoryEntry">
-										<div class="proj-stat-box">
-											<c:if test="${!statCategoryEntry.getKey().equalsIgnoreCase(\"MISC\")}">
-												<div class="row proj-stat-column-header-text"><strong>${statCategoryEntry.getKey()}</strong></div>
-											</c:if>
-											<c:forEach items="${statCategoryEntry.getValue().getColumns()}" var="stat">
-												<div class="row proj-stat-header-text"><strong>${stat.getName()}</strong>: ${Math.floor(stat.getValue())}</div>
+
+					<c:if test="${player.getPriorRawStatsDetails().getStats().size() != 0}">
+						<div class="row">
+							<div class="col-md-12">
+								<table class="table table-bordered table-sm modal-table">
+									<thead>
+										<tr>
+											<c:forEach items="${player.getPriorRawStatsDetails().getStats().entrySet()}" var="statCategoryEntry">
+												<c:if test="${!statCategoryEntry.getKey().equalsIgnoreCase(\"MISC\")}">
+													<th class="modal-top-category" scope="col" colspan="${statCategoryEntry.getValue().getColspan()}">${statCategoryEntry.getKey()}</th>
+												</c:if>
 											</c:forEach>
-										</div>
-									</c:forEach>
-								</div>
+										</tr>
+										<tr>
+											<c:forEach items="${player.getPriorRawStatsDetails().getStats().entrySet()}" var="statCategoryEntry">
+												<c:if test="${!statCategoryEntry.getKey().equalsIgnoreCase(\"MISC\")}">
+													<c:forEach items="${statCategoryEntry.getValue().getStats().entrySet()}" var="statEntry">
+														<th scope="col">${statEntry.getKey()}</th>
+													</c:forEach>
+												</c:if>
+											</c:forEach>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<c:forEach items="${player.getPriorRawStatsDetails().getStats().entrySet()}" var="statCategoryEntry">
+												<c:if test="${!statCategoryEntry.getKey().equalsIgnoreCase(\"MISC\")}">
+													<c:forEach items="${statCategoryEntry.getValue().getStats().entrySet()}" var="statEntry">
+														<td>${statEntry.getValue().getValue()}</td>
+													</c:forEach>
+												</c:if>
+											</c:forEach>
+										</tr>
+									</tbody>
+								</table>
 							</div>
 						</div>
 					</c:if>
+
 					<c:if test="${player.getNotesMetadata() != null}">
 						<div class="row">
 							<div class="col-md-12">
-								<h3><strong>Player Notes:</strong></h3>
+								<h3>
+									<strong>Player Notes:</strong>
+								</h3>
 								<c:forEach items="${player.getNotesMetadata().getNotes()}" var="note">
 									<div class="proj-stat-box">
-										<div class="row modal-note-header"><strong>${note.getSource()}</strong> - (${note.getTimestamp()})</div>
-										<div class="row modal-note-body"><p>${note.getText()}</p></div>
+										<div class="row modal-note-header">
+											<strong>${note.getSource()}</strong> - (${note.getTimestamp()})
+										</div>
+										<div class="row modal-note-body">
+											<p>${note.getText()}</p>
+										</div>
 									</div>
 								</c:forEach>
 							</div>
@@ -99,8 +199,9 @@
 					</c:if>
 				</div>
 			</div>
-			<div class="modal-footer"></div> <!-- container messes up without it -->
+			<div class="modal-footer"></div>
+			<!-- container messes up without it -->
 		</div>
 	</div>
 </div>
- 
+

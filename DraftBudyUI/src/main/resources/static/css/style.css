@@ -56,10 +56,28 @@ body {
 	color: white;
 }
 
+.modal-table>thead>tr>th {
+	text-align: center;
+	font-weight: bold;
+	background-color: #707070;
+	color: white;
+	border-color: black !important;
+	line-height: 1;
+}
+
+.modal-table>tbody>tr>td {
+	text-align: center;
+}
+
+.modal-top-category {
+	font-size: 120%;
+	font-weight: bolder;
+	background-color: #4b4b4b !important;
+}
+
 .nameLink {
 	color: #000000 !important;
 	background-color: transparent;
-	
 }
 
 .nameLink:hover {
@@ -667,7 +685,16 @@ ul.social-network li a {
 .name-suggest {
 	width: 12%;
 	font-size: 10pt;
+	overflow-x: scroll;
+	white-space: nowrap;
+	overflow: auto;
 }
+
+.name-suggest::-webkit-scrollbar { 
+	width: 0 !important;
+	display: none;
+}
+
 .proj-pts-suggest {
 	width: 4%;
 	font-size: 10pt;
@@ -686,7 +713,7 @@ ul.social-network li a {
 .pos-suggest {
 	width: 6%;
 	font-size: 10pt;
-	text-align: right;
+	text-align: center;
 }
 .team-suggest {
 	width: 4%;
@@ -711,9 +738,15 @@ ul.social-network li a {
 .handcuff-suggest {
 	width: 41%;
 	font-size: 10pt;
+	overflow-x: scroll;
+	white-space: nowrap;
+	overflow: auto;
 }
 
-
+.handcuff-suggest::-webkit-scrollbar { 
+	width: 0 !important;
+	display: none;
+}
 
 .id-posList { /* times 6 */
 	width: 3%;
@@ -787,11 +820,6 @@ ul.social-network li a {
 	width: 4%;
 }
 
-.draft-board-badge {
-	padding: 3% 8% 4% 8% !important;
-	margin-left: -60%;
-	font-size: 10px;
-}
 
 .draft-board {
 	height: auto !important;	
@@ -1030,6 +1058,17 @@ html, body {
 	border-radius: 9px;
 }
 
+.draft-board-badge {
+	padding: 3% 8% 4% 8% !important;
+	margin-left: -60%;
+	font-size: 10px;
+	text-shadow: 1px 1px 1px black, 0 0 1em black, 0 0 0.5em black;
+}
+
+.position-badge {
+	text-shadow: 0.5px 0.5px 0.5px black, 0 0 0.2em black, 0 0 0.2em black;
+}
+
 .big-badge {
 	padding: 1px 9px 2px;
 	font-size: 22px;
@@ -1095,11 +1134,11 @@ html, body {
 }
 
 .badge-warning {
-	background-color: #f89406;
+	background-color: #da8505;
 }
 
 .badge-warning:hover {
-	background-color: #da830e;
+	background-color: #be730c;
 }
 
 .badge-success {
@@ -1124,6 +1163,10 @@ html, body {
 
 .badge-inverse:hover {
 	background-color: #953b39;
+}
+
+.smaller-text {
+	font-size: %;
 }
 
 /* Tooltip container */
@@ -1360,18 +1403,31 @@ html, body {
 	text-align: left;
 }
 
-.player-modal-pic-wrapper {
+.modal-id-text {
+	margin-top: 15px;
+	float: right;
+	margin-right: 10px;
+	font-size: 60%;
+}
+
+.player-modal-pic-wrapper  {
 	height: 100%;
-	padding: 0px;
-	margin-top: -12px;
+	text-align: center;
+	display: block;
+	min-width: 200px;
 }
 
 .player-modal-pic-wrapper > img {
 	vertical-align: middle;
 	border: none;
-	position: absolute;
 	min-width: 200px;
-	margin-left: 10px;
+	margin: auto;
+}
+
+.modal-left-col-table-wrapper {
+	max-width: 200px;
+	display: block;
+	text-align: center;
 }
 
 .modal-note-header {
@@ -1382,6 +1438,15 @@ html, body {
 .modal-note-body {
 	text-align: left;
 }
+
+.modal-backups-text {
+	font-size: 1em;
+}
+.space-on-top-col {
+	margin-top: 20px;
+}
+
+
 
 .no-pad {
 	padding: 0px;
@@ -1462,11 +1527,6 @@ html, body {
 	padding-left: 10x;
 	margin: auto;
 }
-
-.proj-row {
-	margin-top: 20px;
-}
-
 
 
 .badge-neg-40 {

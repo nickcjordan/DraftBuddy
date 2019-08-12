@@ -13,6 +13,8 @@ import java.util.Scanner;
 import java.util.TreeSet;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.falifa.draftbuddy.ui.constants.Tag;
@@ -21,6 +23,10 @@ import com.falifa.draftbuddy.ui.model.player.Player;
 
 @Component
 public class StrategyFileHandler {
+	
+	
+	private static final Logger log = LoggerFactory.getLogger(StrategyFileHandler.class);
+
 
 	private static final String HEADER = "#	RISK(\"!\"), SLEEPER(\"$\"), ROOKIE(\"R\"), NEW_TEAM(\"@\"), FAVORITE(\"*\"), RISING(\"+\"), FALLING(\"-\"), INJURY_RISK(\"i\"), BUST(\"B\")";
 	static String first = null;
@@ -87,10 +93,15 @@ public class StrategyFileHandler {
 				sb.append(p.getPlayerName() + ",\n");
 			}
 		}
-		BufferedWriter out = new BufferedWriter(new FileWriter(TAGS_CUSTOM_PATH));
-		out.write(sb.toString());
-		out.flush();
-		out.close();
+		if (sorted.size() > 0) {
+			log.info("Rewrote tags file with {} players", sorted.size());
+			BufferedWriter out = new BufferedWriter(new FileWriter(TAGS_CUSTOM_PATH));
+			out.write(sb.toString());
+			out.flush();
+			out.close();
+		} else {
+			log.error("0 players found to write tags for :: skipping tag file rewrite...");
+		}
 	}
 
 	public RoundSpecificStrategy buildRoundSpecificStrategy(List<String> split) {

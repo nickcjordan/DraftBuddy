@@ -56,7 +56,6 @@
 					<td class="proj-pts-suggest"><strong>${player.getPositionalStats().getPriorTotalPoints()}</strong></td>
 
 					<td class="value-suggest"><span class="badge badge-val badge-${player.getDraftingDetails().getCurrentPlayerValueBadgeClass()}"><strong>${player.getDraftingDetails().getCurrentPlayerValue()}</strong></span></td>
-					
 					<td class="vsadp-suggest"><span class="badge badge-val badge-${player.getDraftingDetails().getVsValueBadgeClass()}"><strong>${player.getRankMetadata().getVsAdp()}</strong></span></td>
 
 					<td class="tags-suggest">
@@ -70,7 +69,7 @@
 						</c:choose>
 					</td>
 
-					<td class="pos-suggest"><span class="badge draft-board-badge ${player.getPosition().getBadgeClass()}">${player.getPosition().getAbbrev()}${player.getRankMetadata().getPositionRank()}</span></td>
+					<td class="pos-suggest"><span class="badge position-badge ${player.getPosition().getBadgeClass()}">${player.getPosition().getAbbrev()}${player.getRankMetadata().getPositionRank()}</span></td>
 
 
 					<td class="team-suggest">${player.getTeam().getAbbreviation()}</td>
@@ -79,7 +78,7 @@
 					
 					<td class="handcuff-suggest">
 						<c:forEach items="${player.getDraftingDetails().getBackups()}" var="backup" varStatus="status" >
-							<a class="nameLink" data-toggle="modal" data-target="#${backup.getFantasyProsId()}playerModal">${backup.getPlayerName()}<c:if test="${!status.last}">, </c:if></a>
+							<a class="nameLink smaller-text" data-toggle="modal" data-target="#${backup.getFantasyProsId()}playerModal">${backup.getPlayerName()}<c:if test="${!status.last}">, </c:if></a>
 						</c:forEach>
 					</td>
 					

@@ -41,8 +41,4 @@
 	</div>
 	<!-- /.container-fluid -->
 </nav>
-<div class="container-fluid">
-	<c:forEach items="${playersToBuildModalFor}" var="player">
-		<%@include file="../common/modal.jsp"%>
-	</c:forEach>
-</div>
+

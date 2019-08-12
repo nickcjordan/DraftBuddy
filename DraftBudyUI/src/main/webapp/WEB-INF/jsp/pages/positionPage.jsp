@@ -37,24 +37,32 @@
 
 
 		<div class="col-md-11">
-			<%@include file="../tables/playerTableByPosition.jsp"%>
-		</div>
+			<%-- <%@include file="../tables/playerTableByPosition.jsp"%> --%>
+			<div class="fill-body-wrapper">
+				<div class="center">
+					<h3 class="white-title">
+						<strong>${positionName}:</strong>
+					</h3>
+				</div>
+				<c:set var="playerListContent" value="${playerList}" scope="application"></c:set>
+				<%@include file="../tables/dash_suggestionTable.jsp"%>
+			</div>
 
-		<c:if test="${error} != null">
-			<script>
+			<c:if test="${error} != null">
+				<script>
 				alert("${error}");
 			</script>
-		</c:if>
+			</c:if>
 
-		<%@include file="../common/progressBar.jsp"%>
+			<%@include file="../common/progressBar.jsp"%>
 
-	</div>
-
-
+		</div>
 
 
 
-	<script
+
+
+		<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 	<script type="text/javascript" src="js/fliplightbox.min.js"></script>
 	<script type="text/javascript">$('#graphics').flipLightBox()

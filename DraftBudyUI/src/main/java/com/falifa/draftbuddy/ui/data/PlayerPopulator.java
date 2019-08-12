@@ -1,6 +1,6 @@
 package com.falifa.draftbuddy.ui.data;
 
-import java.io.File;
+import java.util.Locale;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -11,11 +11,9 @@ import org.springframework.stereotype.Component;
 
 import com.falifa.draftbuddy.api.model.PlayerTO;
 import com.falifa.draftbuddy.api.model.PositionStatsDetails;
-import com.falifa.draftbuddy.ui.constants.DataSourcePaths;
 import com.falifa.draftbuddy.ui.model.player.Player;
 import com.falifa.draftbuddy.ui.model.player.stats.StatisticCategory;
 import com.falifa.draftbuddy.ui.model.player.stats.StatisticValue;
-import com.falifa.draftbuddy.ui.scraper.JsonDataFileManager;
 
 @Component
 public class PlayerPopulator {
@@ -38,10 +36,10 @@ public class PlayerPopulator {
 			if (stats.size() > 0) {
 				String projectedTotal = stats.containsKey(ALL) ? stats.get(ALL).getStat(TOTAL_FANTASY_POINTS) : stats.containsKey(MISC) ? stats.get(MISC).getStat(TOTAL_FANTASY_POINTS) : null;
 				if (projectedTotal != null) {
-					int totalVal = Double.valueOf(projectedTotal).intValue();
+					Double totalVal = Double.valueOf(projectedTotal);
 					Double avg = totalVal / Double.valueOf(weeksInSeason);
-					player.getPositionalStats().setProjectedTotalPoints(String.valueOf(totalVal));
-					player.getPositionalStats().setProjectedAveragePointsPerGame(String.valueOf(avg));
+					player.getPositionalStats().setProjectedTotalPoints(formatToNoDecimals(totalVal));
+					player.getPositionalStats().setProjectedAveragePointsPerGame(formatToOneDecimal(avg));
 				} else {
 					log.error("ERROR :: first null pointer trying to extract total projected points for player=" + player.getPlayerName() + " :: id=" + player.getFantasyProsId());
 				}
@@ -61,10 +59,10 @@ public class PlayerPopulator {
 			if (stats.size() > 0) {
 				String priorTotal = stats.containsKey(MISC) ? stats.get(MISC).getStat(TOTAL_FANTASY_POINTS) : null;
 				if (priorTotal != null) {
-					int totalVal = Double.valueOf(priorTotal).intValue();
+					Double totalVal = Double.valueOf(priorTotal);
 					Double avg = totalVal / Double.valueOf(player.getPriorRawStatsDetails().getWeeksOfData());
-					player.getPositionalStats().setPriorTotalPoints(String.valueOf(totalVal));
-					player.getPositionalStats().setPriorAveragePointsPerGame(String.valueOf(avg));
+					player.getPositionalStats().setPriorTotalPoints(formatToNoDecimals(totalVal));
+					player.getPositionalStats().setPriorAveragePointsPerGame(formatToOneDecimal(avg));
 				} else {
 					log.debug("ERROR :: first null pointer trying to extract total prior points for player=" + player.getPlayerName() + " :: id=" + player.getFantasyProsId());
 				}
@@ -116,6 +114,14 @@ public class PlayerPopulator {
 				 category.getStats().put(stat.getName(), stat);
 			 }
 		 }
+	}
+	
+	private String formatToOneDecimal(Double number) {
+		return String.format("%.1f", number);
+	}
+	
+	private String formatToNoDecimals(Double number) {
+		return String.format("%.0f", number);
 	}
 	
 }

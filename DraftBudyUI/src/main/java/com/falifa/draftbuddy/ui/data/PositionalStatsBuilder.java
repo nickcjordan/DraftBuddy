@@ -91,6 +91,7 @@ public class PositionalStatsBuilder {
 			 category.setName(ALL);
 			 player.getPriorRawStatsDetails().addStatCategory(category);
 		 }
+		 category.setColspan(category.getStats().size());
 		 addValueToStatCategoryTotal("FG_0_20", week.getFg_0_20(), category);
 		 addValueToStatCategoryTotal("FG_20_30", week.getFg_20_30(), category);
 		 addValueToStatCategoryTotal("FG_30_40", week.getFg_30_40(), category);
@@ -106,6 +107,7 @@ public class PositionalStatsBuilder {
 			 category.setName(PASSING);
 			 player.getPriorRawStatsDetails().addStatCategory(category);
 		 }
+		 category.setColspan(category.getStats().size());
 		 addValueToStatCategoryTotal("ATT", week.getPassAttempts(), category);
 		 addValueToStatCategoryTotal("CMP", week.getPassCompletions(), category);
 		 addValueToStatCategoryTotal("YDS", week.getPassYards(), category);
@@ -120,6 +122,7 @@ public class PositionalStatsBuilder {
 			 category.setName(RUSHING);
 			 player.getPriorRawStatsDetails().addStatCategory(category);
 		 }
+		 category.setColspan(category.getStats().size());
 		 addValueToStatCategoryTotal("ATT", week.getRushAttempts(), category);
 		 addValueToStatCategoryTotal("YDS", week.getRushYards(), category);
 		 addValueToStatCategoryTotal("TDS", week.getRushTouchdowns(), category);
@@ -132,6 +135,7 @@ public class PositionalStatsBuilder {
 			 category.setName(RECEIVING);
 			 player.getPriorRawStatsDetails().addStatCategory(category);
 		 }
+		 category.setColspan(category.getStats().size());
 		 addValueToStatCategoryTotal("REC", week.getReceptions(), category);
 		 addValueToStatCategoryTotal("YDS", week.getReceivingYards(), category);
 		 addValueToStatCategoryTotal("TDS", week.getReceivingTouchdowns(), category);
@@ -144,6 +148,7 @@ public class PositionalStatsBuilder {
 			 category.setName(MISC);
 			 player.getPriorRawStatsDetails().addStatCategory(category);
 		 }
+		 category.setColspan(category.getStats().size());
 		 addValueToStatCategoryTotal(FANTASY_POINTS, week.getTotalPointsScored(), category);
 	}
 	
@@ -154,6 +159,7 @@ public class PositionalStatsBuilder {
 			 category.setName(ALL);
 			 player.getPriorRawStatsDetails().addStatCategory(category);
 		 }
+		 category.setColspan(category.getStats().size());
 		 addValueToStatCategoryTotal(FANTASY_POINTS, week.getTotalPointsScored(), category);
 	}
 

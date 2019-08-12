@@ -19,6 +19,7 @@ import java.util.Optional;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,7 +73,7 @@ public class NFLTeamManager {
 		try {
 			populateMasterPlayersFromJsonFile();
 			populateMasterTeamsFromJsonFile();
-			populatePlayerStatsFieldsPriorToApi();
+			populatePlayerNameMap();
 			populateManuallySetFieldValuesAndPutOnTeam();
 			populateNflTeamSpecificFieldValues();
 			populatePlayersWithTags();
@@ -84,7 +85,7 @@ public class NFLTeamManager {
 		}
 	}
 
-	private void populatePlayerStatsFieldsPriorToApi() {
+	private void populatePlayerNameMap() {
 		if (!CollectionUtils.isEmpty(playersById) && !CollectionUtils.isEmpty(teamsByAbbreviation)) {
 			for (Player player : playersById.values()) {
 				if (player.getPlayerName() != null) {
@@ -134,16 +135,18 @@ public class NFLTeamManager {
 		if (player.getRankMetadata().getVsAdp() != null) {
 			String vs = player.getRankMetadata().getVsAdp();
 			Integer vsVal = null;
-			if (vs.contains(PLUS_SIGN)) {
-				vsVal = Integer.valueOf(vs.replace(PLUS_SIGN, "").replace(".0", "")).intValue();
-			} else if (vs.contains(MINUS_SIGN)) {
-				vsVal = -Integer.valueOf(vs.replace(MINUS_SIGN, "").replace(".0", "")).intValue();
-			} else {
-				vsVal = Integer.valueOf(vs.replace(".0", "")).intValue();
-			}
-			if (vsVal != null) {
-				player.getDraftingDetails().setVsValueBadgeClass(getValueBadgeClass(vsVal));
-				player.getRankMetadata().setVsAdp(String.valueOf(vsVal));
+			if (StringUtils.isNotEmpty(vs)) {
+				if (vs.contains(PLUS_SIGN)) {
+					vsVal = Integer.valueOf(vs.replace(PLUS_SIGN, "").replace(".0", "")).intValue();
+				} else if (vs.contains(MINUS_SIGN)) {
+					vsVal = -Integer.valueOf(vs.replace(MINUS_SIGN, "").replace(".0", "")).intValue();
+				} else {
+					vsVal = Integer.valueOf(vs.replace(".0", "")).intValue();
+				}
+				if (vsVal != null) {
+					player.getDraftingDetails().setVsValueBadgeClass(getValueBadgeClass(vsVal));
+					player.getRankMetadata().setVsAdp(String.valueOf(vsVal));
+				}
 			}
 		}
 	}
