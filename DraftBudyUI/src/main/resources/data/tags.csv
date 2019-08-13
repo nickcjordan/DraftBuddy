@@ -1,9 +1,9 @@
 #	RISK("!"), SLEEPER("$"), ROOKIE("R"), NEW_TEAM("@"), FAVORITE("*"), RISING("+"), FALLING("-"), INJURY_RISK("i"), BUST("B")
 A.J. Green,i
-Aaron Jones,*
+Aaron Jones,+
 Adrian Peterson,*
 Alex Collins,
-Allen Robinson,*+
+Allen Robinson,*+B
 Alshon Jeffery,+
 Alvin Kamara,
 Amari Cooper,B
@@ -11,29 +11,30 @@ Andrew Luck,
 Anthony Miller,*
 Baker Mayfield,
 Ben Roethlisberger,B
-Brandin Cooks,
+Brandin Cooks,+
 Calvin Ridley,
+Cam Newton,*+
 Carlos Hyde,
 Carson Wentz,+
-Chris Carson,
+Chris Carson,*
 Chris Herndon IV,B
 Chris Thompson,
 Christian Kirk,
 Christian McCaffrey,
-Cooper Kupp,
-Corey Davis,
+Cooper Kupp,i!+
+Corey Davis,-
 Courtland Sutton,B
-Curtis Samuel,+
-D.J. Moore,+
+Curtis Samuel,+*
+D.J. Moore,+-
 Dalvin Cook,
 Dante Pettis,*$+
 Darrell Henderson,BR
 Davante Adams,
-David Moore,$
+David Moore,$*
 David Njoku,B
 DeSean Jackson,*$
 Dede Westbrook,
-Delanie Walker,
+Delanie Walker,*
 Derrick Henry,
 Derrius Guice,!iB-
 Deshaun Watson,+
@@ -44,7 +45,7 @@ Donte Moncrief,+*
 Drew Brees,
 Duke Johnson,
 Eli Manning,
-Emmanuel Sanders,i-
+Emmanuel Sanders,i-!
 Evan Engram,+
 George Kittle,-B
 Geronimo Allison,*+
@@ -54,11 +55,11 @@ Jamaal Williams,
 Jameis Winston,*$
 James Washington,*$
 James White,*+
-Jared Cook,
+Jared Cook,-
 Jared Goff,B*$
 Jarvis Landry,
 Jerick McKinnon,
-Jimmy Graham,
+Jimmy Graham,*
 Joe Mixon,
 John Brown,
 Jordan Reed,
@@ -68,13 +69,13 @@ Josh Jacobs,!R
 JuJu Smith-Schuster,
 Julian Edelman,
 Julio Jones,
-Justice Hill,$R
+Justice Hill,$R*
 Kalen Ballage,
 Keenan Allen,
 Keke Coutee,*
 Kenny Golladay,B
 Kenyan Drake,
-Kerryon Johnson,-
+Kerryon Johnson,+
 Kirk Cousins,
 Kyle Rudolph,!
 Kyler Murray,+R
@@ -84,7 +85,8 @@ LeSean McCoy,
 Leonard Fournette,
 Marcus Mariota,
 Mark Andrews,*$
-Marlon Mack,B-
+Mark Ingram,-
+Marlon Mack,B-+
 Marquez Valdes-Scantling,*
 Marquise Goodwin,
 Marvin Jones,*+
@@ -92,10 +94,12 @@ Matt Ryan,
 Matthew Stafford,
 Michael Gallup,
 Michael Thomas,
+Mike Davis,*
 Mike Gesicki,
 Mike Williams,+
 Miles Sanders,BR
-Mitch Trubisky,*+$
+Mitch Trubisky,*+$!
+Mohamed Sanu,*
 Nelson Agholor,
 Nyheim Hines,
 O.J. Howard,
@@ -107,7 +111,7 @@ Randall Cobb,
 Rashaad Penny,
 Rex Burkhead,
 Ricky Seals-Jones,
-Robby Anderson,B
+Robby Anderson,B-
 Robert Woods,
 Ronald Jones II,$
 Royce Freeman,
@@ -117,7 +121,7 @@ Saquon Barkley,
 Sony Michel,!
 Stefon Diggs,
 Sterling Shepard,
-T.Y. Hilton,
+T.Y. Hilton,-
 Tevin Coleman,!B
 Tom Brady,B
 Trey Burton,
@@ -125,3 +129,4 @@ Tyler Lockett,B
 Tyreek Hill,
 Vance McDonald,*+
 Will Fuller,B
+Dak Prescott,*

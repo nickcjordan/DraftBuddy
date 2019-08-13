@@ -38,7 +38,7 @@
 			<div class="tab-content" id="suggestionTableTabContent">
 
 						<div class="section">
-							<table data-toggle="table" class="table table-sm header-fixed dash tabbed-table thin-celled-table outer-scrollbar">
+							<table data-toggle="table" class="table table-sm header-fixed dashboard-dash tabbed-table thin-celled-table outer-scrollbar">
 								<thead class="thead-inverse">
 									<tr>
 										<th class="id-suggest"><a href="/sortSuggestions?sortBy=ADP">ADP</a></th>

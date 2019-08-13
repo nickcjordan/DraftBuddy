@@ -1,5 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<div class="section">
+<div class="">
 	<table class="table table-sm table-striped header-fixed dash">
 		<thead class="thead thead-inverse">
 			<tr>

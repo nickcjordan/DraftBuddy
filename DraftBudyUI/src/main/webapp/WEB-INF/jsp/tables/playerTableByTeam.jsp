@@ -1,5 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<div class="section">
+<div class="">
 	<div class="center"><h3 class="white-title"><strong>Available Players on ${teamName}:</strong></h3></div>
 		<table class="table table-sm header-fixed positions white-cells">
 			<thead class="thead-inverse">

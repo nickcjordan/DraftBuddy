@@ -45,7 +45,7 @@
 					</h3>
 				</div>
 				<c:set var="position" value="${position}" scope="application"></c:set>
-				<div class="section">
+				<div class="">
 					<table data-toggle="table" class="table table-sm header-fixed dash tabbed-table thin-celled-table outer-scrollbar">
 						<thead class="thead-inverse">
 							<tr>

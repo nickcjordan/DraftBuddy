@@ -254,27 +254,7 @@ a {
 	border-right: none !important;
 }
 
-/* 
-.table > tbody > tr:first-child {
-    padding: 8px;
-    line-height: 1.4285;
-    vertical-align: top;
-} */
 
-/* .nav-pills .nav-link {
-  border-radius: 0.25rem;
-}
-
-.nav-pills .nav-link.active,
-.nav-pills .nav-item.show .nav-link {
-  color: #fff;
-  cursor: default;
-  background-color: #0275d8;
-} */
-.pre-scrollable {
-	max-height: 800px;
-	overflow-y: scroll;
-}
 
 .nav-pills>li {
 	float: left;
@@ -922,7 +902,7 @@ ul.social-network li a {
 /* style of navbar Round number header */
 .roundHeader {
 	margin-top: 10px;
-	margin-left: 180px;
+	margin-left: 100px;
 	font-size: 16pt;
 	text-shadow: black;
 }
@@ -973,7 +953,7 @@ ul.social-network li a {
 }
 
 .positions>tbody {
-	height: 870px;
+	height: 850px;
 }
 
 .positions {
@@ -981,8 +961,18 @@ ul.social-network li a {
 }
 
 .dash>tbody {
-	max-height: 870px;
+	max-height: 850px;
 	flex: 1;
+}
+
+.dashboard-dash>tbody {
+	max-height: 900px;
+	flex: 1;
+}
+
+.dashboard-dash {
+	flex: 1;
+	margin-bottom: 10px !important;
 }
 
 .outer-scrollbar>tbody {
@@ -995,7 +985,7 @@ ul.social-network li a {
 }
 
 .scaled-body {
-	max-height: 870px
+	max-height: 850px
 }
 
 html, body {
@@ -1038,7 +1028,7 @@ html, body {
 .section {
 	/* height: -webkit-fill-available;
 	overflow: auto; */
-	
+	margin-top: 10px;
 }
 
 .header-fixed>tbody>tr>td, .header-fixed>thead>tr>th {
