@@ -1,30 +1,10 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<div class="section">
-	<table class="table table-sm header-fixed dash tabbed-table thin-celled-table outer-scrollbar">
-		<thead class="thead-inverse">
-			<tr>
-				<th class="id-suggest">ADP</th>
-				<th class="pos_rank-suggest">ECR</th>
-				<th class="name-suggest">Name</th>
-				<th class="proj-pts-suggest">PrjPts</th>
-				<th class="proj-pts-suggest">PriorPts</th>
-				<th class="value-suggest"><span title="" data-placement="top" data-html="true" data-toggle="tooltip" data-original-title="Current number of picks player differs from their original <b>ADP</b>">Value</span> <script>$('span').tooltip();</script></th>
-				<th class="vsadp-suggest"><span title="" data-placement="top" data-html="true" data-toggle="tooltip" data-original-title="How far away the player's <b>ADP</b> is from the player's <b>Overall Rank</b>">VsAdp</span> <script>$('span').tooltip();</script></th>
-				<th class="tags-suggest">Tags</th>
-				<th class="pos-suggest">Pos</th>
-				<th class="team-suggest">Team</th>
-				<th class="bye-suggest">Bye</th>
-				<th class="stddev-suggest"><span title="" data-placement="top" data-html="true" data-toggle="tooltip" data-original-title="How <b>unsure</b> people are of this player. This measures how much a set of values drifts from the <b>Average</b>, or <em>'a measure confidence'</em> in statistical conclusions">St-Dv</span><script>$('span').tooltip();</script></th>
-				<th class="handcuff-suggest">Backups</th>
-			</tr>
-		</thead>
-
 		<tbody class="scaled-body">
 			<c:set var="pickIndexTempVar" value="${0}" scope="application" />
 			<c:forEach items="${playerListContent}" var="player" varStatus="status">
 				<!-- set next pick number divider bar -->
 				<c:choose>
-					<c:when test="${draft.getCurrentDrafter().hasDraftPickIndex(draft.getPickNumber() + pickIndexTempVar)}">
+					<c:when test="${(pickIndexTempVar != 0) && (draft.getCurrentDrafter().hasDraftPickIndex(draft.getPickNumber() + pickIndexTempVar))}">
 						<tr class="center table-divider"><td><b>Your Next Pick</b></td><td><b>Your Next Pick</b></td><td><b>Your Next Pick</b></td><td><b>Your Next Pick</b></td></tr>
 					</c:when>
 				</c:choose>
@@ -52,11 +32,14 @@
 							</c:choose>
 						</a>
 					</td>
-					<td class="proj-pts-suggest"><strong>${player.getPositionalStats().getProjectedTotalPoints()}</strong></td>
-					<td class="proj-pts-suggest"><strong>${player.getPositionalStats().getPriorTotalPoints()}</strong></td>
-
+					<td class="proj-pts-suggest"><strong>${player.getPositionalStats().getProjectedAveragePointsPerGame()}</strong></td>
 					<td class="value-suggest"><span class="badge badge-val badge-${player.getDraftingDetails().getCurrentPlayerValueBadgeClass()}"><strong>${player.getDraftingDetails().getCurrentPlayerValue()}</strong></span></td>
 					<td class="vsadp-suggest"><span class="badge badge-val badge-${player.getDraftingDetails().getVsValueBadgeClass()}"><strong>${player.getRankMetadata().getVsAdp()}</strong></span></td>
+					<td class="proj-pts-suggest"><strong>${player.getPositionalStats().getPriorTotalPoints()}</strong></td>
+					<td class="proj-pts-suggest"><strong>${player.getPositionalStats().getPriorAveragePointsPerGame()}</strong></td>
+					<td class="proj-pts-suggest"><strong>${player.getPositionalStats().getPriorTotalTargets()}</strong></td>
+					<td class="proj-pts-suggest"><strong>${player.getPositionalStats().getPriorAverageTargetsPerGame()}</strong></td>
+
 
 					<td class="tags-suggest">
 						<c:choose>
@@ -86,7 +69,3 @@
 
 			</c:forEach>
 		</tbody>
-	</table>
-</div>
-
-

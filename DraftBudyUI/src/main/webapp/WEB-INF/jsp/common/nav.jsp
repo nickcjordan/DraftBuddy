@@ -21,20 +21,18 @@
 				<li><a href="/nflTeams">Players By Team</a></li>
 				<li><a href="/drafters">Drafters</a></li>
 				<li><a href="/draftBoard">Draft Board</a></li>
-				<li><div class="roundHeader">
+				<li>
+					<div class="roundHeader">
 						<span class="big-badge">Round ${draft.getRoundNum()}</span>&nbsp;&nbsp;&nbsp;
 						<span class="big-badge">Pick ${draft.pickNumber}</span>
-					</div></li>
+					</div>
+				</li>
+				<li>
+					<div class="roundHeader">
+						Drafting: <span class="big-badge">${draft.getCurrentDrafter().getName()}</span>
+					</div>
+				</li>
 			</ul>
-
-			<!-- Submit form -->
-			<form class="navbar-form navbar-right" action="/pickPlayer"
-				method="post">
-				<div class="form-group">
-					<input type="text" class="form-control" placeholder="Enter Player Rank" name="playerId" id="idInput">
-				</div>
-				<button type="submit" class="btn btn-default">Pick Player</button>
-			</form>
 
 		</div>
 		<!-- /.navbar-collapse -->

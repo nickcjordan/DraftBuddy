@@ -290,7 +290,7 @@ public class NFLTeamManager {
 	}
 
 	public List<Player> getAvailablePlayersByPositionAsList(Position position) {
-		List<Player> byPosition = playersById.values().stream().filter(p -> position.equals(p.getPosition()) && p.getDraftingDetails().isAvailable()).collect(Collectors.toList());
+		List<Player> byPosition = position == null ? playersById.values().stream().filter(p -> p.getPosition() != null && p.getDraftingDetails().isAvailable()).collect(Collectors.toList()) : playersById.values().stream().filter(p -> position.equals(p.getPosition()) && p.getDraftingDetails().isAvailable()).collect(Collectors.toList());
 		Collections.sort(byPosition, new PlayerADPComparator());
 		return byPosition;
 	}

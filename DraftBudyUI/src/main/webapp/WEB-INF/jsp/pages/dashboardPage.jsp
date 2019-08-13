@@ -35,27 +35,36 @@
 		</div>
 		
 		<div class="col-md-8">
-			<ul class="nav nav-tabs all-suggestion-tabs" id="suggestionTableTab" role="tablist">
-				<li class="nav-item active suggestion-tab"><a class="nav-link suggestion-link" id="suggs-tab" data-toggle="tab" href="#suggs" role="tab" aria-controls="suggs" aria-selected="true">Suggestions</a></li>
-				<li class="nav-item suggestion-tab"><a class="nav-link suggestion-link" id="adp-tab" data-toggle="tab" href="#adp" role="tab" aria-controls="adp" aria-selected="false">ADP</a></li>
-				<li class="nav-item suggestion-tab"><a class="nav-link suggestion-link" id="rank-tab" data-toggle="tab" href="#rank" role="tab" aria-controls="rank" aria-selected="false">ECR</a></li>
-				<li class="center thin-text suggestion-title-tag"> <strong class="white-title">Suggested Available Players:</strong></li>
-			</ul>
 			<div class="tab-content" id="suggestionTableTabContent">
-				<div class="tab-pane fade active in" id="suggs" role="tabpanel" aria-labelledby="suggs-tab">
-					<c:set var="playerListContent" value="${playersSortedBySuggestions}" scope="application"></c:set>
-					<%@include file="../tables/dash_suggestionTable.jsp"%>
+
+						<div class="section">
+							<table data-toggle="table" class="table table-sm header-fixed dash tabbed-table thin-celled-table outer-scrollbar">
+								<thead class="thead-inverse">
+									<tr>
+										<th class="id-suggest"><a href="/sortSuggestions?sortBy=ADP">ADP</a></th>
+										<th class="pos_rank-suggest"><a href="/sortSuggestions?sortBy=ECR">ECR</a></th>
+										<th class="name-suggest"><a href="/sortSuggestions?sortBy=NAME">Name</a></th>
+										<th class="proj-pts-suggest"><a href="/sortSuggestions?sortBy=PROJ_PTS">PrjAvg</a></th>
+										<th class="value-suggest"><a href="/sortSuggestions?sortBy=ADP_VAL"><span title="" data-placement="top" data-html="true" data-toggle="tooltip" data-original-title="Current number of picks player differs from their original <b>ADP</b>">Value</span> <script>$('span').tooltip();</script></a></th>
+										<th class="vsadp-suggest"><a href="/sortSuggestions?sortBy=VS_ADP_VAL"><span title="" data-placement="top" data-html="true" data-toggle="tooltip" data-original-title="How far away the player's <b>ADP</b> is from the player's <b>Overall Rank</b>">VsAdp</span> <script>$('span').tooltip();</script></a></th>
+										<th class="proj-pts-suggest"><a href="/sortSuggestions?sortBy=PRIOR_PTS">PriTot</a></th>
+										<th class="proj-pts-suggest"><a href="/sortSuggestions?sortBy=AVG_PRIOR_PTS">PriAvg</a></th>
+										<th class="proj-pts-suggest"><a href="/sortSuggestions?sortBy=TOT_TARGETS">TrgtTot</a></th>
+										<th class="proj-pts-suggest"><a href="/sortSuggestions?sortBy=AVG_TARGETS">TrgtAvg</a></th>
+										<th class="tags-suggest">Tags</th>
+										<th class="pos-suggest">Pos</th>
+										<th class="team-suggest">Team</th>
+										<th class="bye-suggest">Bye</th>
+										<th class="stddev-suggest"><span title="" data-placement="top" data-html="true" data-toggle="tooltip" data-original-title="How <b>unsure</b> people are of this player. This measures how much a set of values drifts from the <b>Average</b>, or <em>'a measure confidence'</em> in statistical conclusions">St-Dv</span><script>$('span').tooltip();</script></th>
+										<th class="handcuff-suggest">Backups</th>
+									</tr>
+								</thead>
+
+								<c:set var="playerListContent" value="${playersSortedBySuggestions}" scope="application"></c:set>
+								<%@include file="../tables/suggestionTableBody.jsp"%>
+							</table>
+						</div>
 				</div>
-				<div class="tab-pane fade" id="adp" role="tabpanel" aria-labelledby="adp-tab">
-					<c:set var="playerListContent" value="${playersSortedByAdp}" scope="application"></c:set>
-					<%@include file="../tables/dash_suggestionTable.jsp"%>
-				</div>
-				<div class="tab-pane fade" id="rank" role="tabpanel" aria-labelledby="rank-tab">
-					<c:set var="playerListContent" value="${playersSortedByRank}" scope="application"></c:set>
-					<c:set var="testVar" value="hi" scope="application"></c:set>
-					<%@include file="../tables/dash_suggestionTable.jsp"%>
-				</div>
-			</div>
 	</div>
 </div>
 

@@ -44,8 +44,35 @@
 						<strong>${positionName}:</strong>
 					</h3>
 				</div>
-				<c:set var="playerListContent" value="${playerList}" scope="application"></c:set>
-				<%@include file="../tables/dash_suggestionTable.jsp"%>
+				<c:set var="position" value="${position}" scope="application"></c:set>
+				<div class="section">
+					<table data-toggle="table" class="table table-sm header-fixed dash tabbed-table thin-celled-table outer-scrollbar">
+						<thead class="thead-inverse">
+							<tr>
+								<th class="id-suggest"><a href="/sortPositionPage?sortBy=ADP&position=${position.getAbbrev()}">ADP</a></th>
+								<th class="pos_rank-suggest"><a href="/sortPositionPage?sortBy=ECR&position=${position.getAbbrev()}">ECR</a></th>
+								<th class="name-suggest"><a href="/sortPositionPage?sortBy=NAME&position=${position.getAbbrev()}">Name</a></th>
+								<th class="proj-pts-suggest"><a href="/sortPositionPage?sortBy=PROJ_PTS&position=${position.getAbbrev()}">PrjAvg</a></th>
+								<th class="value-suggest"><a href="/sortPositionPage?sortBy=ADP_VAL&position=${position.getAbbrev()}"><span title="" data-placement="top" data-html="true" data-toggle="tooltip" data-original-title="Current number of picks player differs from their original <b>ADP</b>">Value</span> <script>$('span').tooltip();</script></a></th>
+								<th class="vsadp-suggest"><a href="/sortPositionPage?sortBy=VS_ADP_VAL&position=${position.getAbbrev()}"><span title="" data-placement="top" data-html="true" data-toggle="tooltip" data-original-title="How far away the player's <b>ADP</b> is from the player's <b>Overall Rank</b>">VsAdp</span> <script>$('span').tooltip();</script></a></th>
+								<th class="proj-pts-suggest"><a href="/sortPositionPage?sortBy=PRIOR_PTS&position=${position.getAbbrev()}">PriTot</a></th>
+								<th class="proj-pts-suggest"><a href="/sortPositionPage?sortBy=AVG_PRIOR_PTS&position=${position.getAbbrev()}">PriAvg</a></th>
+								<th class="proj-pts-suggest"><a href="/sortPositionPage?sortBy=TOT_TARGETS&position=${position.getAbbrev()}">TrgtTot</a></th>
+								<th class="proj-pts-suggest"><a href="/sortPositionPage?sortBy=AVG_TARGETS&position=${position.getAbbrev()}">TrgtAvg</a></th>
+								<th class="tags-suggest">Tags</th>
+								<th class="pos-suggest">Pos</th>
+								<th class="team-suggest">Team</th>
+								<th class="bye-suggest">Bye</th>
+								<th class="stddev-suggest"><span title="" data-placement="top" data-html="true" data-toggle="tooltip" data-original-title="How <b>unsure</b> people are of this player. This measures how much a set of values drifts from the <b>Average</b>, or <em>'a measure confidence'</em> in statistical conclusions">St-Dv</span><script>$('span').tooltip();</script></th>
+								<th class="handcuff-suggest">Backups</th>
+							</tr>
+						</thead>
+				
+						<c:set var="playerListContent" value="${playerList}" scope="application"></c:set>
+						<%@include file="../tables/suggestionTableBody.jsp"%>
+					</table>
+				</div>
+				
 			</div>
 
 			<c:if test="${error} != null">

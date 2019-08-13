@@ -2,10 +2,11 @@ package com.falifa.draftbuddy.ui.data;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,12 +15,19 @@ import org.springframework.ui.Model;
 
 import com.falifa.draftbuddy.ui.constants.Position;
 import com.falifa.draftbuddy.ui.drafting.LogicHandler;
+import com.falifa.draftbuddy.ui.drafting.sort.AlphabetizedPlayerComparator;
+import com.falifa.draftbuddy.ui.drafting.sort.PlayerADPComparator;
+import com.falifa.draftbuddy.ui.drafting.sort.PlayerADPValueComparator;
+import com.falifa.draftbuddy.ui.drafting.sort.PlayerAveragePriorPointsComparator;
+import com.falifa.draftbuddy.ui.drafting.sort.PlayerPriorAverageTargetsComparator;
+import com.falifa.draftbuddy.ui.drafting.sort.PlayerPriorPointsComparator;
+import com.falifa.draftbuddy.ui.drafting.sort.PlayerPriorTotalTargetsComparator;
+import com.falifa.draftbuddy.ui.drafting.sort.PlayerProjectedPointsComparator;
+import com.falifa.draftbuddy.ui.drafting.sort.PlayerRankComparator;
+import com.falifa.draftbuddy.ui.drafting.sort.PlayerVsADPValueComparator;
 import com.falifa.draftbuddy.ui.model.Drafter;
 import com.falifa.draftbuddy.ui.model.NFLTeam;
-import com.falifa.draftbuddy.ui.model.RoundSpecificStrategy;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
+import com.falifa.draftbuddy.ui.model.player.Player;
 
 @Component
 public class ModelUpdater {
@@ -86,6 +94,7 @@ public class ModelUpdater {
 		} else {
 	    	model.addAttribute("playerList", nflTeams.getAvailablePlayersByPositionAsList(Position.get(pos)));
 	    	model.addAttribute("playersToBuildModalFor", nflTeams.getAvailablePlayersByPositionAsList(Position.get(pos)));
+	    	model.addAttribute("position", Position.get(pos));
 	    	model.addAttribute("positionName", Position.get(pos).getName());
 		}
         updateCommonAttributesSubset(model);
@@ -137,6 +146,70 @@ public class ModelUpdater {
 //				e.printStackTrace(); // TODO
 //			}
 //		}
+	}
+
+	public List<Player> filterAndSort(List<Player> players, String sortBy, Model model) {
+		List<Player> sorted = players;
+		Comparator<Player> compareBy = null;
+		switch (sortBy) {
+			case "ADP" : 	
+								compareBy = new PlayerADPComparator(); 
+								sorted = sorted.stream().filter(p -> StringUtils.isNotEmpty(p.getRankMetadata().getAdp())).collect(Collectors.toList()); 
+								Collections.sort(sorted, compareBy); 
+								break;
+			case "ECR" : 	
+								compareBy = new PlayerRankComparator(); 
+								sorted = sorted.stream().filter(p -> StringUtils.isNotEmpty(p.getRankMetadata().getOverallRank())).collect(Collectors.toList()); 
+								Collections.sort(sorted, compareBy); 
+								break;
+			case "NAME" : 
+								compareBy = new AlphabetizedPlayerComparator(); 
+								Collections.sort(sorted, compareBy); 
+								break;
+			case "PROJ_PTS" : 
+								compareBy = new PlayerProjectedPointsComparator(); 
+								sorted = sorted.stream().filter(p -> StringUtils.isNotEmpty(p.getPositionalStats().getProjectedTotalPoints())).collect(Collectors.toList()); 
+								Collections.sort(sorted, compareBy);
+								Collections.reverse(sorted);
+								break;
+			case "PRIOR_PTS" : 
+								compareBy = new PlayerPriorPointsComparator(); 
+								sorted = sorted.stream().filter(p -> StringUtils.isNotEmpty(p.getPositionalStats().getPriorTotalPoints())).collect(Collectors.toList()); 
+								Collections.sort(sorted, compareBy);
+								Collections.reverse(sorted);
+								break;
+			case "AVG_PRIOR_PTS" : 
+								compareBy = new PlayerAveragePriorPointsComparator(); 
+								sorted = sorted.stream().filter(p -> StringUtils.isNotEmpty(p.getPositionalStats().getPriorAveragePointsPerGame())).collect(Collectors.toList()); 
+								Collections.sort(sorted, compareBy);
+								Collections.reverse(sorted);
+								break;
+			case "ADP_VAL" : 
+								compareBy = new PlayerADPValueComparator(); 
+								Collections.sort(sorted, compareBy);
+								Collections.reverse(sorted);
+								break;
+			case "VS_ADP_VAL" : compareBy = new PlayerVsADPValueComparator(); 
+								sorted = sorted.stream().filter(p -> StringUtils.isNotEmpty(p.getRankMetadata().getVsAdp()) && Integer.valueOf(p.getRankMetadata().getAdp()) < 400).collect(Collectors.toList()); 
+								Collections.sort(sorted, compareBy);
+								Collections.reverse(sorted);
+								break;
+			case "TOT_TARGETS" : 
+								compareBy = new PlayerPriorTotalTargetsComparator(); 
+								sorted = sorted.stream().filter(p -> StringUtils.isNotEmpty(p.getPositionalStats().getPriorTotalTargets())).collect(Collectors.toList()); 
+								Collections.sort(sorted, compareBy);
+								Collections.reverse(sorted);
+								break;
+			case "AVG_TARGETS" : 
+								compareBy = new PlayerPriorAverageTargetsComparator(); 
+								sorted = sorted.stream().filter(p -> StringUtils.isNotEmpty(p.getPositionalStats().getPriorAverageTargetsPerGame())).collect(Collectors.toList()); 
+								Collections.sort(sorted, compareBy);
+								Collections.reverse(sorted);
+								break;
+			case "SUGGESTED" : compareBy = null; 
+								break;
+		}
+		return sorted;
 	}
 	
 }

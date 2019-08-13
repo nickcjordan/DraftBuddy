@@ -10,10 +10,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.falifa.draftbuddy.ui.constants.DraftType;
+import com.falifa.draftbuddy.ui.constants.Position;
 import com.falifa.draftbuddy.ui.data.DraftState;
 import com.falifa.draftbuddy.ui.data.ModelUpdater;
 import com.falifa.draftbuddy.ui.data.NFLTeamManager;
 import com.falifa.draftbuddy.ui.drafting.DraftManager;
+import com.falifa.draftbuddy.ui.drafting.LogicHandler;
 import com.falifa.draftbuddy.ui.model.Draft;
 import com.falifa.draftbuddy.ui.model.Drafter;
 import com.falifa.draftbuddy.ui.model.player.Player;
@@ -34,6 +36,9 @@ public class DraftController {
 	
 	@Autowired
 	private DraftManager draftManager;
+	
+	@Autowired
+	private LogicHandler handler;
 	
 	
 	@RequestMapping(value = "/")
@@ -76,5 +81,19 @@ public class DraftController {
     	return draftManager.draftHasCompleted() ? draftManager.prepareResults(model) 
     			: draftState.mockDraftMode ? draftManager.mockDraft(model) : "pages/dashboardPage";
     }
-
+	
+	@RequestMapping("/sortSuggestions")
+	public String sortSuggestedPlayers(@RequestParam String sortBy, Model model) {
+		modelUpdater.updateCommonAttributes(model);
+		model.addAttribute("playersSortedBySuggestions", modelUpdater.filterAndSort(handler.getSortedSuggestedPlayers(draftState.getCurrentDrafter()), sortBy, model));
+		return "pages/dashboardPage";
+	}
+	
+	@RequestMapping("/sortPositionPage")
+	public String sortPositionPage(@RequestParam String sortBy, @RequestParam String position, Model model) {
+		modelUpdater.updateModelForPositionPage(position, model);
+		model.addAttribute("playerList", modelUpdater.filterAndSort(nflTeams.getAvailablePlayersByPositionAsList(Position.get(position)), sortBy, model));
+		return "pages/positionPage";
+	}
+///sortPositionPage?sortBy=AVG_TARGETS&position=${position}
 }
