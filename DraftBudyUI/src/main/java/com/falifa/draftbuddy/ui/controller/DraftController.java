@@ -90,7 +90,7 @@ public class DraftController {
 	}
 	
 	@RequestMapping("/sortPositionPage")
-	public String sortPositionPage(@RequestParam String sortBy, @RequestParam String position, Model model) {
+	public String sortPositionPage(@RequestParam String sortBy, @RequestParam(defaultValue = "all") String position, Model model) {
 		modelUpdater.updateModelForPositionPage(position, model);
 		model.addAttribute("playerList", modelUpdater.filterAndSort(nflTeams.getAvailablePlayersByPositionAsList(Position.get(position)), sortBy, model));
 		return "pages/positionPage";

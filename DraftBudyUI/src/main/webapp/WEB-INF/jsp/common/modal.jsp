@@ -17,25 +17,41 @@
 					<div class="row">
 						<div class="col-sm-3">
 							<div class="player-modal-pic-wrapper">
-								<img src="/${player.getPictureMetadata().getPicLocation()}" class="img-fluid img-thumbnail" alt="No Photo Available">
-								${player.getPictureMetadata().getPicLocation()}
-								<table class="table table-bordered table-sm modal-table">
-									<thead>
-										<tr>
-											<th scope="col">Tier</th>
-											<th scope="col">Team</th>
-											<th scope="col">Bye</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr>
-											<td>${player.getTier()}</td>
-											<td>${player.getTeam().getAbbreviation()}</td>
-											<td>${player.getBye()}</td>
-										</tr>
-									</tbody>
-								</table>
+								<img src="${player.getPictureMetadata().getPicLocation()}" class="img-fluid img-thumbnail" alt="No Photo Available">
 							</div>
+						</div>
+						<div class="col-sm-3 space-on-top-col">
+							<table class="table table-bordered table-sm modal-table">
+								<thead>
+									<tr>
+										<th class="modal-top-category" class="modal-top-category" scope="col" colspan="3">Player Details</th>
+									</tr>
+									<tr>
+										<th scope="col">Tier</th>
+										<th scope="col">Team</th>
+										<th scope="col">Bye</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>${player.getTier()}</td>
+										<td>${player.getTeam().getAbbreviation()}</td>
+										<td>${player.getBye()}</td>
+									</tr>
+								</tbody>
+							</table>
+							<c:if test="${player.getDraftingDetails().getHandcuffs() != null}">
+								<ul class="list-group backups-list">
+									<li class="list-group-item modal-list-item">
+										<h3>
+											<b>Backups</b>
+										</h3>
+									</li>
+									<li class="list-group-item modal-list-item">
+										<div class="modal-backups-text">${player.getDraftingDetails().getHandcuffs()}</div>
+									</li>
+								</ul>
+							</c:if>
 						</div>
 						<div class="col-sm-3 space-on-top-col">
 							<table class="table table-bordered table-sm modal-table">
@@ -52,8 +68,8 @@
 								<tbody>
 									<tr>
 										<td>${player.getRankMetadata().getAdp()}</td>
-										<td><span class="badge badge-val badge-${player.getDraftingDetails().getCurrentPlayerValueBadgeClass()}"><strong>${player.getDraftingDetails().getCurrentPlayerValue()}</strong></span></td>
-										<td><span class="badge badge-val badge-${player.getDraftingDetails().getVsValueBadgeClass()}"><strong>${player.getRankMetadata().getVsAdp()}</strong></span></td>
+										<td><span class="badge badge-val modal-badge badge-${player.getDraftingDetails().getCurrentPlayerValueBadgeClass()}"><strong>${player.getDraftingDetails().getCurrentPlayerValue()}</strong></span></td>
+										<td><span class="badge badge-val modal-badge badge-${player.getDraftingDetails().getVsValueBadgeClass()}"><strong>${player.getRankMetadata().getVsAdp()}</strong></span></td>
 									</tr>
 								</tbody>
 							</table>
@@ -105,7 +121,7 @@
 									</tbody>
 								</table>
 							</c:if>
-							
+
 							<c:if test="${player.getPositionalStats().getPriorTotalTargets() != null}">
 								<table class="table table-bordered table-sm modal-table">
 									<thead>
@@ -124,18 +140,6 @@
 										</tr>
 									</tbody>
 								</table>
-							</c:if>
-						</div>
-						<div class="col-sm-3 space-on-top-col">
-							<c:if test="${player.getDraftingDetails().getHandcuffs() != null}">
-								<ul class="list-group backups-list">
-									<li class="list-group-item modal-list-item">
-										<h3><b>Backups</b></h3>
-									</li>
-									<li class="list-group-item modal-list-item">
-										<div class="modal-backups-text">${player.getDraftingDetails().getHandcuffs()}</div>
-									</li>
-								</ul>
 							</c:if>
 						</div>
 					</div>
@@ -184,8 +188,11 @@
 								<table class="table table-bordered table-sm modal-table">
 									<thead>
 										<tr>
+											<th class="modal-top-category" class="modal-top-category" scope="col" colspan="16">Prior Fantasy Points By Week</th>
+										</tr>
+										<tr>
 											<c:forEach var="i" begin="1" end="16">
-												<th class="modal-top-category" scope="col">${i}</th>
+												<th scope="col">${i}</th>
 											</c:forEach>
 										</tr>
 									</thead>

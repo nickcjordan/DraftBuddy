@@ -56,27 +56,37 @@ body {
 	color: white;
 }
 
+.modal-table {
+	border: 0;
+}
+
 .modal-table>thead>tr>th {
 	text-align: center;
 	font-weight: bold;
 	background-color: #ebebeb;
 	font-size: 12pt;
 	color: #707070;
-	border-color: white !important;
-	line-height: 1;
+	border-color: #ddd !important;
+	line-height: 0.6 !important;
 }
 
 .modal-table>tbody>tr>td {
 	text-align: center;
-	font-size: 18pt;
+	font-size: 16pt;
 	color: black;
 	font-weight: bold;
 }
 
 .modal-top-category {
 	font-weight: bolder;
-	color: #464646;
-	background-color: #c8c8c8!important;
+	color: #232323;
+	background-color: white !important;
+	padding-bottom: 8px !important;
+	border: 0 !important;
+}
+
+.modal-badge {
+	font-size: 16pt !important;
 }
 
 .nameLink {

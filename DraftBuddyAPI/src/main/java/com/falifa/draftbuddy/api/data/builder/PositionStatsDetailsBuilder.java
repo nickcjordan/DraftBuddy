@@ -38,7 +38,7 @@ public class PositionStatsDetailsBuilder {
 					case PASS_SCK :  details.setSacks(Integer.valueOf(statVal)); break;
 					case RUSH_ATT :  details.setRushAttempts(Integer.valueOf(statVal)); break;
 					case RUSH_YRD :  details.setRushYards(Integer.valueOf(statVal)); break;
-					case RUSH_TD :  details.setReceivingTouchdowns(Integer.valueOf(statVal)); break;
+					case RUSH_TD :  details.setRushTouchdowns(Integer.valueOf(statVal)); break;
 					case REC_CMP :  details.setReceptions(Integer.valueOf(statVal)); break;
 					case REC_YRD :  details.setReceivingYards(Integer.valueOf(statVal)); break;
 					case REC_TD :  details.setReceivingTouchdowns(Integer.valueOf(statVal)); break;

@@ -22,17 +22,17 @@ public class DraftBuddyAPIConfig {
 		return template;
 	}
 	
-	@Bean
-    public CacheManager cacheManager() {
-        SimpleCacheManager cacheManager = new SimpleCacheManager();
-        cacheManager.setCaches(Arrays.asList(	
-        															new ConcurrentMapCache("rawStatsPlayersMap"), 
+//	@Bean
+//    public CacheManager cacheManager() {
+//        SimpleCacheManager cacheManager = new SimpleCacheManager();
+//        cacheManager.setCaches(Arrays.asList(	
+//        															new ConcurrentMapCache("rawStatsPlayersMap"), 
 //        															new ConcurrentMapCache("weekStatsResponse"), 
 //        															new ConcurrentMapCache("searchedMovieDetails"),
-        															new ConcurrentMapCache("allPlayers"),
-        															new ConcurrentMapCache("weekStatsResponse")
-        															));
-        return cacheManager;
-    }
+//        															new ConcurrentMapCache("allPlayers"),
+//        															new ConcurrentMapCache("weekStatsResponse")
+//        															));
+//        return cacheManager;
+//    }
 
 }

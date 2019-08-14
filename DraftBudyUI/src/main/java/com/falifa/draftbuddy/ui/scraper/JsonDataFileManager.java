@@ -163,32 +163,35 @@ public class JsonDataFileManager {
 		String filePath = DataSourcePaths.PLAYER_IMAGES_BASE_FILE_PATH + picturePath;
 		String filePathWithExtension = filePath;
 		String webImagePath = DataSourcePaths.PLAYER_IMAGES_FILE_PATH + picturePath;
-		String webImagePathWithExtension = webImagePath;
+		String webImagePathWithExtension = webImagePath; // used to load picture in html src
 		String picLink = p.getPictureMetadata().getPicLink() == null ? p.getPictureMetadata().getSmallPicLink() : p.getPictureMetadata().getPicLink();
+		
 		if (StringUtils.isNotEmpty(picLink)) {
 			String ext = picLink.substring(picLink.lastIndexOf(".")); // get file extension from link
 			filePathWithExtension += ext;
 			webImagePathWithExtension += ext;
-		}
-		if (!new File(filePath + ".png").exists() && !new File(filePath + ".jpg").exists()) {
 			try {
-				if (picLink != null) {
-					if (!picLink.contains("http")) { // set protocol if not present
-						picLink = "http:" + picLink;
-					}
-					downloadFileFromUrl(picLink, filePathWithExtension);
-					p.getPictureMetadata().setPicLocation(filePathWithExtension);
-				} else {
-					log.debug("No picture link populated for player {}", p.getPlayerName());
+				if (!picLink.contains("http")) { // set protocol if not present
+					picLink = "http:" + picLink;
 				}
+				if (!new File(filePathWithExtension).exists()) {
+					downloadFileFromUrl(picLink, filePathWithExtension);
+				}
+				p.getPictureMetadata().setPicLocation(webImagePathWithExtension);
 			} catch (Exception e) {
 				log.error("ERROR trying to download image file at " + p.getPictureMetadata().getPicLink() + " to " + filePathWithExtension, e);
 			}
-			if (StringUtils.isEmpty(p.getPictureMetadata().getPicLocation()) && StringUtils.isNotEmpty(webImagePathWithExtension)) {
-				p.getPictureMetadata().setPicLocation(webImagePathWithExtension);
-			}
 		} else {
-			p.getPictureMetadata().setPicLocation(filePathWithExtension);
+			log.debug("No picture link populated for player {}", p.getPlayerName());
+		}
+			
+//			if (StringUtils.isEmpty(p.getPictureMetadata().getPicLocation()) && StringUtils.isNotEmpty(webImagePathWithExtension)) {
+//				p.getPictureMetadata().setPicLocation(webImagePathWithExtension);
+//			}
+		if (new File(filePath + ".png").exists()) {
+			p.getPictureMetadata().setPicLocation(webImagePath + ".png");
+		} else if (new File(filePath + ".jpg").exists()) {
+			p.getPictureMetadata().setPicLocation(webImagePath + ".jpg");
 		}
 	}
 
