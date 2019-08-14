@@ -6,8 +6,7 @@
 			<div class="modal-header">
 				<form action="/pickPlayer" method="post">
 					<h1 class="modal-title" id="${player.getFantasyProsId()}playerModalTitle">
-						<strong>${player.getPlayerName()}</strong> <span class="modal-spacer"><small>${player.getPosition().getAbbrev()} -
-								${player.getRankMetadata().getPositionRank()}</small></span>
+						<strong>${player.getPlayerName()}</strong> <span class="modal-spacer"><small>${player.getPosition().getAbbrev()} - ${player.getRankMetadata().getPositionRank()}</small></span>
 					<button type="submit" value="${player.getFantasyProsId()}" name="playerId" class="btn btn-default modal-pick-button">Pick Player</button>
 					<span class="modal-id-text"><small>ID: ${player.getFantasyProsId()}</small></span>
 					</h1>
@@ -18,7 +17,8 @@
 					<div class="row">
 						<div class="col-sm-3">
 							<div class="player-modal-pic-wrapper">
-								<img src="${player.getPictureMetadata().getPicLocation()}" class="img-fluid img-thumbnail" alt="No Photo Available">
+								<img src="/${player.getPictureMetadata().getPicLocation()}" class="img-fluid img-thumbnail" alt="No Photo Available">
+								${player.getPictureMetadata().getPicLocation()}
 								<table class="table table-bordered table-sm modal-table">
 									<thead>
 										<tr>
@@ -170,6 +170,36 @@
 														<td>${statEntry.getValue().getValue()}</td>
 													</c:forEach>
 												</c:if>
+											</c:forEach>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</c:if>
+					
+					<c:if test="${player.getPositionalStats().getPriorStatsByWeekNumber().size() != 0}">
+						<div class="row">
+							<div class="col-md-12">
+								<table class="table table-bordered table-sm modal-table">
+									<thead>
+										<tr>
+											<c:forEach var="i" begin="1" end="16">
+												<th class="modal-top-category" scope="col">${i}</th>
+											</c:forEach>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<c:forEach var="i" begin="1" end="16">
+												<c:choose>
+													<c:when test="${player.getPositionalStats().getPriorStatsByWeekNumber().get(String.valueOf(i)) != null}">
+														<td>${player.getPositionalStats().getPriorStatsByWeekNumber().get(String.valueOf(i)).getStats().get("FPTS").getValue()}</td>
+													</c:when>
+													<c:otherwise>
+														<td>0</td>
+													</c:otherwise>
+												</c:choose>
 											</c:forEach>
 										</tr>
 									</tbody>

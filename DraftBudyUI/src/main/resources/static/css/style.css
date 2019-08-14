@@ -59,20 +59,24 @@ body {
 .modal-table>thead>tr>th {
 	text-align: center;
 	font-weight: bold;
-	background-color: #707070;
-	color: white;
-	border-color: black !important;
+	background-color: #ebebeb;
+	font-size: 12pt;
+	color: #707070;
+	border-color: white !important;
 	line-height: 1;
 }
 
 .modal-table>tbody>tr>td {
 	text-align: center;
+	font-size: 18pt;
+	color: black;
+	font-weight: bold;
 }
 
 .modal-top-category {
-	font-size: 120%;
 	font-weight: bolder;
-	background-color: #4b4b4b !important;
+	color: #464646;
+	background-color: #c8c8c8!important;
 }
 
 .nameLink {

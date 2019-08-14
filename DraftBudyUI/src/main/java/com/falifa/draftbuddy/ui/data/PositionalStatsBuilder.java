@@ -31,15 +31,17 @@ public class PositionalStatsBuilder {
 			addStatValuesToTotalsForPassing(entry.getValue(), player);
 			addStatValuesToTotalsForRushing(entry.getValue(), player);
 			addStatValuesToTotalsForMisc(entry.getValue(), player);
+			addWeeklyScoringForPlayer(entry, player);
 		}
 	}
-	
+
 	public void buildRunningbackStats(Map<String, PositionStatsDetails> statsByWeek, Player player) {
 		zeroOutPriorTotal(player, MISC);
 		for (Entry<String, PositionStatsDetails> entry : statsByWeek.entrySet()) {
 			addStatValuesToTotalsForReceiving(entry.getValue(), player);
 			addStatValuesToTotalsForRushing(entry.getValue(), player);
 			addStatValuesToTotalsForMisc(entry.getValue(), player);
+			addWeeklyScoringForPlayer(entry, player);
 		}
 	}
 
@@ -49,6 +51,7 @@ public class PositionalStatsBuilder {
 			addStatValuesToTotalsForReceiving(entry.getValue(), player);
 			addStatValuesToTotalsForRushing(entry.getValue(), player);
 			addStatValuesToTotalsForMisc(entry.getValue(), player);
+			addWeeklyScoringForPlayer(entry, player);
 		}
 	}
 
@@ -58,6 +61,7 @@ public class PositionalStatsBuilder {
 			addStatValuesToTotalsForReceiving(entry.getValue(), player);
 			addStatValuesToTotalsForRushing(entry.getValue(), player);
 			addStatValuesToTotalsForMisc(entry.getValue(), player);
+			addWeeklyScoringForPlayer(entry, player);
 		}
 	}
 
@@ -65,6 +69,7 @@ public class PositionalStatsBuilder {
 		zeroOutPriorTotal(player, ALL);
 		for (Entry<String, PositionStatsDetails> entry : statsByWeek.entrySet()) {
 			addStatValuesToTotalsForAll(entry.getValue(), player);
+			addWeeklyScoringForPlayer(entry, player);
 		}
 	}
 
@@ -73,6 +78,7 @@ public class PositionalStatsBuilder {
 		for (Entry<String, PositionStatsDetails> entry : statsByWeek.entrySet()) {
 			addStatValuesToTotalsForKicker(entry.getValue(), player);
 			addStatValuesToTotalsForAll(entry.getValue(), player);
+			addWeeklyScoringForPlayer(entry, player);
 		}
 	}
 	
@@ -181,4 +187,11 @@ public class PositionalStatsBuilder {
 		}
 	}
 
+	private void addWeeklyScoringForPlayer(Entry<String, PositionStatsDetails> entry, Player player) {
+		StatisticCategory weeklyStat = new StatisticCategory();
+		weeklyStat.setName(entry.getKey());
+		weeklyStat.setColspan(1);
+		weeklyStat.addColumn("FPTS", String.format("%.0f", entry.getValue().getTotalPointsScored()));
+		player.getPositionalStats().addWeekStatCategory(weeklyStat);
+	}
 }

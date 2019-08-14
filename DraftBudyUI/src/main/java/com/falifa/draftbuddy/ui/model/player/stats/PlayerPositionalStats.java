@@ -1,5 +1,12 @@
 package com.falifa.draftbuddy.ui.model.player.stats;
 
+import java.util.Comparator;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
+
+import com.falifa.draftbuddy.ui.drafting.sort.StatCategoryByWeekComparator;
+
 public class PlayerPositionalStats {
 	
 	private String projectedTotalPoints;
@@ -8,6 +15,11 @@ public class PlayerPositionalStats {
 	private String priorAveragePointsPerGame;
 	private String priorTotalTargets;
 	private String priorAverageTargetsPerGame;
+	private Map<String, StatisticCategory> priorStatsByWeekNumber; 
+	
+	public PlayerPositionalStats() {
+		this.priorStatsByWeekNumber = new TreeMap<String, StatisticCategory>(new StatCategoryByWeekComparator());
+	}
 	
 	public String getProjectedTotalPoints() {
 		return projectedTotalPoints;
@@ -45,5 +57,14 @@ public class PlayerPositionalStats {
 	public void setPriorAverageTargetsPerGame(String priorAverageTargetsPerGame) {
 		this.priorAverageTargetsPerGame = priorAverageTargetsPerGame;
 	}
-
+	public Map<String, StatisticCategory> getPriorStatsByWeekNumber() {
+		return priorStatsByWeekNumber;
+	}
+	public void setPriorStatsByWeekNumber(Map<String, StatisticCategory> priorStatsByWeekNumber) {
+		this.priorStatsByWeekNumber = priorStatsByWeekNumber;
+	}
+	public void addWeekStatCategory(StatisticCategory cat) {
+		priorStatsByWeekNumber.put(cat.getName(), cat);
+	}
+	
 }

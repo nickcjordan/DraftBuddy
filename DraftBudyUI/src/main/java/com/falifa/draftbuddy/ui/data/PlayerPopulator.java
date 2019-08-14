@@ -90,6 +90,8 @@ public class PlayerPopulator {
 
 	private void handleStatsByWeek(Player player, Map<String, PositionStatsDetails> statsByWeek) {
 			 try {
+				 player.getPriorRawStatsDetails().getStatsList().clear();
+				 player.getPriorRawStatsDetails().getStats().clear();
 				 player.getPriorRawStatsDetails().setWeeksOfData(statsByWeek.size());
 				 if (player.getPosition() != null) {
 					 switch (player.getPosition()) {

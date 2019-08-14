@@ -151,10 +151,10 @@ public class JsonDataFileManager {
 			}
 		}
 		if (playerNameToIdMapFailedToFind.size() > 0) {
-			log.error("{} players from API response were not found in existing data from FantasyPros :: [{}]", playerNameToIdMapFailedToFind.size(),
-					playerNameToIdMapFailedToFind.stream().collect(Collectors.joining(", ")));
+			log.error("{} players from API response were not found in existing data from FantasyPros :: [{}]", playerNameToIdMapFailedToFind.size(), playerNameToIdMapFailedToFind.stream().collect(Collectors.joining(", ")));
 		}
 		log.info("Successfully populated stats of {} players out of the {} found in the API response", count, playerStatsTOMap.size());
+		playerNameToIdMapFailedToFind.clear();
 		return true;
 	}
 
@@ -187,6 +187,8 @@ public class JsonDataFileManager {
 			if (StringUtils.isEmpty(p.getPictureMetadata().getPicLocation()) && StringUtils.isNotEmpty(webImagePathWithExtension)) {
 				p.getPictureMetadata().setPicLocation(webImagePathWithExtension);
 			}
+		} else {
+			p.getPictureMetadata().setPicLocation(filePathWithExtension);
 		}
 	}
 
