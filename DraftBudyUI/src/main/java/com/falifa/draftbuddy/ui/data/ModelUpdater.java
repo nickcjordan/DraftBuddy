@@ -87,15 +87,16 @@ public class ModelUpdater {
 	
 
 	public void updateModelForPositionPage(String pos, Model model) {
-		if (pos.equals("all")) {
+		if (StringUtils.isEmpty(pos) || pos.equalsIgnoreCase("ALL")) {
 	    	model.addAttribute("playerList", nflTeams.getAllAvailablePlayersByADP());
 	    	model.addAttribute("playersToBuildModalFor", nflTeams.getAllAvailablePlayersByADP());
 	    	model.addAttribute("positionName", "All Available Players");
+	    	model.addAttribute("positionAbbrev", "ALL");
 		} else {
 	    	model.addAttribute("playerList", nflTeams.getAvailablePlayersByPositionAsList(Position.get(pos)));
 	    	model.addAttribute("playersToBuildModalFor", nflTeams.getAvailablePlayersByPositionAsList(Position.get(pos)));
-	    	model.addAttribute("position", Position.get(pos));
 	    	model.addAttribute("positionName", Position.get(pos).getName());
+	    	model.addAttribute("positionAbbrev", Position.get(pos).getAbbrev());
 		}
         updateCommonAttributesSubset(model);
         log.debug("Models updated for position page");

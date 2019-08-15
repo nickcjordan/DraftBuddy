@@ -49,16 +49,16 @@
 					<table data-toggle="table" class="table table-sm header-fixed dash tabbed-table thin-celled-table outer-scrollbar">
 						<thead class="thead-inverse">
 							<tr>
-								<th class="id-suggest"><a href="/sortPositionPage?sortBy=ADP&position=${position.getAbbrev()}">ADP</a></th>
-								<th class="pos_rank-suggest"><a href="/sortPositionPage?sortBy=ECR&position=${position.getAbbrev()}">ECR</a></th>
-								<th class="name-suggest"><a href="/sortPositionPage?sortBy=NAME&position=${position.getAbbrev()}">Name</a></th>
-								<th class="proj-pts-suggest"><a href="/sortPositionPage?sortBy=PROJ_PTS&position=${position.getAbbrev()}">PrjAvg</a></th>
-								<th class="value-suggest"><a href="/sortPositionPage?sortBy=ADP_VAL&position=${position.getAbbrev()}"><span title="" data-placement="top" data-html="true" data-toggle="tooltip" data-original-title="Current number of picks player differs from their original <b>ADP</b>">Value</span> <script>$('span').tooltip();</script></a></th>
-								<th class="vsadp-suggest"><a href="/sortPositionPage?sortBy=VS_ADP_VAL&position=${position.getAbbrev()}"><span title="" data-placement="top" data-html="true" data-toggle="tooltip" data-original-title="How far away the player's <b>ADP</b> is from the player's <b>Overall Rank</b>">VsAdp</span> <script>$('span').tooltip();</script></a></th>
-								<th class="proj-pts-suggest"><a href="/sortPositionPage?sortBy=PRIOR_PTS&position=${position.getAbbrev()}">PriTot</a></th>
-								<th class="proj-pts-suggest"><a href="/sortPositionPage?sortBy=AVG_PRIOR_PTS&position=${position.getAbbrev()}">PriAvg</a></th>
-								<th class="proj-pts-suggest"><a href="/sortPositionPage?sortBy=TOT_TARGETS&position=${position.getAbbrev()}">TrgtTot</a></th>
-								<th class="proj-pts-suggest"><a href="/sortPositionPage?sortBy=AVG_TARGETS&position=${position.getAbbrev()}">TrgtAvg</a></th>
+								<th class="id-suggest"><a href="/sortPositionPage?sortBy=ADP&position=${positionAbbrev}">ADP</a></th>
+								<th class="pos_rank-suggest"><a href="/sortPositionPage?sortBy=ECR&position=${positionAbbrev}">ECR</a></th>
+								<th class="name-suggest"><a href="/sortPositionPage?sortBy=NAME&position=${positionAbbrev}">Name</a></th>
+								<th class="proj-pts-suggest"><a href="/sortPositionPage?sortBy=PROJ_PTS&position=${positionAbbrev}">PrjAvg</a></th>
+								<th class="value-suggest"><a href="/sortPositionPage?sortBy=ADP_VAL&position=${positionAbbrev}"><span title="" data-placement="top" data-html="true" data-toggle="tooltip" data-original-title="Current number of picks player differs from their original <b>ADP</b>">Value</span> <script>$('span').tooltip();</script></a></th>
+								<th class="vsadp-suggest"><a href="/sortPositionPage?sortBy=VS_ADP_VAL&position=${positionAbbrev}"><span title="" data-placement="top" data-html="true" data-toggle="tooltip" data-original-title="How far away the player's <b>ADP</b> is from the player's <b>Overall Rank</b>">VsAdp</span> <script>$('span').tooltip();</script></a></th>
+								<th class="proj-pts-suggest"><a href="/sortPositionPage?sortBy=PRIOR_PTS&position=${positionAbbrev}">PriTot</a></th>
+								<th class="proj-pts-suggest"><a href="/sortPositionPage?sortBy=AVG_PRIOR_PTS&position=${positionAbbrev}">PriAvg</a></th>
+								<th class="proj-pts-suggest"><a href="/sortPositionPage?sortBy=TOT_TARGETS&position=${positionAbbrev}">TrgtTot</a></th>
+								<th class="proj-pts-suggest"><a href="/sortPositionPage?sortBy=AVG_TARGETS&position=${positionAbbrev}">TrgtAvg</a></th>
 								<th class="tags-suggest">Tags</th>
 								<th class="pos-suggest">Pos</th>
 								<th class="team-suggest">Team</th>

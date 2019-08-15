@@ -1,5 +1,7 @@
 package com.falifa.draftbuddy.ui.controller;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -90,10 +92,10 @@ public class DraftController {
 	}
 	
 	@RequestMapping("/sortPositionPage")
-	public String sortPositionPage(@RequestParam String sortBy, @RequestParam(defaultValue = "all") String position, Model model) {
+	public String sortPositionPage(@RequestParam String sortBy, @RequestParam(defaultValue = "ALL") String position, Model model) {
 		modelUpdater.updateModelForPositionPage(position, model);
-		model.addAttribute("playerList", modelUpdater.filterAndSort(nflTeams.getAvailablePlayersByPositionAsList(Position.get(position)), sortBy, model));
+		List<Player> playerList = position.equals("ALL") ? nflTeams.getAllAvailablePlayersByADP() : nflTeams.getAvailablePlayersByPositionAsList(Position.get(position));
+		model.addAttribute("playerList", modelUpdater.filterAndSort(playerList, sortBy, model));
 		return "pages/positionPage";
 	}
-///sortPositionPage?sortBy=AVG_TARGETS&position=${position}
 }

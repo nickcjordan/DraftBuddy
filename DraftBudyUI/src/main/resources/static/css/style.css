@@ -694,6 +694,12 @@ ul.social-network li a {
 	font-size: 10pt;
 	text-align: center;
 }
+.proj-avg-pts-suggest {
+	width: 4%;
+	font-size: 11pt;
+	text-align: center;
+	font-weight: 1000 !important;
+}
 .value-suggest {
 	width: 4%;
 	font-size: 10pt;
@@ -1079,29 +1085,41 @@ html, body {
 	font-weight: normal;
 	white-space: nowrap;
 	color: #9ddbbd;
-	background-color: #303030;
+	background-color: #383838;
 	-webkit-border-radius: 9px;
 	-moz-border-radius: 9px;
 	border-radius: 9px;
 }
 
-.badge-adp {
+.badge-ecr {
 	padding: 2px 9px 3px;
 	font-size: 13px;
 	font-weight: normal;
 	white-space: nowrap;
 	color: #000000;
 	background-color: #ffffff;
+	border-radius: 3px;
+	border: thin solid #6a6a6a;
+}
+
+.badge-adp:hover {
+	background-color: #1e1e1e;
+	color: #ffffff;
+	cursor: default;
+}
+
+.badge-adp {
+	padding: 2px 9px 3px;
+	font-size: 14px;
+	font-weight: bold;
+	white-space: nowrap;
+	color: #6EE5A1;
+	background-color: #989898;
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
 	border: thin black;
-}
-
-.badge-adp:hover {
-	background-color: #f5f5f5;
-	color: #000000;
-	cursor: default;
+	text-shadow: 1px 1px 1px black, 0 0 1em black, 0 0 0.5em black;
 }
 
 .badge-adp-players {
