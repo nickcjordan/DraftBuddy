@@ -14,8 +14,6 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Optional;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
 
@@ -26,11 +24,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
-import com.falifa.draftbuddy.api.model.PlayerTO;
-import com.falifa.draftbuddy.ui.api.ApiDataDelegate;
 import com.falifa.draftbuddy.ui.api.PlayerNameMatcher;
 import com.falifa.draftbuddy.ui.constants.NflTeamMetadata;
 import com.falifa.draftbuddy.ui.constants.Position;
+import com.falifa.draftbuddy.ui.drafting.DraftManager;
 import com.falifa.draftbuddy.ui.drafting.sort.AlphabetizedPlayerComparator;
 import com.falifa.draftbuddy.ui.drafting.sort.AlphabetizedTeamComparator;
 import com.falifa.draftbuddy.ui.drafting.sort.PlayerADPComparator;
@@ -62,6 +59,9 @@ public class NFLTeamManager {
 
 	@Autowired
 	private StrategyFileHandler strategyHandler;
+	
+	@Autowired
+	private ModelUpdater modelUpdater;
 
 	public NFLTeamManager() {
 		this.playersById = new HashMap<String, Player>();
@@ -79,6 +79,7 @@ public class NFLTeamManager {
 			populatePlayersWithTags();
 			setCurrentPlayerValue();
 			updateDraftStrategyDataFromFile();
+			modelUpdater.clearFiltersAndSorts();
 			log.info("NFL initialized with {} teams and {} players", teamsByAbbreviation.size(), playersById.size());
 		} catch (Exception e) {
 			log.error("ERROR initializing master players from json", e);

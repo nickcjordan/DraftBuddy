@@ -94,7 +94,7 @@ public class DraftController {
 	@RequestMapping("/sortSuggestions")
 	public String sortSuggestedPlayers(@RequestParam String sortBy, Model model) {
 		modelUpdater.updateCommonAttributes(model);
-		model.addAttribute("playersSortedBySuggestions", modelUpdater.sortPlayersBy(handler.getSortedSuggestedPlayers(draftState.getCurrentDrafter()), sortBy));
+		model.addAttribute("playersSortedBySuggestions", modelUpdater.sortAndFilterPlayersBy(handler.getSortedSuggestedPlayers(draftState.getCurrentDrafter()), sortBy, null));
 		return DASHBOARD_PAGE;
 	}
 	

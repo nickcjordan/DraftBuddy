@@ -143,4 +143,15 @@ public class ModelUpdater {
 		return filterSorter.filterAndSort(nameFilterText, selectedSort, players);
 	}
 	
+	public List<Player> sortAndFilterPlayersBy(List<Player> players, String sortBy, String filterBy) {
+		nameFilterText = filterBy;
+		selectedSort = sortBy;
+		return filterSorter.filterAndSort(nameFilterText, selectedSort, players);
+	}
+	
+
+	public void clearFiltersAndSorts() {
+		nameFilterText = null;
+		selectedSort = null;
+	}
 }

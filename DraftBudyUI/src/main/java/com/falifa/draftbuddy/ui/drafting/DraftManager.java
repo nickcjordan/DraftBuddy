@@ -114,7 +114,7 @@ public class DraftManager {
 	}
 	
 	public void doBaseDraft(Player player, Model model) {
-		log.info(String.format("%s.%s :: %-10s --> %s", draftState.getRoundNum(), draftState.getDraftOrderIndex(), draftState.getCurrentDrafter().getName(), player.getPlayerName()));
+		log.info(String.format("%2s.%-2s :: %-10s --> %s", draftState.getRoundNum(), draftState.getDraftOrderIndex(), draftState.getCurrentDrafter().getName(), player.getPlayerName()));
 		draftState.getDraftPicks().add(draftPlayer(draftState.getCurrentDrafter(), player));
 		Collections.sort(draftState.getDraftPicks(), new DraftSelectionOrderComparator());
 		undoStack.push(buildUndoTO());
