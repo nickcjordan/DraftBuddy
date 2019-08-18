@@ -922,9 +922,22 @@ ul.social-network li a {
 /* style of navbar Round number header */
 .roundHeader {
 	margin-top: 10px;
-	margin-left: 100px;
+	margin-left: 40px;
 	font-size: 16pt;
 	text-shadow: black;
+}
+
+.navName {
+	margin-top: 10px;
+	margin-left: 20px;
+	font-size: 16pt;
+	text-shadow: black;
+}
+
+.navUndoButton {
+	margin-top: 10px;
+	margin-left: 20px;
+	font-size: 16pt;
 }
 
 .navbar-inverse .navbar-nav>li {
@@ -1086,6 +1099,30 @@ html, body {
 	white-space: nowrap;
 	color: #9ddbbd;
 	background-color: #383838;
+	-webkit-border-radius: 9px;
+	-moz-border-radius: 9px;
+	border-radius: 9px;
+}
+
+.nav-name-badge {
+	padding: 1px 9px 2px;
+	font-size: 22px;
+	font-weight: normal;
+	white-space: nowrap;
+	color: #9ddbbd;
+	background-color: #383838;
+	-webkit-border-radius: 9px;
+	-moz-border-radius: 9px;
+	border-radius: 9px;
+}
+
+.undo-button-badge {
+	padding: 1px 9px 2px;
+	font-size: 22px;
+	font-weight: normal;
+	white-space: nowrap;
+	color: #1b1b1b !important;
+	background-color: #ac3e3e;
 	-webkit-border-radius: 9px;
 	-moz-border-radius: 9px;
 	border-radius: 9px;

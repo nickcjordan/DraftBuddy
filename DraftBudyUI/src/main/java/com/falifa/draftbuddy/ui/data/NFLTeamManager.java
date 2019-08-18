@@ -171,7 +171,7 @@ public class NFLTeamManager {
 		}
 	}
 
-	private void updateDraftStrategyDataFromFile() {
+	public void updateDraftStrategyDataFromFile() {
 		Map<String, RoundSpecificStrategy> strategy = new HashMap<String, RoundSpecificStrategy>();
 		try {
 			for (List<String> split : strategyHandler.getSplitLinesFromFile(DRAFT_STRATEGY_BY_ROUND_FILE_PATH, true)) {

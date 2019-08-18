@@ -32,10 +32,8 @@ import com.falifa.draftbuddy.ui.model.player.Player;
 @Component
 public class ModelUpdater {
 	
-	
 	private static final Logger log = LoggerFactory.getLogger(ModelUpdater.class);
 
-	
 	@Autowired
 	private DraftState draftState;
 	
@@ -44,20 +42,24 @@ public class ModelUpdater {
 	
 	@Autowired
 	private LogicHandler handler;
-
+	
+	@Autowired
+	private PlayerFilterSorter filterSorter;
+	
+	private String nameFilterText;
+	private String selectedSort;
+	
 	public void updateCommonAttributes(Model model) {
 		updateCurrentDrafterAttributes(model);
 		updateDraftStateAttributes(model);
       	updateNflTeamListsAttributes(model);
       	log.debug("Models updated for all fields :: updated for drafter={}", draftState.getCurrentDrafter().getName());
-      	printModel(model);
 	}
 	
 	private void updateCommonAttributesSubset(Model model) {
 		model.addAttribute("error", draftState.errorMessage);
 		updateDraftStateAttributes(model);
 		log.debug("Models updated for common subset");
-		printModel(model);
 	}
 
 	public void updateCurrentDrafterAttributes(Model model) {
@@ -113,8 +115,6 @@ public class ModelUpdater {
 	}
 
 	public void updateModelForDrafterPage(Model model) {
-//		model.addAttribute("team", drafter.getDraftedTeam());
-//		model.addAttribute("teamName", drafter.getName());
 		model.addAttribute("drafters", draftState.draft.getDrafters());
 		model.addAttribute("playersToBuildModalFor", nflTeams.getAllUnavailablePlayersByADP());
         updateCommonAttributesSubset(model);
@@ -133,84 +133,14 @@ public class ModelUpdater {
     	log.debug("Models updated for draftboard page");
 	}
 	
-	private void printModel(Model model) {
-//		System.out.println("\n\nMODEL:\n");
-//		for (String name : model.asMap().keySet()) {
-//			System.out.println("\t" + name);
-//		}
-		
-//		ObjectWriter writer = new ObjectMapper().writer();
-//		for (Entry<String, Object> entry : model.asMap().entrySet()) {
-//			try {
-//				System.out.println("\n\n\t" + entry.getKey() + ":\n" + writer.writeValueAsString(entry.getValue()) + "\n\n");
-//			} catch (JsonProcessingException e) {
-//				e.printStackTrace(); // TODO
-//			}
-//		}
+	public List<Player> sortPlayersBy(List<Player> players, String sortBy) {
+		selectedSort = sortBy;
+		return filterSorter.filterAndSort(nameFilterText, selectedSort, players);
 	}
-
-	public List<Player> filterAndSort(List<Player> players, String sortBy, Model model) {
-		List<Player> sorted = players;
-		Comparator<Player> compareBy = null;
-		switch (sortBy) {
-			case "ADP" : 	
-								compareBy = new PlayerADPComparator(); 
-								sorted = sorted.stream().filter(p -> StringUtils.isNotEmpty(p.getRankMetadata().getAdp())).collect(Collectors.toList()); 
-								Collections.sort(sorted, compareBy); 
-								break;
-			case "ECR" : 	
-								compareBy = new PlayerRankComparator(); 
-								sorted = sorted.stream().filter(p -> StringUtils.isNotEmpty(p.getRankMetadata().getOverallRank())).collect(Collectors.toList()); 
-								Collections.sort(sorted, compareBy); 
-								break;
-			case "NAME" : 
-								compareBy = new AlphabetizedPlayerComparator(); 
-								Collections.sort(sorted, compareBy); 
-								break;
-			case "PROJ_PTS" : 
-								compareBy = new PlayerProjectedPointsComparator(); 
-								sorted = sorted.stream().filter(p -> StringUtils.isNotEmpty(p.getPositionalStats().getProjectedTotalPoints())).collect(Collectors.toList()); 
-								Collections.sort(sorted, compareBy);
-								Collections.reverse(sorted);
-								break;
-			case "PRIOR_PTS" : 
-								compareBy = new PlayerPriorPointsComparator(); 
-								sorted = sorted.stream().filter(p -> StringUtils.isNotEmpty(p.getPositionalStats().getPriorTotalPoints())).collect(Collectors.toList()); 
-								Collections.sort(sorted, compareBy);
-								Collections.reverse(sorted);
-								break;
-			case "AVG_PRIOR_PTS" : 
-								compareBy = new PlayerAveragePriorPointsComparator(); 
-								sorted = sorted.stream().filter(p -> StringUtils.isNotEmpty(p.getPositionalStats().getPriorAveragePointsPerGame())).collect(Collectors.toList()); 
-								Collections.sort(sorted, compareBy);
-								Collections.reverse(sorted);
-								break;
-			case "ADP_VAL" : 
-								compareBy = new PlayerADPValueComparator(); 
-								Collections.sort(sorted, compareBy);
-								Collections.reverse(sorted);
-								break;
-			case "VS_ADP_VAL" : compareBy = new PlayerVsADPValueComparator(); 
-								sorted = sorted.stream().filter(p -> StringUtils.isNotEmpty(p.getRankMetadata().getVsAdp()) && Integer.valueOf(p.getRankMetadata().getAdp()) < 400).collect(Collectors.toList()); 
-								Collections.sort(sorted, compareBy);
-								Collections.reverse(sorted);
-								break;
-			case "TOT_TARGETS" : 
-								compareBy = new PlayerPriorTotalTargetsComparator(); 
-								sorted = sorted.stream().filter(p -> StringUtils.isNotEmpty(p.getPositionalStats().getPriorTotalTargets())).collect(Collectors.toList()); 
-								Collections.sort(sorted, compareBy);
-								Collections.reverse(sorted);
-								break;
-			case "AVG_TARGETS" : 
-								compareBy = new PlayerPriorAverageTargetsComparator(); 
-								sorted = sorted.stream().filter(p -> StringUtils.isNotEmpty(p.getPositionalStats().getPriorAverageTargetsPerGame())).collect(Collectors.toList()); 
-								Collections.sort(sorted, compareBy);
-								Collections.reverse(sorted);
-								break;
-			case "SUGGESTED" : compareBy = null; 
-								break;
-		}
-		return sorted;
+	
+	public List<Player> filterPlayersBy(List<Player> players, String filterText) {
+		nameFilterText = filterText;
+		return filterSorter.filterAndSort(nameFilterText, selectedSort, players);
 	}
 	
 }

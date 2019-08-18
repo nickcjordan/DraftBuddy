@@ -24,10 +24,9 @@ import com.fasterxml.jackson.databind.deser.DataFormatReaders.Match;
 @Component
 public class DraftState {
 	
-	
 	private static final Logger log = LoggerFactory.getLogger(DraftState.class);
-
 	
+	@JsonIgnore
 	@Value( "${numberOfRounds}" )
 	public int NUMBER_OF_ROUNDS;
 	
@@ -46,13 +45,9 @@ public class DraftState {
 	public Map<String, RoundSpecificStrategy> strategyByRound;
 	public List<Player> currentRoundHandcuffs;
 	
+	@JsonIgnore
 	@Autowired
 	private NFLTeamManager nflTeams;
-	
-	private StopWatch timer;
-	private long timeIncrementStart = 0l;
-	
-	public DraftState() { timer = new StopWatch(); }
 	
 	public void initializeDraft() {
     	errorMessage = null;
@@ -164,14 +159,6 @@ public class DraftState {
 
 	public void setStrategyByRound(Map<String, RoundSpecificStrategy> strategyByRound) {
 		this.strategyByRound = strategyByRound;
-	}
-
-	public NFLTeamManager getNflTeams() {
-		return nflTeams;
-	}
-
-	public void setNflTeams(NFLTeamManager nflTeams) {
-		this.nflTeams = nflTeams;
 	}
 
 	public void setPickNumber(int pickNumber) {

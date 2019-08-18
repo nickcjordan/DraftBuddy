@@ -16,6 +16,7 @@
 		<div class="collapse navbar-collapse" id="navvy">
 
 			<ul class="nav navbar-nav navTop">
+				<li><div class="navName">Drafting: <span class="nav-name-badge">${draft.getCurrentDrafter().getName()}</span></div></li>
 				<li><a href="/dashboard">Draft Page</a></li>
 				<li><a href="/pos">Players By Position</a></li>
 				<li><a href="/nflTeams">Players By Team</a></li>
@@ -27,12 +28,17 @@
 						<span class="big-badge">Pick ${draft.pickNumber}</span>
 					</div>
 				</li>
-				<li>
-					<div class="roundHeader">
-						Drafting: <span class="big-badge">${draft.getCurrentDrafter().getName()}</span>
-					</div>
-				</li>
+				<c:if test="${!draft.isMockDraftMode() && draft.getDraftPicks().size() > 0}">
+					<li><div class="navUndoButton"><span class="undo-button-badge"><a href="/undo">Undo</a></span></div></li>
+				</c:if>
 			</ul>
+			
+			<form class="navbar-form navbar-right" action="/filter" method="post">
+				<div class="form-group">
+					<input type="text" class="form-control" placeholder="" name="filterText" id="filterText">
+				</div>
+				<button type="submit" class="btn btn-default">Filter</button>
+			</form>
 
 		</div>
 		<!-- /.navbar-collapse -->
