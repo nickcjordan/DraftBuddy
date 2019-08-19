@@ -919,6 +919,18 @@ ul.social-network li a {
 	
 }
 
+.btn-filter {
+    color: #6EE5A1;
+    background-color: #333;
+    border-color: #1a1a1a;
+}
+
+.btn-filter:hover, .btn-filter:focus, .btn-filter.focus, .btn-filter:active, .btn-filter.active, .open>.dropdown-toggle.btn-filter {
+    color: #ffffff;
+    background-color: #121212;
+    border-color: #000000;
+}
+
 /* style of navbar Round number header */
 .roundHeader {
 	margin-top: 10px;

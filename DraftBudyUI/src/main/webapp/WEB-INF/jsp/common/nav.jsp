@@ -17,9 +17,9 @@
 
 			<ul class="nav navbar-nav navTop">
 				<li><div class="navName">Drafting: <span class="nav-name-badge">${draft.getCurrentDrafter().getName()}</span></div></li>
-				<li><a href="/dashboard">Draft Page</a></li>
-				<li><a href="/pos">Players By Position</a></li>
-				<li><a href="/nflTeams">Players By Team</a></li>
+				<li><a href="/dashboard">Dashboard</a></li>
+				<li><a href="/pos">Players</a></li>
+				<li><a href="/nflTeams">Teams</a></li>
 				<li><a href="/drafters">Drafters</a></li>
 				<li><a href="/draftBoard">Draft Board</a></li>
 				<li>
@@ -37,7 +37,7 @@
 				<div class="form-group">
 					<input type="text" class="form-control" placeholder="" name="filterText" id="filterText">
 				</div>
-				<button type="submit" class="btn btn-default">Filter</button>
+				<button type="submit" class="btn btn-default btn-filter">Filter</button>
 			</form>
 
 		</div>

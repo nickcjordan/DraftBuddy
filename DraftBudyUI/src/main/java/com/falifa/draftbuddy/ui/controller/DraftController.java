@@ -109,7 +109,7 @@ public class DraftController {
 	@RequestMapping("/undo")
 	public String undoLastPick(Model model) {
 		boolean success = draftManager.undoLastDraftPick(model);
-		log.info("Draft pick UNDO result: success={}", success);
+		log.debug("Draft pick UNDO result: success={}", success);
 		return DASHBOARD_PAGE;
 	}
 	
