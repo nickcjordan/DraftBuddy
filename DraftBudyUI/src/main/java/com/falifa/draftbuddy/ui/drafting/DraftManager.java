@@ -114,6 +114,11 @@ public class DraftManager {
 	}
 	
 	public void doBaseDraft(Player player, Model model) {
+		doBaseDraft(player);
+		modelUpdater.updateCommonAttributes(model);
+	}
+	
+	public void doBaseDraft(Player player) {
 		log.info(String.format("%2s.%-2s :: %-10s --> %s", draftState.getRoundNum(), draftState.getDraftOrderIndex(), draftState.getCurrentDrafter().getName(), player.getPlayerName()));
 		draftState.getDraftPicks().add(draftPlayer(draftState.getCurrentDrafter(), player));
 		Collections.sort(draftState.getDraftPicks(), new DraftSelectionOrderComparator());
@@ -122,7 +127,6 @@ public class DraftManager {
 		draftState.moveToNextDrafter();
 		nflTeams.setCurrentPlayerValue();
 		setDraftStateHandcuffsForCurrentDrafter();
-		modelUpdater.updateCommonAttributes(model);
 	}
 
 	public String mockDraft(Model model) {

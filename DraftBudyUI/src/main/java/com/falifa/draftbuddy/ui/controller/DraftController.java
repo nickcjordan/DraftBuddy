@@ -73,7 +73,7 @@ public class DraftController {
 		return (draftState.draftType.equals(DraftType.AUTO_DRAFT)) ? draftManager.autoDraft(model) 
 				: (draftState.draftType.equals(DraftType.MOCK_DRAFT ))  ? draftManager.mockDraft(model) : DASHBOARD_PAGE;
 	}
-
+	
 	@RequestMapping(value = "/pickPlayer")
     public String doPickForDrafter(@RequestParam(defaultValue="") String playerId, Model model) {
 //		draftState.startTimer();

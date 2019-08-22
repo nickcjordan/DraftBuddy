@@ -1,10 +1,13 @@
 package com.falifa.draftbuddy.ui.constants;
 
+import java.util.Arrays;
+
 public enum DraftType {
 	
 	REAL_DRAFT("real"),
 	AUTO_DRAFT("auto"),
-	MOCK_DRAFT("mock");
+	MOCK_DRAFT("mock"),
+	TRACKED_DRAFT("track");
 
 	private String[] order;
 	private String type;
@@ -19,6 +22,7 @@ public enum DraftType {
 			case "real"		: return currentSet();
 			case "auto"	: return currentSet();
 			case "mock"	: return currentSet();
+			case "track" 	: String[] picks = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"}; return picks;
 		}
 		return null;
 	}
