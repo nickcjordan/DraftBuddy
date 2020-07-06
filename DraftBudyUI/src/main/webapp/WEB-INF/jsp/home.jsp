@@ -15,7 +15,10 @@
     <!-- Brand and toggle -->
     <div class="navbar-header">
       <a class="navbar-brand front-brand white-title" href="/">Falifa Industries Presents: The Draft Buddy</a>
-			<div class="intro-alternate"><p><a class="btn btn-block btn-primary update-data-files-button" href="/updateAll">Update Player Data</a></p></div>
+			<div class="intro-alternate">
+				<p><a class="btn btn-block btn-primary update-data-files-button" href="/updateApi">Update API Data</a></p>
+				<p><a class="btn btn-block btn-primary update-data-files-button" href="/updateAll">Update Player Data</a></p>
+			</div>
     </div>
 	    
 	    

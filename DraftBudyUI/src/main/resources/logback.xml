@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+ 
+        <logger name="org.apache" level="INFO"/>
+        <logger name="org.apache.cxf" level="INFO"/>
+        <logger name="org.springframework" level="INFO"/>
+        <logger name="sf.icptp.springextensions.utils" level="INFO"/>
+        <logger name="org.springframework.beans.factory" level="WARN"/>
+ 
+ 
+ 
+        <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+                <encoder>
+                        <Pattern>%boldMagenta(%d) level=%-5p %boldCyan(%.20c ::) %m%n</Pattern>
+                </encoder>
+        </appender>
+ 
+        <root level="INFO">
+                <appender-ref ref="STDOUT" />
+        </root>
+       
+        <!-- UNCOMMENT TO ENABLE DEBUG LOGS -->
+       
+<!--     <root level="DEBUG">
+                <appender-ref ref="business" />
+                <appender-ref ref="STDOUT" />
+        </root> -->
+       
+</configuration>

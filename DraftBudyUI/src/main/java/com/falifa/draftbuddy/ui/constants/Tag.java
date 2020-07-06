@@ -5,14 +5,16 @@ import com.falifa.draftbuddy.ui.model.player.Player;
 public enum Tag {
 
 	RISK("!", 0, "glyphicon glyphicon-exclamation-sign"),
-	SLEEPER("$", 1, "glyphicon glyphicon-usd"),
+	SLEEPER("S", 1, "glyphicon glyphicon-flash"),
 	ROOKIE("R", 0, "glyphicon glyphicon-registration-mark"),
-	NEW_TEAM("@", 0, "glyphicon glyphicon-share-alt"),
-	FAVORITE("*", 3, "glyphicon glyphicon-thumbs-up"),
+	NEW_TEAM("@", 0, "glyphicon glyphicon-plane"),
+	FAVORITE("*", 2, "glyphicon glyphicon-star-empty"),
 	RISING("+", 1, "glyphicon glyphicon-arrow-up"),
 	FALLING("-", -1, "glyphicon glyphicon-arrow-down"),
 	INJURY_RISK("i", -1, "glyphicon glyphicon-wrench"),
-	BUST("B", -2, "glyphicon glyphicon-ban-circle");
+	BUST("B", -2, "glyphicon glyphicon-ban-circle"),
+	BREAKOUT("^", 2, "glyphicon glyphicon-link"),
+	VALUE("$", 0, "glyphicon glyphicon-usd");
 	
 	private String tag;
 	private int shift;

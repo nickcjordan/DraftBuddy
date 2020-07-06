@@ -9,6 +9,8 @@ public class DataSourcePaths {
 	public static final String PLAYER_TAGS_FILE_PATH = "src/main/resources/data/tags.csv";
 	public static final String DRAFT_STRATEGY_BY_ROUND_FILE_PATH = "src/main/resources/data/strategyByRound.csv";
 	
+	
+	// *************** FANTASY PROS ***************
 	public static final String FANTASYPROS_BASE_URL = "https://www.fantasypros.com/nfl";
 	public static final String FANTASYPROS_BASE_HTML_FILE_PATH = "src/main/resources/data/html/fantasyPros/";
 
@@ -29,6 +31,18 @@ public class DataSourcePaths {
 	
 	public static final String FANTASYPROS_POSITIONAL_PROJECTIONS_BASE_URL = FANTASYPROS_BASE_URL + "/projections/%s.php?scoring=PPR&week=draft";
 	public static final String FANTASYPROS_POSITIONAL_PROJECTIONS_BASE_HTML_FILE_PATH = FANTASYPROS_BASE_HTML_FILE_PATH + "fantasy_pros_positional_projections_%s.html";
+	
+	// *************** FANTASY FOOTBALLERS ***************	
+	public static final String FANTASYFOOTBALLERS_BASE_URL = "https://www.thefantasyfootballers.com/2020-ultimate-draft-kit";
+	public static final String FANTASYFOOTBALLERS_VALUES_URL = FANTASYFOOTBALLERS_BASE_URL + "/udk-expert-lists-values/";
+
+	public static final String FANTASYFOOTBALLERS_BASE_FILE_PATH = "src/main/resources/data/html/fantasyfootballers/";
+	public static final String FANTASYFOOTBALLERS_VALUES_PATH = FANTASYFOOTBALLERS_BASE_FILE_PATH + "UDK - Expert Lists - Values - Fantasy Footballers Podcast.html";
+	public static final String FANTASYFOOTBALLERS_BREAKOUTS_PATH = FANTASYFOOTBALLERS_BASE_FILE_PATH + "UDK - Expert Lists - Breakouts - Fantasy Footballers Podcast.html";
+	public static final String FANTASYFOOTBALLERS_BUSTS_PATH = FANTASYFOOTBALLERS_BASE_FILE_PATH + "UDK - Expert Lists - Busts - Fantasy Footballers Podcast.html";
+	public static final String FANTASYFOOTBALLERS_SLEEPERS_PATH = FANTASYFOOTBALLERS_BASE_FILE_PATH + "UDK - Expert Lists - Sleepers - Fantasy Footballers Podcast.html";
+	public static final String FANTASYFOOTBALLERS_INJURIES_PATH = FANTASYFOOTBALLERS_BASE_FILE_PATH + "UDK - Injury Report - Fantasy Footballers Podcast.html";
+	public static final String FANTASYFOOTBALLERS_ROOKIES_PATH = FANTASYFOOTBALLERS_BASE_FILE_PATH + "UDK - Rookie Reports - Fantasy Footballers Podcast.html";
 	
 	public static String buildPositionalPath(String position, String path) {
 		String pos = (position.equalsIgnoreCase("def")) ? "dst" : position.toLowerCase();

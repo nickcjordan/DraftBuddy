@@ -36,7 +36,7 @@ public class ThreadRunner implements Runnable {
 		boolean yes = (position.equals("QB") | position.equals("RB") | position.equals("WR") | position.equals("TE") | position.equals("K") | position.equals("DEF"));
 //		return (position.equals("QB") | position.equals("RB") | position.equals("WR") | position.equals("TE") | position.equals("K"));
 		if (!yes) {
-			log.info("Found unwanted position :: {} :: player = {} : {}", position, p.getPlayerId(), p.getPlayerName());
+//			log.info("Found unwanted position :: {} :: player = {} : {}", position, p.getPlayerId(), p.getPlayerName());
 		}
 		return yes;
 	}

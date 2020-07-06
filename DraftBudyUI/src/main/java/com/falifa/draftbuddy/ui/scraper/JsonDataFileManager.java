@@ -92,7 +92,6 @@ public class JsonDataFileManager {
 			mapper.getSerializerProvider().setNullKeySerializer(new NullStatisticKeySerializer());
 			mapper.writeValue(new File(MASTER_PLAYERS_JSON_FILE_PATH), new MasterPlayersTO(players));
 			log.info("Master players json successfully updated");
-
 			mapper.writeValue(new File(MASTER_NFL_TEAMS_JSON_FILE_PATH), new MasterTeamTO(nflTeams));
 			log.info("Master team structure json initialized successfully");
 			return true;
@@ -168,6 +167,9 @@ public class JsonDataFileManager {
 		
 		if (StringUtils.isNotEmpty(picLink)) {
 			String ext = picLink.substring(picLink.lastIndexOf(".")); // get file extension from link
+			if (ext.contains("com")) {
+				ext = ".png";
+			}
 			filePathWithExtension += ext;
 			webImagePathWithExtension += ext;
 			try {

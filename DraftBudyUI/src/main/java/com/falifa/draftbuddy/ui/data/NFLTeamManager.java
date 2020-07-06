@@ -101,9 +101,11 @@ public class NFLTeamManager {
 		if (!CollectionUtils.isEmpty(playersById) && !CollectionUtils.isEmpty(teamsByAbbreviation)) {
 			for (Player player : playersById.values()) {
 				populateRemainingFieldsForPlayer(player);
-				NFLTeam team = teamsByAbbreviation.get(player.getTeam().getAbbreviation());
-				if (team != null) {
-					team.addPlayer(player);
+				if (player.getTeam() != null) {
+					NFLTeam team = teamsByAbbreviation.get(player.getTeam().getAbbreviation());
+					if (team != null) {
+						team.addPlayer(player);
+					}
 				}
 			}
 		}

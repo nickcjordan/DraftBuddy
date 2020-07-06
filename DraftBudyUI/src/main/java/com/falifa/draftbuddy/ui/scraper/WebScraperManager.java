@@ -44,7 +44,9 @@ public class WebScraperManager {
 			} else {
 				log.info("Update process finished with errors");
 			}
-		} 
+		} else {
+			log.error("ERROR :: not going to parse updated data sources...");
+		}
 			return false;
 	}
 	
@@ -57,6 +59,7 @@ public class WebScraperManager {
 		success &= updateFantasyProsRookiesRankingsDataSource();
 		success &= updateFantasyProsPositionalProjectionsDataSource();
 		success &= updateFantasyProsTargetLeadersDataSource();
+//		success &= updateFantasyFootballersDataSource();
 		return success;
 	}
 
@@ -88,6 +91,10 @@ public class WebScraperManager {
 			allPositionUpdatesSuccessful &= updater.downloadFileFromUrl(positionalUrl, positionalFilePath);
 		}
 		return allPositionUpdatesSuccessful;
+	}
+	
+	private boolean updateFantasyFootballersDataSource() {
+		return updater.downloadFileFromUrl(FANTASYFOOTBALLERS_VALUES_URL, FANTASYFOOTBALLERS_VALUES_PATH);
 	}
 	
 }

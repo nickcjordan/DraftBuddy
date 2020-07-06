@@ -54,7 +54,7 @@ public class RankingExtractor {
 				else if (row.hasAttribute("class") && row.getAt("class").contains("player-row")) { parsePlayerDataRow(row); } 	// if player row :: build player
 //				else { log.info("No useful info found on <tr> line of HTML :: {}", row.toString()); }											// skip
 			} catch (Exception e) {
-				log.error("Error building player from HTML :: " + row.toString(), e);
+				log.error("Error building player from HTML :: " + e.getMessage() + " :: " + row.toString());
 			}
 		}
 	}

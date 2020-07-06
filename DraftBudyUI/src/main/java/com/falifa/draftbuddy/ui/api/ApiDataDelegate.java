@@ -16,6 +16,7 @@ public class ApiDataDelegate {
 	private static final Logger log = LoggerFactory.getLogger(ApiDataDelegate.class);
 	
 	private static final String API_PLAYER_MAP_URL = "http://localhost:8081/api/players/map";
+	private static final String API_UPDATE_URL = "http://localhost:8081/api/update";
 	private RestTemplate restTemplate;
 
 	public ApiDataDelegate() {
@@ -29,9 +30,20 @@ public class ApiDataDelegate {
 			players = response.getPlayers();
 			log.info("Got {} players in response from Player Stats API", players.size());
 		} catch (Exception e) {
-			log.error("ERROR calling Player Stats API :: " + e.getMessage(), e);
+			log.error("ERROR calling Player Stats API for GET :: " + e.getMessage(), e);
 		}
 		return players;
+	}
+	
+	public boolean updateApiData() {
+		try {
+			boolean success = restTemplate.getForObject(API_UPDATE_URL, Boolean.class);
+			log.info("Update call to Player Stats API :: success = {}", success);
+			return success;
+		} catch (Exception e) {
+			log.error("ERROR updating Player Stats API :: " + e.getMessage(), e);
+			return false;
+		}
 	}
 
 }

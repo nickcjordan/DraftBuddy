@@ -64,9 +64,9 @@ public enum DraftType {
 			"Dan",
 			"Ryan",
 			"Chris R",
+			"Chris T",
 			"Will",
-			"Matt",
-			"Chris T"
+			"Matt"
 	};
 	
 	private String[] NEELY_LEAGUE = new String[]{

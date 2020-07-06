@@ -23,18 +23,20 @@ public class NotesExtractor {
 	private JsonDataFileManager playerManager;
 
 	public boolean extractPlayerNotesDataFromElement(Element div) {
-		boolean allSuccess = true;
+		int failCount = 0;
 		for (Element playerDetail : div.findEach("<div>")) { // each player node
 			try {
 				String fantasyProsId = playerDetail.getAt("class").split(" ")[1].split("-")[2]; // grab fantasy pros id from top level div metadata
-				allSuccess &= handlePlayerDetail(fantasyProsId, playerDetail);
+				if (!handlePlayerDetail(fantasyProsId, playerDetail)) {
+					failCount++;
+				}
 			} catch (NotFound e) {
 				log.error("Error parsing ID for player row :: " + playerDetail.toString(), e);
-				allSuccess = false;
+				failCount++;
 			}
 		}
-		log.info("All player notes have been parsed");
-		return allSuccess;
+		log.info("All player notes have been parsed :: failed to update notes for {} player details", failCount);
+		return (failCount < 200);
 	}
 
 	private boolean handlePlayerDetail(String fantasyProsId, Element playerDetail) {
@@ -54,6 +56,7 @@ public class NotesExtractor {
 					playerToPopulate.getPictureMetadata().setSmallPicLink(imgLocation);
 				}
 				playerManager.addUpdatedPlayer(fantasyProsId, playerToPopulate);
+				return true;
 			} catch (Exception e) {
 				log.error("ERROR parsing player notes :: " + playerDetail.toString(), e);
 			}

@@ -3,15 +3,12 @@ package com.falifa.draftbuddy.ui.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
 
-import com.falifa.draftbuddy.ui.model.player.Player;
+import com.falifa.draftbuddy.ui.api.ApiDataDelegate;
 import com.falifa.draftbuddy.ui.scraper.JsonDataFileManager;
 import com.falifa.draftbuddy.ui.scraper.WebScraperManager;
 
@@ -25,6 +22,9 @@ public class WebScraperController {
 	
 	@Autowired
 	private JsonDataFileManager data;
+	
+	@Autowired
+	private ApiDataDelegate apiDelegate;
 
     @RequestMapping(value = "/updateDataSourceFiles")
     public String updateDataSourceFiles() {
@@ -45,6 +45,13 @@ public class WebScraperController {
     	} else {
     		log.error("All player data update was not fully successful");
     	}
+    	return "/home";
+    }
+    
+    @RequestMapping(value = "/updateApi", method = RequestMethod.GET)
+    public String updateApiData(Model model) {
+    	log.info("Updating API data...");
+    	log.info("API update = {}", apiDelegate.updateApiData());
     	return "/home";
     }
     

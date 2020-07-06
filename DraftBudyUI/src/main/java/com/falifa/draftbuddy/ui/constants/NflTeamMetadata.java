@@ -3,7 +3,7 @@ package com.falifa.draftbuddy.ui.constants;
 public enum NflTeamMetadata {
 	
 	DOLPHINS("Dolphins", "MIA", "Miami"),
-	RAIDERS("Raiders", "OAK", "Oakland"),
+	RAIDERS("Raiders", "LV", "Las Vegas"),
 	COWBOYS("Cowboys", "DAL", "Dallas"),
 	PACKERS("Packers", "GB", "Green Bay"),
 	TEXANS("Texans", "HOU", "Houston"),
