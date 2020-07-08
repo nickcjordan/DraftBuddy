@@ -36,7 +36,7 @@
 		<div class="col-md-10">
 			<%@include file="../tables/playerTableByTeam.jsp"%>
 		</div>
-
+		
 		<c:if test="${error} != null">
 			<script>
 				alert("${error}");

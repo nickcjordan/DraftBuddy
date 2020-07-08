@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
-import com.falifa.draftbuddy.ui.drafting.sort.StatCategoryByWeekComparator;
+import com.falifa.draftbuddy.ui.draft.compare.StatCategoryByWeekComparator;
 
 public class PlayerPositionalStats {
 	

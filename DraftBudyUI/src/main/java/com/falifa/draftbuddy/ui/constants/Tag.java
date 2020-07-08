@@ -14,6 +14,7 @@ public enum Tag {
 	INJURY_RISK("i", -1, "glyphicon glyphicon-wrench"),
 	BUST("B", -2, "glyphicon glyphicon-ban-circle"),
 	BREAKOUT("^", 2, "glyphicon glyphicon-link"),
+	NEW_COACH("C", 0, "glyphicon glyphicon-bullhorn"),
 	VALUE("$", 0, "glyphicon glyphicon-usd");
 	
 	private String tag;

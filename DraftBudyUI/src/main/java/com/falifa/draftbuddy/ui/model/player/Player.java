@@ -15,7 +15,6 @@ public class Player {
 	private String bye;
 	private NflTeamMetadata team;
 	
-	@JsonIgnore
 	private DraftingDetails draftingDetails;
 
 	private RawStatsDetails priorRawStatsDetails;
@@ -108,11 +107,9 @@ public class Player {
 	public void setProjectedRawStatsDetails(RawStatsDetails projectedRawStatsDetails) {
 		this.projectedRawStatsDetails = projectedRawStatsDetails;
 	}
-	@JsonIgnore
 	public DraftingDetails getDraftingDetails() {
 		return draftingDetails;
 	}
-	@JsonIgnore
 	public void setDraftingDetails(DraftingDetails draftMetadata) {
 		this.draftingDetails = draftMetadata;
 	}
