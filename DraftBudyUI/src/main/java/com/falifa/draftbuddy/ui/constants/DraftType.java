@@ -55,12 +55,12 @@ public enum DraftType {
 	}
 	
 	private String[] FALIFA_LEAGUE = new String[]{
-			"Nick J",
 			"Nick W",
 			"Josh",
 			"Austin",
 			"Scott",
 			"Mason",
+			"Nick J",
 			"Dan",
 			"Ryan",
 			"Chris R",

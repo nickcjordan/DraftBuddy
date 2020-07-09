@@ -130,20 +130,6 @@ public class DataPopulator {
 		}
 	}
 	
-	public void updateDraftStrategyDataFromFile() {
-		Map<String, RoundSpecificStrategy> strategy = new HashMap<String, RoundSpecificStrategy>();
-		try {
-			for (List<String> split : strategyHandler.getSplitLinesFromFile(DRAFT_STRATEGY_BY_ROUND_FILE_PATH, true)) {
-				if (split.size() > 1) {
-					strategy.put(split.get(0), strategyHandler.buildRoundSpecificStrategy(split));
-				}
-			}
-		} catch (Exception e) {
-			log.error("ERROR populating players with tags", e);
-		}
-		draftState.setStrategyByRound(strategy);
-	}
-	
 	public void populatePlayersWithTags() {
 		try {
 			for (List<String> split : strategyHandler.getSplitLinesFromFile(PLAYER_TAGS_FILE_PATH, true)) {

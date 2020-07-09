@@ -40,7 +40,7 @@ public class PlayerCache {
 		players.put(player.getFantasyProsId(), player);
 	}
 
-	public static boolean updateJsonCacheFilesWithParsedData() {
+	public static boolean updatePlayerJsonFileWithCachedData() {
 		try {
 			ObjectMapper mapper = new ObjectMapper();
 			mapper.getSerializerProvider().setNullKeySerializer(new NullStatisticKeySerializer());

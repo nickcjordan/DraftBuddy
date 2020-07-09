@@ -16,9 +16,27 @@ public class NFLTeam {
 	private NflTeamMetadata team;
 	private Map<Position, List<Player>> playersByPosition;
 	private List<Player> players;
-	
-	public NFLTeam() { initFields(); }
-	
+
+	public void setFantasyProsId(String fantasyProsId) {
+		this.fantasyProsId = fantasyProsId;
+	}
+
+	public void setTeam(NflTeamMetadata team) {
+		this.team = team;
+	}
+
+	public void setPlayersByPosition(Map<Position, List<Player>> playersByPosition) {
+		this.playersByPosition = playersByPosition;
+	}
+
+	public void setPlayers(List<Player> players) {
+		this.players = players;
+	}
+
+	public NFLTeam() {
+		// initFields();
+	}
+
 	public NFLTeam(String fantasyProsId, NflTeamMetadata team) {
 		this.fantasyProsId = fantasyProsId;
 		this.team = team;
@@ -35,20 +53,23 @@ public class NFLTeam {
 		playersByPosition.put(Position.DEFENSE, new ArrayList<Player>());
 		this.players = new ArrayList<Player>();
 	}
-	
-	
+
 	public List<Player> getPlayers() {
 		return players;
 	}
-	
+
 	@JsonIgnore
 	public List<Player> getPlayersByPosition(Position p) {
 		return playersByPosition.get(p);
 	}
-	
+
 	@JsonIgnore
 	public List<Player> getPlayersByPosition(String pos) {
 		return playersByPosition.get(Position.get(pos.toUpperCase()));
+	}
+
+	public Map<Position, List<Player>> getPlayersByPosition() {
+		return playersByPosition;
 	}
 
 	public String getFantasyProsId() {
@@ -58,7 +79,7 @@ public class NFLTeam {
 	public NflTeamMetadata getTeam() {
 		return team;
 	}
-	
+
 	public void addPlayer(Player player) {
 		List<Player> positionPlayers = playersByPosition.get(player.getPosition());
 		if (positionPlayers != null) {

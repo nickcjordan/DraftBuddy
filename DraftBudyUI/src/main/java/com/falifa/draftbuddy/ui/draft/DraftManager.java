@@ -1,8 +1,12 @@
 package com.falifa.draftbuddy.ui.draft;
 
+import static com.falifa.draftbuddy.ui.constants.DataSourcePaths.DRAFT_STRATEGY_BY_ROUND_FILE_PATH;
+
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Stack;
 
 import org.slf4j.Logger;
@@ -19,11 +23,13 @@ import com.falifa.draftbuddy.ui.draft.data.DraftState;
 import com.falifa.draftbuddy.ui.model.Draft;
 import com.falifa.draftbuddy.ui.model.DraftPick;
 import com.falifa.draftbuddy.ui.model.Drafter;
+import com.falifa.draftbuddy.ui.model.RoundSpecificStrategy;
 import com.falifa.draftbuddy.ui.model.Team;
 import com.falifa.draftbuddy.ui.model.UndoDraftStateTO;
 import com.falifa.draftbuddy.ui.model.player.Player;
 import com.falifa.draftbuddy.ui.prep.data.ModelUpdater;
 import com.falifa.draftbuddy.ui.prep.data.NFLTeamManager;
+import com.falifa.draftbuddy.ui.prep.data.StrategyFileHandler;
 import com.falifa.draftbuddy.ui.results.ResultsProcessor;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -44,6 +50,9 @@ public class DraftManager {
 
 	@Autowired
 	private ModelUpdater modelUpdater;
+	
+	@Autowired
+	private StrategyFileHandler strategyHandler;
 
 	private Stack<UndoDraftStateTO> undoStack;
 	
@@ -53,6 +62,20 @@ public class DraftManager {
 	
 	public void clearUndoToStack() {
 		undoStack.clear();
+	}
+	
+	public void updateDraftStrategyDataFromFile() {
+		Map<String, RoundSpecificStrategy> strategy = new HashMap<String, RoundSpecificStrategy>();
+		try {
+			for (List<String> split : strategyHandler.getSplitLinesFromFile(DRAFT_STRATEGY_BY_ROUND_FILE_PATH, true)) {
+				if (split.size() > 1) {
+					strategy.put(split.get(0), strategyHandler.buildRoundSpecificStrategy(split));
+				}
+			}
+		} catch (Exception e) {
+			log.error("ERROR populating players with tags", e);
+		}
+		draftState.setStrategyByRound(strategy);
 	}
 
 	public boolean undoLastDraftPick(Model model) {

@@ -19,6 +19,7 @@ import com.falifa.draftbuddy.ui.draft.compare.AlphabetizedPlayerComparator;
 import com.falifa.draftbuddy.ui.model.FantasyFootballerPlayerTO;
 import com.falifa.draftbuddy.ui.model.player.Player;
 import com.falifa.draftbuddy.ui.model.player.PlayerNote;
+import com.falifa.draftbuddy.ui.prep.NFLTeamCache;
 import com.falifa.draftbuddy.ui.prep.PlayerCache;
 import com.falifa.draftbuddy.ui.prep.data.ModelUpdater;
 import com.falifa.draftbuddy.ui.prep.data.StrategyFileHandler;
@@ -54,7 +55,6 @@ public class DataParserManager {
 		dataPopulator.populateNflTeamSpecificFieldValues();
 		dataPopulator.populatePlayersWithTags();
 		dataPopulator.setCurrentPlayerValue();
-		dataPopulator.updateDraftStrategyDataFromFile();
 
 		success = parseFantasyProsFiles(success);
 		success &= jsonFileManager.parseAndUpdateStatsFromAPI();
@@ -66,7 +66,8 @@ public class DataParserManager {
 		modelUpdater.clearFiltersAndSorts();
 		
 		// done
-		success &= PlayerCache.updateJsonCacheFilesWithParsedData();
+		success &= PlayerCache.updatePlayerJsonFileWithCachedData();
+		success &= NFLTeamCache.updateNflJsonFileWithCachedData();
 		
 		return success;
 	}
