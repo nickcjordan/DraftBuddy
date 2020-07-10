@@ -82,12 +82,6 @@ public class StrategyFileHandler {
 		if (player.getDraftingDetails().isRookie()) {
 			player.getDraftingDetails().addTags(Tag.ROOKIE.getTag());
 		}
-		if (player.getPosition() == null || player.getPosition().equals(Position.DEFENSE)) {
-			System.out.println();
-		}
-		if (player.getTeam() == null) {
-			System.out.println();
-		}
 		if (player.getTeam().isNewCoach()) {
 			player.getDraftingDetails().addTags(Tag.NEW_COACH.getTag());
 		}

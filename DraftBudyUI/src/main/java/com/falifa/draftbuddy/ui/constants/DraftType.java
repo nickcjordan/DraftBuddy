@@ -1,5 +1,9 @@
 package com.falifa.draftbuddy.ui.constants;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 public enum DraftType {
 	
 	REAL_DRAFT("real"),
@@ -18,7 +22,7 @@ public enum DraftType {
 		switch(t) {
 			case "real"		: return currentSet();
 			case "auto"	: return currentSet();
-			case "mock"	: return currentSet();
+			case "mock"	: return randomSet();
 		}
 		return null;
 	}
@@ -28,9 +32,28 @@ public enum DraftType {
 //		return NEELY_LEAGUE;
 //		return WHOLE_FAMILY_LEAGUE;	
 	}
+	
+	private String[] randomSet() {
+		List<String> list = Arrays.asList(FALIFA_LEAGUE);
+//		List<String> list = Arrays.asList(NEELY_LEAGUE);
+//		List<String> list = Arrays.asList(WHOLE_FAMILY_LEAGUE);
+		Collections.shuffle(list);
+		return (String[]) list.toArray();
+	}
+	
+	public void shuffleOrder() {
+		List<String> list = Arrays.asList(this.order);
+		Collections.shuffle(list);
+		this.order = (String[]) list.toArray();
+	}
 
 	public String[] getOrder() {
-		return order;
+		switch(this.type) {
+			case "real"		: return currentSet();
+			case "auto"	: return currentSet();
+			case "mock"	: return randomSet();
+		}
+		return null;
 	}
 
 	public void setOrder(String[] order) {

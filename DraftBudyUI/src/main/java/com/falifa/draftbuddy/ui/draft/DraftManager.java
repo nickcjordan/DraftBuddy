@@ -134,7 +134,7 @@ public class DraftManager {
 	}
 	
 	public void doBaseDraft(Player player, Model model) {
-		log.info(String.format("%2s.%-2s :: %-10s --> %s", draftState.getRoundNum(), draftState.getDraftOrderIndex(), draftState.getCurrentDrafter().getName(), player.getPlayerName()));
+		log.info(String.format("%2s.%-2s :: %-10s --> %s", draftState.getRoundNum(), draftState.getDraftOrderIndex() + 1, draftState.getCurrentDrafter().getName(), player.getPlayerName()));
 		draftState.getDraftPicks().add(draftPlayer(draftState.getCurrentDrafter(), player));
 		Collections.sort(draftState.getDraftPicks(), new DraftSelectionOrderComparator());
 		undoStack.push(buildUndoTO());
@@ -199,7 +199,7 @@ public class DraftManager {
 		for (Player handcuff : draftedPlayer.getDraftingDetails().getBackups()) {
 			handcuff.getDraftingDetails().setHandcuff(true);
 		}
-		return new DraftPick(draftState.getPickNumber(), draftState.getRoundNum(), drafter, draftedPlayer);
+		return new DraftPick(draftState.getPickNumber(), draftState.getRoundNum(), draftState.getDraftOrderIndex() + 1, drafter, draftedPlayer);
 	}
 
 	public boolean draftHasCompleted() {

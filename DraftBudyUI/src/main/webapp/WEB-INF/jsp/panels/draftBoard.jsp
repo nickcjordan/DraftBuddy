@@ -20,9 +20,12 @@
 							<c:choose>
 							    <c:when test="${drafter.getDraftedTeam().getAllInDraftedOrder().size() > i }">
 									<c:set var="player" value="${drafter.getDraftedTeam().getAllInDraftedOrder().get(i)}" scope="page"/>
-							    	<td class="drafted center">
+							    	<td class="drafted">
 							    		<a class="nameLinkWhite" data-toggle="modal" data-target="#${player.getFantasyProsId()}playerModal">
-							    			<span class="badge draft-board-badge ${player.getPosition().getBadgeClass()}">${player.getPlayerName()}</span>
+							    			<span class="badge draft-board-badge ${player.getPosition().getBadgeClass()}">
+							    			<div class="player-badge-name">${player.getFirstName()}</div>
+							    			<div>${player.getLastName()}</div>
+							    			</span>
 						    			</a>
 						    		</td>
 							    </c:when>    

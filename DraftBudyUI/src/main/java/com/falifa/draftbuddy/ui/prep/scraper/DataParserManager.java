@@ -148,7 +148,6 @@ public class DataParserManager {
 	private void addTagsAndNotesFromFantasyFootballersUpdates(Map<String, Player> updated) {
 		for (FantasyFootballerPlayerTO update : htmlParser.parseListOfPlayerDataFromFantasyFootballers()) {
 			Player p = dataPopulator.getPlayerFromName(update.getName());
-//			playerManager.
 			if (p == null) {
 				log.error("ERROR did not find player from FantasyFootballers file :: name={}", update.getName());
 			} else {

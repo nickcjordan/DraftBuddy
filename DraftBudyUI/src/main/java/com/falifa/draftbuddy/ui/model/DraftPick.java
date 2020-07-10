@@ -6,13 +6,15 @@ public class DraftPick {
 
 	int pick;
 	int round;
+	int roundIndex;
 	Drafter drafter;
 	Player player;
 	
-	public DraftPick(int pick, int round, Drafter drafter, Player player) {
+	public DraftPick(int pick, int round, int roundIndex, Drafter drafter, Player player) {
 		super();
 		this.pick = pick;
 		this.round = round;
+		this.roundIndex = roundIndex;
 		this.drafter = drafter;
 		this.player = player;
 	}
@@ -31,6 +33,14 @@ public class DraftPick {
 
 	public void setRound(int round) {
 		this.round = round;
+	}
+
+	public int getRoundIndex() {
+		return roundIndex;
+	}
+
+	public void setRoundIndex(int roundIndex) {
+		this.roundIndex = roundIndex;
 	}
 
 	public Drafter getDrafter() {

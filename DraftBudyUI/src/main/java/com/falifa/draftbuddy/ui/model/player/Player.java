@@ -71,6 +71,24 @@ public class Player {
 	public String getPlayerName() {
 		return playerName;
 	}
+	
+	@JsonIgnore
+	public String getFirstName() {
+		if (position != null && position == Position.DEFENSE && team != null) {
+			return team.getCity();
+		} else {
+			return playerName.split(" ")[0].trim();
+		}
+	}
+	
+	@JsonIgnore
+	public String getLastName() {
+		if (position != null && position == Position.DEFENSE && team != null) {
+			return team.getMascot();
+		} else {
+			return playerName.replace(getFirstName(), "").trim();
+		}
+	}
 
 	public void setPlayerName(String playerName) {
 		this.playerName = playerName;

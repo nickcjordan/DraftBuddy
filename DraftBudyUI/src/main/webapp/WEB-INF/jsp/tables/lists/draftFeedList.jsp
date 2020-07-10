@@ -12,7 +12,7 @@
 		<tbody>
 			<c:forEach items="${draft.getDraftPicks()}" var="pick">
 				<tr>
-					<td class="P-num">${pick.round}.<strong>${pick.pick}</strong></td>
+					<td class="P-num">${pick.round}.<strong>${pick.getRoundIndex()}</strong></td>
 					<td class="Drafter"><b class="green-title">${pick.drafter.getName()}</b></td>
 					<td class="Pos"><span class="badge position-badge ${pick.player.getPosition().getBadgeClass()}">${pick.player.getPosition().getAbbrev()}</span></td>
 					<td class="Player"><a class="nameLinkWhite" data-toggle="modal" data-target="#${pick.player.getFantasyProsId()}playerModal">${pick.player.getPlayerName()}</a></td>
