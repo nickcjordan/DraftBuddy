@@ -22,7 +22,7 @@ public enum DraftType {
 		switch(t) {
 			case "real"		: return currentSet();
 			case "auto"	: return currentSet();
-			case "mock"	: return randomSet();
+			case "mock"	: return currentSet();
 		}
 		return null;
 	}
@@ -48,12 +48,7 @@ public enum DraftType {
 	}
 
 	public String[] getOrder() {
-		switch(this.type) {
-			case "real"		: return currentSet();
-			case "auto"	: return currentSet();
-			case "mock"	: return randomSet();
-		}
-		return null;
+		return getDraftOrder(this.type);
 	}
 
 	public void setOrder(String[] order) {
@@ -78,18 +73,18 @@ public enum DraftType {
 	}
 	
 	private String[] FALIFA_LEAGUE = new String[]{
-			"Nick W",
-			"Josh",
-			"Austin",
-			"Scott",
-			"Mason",
-			"Nick J",
-			"Dan",
 			"Ryan",
+			"Matt",
+			"Nick W",
 			"Chris R",
-			"Chris T",
+			"Josh",
 			"Will",
-			"Matt"
+			"Austin",
+			"Dan",
+			"Mason",
+			"Scott",
+			"Nick J",
+			"Chris T"
 	};
 	
 	private String[] NEELY_LEAGUE = new String[]{

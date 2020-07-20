@@ -61,14 +61,10 @@ public class DataParserManager {
 		success &= jsonFileManager.downloadAndSetPlayerImages();
 		success &= parseAndUpdateFantasyFootballers();
 		
-		// new stuff
 		
 		modelUpdater.clearFiltersAndSorts();
-		
-		// done
 		success &= PlayerCache.updatePlayerJsonFileWithCachedData();
 		success &= NFLTeamCache.updateNflJsonFileWithCachedData();
-		
 		return success;
 	}
 
@@ -144,7 +140,7 @@ public class DataParserManager {
 			 }
 		 }
 	}
-
+	
 	private void addTagsAndNotesFromFantasyFootballersUpdates(Map<String, Player> updated) {
 		for (FantasyFootballerPlayerTO update : htmlParser.parseListOfPlayerDataFromFantasyFootballers()) {
 			Player p = dataPopulator.getPlayerFromName(update.getName());

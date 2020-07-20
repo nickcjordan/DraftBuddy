@@ -26,6 +26,7 @@ Cam Newton,i
 Carlos Hyde,i
 Carolina Panthers,C
 Carson Wentz,$
+Case Keenum,C
 CeeDee Lamb,RC
 Chase Claypool,R
 Chris Carson,i
@@ -35,6 +36,7 @@ Chris Thompson,S
 Christian McCaffrey,C
 Cleveland Browns,C
 Clyde Edwards-Helaire,R
+Cody Latimer,C
 Cole Kmet,R
 Corey Coleman,C
 Curtis Samuel,C
@@ -71,6 +73,7 @@ Evan Engram,^Ci
 Ezekiel Elliott,C
 Gardner Minshew II,S
 Golden Tate,C
+Graham Gano,C
 Greg Zuerlein,C
 Harrison Bryant,CR
 Hayden Hurst,S
@@ -89,8 +92,9 @@ Jerry Jeudy,R
 Joe Burrow,R
 Joey Slye,C
 Jonathan Taylor,R
-Jonnu Smith,S
+Jonnu Smith,S*
 Jordan Howard,iS
+Jordan Love,R
 Jordan Scarlett,C
 Josh Allen,^
 Josh Jacobs,^
@@ -102,7 +106,6 @@ Kaden Smith,C
 Kai Forbath,C
 Kareem Hunt,C
 Ke'Shawn Vaughn,RS
-Kelvin Harmon,C
 Kenyan Drake,^
 Kyle Allen,C
 Kyler Murray,^

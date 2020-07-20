@@ -12,6 +12,7 @@
 				<th class="pos-posList">Pos</th>
 				<th class="adp-posList">Adp</th>
 				<th class="team-posList">Team</th>
+				<th class="bye-posList">OLine</th>
 				<th class="bye-posList">Bye</th>
 				<th class="id-posList">Best</th>
 				<th class="id-posList">Avg</th>
@@ -71,6 +72,7 @@
 					</td>
 					<td class="adp-posList">${player.getRankMetadata().getAdp()}</td>
 					<td class="team-posList">${player.getTeam().getAbbreviation()}</td>
+					<td class="team-posList">${player.getTeam().getoLineRank()}</td>
 					<td class="bye-posList">${player.getBye()}</td>
 					<td class="id-posList">${player.getRankMetadata().getBestRank()}</td>
 					<td class="id-posList">${player.getRankMetadata().getAvgRank()}</td>

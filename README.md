@@ -12,3 +12,7 @@ If an NFL team name changes...
 
 For fantasy footballers data...
 - log in to the site and download each of the HTML pages, only way to do it since it needs authentication
+
+In NflTeamMetadata:
+- update "newCoach" field of enum
+- update "oLineRank" field of enum

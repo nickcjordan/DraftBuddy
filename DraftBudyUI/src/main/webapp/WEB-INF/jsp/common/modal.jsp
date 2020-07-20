@@ -24,11 +24,12 @@
 							<table class="table table-bordered table-sm modal-table">
 								<thead>
 									<tr>
-										<th class="modal-top-category" class="modal-top-category" scope="col" colspan="3">Player Details</th>
+										<th class="modal-top-category" class="modal-top-category" scope="col" colspan="4">Player Details</th>
 									</tr>
 									<tr>
 										<th scope="col">Tier</th>
 										<th scope="col">Team</th>
+										<th scope="col">OLine</th>
 										<th scope="col">Bye</th>
 									</tr>
 								</thead>
@@ -36,6 +37,7 @@
 									<tr>
 										<td>${player.getTier()}</td>
 										<td>${player.getTeam().getAbbreviation()}</td>
+										<td>${player.getTeam().getoLineRank()}</td>
 										<td>${player.getBye()}</td>
 									</tr>
 								</tbody>
