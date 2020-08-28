@@ -988,6 +988,7 @@ var ffbPlugin = {
         ffbPlugin.clipcastLink();
         ffbPlugin.profileMobileTitle();
         ffbPlugin.profileTablesOverset();
+        ffbPlugin.profileArticlesCarousel();
         ffbPlugin.positionFixedHeader();
     },
     listeners: function() {
@@ -1098,13 +1099,19 @@ var ffbPlugin = {
         if (jQuery('.ffb-pp').length) {
             if (jQuery(window).width() < 768) {
                 var titleHeight = jQuery('.ffb-pp--info--name h1').outerHeight();
+                var infoHeight = jQuery('.ffb-pp--info--details ul').outerHeight();
                 if (titleHeight > 55) {
-                    jQuery('.ffb-pp--info--name').addClass('two-lines');
+                    jQuery('.ffb-pp--info').addClass('two-line-title');
                 } else {
-                    jQuery('.ffb-pp--info--name').removeClass('two-lines');
+                    jQuery('.ffb-pp--info').removeClass('two-line-title');
+                }
+                if (infoHeight > 30) {
+                    jQuery('.ffb-pp--info').addClass('two-line-info');
+                } else {
+                    jQuery('.ffb-pp--info').removeClass('two-line-info');
                 }
             } else {
-                jQuery('.ffb-pp--info--name').removeClass('two-lines');
+                jQuery('.ffb-pp--info').removeClass('two-lines');
             }
         }
     },
@@ -1146,6 +1153,39 @@ var ffbPlugin = {
                 }
             });
         }
+    },
+    profileArticlesCarousel: function() {
+        var articleCarousel = new Swiper('.ffb-pp .swiper-container', {
+            spaceBetween: 10,
+            slidesPerView: 1,
+            slidesPerGroup: 1,
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+            breakpoints: {
+                480: {
+                    slidesPerView: 2,
+                    slidesPerGroup: 2,
+                },
+                768: {
+                    slidesPerView: 3,
+                    slidesPerGroup: 3,
+                },
+                960: {
+                    slidesPerView: 2,
+                    slidesPerGroup: 2,
+                },
+                1150: {
+                    slidesPerView: 3,
+                    slidesPerGroup: 3,
+                },
+                1600: {
+                    slidesPerView: 4,
+                    slidesPerGroup: 4,
+                }
+              }
+        });
     }
 };
 

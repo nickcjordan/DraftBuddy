@@ -56,6 +56,6 @@ config.set(null, "microdata", {"waitTimeMs":500});
 config.set("676385855883128", "prohibitedSources", {"prohibitedSources":[]});
 fbq.loadPlugin("prohibitedsources");
 instance.optIn("676385855883128", "ProhibitedSources", true);
-config.set("676385855883128", "unwantedData", {"blacklisted_keys":null,"blacklisted_keys_v2":{}});
+config.set("676385855883128", "unwantedData", {"blacklisted_keys":null,"blacklisted_keys_v2":{"PageView":{"cd":{},"url":{}}}});
 fbq.loadPlugin("unwanteddata");
 instance.optIn("676385855883128", "UnwantedData", true);instance.configLoaded("676385855883128"); }});
