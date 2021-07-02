@@ -28,8 +28,8 @@ public enum DraftType {
 	}
 
 	private String[] currentSet() {
-		return FALIFA_LEAGUE;
-//		return NEELY_LEAGUE;
+//		return FALIFA_LEAGUE;
+		return NEELY_LEAGUE;
 //		return WHOLE_FAMILY_LEAGUE;	
 	}
 	
@@ -88,14 +88,15 @@ public enum DraftType {
 	};
 	
 	private String[] NEELY_LEAGUE = new String[]{
-			"Dad",
-			"Brian",
-			"Chris",
-			"Tyler",
-			"Nick J",
 			"Dan F",
+			"Chris",
 			"Dan M",
+			"Tyler",
+			"Justin",
 			"Jay",
+			"Brian",
+			"Dad",
+			"Nick J"
 	};
 	
 	private String[] WHOLE_FAMILY_LEAGUE = new String[]{
