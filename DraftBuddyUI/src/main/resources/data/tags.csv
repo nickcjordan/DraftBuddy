@@ -4,21 +4,18 @@ AJ Dillon,R
 Aaron Rodgers,B
 Adam Humphries,C
 Adam Thielen,i
-Adrian Peterson,C
-Allen Lazard,*$S
+Allen Lazard,S
 Alshon Jeffery,i
 Amari Cooper,C
-Andy Dalton,C
 Anthony McFarland Jr.,R
 Anthony Miller,S
 Anthony Schwartz,C
 Antonio Gandy-Golden,RC
 Antonio Gibson,RCS
 Austin Hooper,BC
-Austin Seibert,C
 Baker Mayfield,C
 Ben Roethlisberger,i
-Blake Jarwin,SC*
+Blake Jarwin,SC
 Brandon Aiyuk,R
 Breshad Perriman,S
 Bryan Edwards,R
@@ -35,15 +32,15 @@ CeeDee Lamb,RC
 Chase Claypool,R
 Chris Carson,i
 Chris Godwin,i
-Chris Herndon IV,$*
+Chris Herndon IV,$
 Chris Thompson,S
 Christian McCaffrey,C
 Chuba Hubbard,C
 Cleveland Browns,C
-Clyde Edwards-Helaire,R^*
+Clyde Edwards-Helaire,^R
 Cody Parkey,C
 Cole Kmet,R
-Curtis Samuel,C*
+Curtis Samuel,C
 D'Andre Swift,BR
 D.J. Chark Jr.,$
 D.J. Moore,C
@@ -54,16 +51,14 @@ Dalvin Cook,i
 Dan Arnold,C
 Daniel Jones,SC
 Darius Slayton,SC
-Darrell Henderson,B
 Darrynton Evans,R
 David Johnson,$
-David Montgomery,$i
+David Montgomery,i
 David Moore,C
 David Njoku,C
 DeAndre Hopkins,B
-DeSean Jackson,$*
+DeSean Jackson,$
 DeVante Parker,B
-DeVonta Smith,C
 DeeJay Dallas,R
 Deebo Samuel,i
 Demetric Felton,C
@@ -71,7 +66,7 @@ Denzel Mims,R
 Devin Duvernay,R
 Devontae Booker,C
 Dion Lewis,C
-Donovan Peoples-Jones,CR
+Donovan Peoples-Jones,C
 Dustin Hopkins,C
 Dyami Brown,C
 Eric Ebron,i
@@ -79,7 +74,7 @@ Evan Engram,^Ci
 Ezekiel Elliott,C
 Gardner Minshew II,S
 Gary Brightwell,C
-Golden Tate,C$
+Golden Tate,$
 Graham Gano,C
 Greg Zuerlein,C
 Harrison Bryant,C
@@ -88,12 +83,12 @@ Henry Ruggs III,R
 Hunter Henry,B
 Ian Thomas,C
 J.D. McKissic,C
-J.K. Dobbins,RS
+J.K. Dobbins,R
 Jalen Hurts,R
 Jalen Reagor,RS
 James Conner,i
-Jamison Crowder,$*
-Jared Cook,$*
+Jamison Crowder,$
+Jared Cook,$
 Jared Goff,$
 Jaret Patterson,C
 Jarvis Landry,iC
@@ -102,11 +97,11 @@ Joe Burrow,RS
 Joey Slye,C
 John Ross,C
 Jonathan Taylor,R
-Jonnu Smith,S*
-Jordan Howard,iS
+Jonnu Smith,S
+Jordan Howard,i
 Jordan Love,R
 Josh Allen,^
-Josh Jacobs,^*
+Josh Jacobs,^
 Joshua Kelley,R
 JuJu Smith-Schuster,B
 Justin Herbert,R
@@ -114,11 +109,11 @@ Justin Jackson,S
 Justin Jefferson,R
 KJ Hamler,R
 Kadarius Toney,C
-Kareem Hunt,C$*
-Ke'Shawn Vaughn,RS
+Kareem Hunt,$C
+Ke'Shawn Vaughn,R
 Kelvin Harmon,C
 Kenny Golladay,C
-Kenyan Drake,^*
+Kenyan Drake,^
 Kyle Rudolph,C
 Kyler Murray,^
 La'Mical Perine,R
@@ -128,35 +123,32 @@ Leonard Fournette,B
 Logan Thomas,C
 Lynn Bowden Jr.,R
 Mark Ingram II,$i
-Marquise Brown,^*
+Marquise Brown,^
 Marvin Jones Jr.,$i
 Matthew Stafford,$i
 Michael Gallup,C
 Michael Pittman Jr.,RS
-Mike Davis,C
 Mike Evans,Bi
 Mike Gesicki,^
 Mike Williams,i
-Miles Sanders,^*i
+Miles Sanders,^i
 New York Giants,C
 New York Jets,C
 Nick Chubb,C
 Noah Fant,^
 Odell Beckham Jr.,iC
-Parris Campbell,*$
 Peyton Barber,C
 Phillip Walker,C
 Preston Williams,i
 Rashaad Penny,i
 Rashard Higgins,C
-Richard Rodgers,C
 Robby Anderson,C
 Ronald Jones II,$
 Ryan Fitzpatrick,C
 Ryan Tannehill,B
 Ryquell Armstead,C
 Sam Darnold,C
-Sammy Watkins,$i
+Sammy Watkins,i
 Saquon Barkley,C
 Shi Smith,C
 Simi Fehoko,C
@@ -167,7 +159,6 @@ Steven Sims Jr.,C
 T.J. Hockenson,i
 T.Y. Hilton,$i
 Taylor Heinicke,C
-Teddy Bridgewater,C
 Tee Higgins,R
 Terrace Marshall Jr.,C
 Terry McLaurin,^C
@@ -179,7 +170,6 @@ Tua Tagovailoa,R
 Tyler Higbee,B
 Van Jefferson,R
 Washington Football Team,C
-Wayne Gallman,C
 Will Dissly,i
 Will Fuller V,i
 Zack Moss,R

@@ -96,4 +96,13 @@ public enum Tag {
 		return "";
 	}
 	
+	public static String getName(String character) {
+		for (Tag tag : Tag.values()) {
+			if (tag.getTag().equals(character)) {
+				return tag.name();
+			}
+		}
+		return null;
+	}
+	
 }

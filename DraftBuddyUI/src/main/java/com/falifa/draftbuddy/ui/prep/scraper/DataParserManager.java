@@ -172,7 +172,7 @@ public class DataParserManager {
 		try {
 			for (List<String> split : strategyHandler.getSplitLinesFromFile(TAGS_CUSTOM_PATH, true)) {
 				Player p = dataPopulator.getPlayerFromName(split.get(0));
-				if (p != null) {
+				if (p != null && split.get(1) != null) {
 					Player toUpdate = updated.getOrDefault(p.getFantasyProsId(), p);
 					strategyHandler.addTagsToPlayer(toUpdate, split.get(1));
 					updated.put(toUpdate.getFantasyProsId(), toUpdate);

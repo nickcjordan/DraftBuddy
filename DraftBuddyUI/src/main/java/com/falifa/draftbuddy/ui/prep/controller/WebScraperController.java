@@ -58,6 +58,7 @@ public class WebScraperController {
     public String updateApiData(Model model) {
     	log.info("Updating API data...");
     	log.info("API update = {}", apiDelegate.updateApiData());
+    	
     	return "/home";
     }
     

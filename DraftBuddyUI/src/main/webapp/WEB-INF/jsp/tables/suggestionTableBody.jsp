@@ -47,9 +47,11 @@
 						<c:choose>
 							<c:when test="${player.getDraftingDetails().getIcons()==null}">&nbsp;</c:when>
 							<c:otherwise>
+							<span title="" data-placement="top" data-html="true" data-toggle="tooltip" data-original-title="${player.getTagDescriptions()}">
 								<c:forEach items="${player.getDraftingDetails().getIcons()}" var="icon">
 									<span class="${icon}" aria-hidden="true"></span>
 								</c:forEach>
+							</span><script>$('span').tooltip();</script>
 							</c:otherwise>
 						</c:choose>
 					</td>

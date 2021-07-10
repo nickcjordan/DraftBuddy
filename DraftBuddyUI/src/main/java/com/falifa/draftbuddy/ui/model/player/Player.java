@@ -1,7 +1,15 @@
 package com.falifa.draftbuddy.ui.model.player;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.util.CollectionUtils;
+
 import com.falifa.draftbuddy.ui.constants.NflTeamMetadata;
 import com.falifa.draftbuddy.ui.constants.Position;
+import com.falifa.draftbuddy.ui.constants.Tag;
 import com.falifa.draftbuddy.ui.model.player.stats.PlayerPositionalStats;
 import com.falifa.draftbuddy.ui.model.player.stats.RawStatsDetails;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -51,7 +59,20 @@ public class Player {
 	public String getNameAndTags() {
 		return (draftingDetails.getTags() == null || draftingDetails.getTags().isEmpty()) ? playerName : playerName + " [" + draftingDetails.getTags() + "]";
 	}
+	
+	public String getTagDescriptions() {
+		return (draftingDetails.getTags() == null || draftingDetails.getTags().isEmpty()) ? "No tags" : buildDescriptionOfTags(draftingDetails.getTags());
+	}
 
+	private String buildDescriptionOfTags(String tags) {
+		List<String> tagList = new ArrayList<String> ();
+		for (int i = 0; i < tags.length(); i++) {
+			tagList.add(String.valueOf(tags.charAt(i)));
+		}
+		String x = tagList.stream().map(tag -> Tag.getName(tag)).collect(Collectors.joining(", "));
+		return x;
+	}
+	
 	public String getFantasyProsId() {
 		return fantasyProsId;
 	}
