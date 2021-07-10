@@ -33,7 +33,7 @@ public class DataSourcePaths {
 	public static final String FANTASYPROS_POSITIONAL_PROJECTIONS_BASE_HTML_FILE_PATH = FANTASYPROS_BASE_HTML_FILE_PATH + "fantasy_pros_positional_projections_%s.html";
 	
 	// *************** FANTASY FOOTBALLERS ***************	
-	public static final String FANTASYFOOTBALLERS_BASE_URL = "https://www.thefantasyfootballers.com/2020-ultimate-draft-kit";
+	public static final String FANTASYFOOTBALLERS_BASE_URL = "https://www.thefantasyfootballers.com/2021-ultimate-draft-kit";
 	public static final String FANTASYFOOTBALLERS_VALUES_URL = FANTASYFOOTBALLERS_BASE_URL + "/udk-expert-lists-values/";
 
 	public static final String FANTASYFOOTBALLERS_BASE_FILE_PATH = "src/main/resources/data/html/fantasyfootballers/";

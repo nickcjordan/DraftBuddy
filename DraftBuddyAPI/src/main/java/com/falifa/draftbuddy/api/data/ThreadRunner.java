@@ -15,16 +15,18 @@ public class ThreadRunner implements Runnable {
 	private PlayerTO player;
 	private List<PlayerTO> playersToRemove;
 	private String baseUrl;
+	private PlayerMetadataAPIDelegate delegate;
 	
 	public ThreadRunner(List<PlayerTO> playersToRemove, PlayerTO player, String baseUrl) {
 		this.playersToRemove = playersToRemove;
 		this.player = player;
 		this.baseUrl = baseUrl;
+		this.delegate = new PlayerMetadataAPIDelegate();
 	}
 
 	@Override
 	public void run() {
-		PlayerMetaData data = new PlayerMetadataAPIDelegate().retrieveMetaDataForPlayer(baseUrl + player.getPlayerId());
+		PlayerMetaData data = delegate.retrieveMetaDataForPlayer(baseUrl + player.getPlayerId());
 		if ((data != null) && isFantasyPosition(player, data.getPosition())) {
 			populatePlayerWithMetaData(player, data);
 		} else {

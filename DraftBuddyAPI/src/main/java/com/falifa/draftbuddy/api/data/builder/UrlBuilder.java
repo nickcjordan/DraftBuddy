@@ -1,13 +1,15 @@
 package com.falifa.draftbuddy.api.data.builder;
 
+import java.time.LocalDate;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
 public class UrlBuilder {
 	
-	@Value("${data.year.previous}")
-	private String previousSeasonYear;
+//	@Value("${data.year.previous}")
+//	private String previousSeasonYear;
 	
 	private static final String URL_BASE = "https://api.fantasy.nfl.com/v2";
 	private static final String AND = "&";
@@ -21,7 +23,7 @@ public class UrlBuilder {
 	
 	public String buildWeekStatsUrl(int week) {
 		return new StringBuilder().append(URL_BASE).append(WEEK_STATS_BASE_PATH)
-				.append(SEASON_PARAM).append(previousSeasonYear)
+				.append(SEASON_PARAM).append(LocalDate.now().minusYears(1).getYear())
 				.append(AND).append(WEEK_PARAM).append(week)
 				.toString();
 	}

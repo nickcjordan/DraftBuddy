@@ -23,6 +23,9 @@ import com.falifa.draftbuddy.ui.prep.NFLTeamCache;
 import com.falifa.draftbuddy.ui.prep.PlayerCache;
 import com.falifa.draftbuddy.ui.prep.data.ModelUpdater;
 import com.falifa.draftbuddy.ui.prep.data.StrategyFileHandler;
+import com.falifa.draftbuddy.ui.prep.scraper.webjson.WebJsonExtractor;
+import com.falifa.draftbuddy.ui.prep.scraper.webjson.WebJsonPlayerConverter;
+import com.falifa.draftbuddy.ui.prep.scraper.webjson.model.ECRData;
 
 @Component
 public class DataParserManager {
@@ -46,6 +49,12 @@ public class DataParserManager {
 	
 	@Autowired
 	private DataPopulator dataPopulator;
+	
+	@Autowired
+	private WebJsonExtractor jsonExtractor;
+	
+	@Autowired
+	private WebJsonPlayerConverter playerConverter;
 
 	public boolean parseAllDataSources() {
 		boolean success = true;
@@ -76,21 +85,25 @@ public class DataParserManager {
 		success &= parseAndUpdateFantasyProsNotes();
 		return success;
 	}
-
+	
 	private boolean parseAndUpdateFantasyProsRankings() {
-		String htmlTable = htmlParser.parseTableDataFromFantasyProsRankings();
-		Map<String, Player> playerData = extractor.extractPlayerDataFromFantasyProsRankings(htmlTable);
+//		String htmlTable = htmlParser.parseTableDataFromFantasyProsRankings();
+//		Map<String, Player> playerData = extractor.extractPlayerDataFromFantasyProsRankings(htmlTable);
+		
+		ECRData ecrData = jsonExtractor.getECRDataFromFile();
+		
+		Map<String, Player> playerData = playerConverter.convertToPlayerData(ecrData);
 		return PlayerCache.addPlayerDataToExisting(playerData);
+	}
+
+	private boolean parseAndUpdateFantasyProsADP() {
+		String htmlTable = htmlParser.parseTableDataFromFantasyProsADP();
+		return extractor.extractPlayerDataFromFantasyProsADP(htmlTable);
 	}
 
 	private boolean parseAndUpdateFantasyProsNotes() {
 		String htmlTable = htmlParser.parseTableDataFromFantasyProsNotes();
 		return extractor.extractPlayerDataFromFantasyProsNotes(htmlTable);
-	}
-	
-	private boolean parseAndUpdateFantasyProsADP() {
-		String htmlTable = htmlParser.parseTableDataFromFantasyProsADP();
-		return extractor.extractPlayerDataFromFantasyProsADP(htmlTable);
 	}
 	
 	private boolean parseAndUpdateFantasyProsTargetLeaders() {

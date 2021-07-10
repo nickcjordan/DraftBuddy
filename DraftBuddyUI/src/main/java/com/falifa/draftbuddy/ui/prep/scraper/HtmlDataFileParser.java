@@ -32,28 +32,34 @@ public class HtmlDataFileParser {
 	@Autowired
 	private FantasyFootballersScraper ffScraper;
 
-	public String parseTableDataFromFantasyProsRankings() {
-		return pullTableHtmlOutOfFile(FANTASYPROS_RANKINGS_HTML_FILE_PATH, "<table id=\"rank-data\">");
-	}
+//	public String parseTableDataFromFantasyProsRankings() {
+////		return pullTableHtmlOutOfFile(FANTASYPROS_RANKINGS_HTML_FILE_PATH, "<table id=\"rank-data\">");
+//		return pullTableHtmlOutOfFile(FANTASYPROS_RANKINGS_HTML_FILE_PATH, "table");
+//	}
 
 	public String parseTableDataFromFantasyProsADP() {
-		return pullTableHtmlOutOfFile(FANTASYPROS_ADP_HTML_FILE_PATH, "<table id=\"data\"");
+//		return pullTableHtmlOutOfFile(FANTASYPROS_ADP_HTML_FILE_PATH, "<table id=\"data\"");
+		return pullTableHtmlOutOfFile(FANTASYPROS_ADP_HTML_FILE_PATH, "<table>");
 	}
 
 	public String parseTableDataFromFantasyProsNotes() {
+//		return pullTableHtmlOutOfFile(FANTASYPROS_NOTES_HTML_FILE_PATH, "<div id=\"notes-wrapper\">");
 		return pullTableHtmlOutOfFile(FANTASYPROS_NOTES_HTML_FILE_PATH, "<div id=\"notes-wrapper\">");
 	}
 
 	public String parseTableDataFromFantasyProsRookiesRankings() {
-		return pullTableHtmlOutOfFile(FANTASYPROS_ROOKIES_RANKINGS_HTML_FILE_PATH, "<table id=\"rank-data\">");
+//		return pullTableHtmlOutOfFile(FANTASYPROS_ROOKIES_RANKINGS_HTML_FILE_PATH, "<table id=\"rank-data\">");
+		return pullTableHtmlOutOfFile(FANTASYPROS_ROOKIES_RANKINGS_HTML_FILE_PATH, "<table>");
 	}
 
 	public String parseTableDataFromFantasyProsTargetLeaders() {
-		return pullTableHtmlOutOfFile(FANTASYPROS_TARGET_LEADERS_HTML_FILE_PATH, "<table id=\"data\">");
+//		return pullTableHtmlOutOfFile(FANTASYPROS_TARGET_LEADERS_HTML_FILE_PATH, "<table id=\"data\">");
+		return pullTableHtmlOutOfFile(FANTASYPROS_TARGET_LEADERS_HTML_FILE_PATH, "<table");
 	}
 
 	public String parseTableDataFromFantasyProsPositionalProjections(String position) {
-		return pullTableHtmlOutOfFile(DataSourcePaths.buildPositionalPath(position, FANTASYPROS_POSITIONAL_PROJECTIONS_BASE_HTML_FILE_PATH), "<table id=\"data\">");
+//		return pullTableHtmlOutOfFile(DataSourcePaths.buildPositionalPath(position, FANTASYPROS_POSITIONAL_PROJECTIONS_BASE_HTML_FILE_PATH), "<table id=\"data\">");
+		return pullTableHtmlOutOfFile(DataSourcePaths.buildPositionalPath(position, FANTASYPROS_POSITIONAL_PROJECTIONS_BASE_HTML_FILE_PATH), "<table>");
 	}
 
 	public List<FantasyFootballerPlayerTO> parseListOfPlayerDataFromFantasyFootballers() {

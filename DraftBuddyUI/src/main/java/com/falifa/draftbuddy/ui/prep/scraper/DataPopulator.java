@@ -111,23 +111,23 @@ public class DataPopulator {
 		if (player.getRankMetadata().getOverallRank() == null) {
 			player.getRankMetadata().setOverallRank(String.valueOf(PlayerCache.getPlayers().size()));
 		}
-		if (player.getRankMetadata().getVsAdp() != null) {
-			String vs = player.getRankMetadata().getVsAdp();
-			Integer vsVal = null;
-			if (StringUtils.isNotEmpty(vs)) {
-				if (vs.contains(PLUS_SIGN)) {
-					vsVal = Integer.valueOf(vs.replace(PLUS_SIGN, "").replace(".0", "")).intValue();
-				} else if (vs.contains(MINUS_SIGN)) {
-					vsVal = -Integer.valueOf(vs.replace(MINUS_SIGN, "").replace(".0", "")).intValue();
-				} else {
-					vsVal = Integer.valueOf(vs.replace(".0", "")).intValue();
-				}
-				if (vsVal != null) {
-					player.getDraftingDetails().setVsValueBadgeClass(getValueBadgeClass(vsVal));
-					player.getRankMetadata().setVsAdp(String.valueOf(vsVal));
-				}
-			}
-		}
+//		if (player.getRankMetadata().getVsAdp() != null) {
+//			String vs = player.getRankMetadata().getVsAdp();
+//			Integer vsVal = null;
+//			if (StringUtils.isNotEmpty(vs)) {
+//				if (vs.contains(PLUS_SIGN)) {
+//					vsVal = Integer.valueOf(vs.replace(PLUS_SIGN, "").replace(".0", "")).intValue();
+//				} else if (vs.contains(MINUS_SIGN)) {
+//					vsVal = -Integer.valueOf(vs.replace(MINUS_SIGN, "").replace(".0", "")).intValue();
+//				} else {
+//					vsVal = Integer.valueOf(vs.replace(".0", "")).intValue();
+//				}
+//				if (vsVal != null) {
+//					player.getDraftingDetails().setVsValueBadgeClass(getValueBadgeClass(vsVal));
+//					player.getRankMetadata().setVsAdp(String.valueOf(vsVal));
+//				}
+//			}
+//		}
 	}
 	
 	public void populatePlayersWithTags() {

@@ -51,9 +51,8 @@ public class PlayerMapBuilder {
 			return cache.getCachedCompleteData();
 		}
 		
-//		Map<String, Player> players = cache.getCachedRawStats();
-		//TODO uncomment when you want updated raw stats
 		Map<String, PlayerTO> players = buildPlayerMapWithRawStats();
+		log.info("Retrieved raw stats for {} players", players.size());
 		cache.updateCacheWithRawStats(players);
 		
 		List<PlayerTO> playersToRemove = Collections.synchronizedList(new ArrayList<PlayerTO>());
@@ -75,6 +74,8 @@ public class PlayerMapBuilder {
 			}
 		}
 		waitForThreads(executor);
+		
+		log.info("Filtered out {} players to remove", playersToRemove.size());
 		
 		for (PlayerTO playerToRemove : playersToRemove) {
 			players.remove(playerToRemove.getPlayerId());
