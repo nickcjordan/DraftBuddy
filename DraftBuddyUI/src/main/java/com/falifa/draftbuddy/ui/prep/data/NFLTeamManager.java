@@ -138,9 +138,15 @@ public class NFLTeamManager {
 		return getAllPlayers(new PlayerADPComparator());
 	}
 	
-	public static List<Player> getAvailablePlayersByPositionAsList(Position position) {
+	public static List<Player> getAvailablePlayersByPositionAsListByADP(Position position) {
 		List<Player> byPosition = position == null ? playersById.values().stream().filter(p -> p.getPosition() != null && p.getDraftingDetails().isAvailable()).collect(Collectors.toList()) : playersById.values().stream().filter(p -> position.equals(p.getPosition()) && p.getDraftingDetails().isAvailable()).collect(Collectors.toList());
 		Collections.sort(byPosition, new PlayerADPComparator());
+		return byPosition;
+	}
+	
+	public static List<Player> getAvailablePlayersByPositionAsListByECR(Position position) {
+		List<Player> byPosition = position == null ? playersById.values().stream().filter(p -> p.getPosition() != null && p.getDraftingDetails().isAvailable()).collect(Collectors.toList()) : playersById.values().stream().filter(p -> position.equals(p.getPosition()) && p.getDraftingDetails().isAvailable()).collect(Collectors.toList());
+		Collections.sort(byPosition, new PlayerRankComparator());
 		return byPosition;
 	}
 

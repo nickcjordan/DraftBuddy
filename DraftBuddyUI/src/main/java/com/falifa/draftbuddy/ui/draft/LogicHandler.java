@@ -120,7 +120,7 @@ public class LogicHandler {
 		for (Entry<Position, List<Player>> draftedPositionList : currentDrafter.getDraftedTeam().getPlayersByPosition().entrySet()) {
 			if ((draftedPositionList.getValue().size() == 0) && (draftState.getRoundNum() >= draftState.getNumberOfRounds() - prop(draftedPositionList.getKey().getAbbrev().toLowerCase() + "Warn"))) {
 				log.info("addIfPositionIsEmptyAndItIsLateEnoughToMatter " + currentDrafter.getDraftedTeam().getName() + " :: adding position = " + draftedPositionList.getKey().getName());
-				positionsThatHaveNotBeenDrafted.addAll(nflTeams.getAvailablePlayersByPositionAsList(draftedPositionList.getKey()));
+				positionsThatHaveNotBeenDrafted.addAll(nflTeams.getAvailablePlayersByPositionAsListByADP(draftedPositionList.getKey()));
 			}
 		}
 		if (!positionsThatHaveNotBeenDrafted.isEmpty()) {

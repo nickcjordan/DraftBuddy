@@ -2,7 +2,6 @@ package com.falifa.draftbuddy.ui.prep.data;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -15,20 +14,12 @@ import org.springframework.ui.Model;
 
 import com.falifa.draftbuddy.ui.constants.Position;
 import com.falifa.draftbuddy.ui.draft.LogicHandler;
-import com.falifa.draftbuddy.ui.draft.compare.AlphabetizedPlayerComparator;
-import com.falifa.draftbuddy.ui.draft.compare.PlayerADPComparator;
-import com.falifa.draftbuddy.ui.draft.compare.PlayerADPValueComparator;
-import com.falifa.draftbuddy.ui.draft.compare.PlayerAveragePriorPointsComparator;
-import com.falifa.draftbuddy.ui.draft.compare.PlayerPriorAverageTargetsComparator;
-import com.falifa.draftbuddy.ui.draft.compare.PlayerPriorPointsComparator;
-import com.falifa.draftbuddy.ui.draft.compare.PlayerPriorTotalTargetsComparator;
-import com.falifa.draftbuddy.ui.draft.compare.PlayerProjectedPointsComparator;
-import com.falifa.draftbuddy.ui.draft.compare.PlayerRankComparator;
-import com.falifa.draftbuddy.ui.draft.compare.PlayerVsADPValueComparator;
 import com.falifa.draftbuddy.ui.draft.data.DraftState;
 import com.falifa.draftbuddy.ui.model.Drafter;
 import com.falifa.draftbuddy.ui.model.NFLTeam;
 import com.falifa.draftbuddy.ui.model.player.Player;
+import com.falifa.draftbuddy.ui.prep.data.model.HighestRemainingPositionInTierTO;
+import com.falifa.draftbuddy.ui.prep.data.model.RemainingTierTO;
 
 @Component
 public class ModelUpdater {
@@ -74,7 +65,62 @@ public class ModelUpdater {
 		model.addAttribute("playersToBuildModalFor", NFLTeamManager.getAllPlayersByADP());
 		model.addAttribute("playersSortedByAdp", NFLTeamManager.getAllAvailablePlayersByADP());
       	model.addAttribute("playersSortedByRank", NFLTeamManager.getAllAvailablePlayersByRank());
+      	updateRemainingPlayersForTierByPosition(model);
         log.debug("Models updated for team list attributes");
+	}
+	
+	public void updateRemainingPlayersForTierByPosition(Model model) {
+		model.addAttribute("remainingTierTO", buildRemainigTierTO());
+        log.debug("Models updated for remaining players at current tier for each position");
+	}
+
+	private RemainingTierTO buildRemainigTierTO() {
+		RemainingTierTO to = new RemainingTierTO();
+		List<HighestRemainingPositionInTierTO> tos = new ArrayList<HighestRemainingPositionInTierTO>();
+		tos.add(buildHighestRemainingTierTO(5));
+		tos.add(buildHighestRemainingTierTO(5, Position.QUARTERBACK));
+		tos.add(buildHighestRemainingTierTO(5, Position.RUNNINGBACK));
+		tos.add(buildHighestRemainingTierTO(5, Position.WIDERECEIVER));
+		tos.add(buildHighestRemainingTierTO(5, Position.TIGHTEND));
+		tos.sort((HighestRemainingPositionInTierTO t1, HighestRemainingPositionInTierTO t2) -> t1.getTier().compareTo(t2.getTier()));
+		to.setTos(tos);
+		return to;
+	}
+
+	private HighestRemainingPositionInTierTO buildHighestRemainingTierTO(int i, Position pos) {
+		HighestRemainingPositionInTierTO to = new HighestRemainingPositionInTierTO();
+		to.setPlayers(getRemainingPlayersAtHighestTierByPosition(i, pos));
+		to.setPos(pos.getAbbrev());
+		to.setTier(to.getPlayers().get(0).getTier());
+		return to;
+	}
+
+	private List<Player> getRemainingPlayersAtHighestTierByPosition(int amount, Position pos) {
+		List<Player> list = NFLTeamManager.getAvailablePlayersByPositionAsListByECR(pos);
+		Player first = list.get(0);
+		List<Player> filtered = list.stream().filter(p -> p.getTier() <= first.getTier()).collect(Collectors.toList());
+		if (filtered.size() > amount) {
+			return filtered.subList(0, amount);
+		}
+		return filtered;
+	}
+	
+	private HighestRemainingPositionInTierTO buildHighestRemainingTierTO(int i) {
+		HighestRemainingPositionInTierTO to = new HighestRemainingPositionInTierTO();
+		to.setPlayers(getAllRemainingPlayersAtHighestTier(i));
+		to.setPos("Flex");
+		to.setTier(to.getPlayers().get(0).getTier());
+		return to;
+	}
+	
+	private List<Player> getAllRemainingPlayersAtHighestTier(int amount) {
+		List<Player> list = NFLTeamManager.getAllAvailablePlayersByRank();
+		Player first = list.get(0);
+		List<Player> filtered = list.stream().filter(p -> p.getTier() <= first.getTier()).collect(Collectors.toList());
+		if (filtered.size() > amount) {
+			return filtered.subList(0, amount);
+		}
+		return filtered;
 	}
 
 	public void updateDraftStateAttributes(Model model) {
@@ -94,8 +140,8 @@ public class ModelUpdater {
 	    	model.addAttribute("positionName", "All Available Players");
 	    	model.addAttribute("positionAbbrev", "ALL");
 		} else {
-	    	model.addAttribute("playerList", NFLTeamManager.getAvailablePlayersByPositionAsList(Position.get(pos)));
-	    	model.addAttribute("playersToBuildModalFor", NFLTeamManager.getAvailablePlayersByPositionAsList(Position.get(pos)));
+	    	model.addAttribute("playerList", NFLTeamManager.getAvailablePlayersByPositionAsListByADP(Position.get(pos)));
+	    	model.addAttribute("playersToBuildModalFor", NFLTeamManager.getAvailablePlayersByPositionAsListByADP(Position.get(pos)));
 	    	model.addAttribute("positionName", Position.get(pos).getName());
 	    	model.addAttribute("positionAbbrev", Position.get(pos).getAbbrev());
 		}

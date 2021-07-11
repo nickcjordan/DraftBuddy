@@ -103,7 +103,7 @@ public class DraftController {
 	@RequestMapping("/sortPositionPage")
 	public String sortPositionPage(@RequestParam String sortBy, @RequestParam(defaultValue = ALL) String position, Model model) {
 		modelUpdater.updateModelForPositionPage(position, model);
-		List<Player> playerList = position.equals(ALL) ? NFLTeamManager.getAllAvailablePlayersByADP() : NFLTeamManager.getAvailablePlayersByPositionAsList(Position.get(position));
+		List<Player> playerList = position.equals(ALL) ? NFLTeamManager.getAllAvailablePlayersByADP() : NFLTeamManager.getAvailablePlayersByPositionAsListByADP(Position.get(position));
 		model.addAttribute("playerList", modelUpdater.sortPlayersBy(playerList, sortBy));
 		return POSITION_PAGE;
 	}

@@ -4,11 +4,10 @@
 	<table class="table table-sm table-striped header-fixed dash">
 		<thead class="thead-inverse">
 			<tr>
-				<th class="id-db_drafterTeam">ADP</th>
+				<th class="id-db_drafterTeam">Pos</th>
 				<th class="name-db_drafterTeam">Name</th>
 				<th class="team-db_drafterTeam">Team</th>
 				<th class="bye-db_drafterTeam">Bye</th>
-				<th class="pos-db_drafterTeam">Pos/Ovr</th>
 			</tr>
 		</thead>
 		<tbody>
