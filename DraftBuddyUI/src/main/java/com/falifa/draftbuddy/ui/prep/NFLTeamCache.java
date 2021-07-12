@@ -13,8 +13,8 @@ import org.slf4j.LoggerFactory;
 import com.falifa.draftbuddy.ui.constants.NflTeamMetadata;
 import com.falifa.draftbuddy.ui.model.MasterPlayersTO;
 import com.falifa.draftbuddy.ui.model.MasterTeamTO;
-import com.falifa.draftbuddy.ui.model.NFLTeam;
 import com.falifa.draftbuddy.ui.model.player.Player;
+import com.falifa.draftbuddy.ui.model.team.NFLTeam;
 import com.falifa.draftbuddy.ui.prep.scraper.extractor.NullStatisticKeySerializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 

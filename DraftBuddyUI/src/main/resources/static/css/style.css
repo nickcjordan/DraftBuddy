@@ -684,23 +684,23 @@ ul.social-network li a {
 }
 
 .proj-pts-suggest {
-	width: 4%;
+	width: 5%;
 	font-size: 10pt;
 	text-align: center;
 }
 .proj-avg-pts-suggest {
-	width: 4%;
+	width: 5%;
 	font-size: 11pt;
 	text-align: center;
 	font-weight: 1000 !important;
 }
 .value-suggest {
-	width: 4%;
+	width: 5%;
 	font-size: 10pt;
 	text-align: center;
 }
 .tags-suggest {
-	width: 6%;
+	width: 8%;
 	font-size: 10pt;
 	text-align: center;
 }
@@ -710,7 +710,7 @@ ul.social-network li a {
 	text-align: center;
 }
 .team-suggest {
-	width: 4%;
+	width: 5%;
 	font-size: 10pt;
 	text-align: center;
 }
@@ -720,12 +720,12 @@ ul.social-network li a {
 	text-align: center;
 }
 .stddev-suggest {
-	width: 4%;
+	width: 5%;
 	font-size: 10pt;
 	text-align: center;
 }
 .vsadp-suggest {
-	width: 4%;
+	width: 5%;
 	font-size: 10pt;
 	text-align: center;
 }

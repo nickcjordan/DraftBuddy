@@ -34,9 +34,9 @@ import com.falifa.draftbuddy.ui.draft.compare.PlayerRankComparator;
 import com.falifa.draftbuddy.ui.draft.data.DraftState;
 import com.falifa.draftbuddy.ui.model.MasterPlayersTO;
 import com.falifa.draftbuddy.ui.model.MasterTeamTO;
-import com.falifa.draftbuddy.ui.model.NFLTeam;
 import com.falifa.draftbuddy.ui.model.RoundSpecificStrategy;
 import com.falifa.draftbuddy.ui.model.player.Player;
+import com.falifa.draftbuddy.ui.model.team.NFLTeam;
 import com.falifa.draftbuddy.ui.prep.PlayerCache;
 import com.falifa.draftbuddy.ui.prep.api.PlayerNameMatcher;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -71,6 +71,7 @@ public class NFLTeamManager {
 			log.error("Did not find master teams json at path={}", MASTER_NFL_TEAMS_JSON_FILE_PATH);
 		} catch (Exception e) {
 			log.error("ERROR extracting master teams json from file at path={}", MASTER_NFL_TEAMS_JSON_FILE_PATH);
+			e.printStackTrace();
 		}
 	}
 
@@ -81,6 +82,7 @@ public class NFLTeamManager {
 			log.error("Did not find master players json at path={}", MASTER_PLAYERS_JSON_FILE_PATH);
 		} catch (Exception e) {
 			log.error("ERROR extracting master players json from file at path={}", MASTER_PLAYERS_JSON_FILE_PATH);
+			e.printStackTrace();
 		}
 	}
 

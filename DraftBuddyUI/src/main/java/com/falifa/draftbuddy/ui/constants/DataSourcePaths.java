@@ -42,7 +42,7 @@ public class DataSourcePaths {
 	public static final String FANTASYFOOTBALLERS_BUSTS_PATH = FANTASYFOOTBALLERS_BASE_FILE_PATH + "UDK - Expert Lists - Busts - Fantasy Footballers Podcast.html";
 	public static final String FANTASYFOOTBALLERS_SLEEPERS_PATH = FANTASYFOOTBALLERS_BASE_FILE_PATH + "UDK - Expert Lists - Sleepers - Fantasy Footballers Podcast.html";
 	public static final String FANTASYFOOTBALLERS_INJURIES_PATH = FANTASYFOOTBALLERS_BASE_FILE_PATH + "UDK - Injury Report - Fantasy Footballers Podcast.html";
-	public static final String FANTASYFOOTBALLERS_ROOKIES_PATH = FANTASYFOOTBALLERS_BASE_FILE_PATH + "UDK - Rookie Reports - Fantasy Footballers Podcast.html";
+	public static final String FANTASYFOOTBALLERS_ROOKIES_PATH = FANTASYFOOTBALLERS_BASE_FILE_PATH + "UDK - Rookie Report - Fantasy Footballers Podcast.html";
 	
 	public static String buildPositionalPath(String position, String path) {
 		String pos = (position.equalsIgnoreCase("def")) ? "dst" : position.toLowerCase();

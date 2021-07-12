@@ -38,9 +38,7 @@
 					<td class="proj-avg-pts-suggest">${player.getPositionalStats().getProjectedAveragePointsPerGame()}</td>
 					<td class="value-suggest"><span class="badge badge-val badge-${player.getDraftingDetails().getCurrentPlayerValueBadgeClass()}"><strong>${player.getDraftingDetails().getCurrentPlayerValue()}</strong></span></td>
 					<td class="vsadp-suggest"><span class="badge badge-val badge-${player.getDraftingDetails().getVsValueBadgeClass()}"><strong>${player.getRankMetadata().getVsAdp()}</strong></span></td>
-					<td class="proj-pts-suggest"><strong>${player.getPositionalStats().getPriorTotalPoints()}</strong></td>
 					<td class="proj-pts-suggest"><strong>${player.getPositionalStats().getPriorAveragePointsPerGame()}</strong></td>
-					<td class="proj-pts-suggest"><strong>${player.getPositionalStats().getPriorAverageTargetsPerGame()}</strong></td>
 
 
 					<td class="tags-suggest">
@@ -60,7 +58,7 @@
 
 
 					<td class="team-suggest">${player.getTeam().getAbbreviation()}</td>
-					<td class="team-suggest">${player.getTeam().getoLineRank()}</td>
+					<td class="team-suggest"><span class="badge badge-val badge-${player.getSosBadgeClass(player.getPositionalSOSRank())}"><strong>${player.getPositionalSOSRank()}</strong></span></td>
 					<td class="bye-suggest">${player.getBye()}</td>
 					<td class="stddev-suggest">${player.getRankMetadata().getStdDev()}</td>
 					

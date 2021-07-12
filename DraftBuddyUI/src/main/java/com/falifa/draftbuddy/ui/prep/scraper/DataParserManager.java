@@ -3,8 +3,10 @@ package com.falifa.draftbuddy.ui.prep.scraper;
 import static com.falifa.draftbuddy.ui.constants.DataSourcePaths.TAGS_CUSTOM_PATH;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
 
@@ -19,6 +21,8 @@ import com.falifa.draftbuddy.ui.draft.compare.AlphabetizedPlayerComparator;
 import com.falifa.draftbuddy.ui.model.FantasyFootballerPlayerTO;
 import com.falifa.draftbuddy.ui.model.player.Player;
 import com.falifa.draftbuddy.ui.model.player.PlayerNote;
+import com.falifa.draftbuddy.ui.model.team.NFLTeam;
+import com.falifa.draftbuddy.ui.model.team.NFLTeamSOSData;
 import com.falifa.draftbuddy.ui.prep.NFLTeamCache;
 import com.falifa.draftbuddy.ui.prep.PlayerCache;
 import com.falifa.draftbuddy.ui.prep.data.ModelUpdater;
@@ -26,6 +30,8 @@ import com.falifa.draftbuddy.ui.prep.data.StrategyFileHandler;
 import com.falifa.draftbuddy.ui.prep.scraper.webjson.WebJsonExtractor;
 import com.falifa.draftbuddy.ui.prep.scraper.webjson.WebJsonPlayerConverter;
 import com.falifa.draftbuddy.ui.prep.scraper.webjson.model.ECRData;
+import com.falifa.draftbuddy.ui.prep.scraper.webjson.model.TeamSOSData;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Component
 public class DataParserManager {
@@ -65,6 +71,8 @@ public class DataParserManager {
 		dataPopulator.populatePlayersWithTags();
 		dataPopulator.setCurrentPlayerValue();
 
+		success &= parseAndUpdateFantasyProsStrengthOfSchedule();
+		
 		success = parseFantasyProsFiles(success);
 		success &= jsonFileManager.parseAndUpdateStatsFromAPI();
 		success &= jsonFileManager.downloadAndSetPlayerImages();
@@ -94,6 +102,78 @@ public class DataParserManager {
 		
 		Map<String, Player> playerData = playerConverter.convertToPlayerData(ecrData);
 		return PlayerCache.addPlayerDataToExisting(playerData);
+	}
+	
+	private boolean parseAndUpdateFantasyProsStrengthOfSchedule() {
+		boolean allSuccess = true;
+		Map<String, LinkedHashMap> sosData = jsonExtractor.getSOSDataFromFile();
+		for (Entry<String, LinkedHashMap> data : sosData.entrySet()) {
+			allSuccess &= updateTeamWithSOSData(data);
+		}
+		return allSuccess;
+//		Map<String, Player> playerData = playerConverter.convertToPlayerData(ecrData);
+//		return PlayerCache.addPlayerDataToExisting(playerData);
+	}
+
+	private boolean updateTeamWithSOSData(Entry<String, LinkedHashMap> data) {
+		try {
+			NFLTeam team = NFLTeamCache.getNflTeamsByAbbreviation().get(data.getKey());
+			TeamSOSData sosData = buildSOSData(data.getValue());
+			NFLTeamSOSData nflSosData = buildNFLSOSData(sosData);
+			team.setSosData(nflSosData);
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
+	private NFLTeamSOSData buildNFLSOSData(TeamSOSData sosData) {
+		NFLTeamSOSData data = new NFLTeamSOSData();
+		data.setGames(sosData.getGames());
+		
+		data.setQbRank(sosData.getQbRank());
+		data.setRbRank(sosData.getRbRank());
+		data.setWrRank(sosData.getWrRank());
+		data.setTeRank(sosData.getTeRank());
+		data.setDstRank(sosData.getDstRank());
+		data.setkRank(sosData.getkRank());
+		
+		data.setQbStars(sosData.getQbStars());
+		data.setRbStars(sosData.getRbStars());
+		data.setWrStars(sosData.getWrStars());
+		data.setTeStars(sosData.getTeStars());
+		data.setDstStars(sosData.getDstStars());
+		data.setkStars(sosData.getkStars());
+		return data;
+	}
+
+	private TeamSOSData buildSOSData(LinkedHashMap map) {
+		TeamSOSData data = new TeamSOSData();
+		data.setGames((Integer)(map.get("games")));
+		
+		data.setQbRank((Integer)(map.get("qb_rank")));
+		data.setRbRank((Integer)(map.get("rb_rank")));
+		data.setWrRank((Integer)(map.get("wr_rank")));
+		data.setTeRank((Integer)(map.get("te_rank")));
+		data.setDstRank((Integer)(map.get("dst_rank")));
+		data.setkRank((Integer)(map.get("k_rank")));
+		
+		data.setQbStars(getDouble(map.get("qb_stars")));
+		data.setRbStars(getDouble(map.get("rb_stars")));
+		data.setWrStars(getDouble(map.get("wr_stars")));
+		data.setTeStars(getDouble(map.get("te_stars")));
+		data.setDstStars(getDouble(map.get("dst_stars")));
+		data.setkStars(getDouble(map.get("k_stars")));
+		return data;
+	}
+	
+	private Double getDouble(Object val) {
+		try {
+			return (Double) (val);
+		} catch (Exception e) {
+			return new Double((double) ((Integer) val));
+		}
 	}
 
 	private boolean parseAndUpdateFantasyProsADP() {

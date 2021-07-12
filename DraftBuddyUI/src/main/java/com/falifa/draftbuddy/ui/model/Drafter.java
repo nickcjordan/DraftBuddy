@@ -3,6 +3,7 @@ package com.falifa.draftbuddy.ui.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.falifa.draftbuddy.ui.model.team.Team;
 import com.falifa.draftbuddy.ui.results.DraftResultStatistics;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 

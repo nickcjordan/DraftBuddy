@@ -1,175 +1,164 @@
 #	RISK("!"), SLEEPER("$"), ROOKIE("R"), NEW_TEAM("@"), FAVORITE("*"), RISING("+"), FALLING("-"), INJURY_RISK("i"), BUST("B")
-A.J. Green,i
-AJ Dillon,R
-Aaron Rodgers,B
+A.J. Brown,i
+AJ Dillon,S
 Adam Humphries,C
-Adam Thielen,i
-Allen Lazard,S
-Alshon Jeffery,i
-Amari Cooper,C
-Anthony McFarland Jr.,R
-Anthony Miller,S
+Adam Thielen,B
+Adam Trautman,S
+Amari Cooper,$Ci
+Amari Rodgers,R
+Amon-Ra St. Brown,R
 Anthony Schwartz,C
-Antonio Gandy-Golden,RC
-Antonio Gibson,RCS
-Austin Hooper,BC
+Antonio Gandy-Golden,C
+Antonio Gibson,iC
+Austin Hooper,C
 Baker Mayfield,C
-Ben Roethlisberger,i
-Blake Jarwin,SC
-Brandon Aiyuk,R
+Ben Roethlisberger,B
+Blake Jarwin,iCS
+Brandin Cooks,$
+Brandon Aiyuk,i
 Breshad Perriman,S
-Bryan Edwards,R
+Brevin Jordan,R
 Bryce Love,C
-Calvin Ridley,^i
-Cam Akers,RS
+Calvin Ridley,i
 Cam Newton,i
 Cam Sims,C
-Carlos Hyde,i
 Carolina Panthers,C
-Carson Wentz,$
+Carson Wentz,S
 Cedrick Wilson,C
-CeeDee Lamb,RC
-Chase Claypool,R
+CeeDee Lamb,^C
 Chris Carson,i
 Chris Godwin,i
-Chris Herndon IV,$
-Chris Thompson,S
-Christian McCaffrey,C
-Chuba Hubbard,C
+Christian McCaffrey,iC
+Chuba Hubbard,RC
 Cleveland Browns,C
-Clyde Edwards-Helaire,^R
+Clyde Edwards-Helaire,$i
 Cody Parkey,C
-Cole Kmet,R
-Curtis Samuel,C
-D'Andre Swift,BR
-D.J. Chark Jr.,$
+Corey Davis,i
+Courtland Sutton,i
+Curtis Samuel,iC
+D'Ernest Johnson,C
+D'Wayne Eskridge,R
+D.J. Chark Jr.,B
 D.J. Moore,C
-Dak Prescott,C
+Dak Prescott,iC
 Dallas Cowboys,C
+Dallas Goedert,^
 Dalton Schultz,C
-Dalvin Cook,i
+Damien Harris,S
 Dan Arnold,C
-Daniel Jones,SC
-Darius Slayton,SC
-Darrynton Evans,R
-David Johnson,$
-David Montgomery,i
+Daniel Jones,BC
+Darius Slayton,C
 David Moore,C
 David Njoku,C
-DeAndre Hopkins,B
-DeSean Jackson,$
-DeVante Parker,B
-DeeJay Dallas,R
+Davis Mills,R
+DeVonta Smith,^R
 Deebo Samuel,i
 Demetric Felton,C
-Denzel Mims,R
-Devin Duvernay,R
 Devontae Booker,C
+Dez Fitzpatrick,R
 Dion Lewis,C
 Donovan Peoples-Jones,C
 Dustin Hopkins,C
-Dyami Brown,C
-Eric Ebron,i
-Evan Engram,^Ci
+Dyami Brown,RC
+Elijah Moore,R
+Evan Engram,C
 Ezekiel Elliott,C
-Gardner Minshew II,S
 Gary Brightwell,C
-Golden Tate,$
+George Kittle,i
+Gerald Everett,S
 Graham Gano,C
 Greg Zuerlein,C
+Gus Edwards,$
 Harrison Bryant,C
-Hayden Hurst,S
-Henry Ruggs III,R
+Henry Ruggs III,S
 Hunter Henry,B
 Ian Thomas,C
+Irv Smith Jr.,^
 J.D. McKissic,C
-J.K. Dobbins,R
-Jalen Hurts,R
-Jalen Reagor,RS
-James Conner,i
-Jamison Crowder,$
+Ja'Marr Chase,^R
+Jalen Hurts,^
+James Conner,$
 Jared Cook,$
-Jared Goff,$
 Jaret Patterson,C
-Jarvis Landry,iC
-Jerry Jeudy,R
-Joe Burrow,RS
+Jarvis Landry,C
+Javonte Williams,RS
+Jaylen Waddle,iR
+Jeff Wilson Jr.,i
+Jimmy Garoppolo,i
+Joe Burrow,^i
+Joe Mixon,^i
 Joey Slye,C
 John Ross,C
-Jonathan Taylor,R
-Jonnu Smith,S
-Jordan Howard,i
-Jordan Love,R
-Josh Allen,^
-Josh Jacobs,^
-Joshua Kelley,R
-JuJu Smith-Schuster,B
-Justin Herbert,R
-Justin Jackson,S
-Justin Jefferson,R
-KJ Hamler,R
-Kadarius Toney,C
-Kareem Hunt,$C
-Ke'Shawn Vaughn,R
+Julio Jones,i
+Justin Fields,R
+Kadarius Toney,RC
+Kareem Hunt,C
 Kelvin Harmon,C
+Kenneth Gainwell,R
 Kenny Golladay,C
-Kenyan Drake,^
+Kirk Cousins,$
+Kyle Pitts,^R
 Kyle Rudolph,C
-Kyler Murray,^
-La'Mical Perine,R
-Laviska Shenault Jr.,R
-Le'Veon Bell,$
-Leonard Fournette,B
-Logan Thomas,C
-Lynn Bowden Jr.,R
-Mark Ingram II,$i
-Marquise Brown,^
-Marvin Jones Jr.,$i
-Matthew Stafford,$i
-Michael Gallup,C
-Michael Pittman Jr.,RS
-Mike Evans,Bi
-Mike Gesicki,^
-Mike Williams,i
-Miles Sanders,^i
+Kyler Murray,i
+Logan Thomas,BC
+Mac Jones,R
+Marquise Brown,B
+Melvin Gordon III,B
+Michael Carter,RS
+Michael Gallup,BC
+Michael Pittman Jr.,i
+Michael Thomas,i
+Mike Davis,$
+Miles Sanders,B
+Najee Harris,^R
+Nelson Agholor,S
 New York Giants,C
 New York Jets,C
 Nick Chubb,C
-Noah Fant,^
+Nico Collins,R
+Noah Fant,$i
+Nyheim Hines,B
+O.J. Howard,i
 Odell Beckham Jr.,iC
+Parris Campbell,i
+Pat Freiermuth,R
+Patrick Mahomes II,i
 Peyton Barber,C
 Phillip Walker,C
-Preston Williams,i
+Raheem Mostert,i
 Rashaad Penny,i
 Rashard Higgins,C
-Robby Anderson,C
-Ronald Jones II,$
-Ryan Fitzpatrick,C
-Ryan Tannehill,B
+Rashod Bateman,R
+Rhamondre Stevenson,R
+Robby Anderson,$C
+Rodney Smith,C
+Rondale Moore,R
+Russell Gage,S
+Ryan Fitzpatrick,SC
+Ryan Tannehill,$
 Ryquell Armstead,C
 Sam Darnold,C
-Sammy Watkins,i
-Saquon Barkley,C
+Saquon Barkley,iC
 Shi Smith,C
 Simi Fehoko,C
-Sony Michel,i
-Stefon Diggs,B
 Sterling Shepard,C
 Steven Sims Jr.,C
-T.J. Hockenson,i
-T.Y. Hilton,$i
+T.J. Hockenson,^
+T.Y. Hilton,$
 Taylor Heinicke,C
-Tee Higgins,R
-Terrace Marshall Jr.,C
-Terry McLaurin,^C
-Tevin Coleman,$
-Todd Gurley II,B
+Taysom Hill,$
+Terrace Marshall Jr.,iCR
+Terry McLaurin,^Ci
+Tom Brady,$
 Tommy Tremble,C
 Tony Pollard,C
-Tua Tagovailoa,R
-Tyler Higbee,B
-Van Jefferson,R
+Travis Etienne,$R
+Trevor Lawrence,RS
+Trey Lance,R
+Trey Sermon,R
+Tutu Atwell,R
+Tyler Higbee,$
+Tyrell Williams,i
 Washington Football Team,C
-Will Dissly,i
-Will Fuller V,i
-Zack Moss,R
+Zach Ertz,B
+Zach Wilson,R

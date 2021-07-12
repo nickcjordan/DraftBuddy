@@ -2,8 +2,8 @@ package com.falifa.draftbuddy.ui.draft.compare;
 
 import java.util.Comparator;
 
-import com.falifa.draftbuddy.ui.model.NFLTeam;
-import com.falifa.draftbuddy.ui.model.Team;
+import com.falifa.draftbuddy.ui.model.team.NFLTeam;
+import com.falifa.draftbuddy.ui.model.team.Team;
 
 public class AlphabetizedTeamComparator implements Comparator<NFLTeam>{
 	

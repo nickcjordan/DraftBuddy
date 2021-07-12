@@ -16,8 +16,8 @@ import com.falifa.draftbuddy.ui.constants.Position;
 import com.falifa.draftbuddy.ui.draft.LogicHandler;
 import com.falifa.draftbuddy.ui.draft.data.DraftState;
 import com.falifa.draftbuddy.ui.model.Drafter;
-import com.falifa.draftbuddy.ui.model.NFLTeam;
 import com.falifa.draftbuddy.ui.model.player.Player;
+import com.falifa.draftbuddy.ui.model.team.NFLTeam;
 import com.falifa.draftbuddy.ui.prep.data.model.HighestRemainingPositionInTierTO;
 import com.falifa.draftbuddy.ui.prep.data.model.RemainingTierTO;
 

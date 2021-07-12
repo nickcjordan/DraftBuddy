@@ -22,9 +22,9 @@ import com.falifa.draftbuddy.ui.constants.Position;
 import com.falifa.draftbuddy.ui.draft.compare.AlphabetizedPlayerComparator;
 import com.falifa.draftbuddy.ui.draft.compare.PlayerADPComparator;
 import com.falifa.draftbuddy.ui.draft.data.DraftState;
-import com.falifa.draftbuddy.ui.model.NFLTeam;
 import com.falifa.draftbuddy.ui.model.RoundSpecificStrategy;
 import com.falifa.draftbuddy.ui.model.player.Player;
+import com.falifa.draftbuddy.ui.model.team.NFLTeam;
 import com.falifa.draftbuddy.ui.prep.NFLTeamCache;
 import com.falifa.draftbuddy.ui.prep.PlayerCache;
 import com.falifa.draftbuddy.ui.prep.api.PlayerNameMatcher;
@@ -66,6 +66,8 @@ public class DataPopulator {
 					nameMatcher.addAlternateNames(player.getPlayerName(), player.getFantasyProsId());
 				}
 			}
+		} else {
+			log.warn("Player Cache was empty :: can not continue with populating values...");
 		}
 	}
 
@@ -74,12 +76,17 @@ public class DataPopulator {
 			for (Player player : PlayerCache.getPlayers().values()) {
 				populateRemainingFieldsWithDefaultValues(player);
 				if (player.getTeam() != null) {
-					NFLTeam team = NFLTeamCache.getNflTeamsByAbbreviation().get(player.getTeam().getAbbreviation());
+					String teamAbbrev = player.getTeam().getAbbreviation();
+					NFLTeam team = NFLTeamCache.getNflTeamsByAbbreviation().get(teamAbbrev);
 					if (team != null) {
 						team.addPlayer(player);
+					} else {
+						log.error("ERROR team not found :: team=" + teamAbbrev);
 					}
 				}
 			}
+		} else {
+			log.warn("Player Cache or NFL Team Cache was empty :: can not continue with populating values...");
 		}
 	}
 
@@ -99,6 +106,8 @@ public class DataPopulator {
 					}
 				}
 			}
+		} else {
+			log.warn("NFL Team Cache was empty :: can not continue with populating values...");
 		}
 	}
 	
@@ -111,23 +120,6 @@ public class DataPopulator {
 		if (player.getRankMetadata().getOverallRank() == null) {
 			player.getRankMetadata().setOverallRank(String.valueOf(PlayerCache.getPlayers().size()));
 		}
-//		if (player.getRankMetadata().getVsAdp() != null) {
-//			String vs = player.getRankMetadata().getVsAdp();
-//			Integer vsVal = null;
-//			if (StringUtils.isNotEmpty(vs)) {
-//				if (vs.contains(PLUS_SIGN)) {
-//					vsVal = Integer.valueOf(vs.replace(PLUS_SIGN, "").replace(".0", "")).intValue();
-//				} else if (vs.contains(MINUS_SIGN)) {
-//					vsVal = -Integer.valueOf(vs.replace(MINUS_SIGN, "").replace(".0", "")).intValue();
-//				} else {
-//					vsVal = Integer.valueOf(vs.replace(".0", "")).intValue();
-//				}
-//				if (vsVal != null) {
-//					player.getDraftingDetails().setVsValueBadgeClass(getValueBadgeClass(vsVal));
-//					player.getRankMetadata().setVsAdp(String.valueOf(vsVal));
-//				}
-//			}
-//		}
 	}
 	
 	public void populatePlayersWithTags() {

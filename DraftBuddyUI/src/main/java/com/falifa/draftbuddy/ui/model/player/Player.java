@@ -3,6 +3,7 @@ package com.falifa.draftbuddy.ui.model.player;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.util.CollectionUtils;
@@ -12,6 +13,9 @@ import com.falifa.draftbuddy.ui.constants.Position;
 import com.falifa.draftbuddy.ui.constants.Tag;
 import com.falifa.draftbuddy.ui.model.player.stats.PlayerPositionalStats;
 import com.falifa.draftbuddy.ui.model.player.stats.RawStatsDetails;
+import com.falifa.draftbuddy.ui.model.team.NFLTeam;
+import com.falifa.draftbuddy.ui.prep.NFLTeamCache;
+import com.falifa.draftbuddy.ui.prep.data.NFLTeamManager;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class Player {
@@ -51,6 +55,24 @@ public class Player {
 	}
 	
 	@JsonIgnore
+	public String getPositionalSOSRank() {
+//		Map<String, NFLTeam> map = NFLTeamCache.getNflTeamsByAbbreviation();
+		Map<String, NFLTeam> map = NFLTeamManager.getTeamsByAbbreviation();
+		NFLTeam nflTeam = map.get(team.getAbbreviation());
+		try {
+			switch (position) {
+				case QUARTERBACK: return String.valueOf(nflTeam.getSosData().getQbRank());
+				case RUNNINGBACK: return String.valueOf(nflTeam.getSosData().getRbRank());
+				case WIDERECEIVER: return String.valueOf(nflTeam.getSosData().getWrRank());
+				case TIGHTEND: return String.valueOf(nflTeam.getSosData().getTeRank());
+				case DEFENSE: return String.valueOf(nflTeam.getSosData().getDstRank());
+				case KICKER: return String.valueOf(nflTeam.getSosData().getkRank());
+			}
+		} catch (Exception e) {}
+		return "";
+	}
+	
+	@JsonIgnore
 	@Override
 	public String toString() {
 		return playerName;
@@ -60,6 +82,7 @@ public class Player {
 		return (draftingDetails.getTags() == null || draftingDetails.getTags().isEmpty()) ? playerName : playerName + " [" + draftingDetails.getTags() + "]";
 	}
 	
+	@JsonIgnore
 	public String getTagDescriptions() {
 		return (draftingDetails.getTags() == null || draftingDetails.getTags().isEmpty()) ? "No tags" : buildDescriptionOfTags(draftingDetails.getTags());
 	}
@@ -197,6 +220,23 @@ public class Player {
 	}
 	public void setPositionalStats(PlayerPositionalStats positionalStats) {
 		this.positionalStats = positionalStats;
+	}
+	
+	@JsonIgnore
+	public String getSosBadgeClass(String text) {
+		if (text.equals("")) { return "even"; }
+		int value = Integer.valueOf(text);
+		if (value > 27) { return "neg-40";
+		} else if (value > 24) { return "neg-20";
+		} else if (value > 21) { return "neg-10";
+		} else if (value > 18) { return "neg-5";
+		} else if (value > 15) { return "neg-2";
+		} else if (value > 12) { return "pos-2";
+		} else if (value > 9) { return "pos-5";
+		} else if (value > 6) { return "pos-10";
+		} else if (value > 3) { return "pos-20";
+		} else { return "pos-40";
+		}
 	}
 	
 }

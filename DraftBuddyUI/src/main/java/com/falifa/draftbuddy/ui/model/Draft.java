@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.falifa.draftbuddy.ui.model.team.Team;
+
 public class Draft {
 
 //	int roundNumber;
