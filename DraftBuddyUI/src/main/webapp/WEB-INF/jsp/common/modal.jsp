@@ -236,10 +236,49 @@
 							</div>
 						</div>
 					</c:if>
+					
+					
+					
 				</div>
 			</div>
 			<div class="modal-footer"></div>
-			<!-- container messes up without it -->
+			<div class="row">
+						<div class="col-md-12">
+							<table class="table table-sm modal-table">
+								<tbody>
+									<tr class="empty-table">
+										<c:forEach var="tag" items="${allTags}">
+										
+										
+										<c:choose>
+													<c:when test="${!player.getNameAndTags().contains(tag.getTag())}">
+														<td>
+														
+															<form action="/tagPlayer" method="post">
+																<button type="submit" value="${player.getFantasyProsId()},${tag}" name="playerIdWithTag" class="btn btn-default modal-pick-button tag-button">${tag}</button>
+															</form>
+														
+														</td>
+													</c:when>
+													<c:otherwise>
+														<td>
+														
+															<form action="/untagPlayer" method="post">
+																<button type="submit" value="${player.getFantasyProsId()},${tag}" name="playerIdWithTag" class="btn btn-default modal-pick-button untag-button">${tag}</button>
+															</form>
+														
+														</td>
+													</c:otherwise>
+												</c:choose>
+										
+										
+											
+										</c:forEach>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
 		</div>
 	</div>
 </div>

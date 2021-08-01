@@ -73,7 +73,7 @@ public class DraftManager {
 				}
 			}
 		} catch (Exception e) {
-			log.error("ERROR populating players with tags", e);
+			log.error("ERROR parsing round specific strategy :: " + e.toString());
 		}
 		draftState.setStrategyByRound(strategy);
 	}

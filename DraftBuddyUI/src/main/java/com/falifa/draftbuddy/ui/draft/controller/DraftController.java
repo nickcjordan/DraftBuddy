@@ -58,8 +58,8 @@ public class DraftController {
 	@RequestMapping(value = "/start")
 	public String start(@RequestParam(required=false, defaultValue="real") String appRunType, Model model) {
 //		draftState.startTimer();
-		draftState.initializeDraft();
 		NFLTeamManager.initializeNFL();
+		draftState.initializeDraft();
 		draftManager.updateDraftStrategyDataFromFile();
 		
 		draftState.mockDraftMode = (appRunType.equalsIgnoreCase("mock") || appRunType.equalsIgnoreCase("auto"));

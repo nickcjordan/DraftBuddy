@@ -40,7 +40,7 @@ public class JsonDataFileManager {
 	private Map<String, PlayerTO> playerStatsTOMap;
 
 	@Autowired
-	private DataPopulator dataPopulator;
+	private DataPopulatorHelper dataPopulator;
 
 	@Autowired
 	private ApiDataDelegate dataDelegate;

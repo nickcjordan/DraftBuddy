@@ -1,6 +1,7 @@
 package com.falifa.draftbuddy.ui.prep.data;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
 
 import com.falifa.draftbuddy.ui.constants.Position;
+import com.falifa.draftbuddy.ui.constants.Tag;
 import com.falifa.draftbuddy.ui.draft.LogicHandler;
 import com.falifa.draftbuddy.ui.draft.data.DraftState;
 import com.falifa.draftbuddy.ui.model.Drafter;
@@ -42,6 +44,7 @@ public class ModelUpdater {
 		updateCurrentDrafterAttributes(model);
 		updateDraftStateAttributes(model);
       	updateNflTeamListsAttributes(model);
+      	model.addAttribute("allTags", Arrays.asList(Tag.values()));
       	log.debug("Models updated for all fields :: updated for drafter={}", draftState.getCurrentDrafter().getName());
 	}
 	
@@ -62,7 +65,7 @@ public class ModelUpdater {
 	}
 
 	public void updateNflTeamListsAttributes(Model model) {
-		model.addAttribute("playersToBuildModalFor", NFLTeamManager.getAllPlayersByADP());
+		model.addAttribute("playersToBuildModalFor", NFLTeamManager.getAllPlayersByADP().subList(0, 150));
 		model.addAttribute("playersSortedByAdp", NFLTeamManager.getAllAvailablePlayersByADP());
       	model.addAttribute("playersSortedByRank", NFLTeamManager.getAllAvailablePlayersByRank());
       	updateRemainingPlayersForTierByPosition(model);

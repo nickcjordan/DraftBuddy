@@ -763,7 +763,7 @@ ul.social-network li a {
 	font-size: 11pt;
 }
 .handcuff-posList {
-	width: 40%;
+	width: 28%;
 	font-size: 11pt;
 }
 .pos-posList {
@@ -782,6 +782,7 @@ ul.social-network li a {
 	width: 4%;
 	font-size: 11pt;
 }
+
 
 
 /*@media all and (min-width:768px)*/
@@ -1065,6 +1066,10 @@ html, body {
     list-style-type: none;
 }
 
+.tier-list {
+	list-style-type: none;
+}
+
 .full-page-wrapper {
 	display: flex; /* use the flex model */
 	max-height: 100%;
@@ -1085,6 +1090,33 @@ html, body {
 .header-fixed>tbody>tr>td, .header-fixed>thead>tr>th {
 	/* width: 20%; */
 	float: left;
+}
+
+.tier-player-list-tiem {
+	align-content: center;
+	background-color: transparent;
+}
+
+.thin-lane {
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+.untag-button {
+	color: black !important;
+	background-color: #cedfc6;
+	border-color: black;
+}
+
+.tag-button {
+	color: #2e2e2e!important;
+	background-color: #f8f8f8;
+	border-color: #2e2e2e;
+	opacity: 0.7;
+}
+
+.empty-table {
+	border: 0 !important;
 }
 
 .badge {
@@ -1125,6 +1157,12 @@ html, body {
 	-webkit-border-radius: 9px;
 	-moz-border-radius: 9px;
 	border-radius: 9px;
+}
+
+.tier-badge-text {
+	font-size: 13pt;
+	margin-bottom: 4px;
+	padding: 4px 9px 4px;
 }
 
 .nav-name-badge {

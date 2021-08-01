@@ -36,16 +36,16 @@
 				</div>
 			</div>
 			
-			<div class="col-md-1">
+			<div class="col-md-1 thin-lane">
 				<c:forEach items="${remainingTierTO.getTos()}" var="to">
 					<div class="row remaining-player-tier-row">
 						<div class="center thin-text">
 							<h4 class="white-title"><strong>Tier ${to.getTier()} ${to.getPos()}</strong></h4>
 						</div>	
 						
-						<ul class="list-group strategy-list-box list-group-flush">
+						<ul class="list-group tier-list list-group-flush">
 							<c:forEach items="${to.getPlayers()}" var="p">
-								<li class="list-group-item strategy-list-header">${p.getPlayerName()}<li>
+								<li class="tier-player-list-tiem"><span class="badge tier-player-badge position-badge big-badge ${p.getPosition().getBadgeClass()} tier-badge-text">${p.getRankMetadata().getPositionRank()}) ${p.getPlayerName()}</span><li>
 					    	</c:forEach>
 						</ul>
 						

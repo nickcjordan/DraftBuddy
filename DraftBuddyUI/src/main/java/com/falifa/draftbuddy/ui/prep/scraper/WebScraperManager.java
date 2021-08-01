@@ -30,7 +30,7 @@ public class WebScraperManager {
 	private static final Logger log = LoggerFactory.getLogger(WebScraperManager.class);
 	
 	@Autowired
-	private DataParserManager parserManager;
+	private DataConsolidator parserManager;
 	
 	@Autowired
 	private JsonDataFileManager updater;

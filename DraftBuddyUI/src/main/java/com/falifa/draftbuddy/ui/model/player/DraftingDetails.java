@@ -134,4 +134,21 @@ public class DraftingDetails {
 			}
 		}
 	}
+	
+	@JsonIgnore
+	public void removeTags(String newTags) {
+		this.tags = !StringUtils.isEmpty(this.tags) ? this.tags : "";
+		StringBuilder sb = new StringBuilder();
+		tags.chars().distinct().forEach(c -> sb.append((char) c));
+		tags = sb.toString();
+		if (tags.contains(newTags)) {
+			tags = tags.replace(newTags, "");
+		}
+		for (int i = 0; i < newTags.length(); i++) {
+			String tagLocation = Tag.getIconClassFromTag(newTags.charAt(i));
+			if (this.icons.contains(tagLocation)) {
+				this.icons.remove(tagLocation);
+			}
+		}
+	}
 }

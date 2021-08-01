@@ -86,13 +86,20 @@ public class StrategyFileHandler {
 			player.getDraftingDetails().addTags(Tag.NEW_COACH.getTag());
 		}
 	}
+	
+	public void removeTagsFromPlayer(Player player, String removeTags) {
+		player.getDraftingDetails().removeTags(removeTags);
+		if (removeTags.contains(Tag.FAVORITE.getTag())) {
+			player.getDraftingDetails().setPlayerToTarget(false);
+		}
+	}
 
 	public void updateTagFileWithCleanedUpResults(TreeSet<Player> sorted) throws IOException {
 		StringBuilder sb = new StringBuilder(HEADER + "\n");
 		for (Player p : sorted) {
 			String tags = p.getDraftingDetails().getTags();
 			if (tags != null) {
-				sb.append(p.getPlayerName() + "," + tags + "\n");
+				sb.append(p.getPlayerName() + "," + tags + "," + p.getFantasyProsId() + "\n");
 			} else {
 				sb.append(p.getPlayerName() + ",\n");
 			}
