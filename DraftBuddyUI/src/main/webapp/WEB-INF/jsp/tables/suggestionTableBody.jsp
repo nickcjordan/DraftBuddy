@@ -1,4 +1,26 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
+
+		<thead class="thead-inverse">
+			<tr>
+				<th class="id-suggest"><a href="/sortSuggestions?sortBy=ADP">ADP</a></th>
+				<th class="pos_rank-suggest"><a href="/sortSuggestions?sortBy=ECR">ECR</a></th>
+				<th class="value-suggest"><a href="/sortSuggestions?sortBy=ADP_VAL"><span title="" data-placement="top" data-html="true" data-toggle="tooltip" data-original-title="Current number of picks player differs from their original <b>ADP</b>">Value</span> <script>$('span').tooltip();</script></a></th>
+				<th class="name-suggest"><a href="/sortSuggestions?sortBy=NAME">Name</a></th>
+				<th class="pos-suggest">Pos</th>
+				<th class="proj-pts-suggest">FFB</th>
+				<th class="vsadp-suggest">Prj</th>
+				<th class="proj-pts-suggest"><a href="/sortSuggestions?sortBy=AVG_PRIOR_PTS">PriAvg</a></th>
+				<th class="tags-suggest">Tags</th>
+				<th class="team-suggest">Team</th>
+				<th class="team-suggest">SOS</th>
+				<th class="bye-suggest">Bye</th>
+				<th class="stddev-suggest"><span title="" data-placement="top" data-html="true" data-toggle="tooltip" data-original-title="How <b>unsure</b> people are of this player. This measures how much a set of values drifts from the <b>Average</b>, or <em>'a measure confidence'</em> in statistical conclusions">St-Dv</span><script>$('span').tooltip();</script></th>
+				<th class="handcuff-suggest">Backups</th>
+			</tr>
+		</thead>
+
+
 		<tbody class="scaled-body">
 			<c:set var="pickIndexTempVar" value="${0}" scope="application" />
 			<c:set var="grayLineCount" value="${0}" scope="application" />
@@ -15,8 +37,8 @@
 
 				<tr class="tier${player.getTier()}">
 					<td class="id-suggest"><a href="/pickPlayer?playerId=${player.getFantasyProsId()}"> <span class="badge-adp">${player.getRankMetadata().getAdp()}</span>
-					<td class="pos_rank-suggest"><span class="badge-ecr">${player.getRankMetadata().getOverallRank()}</span></td>
-					</a></td>
+					<td class="pos_rank-suggest"><span class="badge-ecr">${player.getRankMetadata().getOverallRank()}</span></td></a></td>
+					<td class="value-suggest"><span class="badge badge-val badge-${player.getDraftingDetails().getCurrentPlayerValueBadgeClass()}"><strong>${player.getDraftingDetails().getCurrentPlayerValue()}</strong></span></td>
 					<td class="name-suggest">
 						<a class="nameLink" data-toggle="modal" data-target="#${player.getFantasyProsId()}playerModal"> 
 							<c:choose>
@@ -28,16 +50,19 @@
 								</c:when>
 								<c:otherwise>
 									<c:choose>
-										<c:when test="${player.getDraftingDetails().isPlayerToTarget()}"><strong>${player.getPlayerName()}</strong></c:when>
+										<c:when test="${player.getDraftingDetails().isPlayerToTarget()}"><span title="" data-placement="top" data-html="true" data-toggle="tooltip" data-original-title="${player.getFfBallersPlayerProjection().getBlurb()}"><strong>${player.getPlayerName()}</strong></span> <script>$('span').tooltip();</script></c:when>
+										<c:when test="${player.getDraftingDetails().getTags().contains('B')}"><strike>${player.getPlayerName()}</<strike></c:when>
+										<c:when test="${player.getDraftingDetails().getTags().contains('+')}"><em>${player.getPlayerName()}</<em></c:when>
+										<c:when test="${player.getDraftingDetails().getTags().contains('$')}"><em>${player.getPlayerName()}</<em></c:when>
 										<c:otherwise>${player.getPlayerName()}</c:otherwise>
 									</c:choose>
 								</c:otherwise>
 							</c:choose>
 						</a>
 					</td>
-					<td class="proj-avg-pts-suggest">${player.getPositionalStats().getProjectedAveragePointsPerGame()}</td>
-					<td class="value-suggest"><span class="badge badge-val badge-${player.getDraftingDetails().getCurrentPlayerValueBadgeClass()}"><strong>${player.getDraftingDetails().getCurrentPlayerValue()}</strong></span></td>
-					<td class="vsadp-suggest"><span class="badge badge-val badge-${player.getDraftingDetails().getVsValueBadgeClass()}"><strong>${player.getRankMetadata().getVsAdp()}</strong></span></td>
+					<td class="pos-suggest"><span class="badge position-badge ${player.getPosition().getBadgeClass()}">${player.getPosition().getAbbrev()}${player.getRankMetadata().getPositionRank()}</span></td>
+					<td class="proj-avg-pts-suggest"><span class="badge position-badge ${player.getPosition().getBadgeClass()}">${player.getFfBallersPlayerProjection().getPositionRank()}</span></td>
+					<td class="vsadp-suggest">${player.getFfBallersPlayerProjection().getAvgPoints()}</td>
 					<td class="proj-pts-suggest"><strong>${player.getPositionalStats().getPriorAveragePointsPerGame()}</strong></td>
 
 
@@ -54,7 +79,6 @@
 						</c:choose>
 					</td>
 
-					<td class="pos-suggest"><span class="badge position-badge ${player.getPosition().getBadgeClass()}">${player.getPosition().getAbbrev()}${player.getRankMetadata().getPositionRank()}</span></td>
 
 
 					<td class="team-suggest">${player.getTeam().getAbbreviation()}</td>

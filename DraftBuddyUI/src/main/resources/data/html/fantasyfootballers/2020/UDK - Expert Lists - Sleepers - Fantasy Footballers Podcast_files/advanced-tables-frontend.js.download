@@ -1,1 +1,0 @@
-jQuery(document).ready(function($){'use strict';$("#lptw-tables-responsive-tabs").tabs();$('#lptw-tables-responsive-tabs').responsiveTabs();});

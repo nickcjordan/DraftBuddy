@@ -50,6 +50,7 @@ public class ModelUpdater {
 	
 	private void updateCommonAttributesSubset(Model model) {
 		model.addAttribute("error", draftState.errorMessage);
+		model.addAttribute("allTags", Arrays.asList(Tag.values()));
 		updateDraftStateAttributes(model);
 		log.debug("Models updated for common subset");
 	}
@@ -65,7 +66,7 @@ public class ModelUpdater {
 	}
 
 	public void updateNflTeamListsAttributes(Model model) {
-		model.addAttribute("playersToBuildModalFor", NFLTeamManager.getAllPlayersByADP().subList(0, 150));
+		model.addAttribute("playersToBuildModalFor", NFLTeamManager.getAllPlayersByADP().subList(0, 250));
 		model.addAttribute("playersSortedByAdp", NFLTeamManager.getAllAvailablePlayersByADP());
       	model.addAttribute("playersSortedByRank", NFLTeamManager.getAllAvailablePlayersByRank());
       	updateRemainingPlayersForTierByPosition(model);
@@ -111,7 +112,7 @@ public class ModelUpdater {
 	private HighestRemainingPositionInTierTO buildHighestRemainingTierTO(int i) {
 		HighestRemainingPositionInTierTO to = new HighestRemainingPositionInTierTO();
 		to.setPlayers(getAllRemainingPlayersAtHighestTier(i));
-		to.setPos("Flex");
+		to.setPos("Players");
 		to.setTier(to.getPlayers().get(0).getTier());
 		return to;
 	}

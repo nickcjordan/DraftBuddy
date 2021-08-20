@@ -68,8 +68,12 @@ public class DraftManager {
 		Map<String, RoundSpecificStrategy> strategy = new HashMap<String, RoundSpecificStrategy>();
 		try {
 			for (List<String> split : strategyHandler.getSplitLinesFromFile(DRAFT_STRATEGY_BY_ROUND_FILE_PATH, true)) {
-				if (split.size() > 1) {
-					strategy.put(split.get(0), strategyHandler.buildRoundSpecificStrategy(split));
+				try {
+					if (split.size() > 1) {
+						strategy.put(split.get(0), strategyHandler.buildRoundSpecificStrategy(split));
+					}
+				} catch (java.lang.IndexOutOfBoundsException e) {
+					log.error("ERROR parsing line of round specific strategy :: " + e.toString());
 				}
 			}
 		} catch (Exception e) {

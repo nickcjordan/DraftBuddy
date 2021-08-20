@@ -11,7 +11,7 @@ import org.springframework.util.CollectionUtils;
 public class RandomIndexGenerator {
 	
 	@Value( "${pickNumberToStartAIVariability}" )
-	private int aiVariabilityRound;
+	private int aiVariabilityPick;
 	
 	@Value( "${percent0}" )
 	private int perc0;
@@ -36,15 +36,12 @@ public class RandomIndexGenerator {
 		if (CollectionUtils.isEmpty(percentageList)) {
 			percentageList = buildPercentages();
 		}
-		if (pickNumber < aiVariabilityRound) {
+		if (pickNumber < aiVariabilityPick) {
 			return 0; // first X picks are set to standard ADP
 		}
 		int x = (int) Math.round(Math.random()*99);
-		int changed = x;
-		if (roundNumber < 2) {
-			changed = (int) (x * (0.9));
-		}
-		return percentageList.get(changed);
+		int percent = percentageList.get(x);
+		return percent;
 	}
 	
 	private ArrayList<Integer> buildPercentages() {

@@ -1,7 +1,7 @@
 #	RISK("!"), SLEEPER("$"), ROOKIE("R"), NEW_TEAM("@"), FAVORITE("*"), RISING("+"), FALLING("-"), INJURY_RISK("i"), BUST("B")
 A.J. Brown,i,18218
 AJ Dillon,S,19358
-Aaron Jones,,16673
+Aaron Jones,*,16673
 Adam Humphries,C,14498
 Adam Thielen,B,13429
 Adam Trautman,S,19423
@@ -9,24 +9,25 @@ Amari Cooper,$Ci,13894
 Amari Rodgers,R,20132
 Amon-Ra St. Brown,R,19799
 Anthony Schwartz,C,20125
+Antonio Brown,$,9808
 Antonio Gandy-Golden,C,19338
 Antonio Gibson,iC,19624
 Austin Hooper,C,15581
 Baker Mayfield,C,17237
 Ben Roethlisberger,B,9039
-Blake Jarwin,iCS,16638
+Blake Jarwin,iCS*,16638
 Brandin Cooks,$,12122
-Brandon Aiyuk,i,19252
+Brandon Aiyuk,i*,19252
 Breshad Perriman,S,13975
 Brevin Jordan,R,20162
 Bryce Love,C,18266
 Calvin Ridley,i,17258
-Cam Newton,i,9869
+Cam Newton,iS,9869
 Cam Sims,C,18016
 Carolina Panthers,C,8040
-Carson Wentz,S,15520
+Carson Wentz,Si,15520
 Cedrick Wilson,C,17262
-CeeDee Lamb,^C,19202
+CeeDee Lamb,^C*,19202
 Chase McLaughlin,C,19058
 Chris Carson,i,16754
 Chris Godwin,i,16406
@@ -35,9 +36,13 @@ Chuba Hubbard,RC,19792
 Cleveland Browns,C,8070
 Clyde Edwards-Helaire,$i,19325
 Cody Parkey,C,13806
-Corey Davis,i,16385
+Cooper Kupp,*,16433
+Corey Clement,C,16446
+Corey Davis,i*,16385
 Courtland Sutton,i,17253
 Curtis Samuel,iC,16434
+D'Andre Swift,i,19210
+D'Ernest Johnson,C,19111
 D'Wayne Eskridge,R,22785
 D.J. Chark Jr.,B,17292
 D.J. Moore,C,17265
@@ -49,16 +54,17 @@ Damien Harris,S,18230
 Dan Arnold,C,17143
 Daniel Jones,BC,18232
 Darius Slayton,C,18706
+Darrell Henderson,*,18588
 Davante Adams,*,12123
+David Johnson,B,13948
 David Moore,C,16757
 David Njoku,C,16399
 Davis Mills,R,22799
-DeVonta Smith,^R,19222
+DeVonta Smith,^Ri,19222
 Deebo Samuel,i,18244
 Demetric Felton,C,20105
 Devontae Booker,C,15555
 Dez Fitzpatrick,R,20112
-Dion Lewis,C,9983
 Donovan Peoples-Jones,C,19298
 Dustin Hopkins,C,11818
 Dyami Brown,RC,20113
@@ -91,27 +97,32 @@ Joe Burrow,^i,19196
 Joe Mixon,^i*,16420
 Joey Slye,C,19028
 John Ross,C,16388
+Jonnu Smith,*,16460
+JuJu Smith-Schuster,+,16427
 Julio Jones,i,9867
 Justin Fields,R,19781
 Kadarius Toney,RC,20119
 Kareem Hunt,C,16425
 Kelvin Harmon,C,18228
 Kenneth Gainwell,R,23310
-Kenny Golladay,C,16488
+Kenny Golladay,C@i,16488
 Kirk Cousins,$,11177
 Kyle Pitts,^R,20164
 Kyle Rudolph,C,9906
 Kyler Murray,i,18600
 Logan Thomas,BC,12095
 Mac Jones,R,20156
-Marquise Brown,B,18226
+Marquise Brown,Bi,18226
+Mecole Hardman,-,18587
 Melvin Gordon III,B,13903
 Michael Carter,RS,22728
 Michael Gallup,BC,17259
 Michael Pittman Jr.,i,19278
 Michael Thomas,i,15528
-Mike Davis,$,13943
+Mike Davis,$*,13943
+Mike Williams,*,16377
 Miles Sanders,B,18283
+Myles Gaskin,B,17251
 Najee Harris,^R,19302
 Nelson Agholor,S,13969
 New York Giants,C,8200
@@ -129,14 +140,14 @@ Peyton Barber,C,15920
 Raheem Mostert,i,14338
 Rashaad Penny,i,17308
 Rashard Higgins,C,15586
-Rashod Bateman,R,19794
+Rashod Bateman,Ri,19794
 Rhamondre Stevenson,R,22726
 Robby Anderson,$C,15688
+Robert Woods,*,11610
 Rondale Moore,R,19796
-Russell Gage,S,17606
+Russell Gage,S*,17606
 Ryan Fitzpatrick,SC,9545
 Ryan Tannehill,$,11174
-Ryquell Armstead,C,18521
 Sam Darnold,C,17236
 Saquon Barkley,iC,17240
 Shi Smith,C,20127
@@ -148,17 +159,19 @@ Taylor Heinicke,C,13932
 Taysom Hill,$,17115
 Terrace Marshall Jr.,iCR,23242
 Terry McLaurin,^Ci,18466
-Tom Brady,$,9603
+Tom Brady,$i,9603
 Tommy Tremble,C,22795
 Tony Pollard,C,18705
-Travis Etienne,$R,19231
+Travis Etienne,$R*,19231
 Trenton Cannon,C,17538
 Trevor Lawrence,RS,19780
-Trey Lance,R,20082
+Trey Lance,R^,20082
 Trey Sermon,R,19425
 Tutu Atwell,R,20126
-Tyler Higbee,$,15623
+Tyler Higbee,$*,15623
+Tyler Lockett,*,13971
 Tyrell Williams,i,14324
 Washington Football Team,C,8310
 Zach Ertz,B,11689
 Zach Wilson,R,22679
+Zack Moss,B,19263

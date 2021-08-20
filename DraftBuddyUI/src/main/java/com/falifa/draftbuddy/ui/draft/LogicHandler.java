@@ -107,6 +107,13 @@ public class LogicHandler {
 
 	private boolean positionSlotIsNotFull(Player p, Drafter currentDrafter) {
 		if (p.getPosition() == null) { return false; }
+		if (p.getPosition().equals(Position.QUARTERBACK) || p.getPosition().equals(Position.TIGHTEND)) {
+			if (currentDrafter.getDraftedTeam().getPlayersByPosition(p.getPosition()).size() > 0) {
+				if (draftState.getRoundNum() < 8) {
+					return false;
+				}
+			}
+		}
 		try {
 			return (currentDrafter.getDraftedTeam().getPlayersByPosition(p.getPosition()).size() < prop(p.getPosition().getAbbrev().toLowerCase() + "Limit"));
 		} catch (Exception e) {

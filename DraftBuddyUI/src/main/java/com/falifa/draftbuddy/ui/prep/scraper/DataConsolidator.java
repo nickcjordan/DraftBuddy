@@ -27,10 +27,12 @@ import com.falifa.draftbuddy.ui.prep.NFLTeamCache;
 import com.falifa.draftbuddy.ui.prep.PlayerCache;
 import com.falifa.draftbuddy.ui.prep.data.ModelUpdater;
 import com.falifa.draftbuddy.ui.prep.data.StrategyFileHandler;
+import com.falifa.draftbuddy.ui.prep.scraper.webjson.FFBallersAPI;
 import com.falifa.draftbuddy.ui.prep.scraper.webjson.WebJsonExtractor;
 import com.falifa.draftbuddy.ui.prep.scraper.webjson.WebJsonPlayerConverter;
 import com.falifa.draftbuddy.ui.prep.scraper.webjson.model.ECRData;
 import com.falifa.draftbuddy.ui.prep.scraper.webjson.model.TeamSOSData;
+import com.falifa.draftbuddy.ui.prep.scraper.webjson.model.ffballers.FFBallersAPIData;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Component
@@ -61,6 +63,9 @@ public class DataConsolidator {
 	
 	@Autowired
 	private WebJsonPlayerConverter playerConverter;
+	
+	@Autowired
+	private FFBallersAPI ballersApi;
 
 	public boolean parseAllDataSources() {
 		boolean success = true;
@@ -72,6 +77,7 @@ public class DataConsolidator {
 		dataPopulator.setCurrentPlayerValue();
 
 		success &= parseAndUpdateFantasyProsStrengthOfSchedule();
+		success &= parseAndUpdateFantasyFootballersRankings();
 		
 		success = parseFantasyProsFiles(success);
 		success &= jsonFileManager.parseAndUpdateStatsFromAPI();
@@ -83,6 +89,17 @@ public class DataConsolidator {
 		success &= PlayerCache.updatePlayerJsonFileWithCachedData();
 		success &= NFLTeamCache.updateNflJsonFileWithCachedData();
 		return success;
+	}
+
+	private boolean parseAndUpdateFantasyFootballersRankings() {
+//		String htmlTable = htmlParser.parseTableDataFromFantasyFootballersQBRankings();
+//		allPositionSuccess &= extractor.extracPlayerDataFromFantasyProsADP(htmlTable);
+		
+		FFBallersAPIData ballersData = ballersApi.getFFBallersData();
+		
+		Map<String, Player> playerData = playerConverter.convertToPlayerData(ballersData);
+		return PlayerCache.addPlayerDataToExisting(playerData);
+		
 	}
 
 	private boolean parseFantasyProsFiles(boolean success) {

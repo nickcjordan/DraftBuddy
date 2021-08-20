@@ -1,12 +1,9 @@
 package com.falifa.draftbuddy.ui.model.player;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
-import org.springframework.util.CollectionUtils;
 
 import com.falifa.draftbuddy.ui.constants.NflTeamMetadata;
 import com.falifa.draftbuddy.ui.constants.Position;
@@ -14,8 +11,10 @@ import com.falifa.draftbuddy.ui.constants.Tag;
 import com.falifa.draftbuddy.ui.model.player.stats.PlayerPositionalStats;
 import com.falifa.draftbuddy.ui.model.player.stats.RawStatsDetails;
 import com.falifa.draftbuddy.ui.model.team.NFLTeam;
-import com.falifa.draftbuddy.ui.prep.NFLTeamCache;
 import com.falifa.draftbuddy.ui.prep.data.NFLTeamManager;
+import com.falifa.draftbuddy.ui.prep.scraper.webjson.model.ffballers.FFBallersConsolidatedProjection;
+import com.falifa.draftbuddy.ui.prep.scraper.webjson.model.ffballers.PlayerInfo;
+import com.falifa.draftbuddy.ui.prep.scraper.webjson.model.ffballers.Projection;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class Player {
@@ -39,6 +38,9 @@ public class Player {
 	private PictureMetadata pictureMetadata;
 	private NotesMetadata notesMetadata;
 	
+	private FFBallersConsolidatedProjection ffBallersPlayerProjection;
+	
+
 	public Player() {
 		this.draftingDetails = new DraftingDetails();
 		this.priorRawStatsDetails = new RawStatsDetails();
@@ -71,7 +73,6 @@ public class Player {
 		} catch (Exception e) {}
 		return "";
 	}
-	
 	@JsonIgnore
 	@Override
 	public String toString() {
@@ -85,6 +86,13 @@ public class Player {
 	@JsonIgnore
 	public String getTagDescriptions() {
 		return (draftingDetails.getTags() == null || draftingDetails.getTags().isEmpty()) ? "No tags" : buildDescriptionOfTags(draftingDetails.getTags());
+	}
+
+	public FFBallersConsolidatedProjection getFfBallersPlayerProjection() {
+		return ffBallersPlayerProjection;
+	}
+	public void setFfBallersPlayerProjection(FFBallersConsolidatedProjection ffBallersPlayerProjection) {
+		this.ffBallersPlayerProjection = ffBallersPlayerProjection;
 	}
 
 	private String buildDescriptionOfTags(String tags) {

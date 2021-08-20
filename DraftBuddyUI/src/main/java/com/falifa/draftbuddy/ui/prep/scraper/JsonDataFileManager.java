@@ -2,9 +2,11 @@ package com.falifa.draftbuddy.ui.prep.scraper;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.net.URLConnection;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,8 +35,8 @@ public class JsonDataFileManager {
 
 	private static final Logger log = LoggerFactory.getLogger(JsonDataFileManager.class);
 
-//	private Map<String, Player> players;
-//	private Map<String, NFLTeam> nflTeams;
+	// private Map<String, Player> players;
+	// private Map<String, NFLTeam> nflTeams;
 
 	private ArrayList<String> playerNameToIdMapFailedToFind;
 	private Map<String, PlayerTO> playerStatsTOMap;
@@ -57,12 +59,21 @@ public class JsonDataFileManager {
 	}
 
 	public boolean downloadFileFromUrl(String sourceUrl, String destPath) {
-		try (InputStream in = new URL(sourceUrl).openStream()) {
-			Files.copy(in, new File(destPath).toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING);
-			log.info("Download SUCCESS :: url={} :: file path={}", sourceUrl, destPath);
-			return true;
-		} catch (Exception e) {
-			log.error("ERROR downloading file at url {} to file path {} :: message={}", sourceUrl, destPath, e.getMessage());
+		try {
+			URLConnection urlConnection = new URL(sourceUrl).openConnection();
+			urlConnection.addRequestProperty("User-Agent", "Mozilla");
+			urlConnection.setReadTimeout(5000);
+			urlConnection.setConnectTimeout(5000);
+			try (InputStream in = urlConnection.getInputStream()) {
+				Files.copy(in, new File(destPath).toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+				log.info("Download SUCCESS :: url={} :: file path={}", sourceUrl, destPath);
+				return true;
+			} catch (Exception e) {
+				log.error("ERROR downloading file at url {} to file path {} :: message={}", sourceUrl, destPath, e.getMessage());
+				return false;
+			}
+		} catch (IOException e1) {
+			e1.printStackTrace(); // TODO
 			return false;
 		}
 	}
@@ -89,7 +100,8 @@ public class JsonDataFileManager {
 			}
 		}
 		if (playerNameToIdMapFailedToFind.size() > 0) {
-			log.error("{} players from API response were not found in existing data from FantasyPros :: [{}]", playerNameToIdMapFailedToFind.size(), playerNameToIdMapFailedToFind.stream().collect(Collectors.joining(", ")));
+			log.error("{} players from API response were not found in existing data from FantasyPros :: [{}]", playerNameToIdMapFailedToFind.size(),
+					playerNameToIdMapFailedToFind.stream().collect(Collectors.joining(", ")));
 		}
 		log.info("Successfully populated stats of {} players out of the {} found in the API response", count, playerStatsTOMap.size());
 		playerNameToIdMapFailedToFind.clear();
@@ -111,7 +123,7 @@ public class JsonDataFileManager {
 		String webImagePath = DataSourcePaths.PLAYER_IMAGES_FILE_PATH + picturePath;
 		String webImagePathWithExtension = webImagePath; // used to load picture in html src
 		String picLink = p.getPictureMetadata().getPicLink() == null ? p.getPictureMetadata().getSmallPicLink() : p.getPictureMetadata().getPicLink();
-		
+
 		if (StringUtils.isNotEmpty(picLink)) {
 			String ext = picLink.substring(picLink.lastIndexOf(".")); // get file extension from link
 			if (ext.contains("com")) {
@@ -133,10 +145,11 @@ public class JsonDataFileManager {
 		} else {
 			log.debug("No picture link populated for player {}", p.getPlayerName());
 		}
-			
-//			if (StringUtils.isEmpty(p.getPictureMetadata().getPicLocation()) && StringUtils.isNotEmpty(webImagePathWithExtension)) {
-//				p.getPictureMetadata().setPicLocation(webImagePathWithExtension);
-//			}
+
+		// if (StringUtils.isEmpty(p.getPictureMetadata().getPicLocation()) &&
+		// StringUtils.isNotEmpty(webImagePathWithExtension)) {
+		// p.getPictureMetadata().setPicLocation(webImagePathWithExtension);
+		// }
 		if (new File(filePath + ".png").exists()) {
 			p.getPictureMetadata().setPicLocation(webImagePath + ".png");
 		} else if (new File(filePath + ".jpg").exists()) {
@@ -145,10 +158,8 @@ public class JsonDataFileManager {
 	}
 
 	private String getCorrectIdFromName(String playerName) {
-		return (dataPopulator.getPlayerNameToIdMap().containsKey(nameMatcher.filter(playerName))) ? 
-				dataPopulator.getPlayerNameToIdMap().get(nameMatcher.filter(playerName))
+		return (dataPopulator.getPlayerNameToIdMap().containsKey(nameMatcher.filter(playerName))) ? dataPopulator.getPlayerNameToIdMap().get(nameMatcher.filter(playerName))
 				: nameMatcher.findIdForClosestMatchingName(playerName);
 	}
-	
 
 }

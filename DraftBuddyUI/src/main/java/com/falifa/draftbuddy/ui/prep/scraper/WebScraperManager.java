@@ -58,7 +58,6 @@ public class WebScraperManager {
 		success &= updateFantasyProsRookiesRankingsDataSource();
 		success &= updateFantasyProsPositionalProjectionsDataSource();
 		success &= updateFantasyProsTargetLeadersDataSource();
-//		success &= updateFantasyFootballersDataSource(); // wont work because you have to be logged in
 		return success;
 	}
 
@@ -91,9 +90,5 @@ public class WebScraperManager {
 		}
 		return allPositionUpdatesSuccessful;
 	}
-	
-//	private boolean updateFantasyFootballersDataSource() {
-//		return updater.downloadFileFromUrl(FANTASYFOOTBALLERS_VALUES_URL, FANTASYFOOTBALLERS_VALUES_PATH);
-//	}
 	
 }

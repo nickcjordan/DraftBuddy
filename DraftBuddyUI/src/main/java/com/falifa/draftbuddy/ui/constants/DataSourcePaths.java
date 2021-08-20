@@ -33,10 +33,26 @@ public class DataSourcePaths {
 	public static final String FANTASYPROS_POSITIONAL_PROJECTIONS_BASE_HTML_FILE_PATH = FANTASYPROS_BASE_HTML_FILE_PATH + "fantasy_pros_positional_projections_%s.html";
 	
 	// *************** FANTASY FOOTBALLERS ***************	
-	public static final String FANTASYFOOTBALLERS_BASE_URL = "https://www.thefantasyfootballers.com/2021-ultimate-draft-kit";
+	public static final String FANTASYFOOTBALLERS_BASE_URL = "https://www.thefantasyfootballers.com/";
 	public static final String FANTASYFOOTBALLERS_VALUES_URL = FANTASYFOOTBALLERS_BASE_URL + "/udk-expert-lists-values/";
-
+	
+	public static final String FANTASYFOOTBALLERS_QB_RANKINGS_URL = FANTASYFOOTBALLERS_BASE_URL + "2021-quarterback-rankings/?scoring=4pt";
+	public static final String FANTASYFOOTBALLERS_RB_RANKINGS_URL = FANTASYFOOTBALLERS_BASE_URL + "2021-running-back-rankings/?scoring=ppr";
+	public static final String FANTASYFOOTBALLERS_WR_RANKINGS_URL = FANTASYFOOTBALLERS_BASE_URL + "2021-wide-receiver-rankings/?scoring=ppr";
+	public static final String FANTASYFOOTBALLERS_TE_RANKINGS_URL = FANTASYFOOTBALLERS_BASE_URL + "2021-tight-end-rankings/?scoring=ppr";
+	public static final String FANTASYFOOTBALLERS_DST_RANKINGS_URL = FANTASYFOOTBALLERS_BASE_URL + "2021-defense-rankings/";
+	public static final String FANTASYFOOTBALLERS_K_RANKINGS_URL = FANTASYFOOTBALLERS_BASE_URL + "2021-kicker-rankings/";
+	
 	public static final String FANTASYFOOTBALLERS_BASE_FILE_PATH = "src/main/resources/data/html/fantasyfootballers/";
+	public static final String FANTASYFOOTBALLERS_BASE_RANKINGS_PATH = FANTASYFOOTBALLERS_BASE_FILE_PATH + "rankings/";
+	
+	public static final String FANTASYFOOTBALLERS_QB_RANKINGS_PATH = FANTASYFOOTBALLERS_BASE_RANKINGS_PATH + "ffballers_rankings_qb.html";
+	public static final String FANTASYFOOTBALLERS_RB_RANKINGS_PATH = FANTASYFOOTBALLERS_BASE_RANKINGS_PATH + "ffballers_rankings_rb.html";
+	public static final String FANTASYFOOTBALLERS_WR_RANKINGS_PATH = FANTASYFOOTBALLERS_BASE_RANKINGS_PATH + "ffballers_rankings_wr.html";
+	public static final String FANTASYFOOTBALLERS_TE_RANKINGS_PATH = FANTASYFOOTBALLERS_BASE_RANKINGS_PATH + "ffballers_rankings_te.html";
+	public static final String FANTASYFOOTBALLERS_DST_RANKINGS_PATH = FANTASYFOOTBALLERS_BASE_RANKINGS_PATH + "ffballers_rankings_dst.html";
+	public static final String FANTASYFOOTBALLERS_K_RANKINGS_PATH = FANTASYFOOTBALLERS_BASE_RANKINGS_PATH + "ffballers_rankings_k.html";
+
 	public static final String FANTASYFOOTBALLERS_VALUES_PATH = FANTASYFOOTBALLERS_BASE_FILE_PATH + "UDK - Expert Lists - Values - Fantasy Footballers Podcast.html";
 	public static final String FANTASYFOOTBALLERS_BREAKOUTS_PATH = FANTASYFOOTBALLERS_BASE_FILE_PATH + "UDK - Expert Lists - Breakouts - Fantasy Footballers Podcast.html";
 	public static final String FANTASYFOOTBALLERS_BUSTS_PATH = FANTASYFOOTBALLERS_BASE_FILE_PATH + "UDK - Expert Lists - Busts - Fantasy Footballers Podcast.html";

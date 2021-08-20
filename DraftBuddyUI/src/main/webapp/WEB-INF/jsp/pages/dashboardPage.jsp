@@ -57,7 +57,7 @@
 				<div class="tab-content" id="suggestionTableTabContent">
 					<div class="section">
 						<table data-toggle="table" class="table table-sm header-fixed dashboard-dash tabbed-table thin-celled-table outer-scrollbar">
-							<thead class="thead-inverse">
+							<%-- <thead class="thead-inverse">
 								<tr>
 									<th class="id-suggest"><a href="/sortSuggestions?sortBy=ADP">ADP</a></th>
 									<th class="pos_rank-suggest"><a href="/sortSuggestions?sortBy=ECR">ECR</a></th>
@@ -74,7 +74,7 @@
 									<th class="stddev-suggest"><span title="" data-placement="top" data-html="true" data-toggle="tooltip" data-original-title="How <b>unsure</b> people are of this player. This measures how much a set of values drifts from the <b>Average</b>, or <em>'a measure confidence'</em> in statistical conclusions">St-Dv</span><script>$('span').tooltip();</script></th>
 									<th class="handcuff-suggest">Backups</th>
 								</tr>
-							</thead>
+							</thead> --%>
 		
 							<c:set var="playerListContent" value="${playersSortedBySuggestions}" scope="application"></c:set>
 							<%@include file="../tables/suggestionTableBody.jsp"%>
