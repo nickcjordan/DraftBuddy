@@ -16,8 +16,8 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java.version>1.8</java.version>
-		<jaunt.home>C:\dev\jars\jaunt1.6.0_2yr\jaunt1.6.0_2yr.jar</jaunt.home>
-		<jauntium.home>C:\dev\jars\jauntium0.9\jauntium0.9.jar</jauntium.home>
+		<jaunt.home>C:\dev\jars\jaunt\jaunt1.6.1.jar</jaunt.home>
+		<jauntium.home>C:\dev\jars\jauntium\jauntium0.9.jar</jauntium.home>
 	</properties>
 
 	<dependencies>
