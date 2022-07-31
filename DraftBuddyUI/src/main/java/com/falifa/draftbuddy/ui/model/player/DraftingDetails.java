@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 
 import com.falifa.draftbuddy.ui.constants.Tag;
+import com.falifa.draftbuddy.ui.prep.scraper.TeammateTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class DraftingDetails {
@@ -23,10 +24,13 @@ public class DraftingDetails {
 	private String tags;
 	private List<String> icons;
 	private String handcuffs;
-	private List<Player> backups;
+//	private List<Player> backups;
+	private List<TeammateTO> positionTeammates;
+	
 	
 	public DraftingDetails() {
-		this.backups = new ArrayList<Player>();
+		this.positionTeammates = new ArrayList<TeammateTO>();
+//		this.backups = new ArrayList<Player>();
 		this.icons = new ArrayList<String>();
 		this.tags = "";
 	}
@@ -73,21 +77,22 @@ public class DraftingDetails {
 	public void setTags(String tags) {
 		this.tags = tags;
 	}
-	public List<Player> getBackups() {
-		return backups;
-	}
-	public void setBackups(List<Player> backups) {
-		this.backups = backups;
-		this.backups = this.backups.stream().distinct().collect(Collectors.toList());
-	}
-	@JsonIgnore
-	public void addBackup(Player backup) {
-		if (!this.backups.contains(backup)) {
-			this.backups.add(backup);
-		}
-		String newHandcuffs = this.backups.stream().map(p -> p.getPlayerName()).collect(Collectors.joining(", "));
-		this.handcuffs = Optional.ofNullable(newHandcuffs).orElse(backup.getPlayerName());
-	}
+//	public List<Player> getBackups() {
+//		return backups;
+//	}
+//	public void setBackups(List<Player> backups) {
+//		this.backups = backups;
+//		this.backups = this.backups.stream().distinct().collect(Collectors.toList());
+//	}
+//	@JsonIgnore
+//	public void addBackup(Player backup) {
+//		if (!this.backups.contains(backup)) {
+//			this.backups.add(backup);
+//		}
+//		String newHandcuffs = this.backups.stream().map(p -> p.getPlayerName()).collect(Collectors.joining(", "));
+//		this.handcuffs = Optional.ofNullable(newHandcuffs).orElse(backup.getPlayerName());
+//	}
+	
 	public List<String> getIcons() {
 		return icons;
 	}
@@ -151,4 +156,14 @@ public class DraftingDetails {
 			}
 		}
 	}
+
+	public List<TeammateTO> getPositionTeammates() {
+		return positionTeammates;
+	}
+
+	public void setPositionTeammates(List<TeammateTO> positionTeammates) {
+		this.positionTeammates = positionTeammates;
+	}
+
+	
 }

@@ -92,6 +92,23 @@ public class FFBallersDataConsolidator {
 			addRanks(projections.stream().filter(x -> x.getPosition().equals(p)).collect(Collectors.toList()));
 		}
 		
+		
+		List<FFBallersConsolidatedProjection> flexPlayers = projections.stream().filter(x -> (x.getPosition().equals(Position.RUNNINGBACK) || x.getPosition().equals(Position.WIDERECEIVER) || x.getPosition().equals(Position.TIGHTEND))).collect(Collectors.toList());
+		Collections.sort(flexPlayers, new FFBallerOverallPointsComparator());
+		
+		
+		double highest = (double) flexPlayers.get(0).getOverallPoints();
+		for (int i = 1; i <= flexPlayers.size(); i++) {
+			FFBallersConsolidatedProjection p = flexPlayers.get(i-1);
+			p.setFlexRank(i);
+			double ovr = p.getOverallPoints();
+			double val = (ovr / highest);
+			double valHuned = val * 100;
+			int grade = (int) Math.round(valHuned);
+			p.setFlexGrade(grade);
+		}
+		
+		
 //		Map<Position, Integer> ranks = new HashMap<Position, Integer>();
 //		ranks.put(QUARTERBACK, 1);
 //		ranks.put(RUNNINGBACK, 1);

@@ -5,6 +5,7 @@ import java.util.List;
 import com.falifa.draftbuddy.ui.constants.Position;
 import com.falifa.draftbuddy.ui.model.Drafter;
 import com.falifa.draftbuddy.ui.model.player.Player;
+import com.falifa.draftbuddy.ui.prep.data.NFLTeamManager;
 
 public class DraftResultStatistics {
 
@@ -16,28 +17,11 @@ public class DraftResultStatistics {
 	private int teRank;
 	private int kRank;
 	private int dstRank;
-	private boolean draftedHandcuff;
 
 	public DraftResultStatistics(Drafter drafter) {
 		super();
 		this.drafter = drafter;
 		this.averageOverallRank = findAverageOverallRank(drafter.getDraftedTeam().getPositionLists());
-		this.draftedHandcuff = findIfDraftedHandcuff();
-	}
-
-	private boolean findIfDraftedHandcuff() {
-		List<Player> rbs = drafter.getDraftedTeam().getPlayersByPosition(Position.RUNNINGBACK);
-		try {
-			Player startingRb = rbs.get(0).getDraftingDetails().getBackups().get(0);
-			for (Player backup : rbs) {
-				if (!startingRb.getFantasyProsId().equals(backup.getFantasyProsId())) {
-					if (startingRb.getTeam().getAbbreviation().equals(backup.getTeam().getAbbreviation())) {
-						return true; // found another rb on drafted list from same NFL team
-					}
-				}
-			}
-		} catch (Exception e) {}
-		return false;
 	}
 
 	private int findAverageOverallRank(List<List<Player>> positions) {
@@ -103,8 +87,4 @@ public class DraftResultStatistics {
 		return dstRank;
 	}
 
-	public boolean draftedHandcuff() {
-		return draftedHandcuff;
-	}
-	
 }

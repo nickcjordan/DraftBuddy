@@ -21,6 +21,9 @@ public class FFBallersConsolidatedProjection {
 	private Integer risk;
 	private String name;
 	private String blurb;
+	private int flexRank;
+	private int flexGrade;
+	private String flexGradeBadgeClass;
 
 	public Double getAvgPoints() {
 		return avgPoints;
@@ -166,6 +169,53 @@ public class FFBallersConsolidatedProjection {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public int getFlexRank() {
+		return flexRank;
+	}
+
+	public void setFlexRank(int flexRank) {
+		this.flexRank = flexRank;
+	}
+
+	public int getFlexGrade() {
+		return flexGrade;
+	}
+
+	public void setFlexGrade(int flexGrade) {
+		this.flexGrade = flexGrade;
+		this.setFlexGradeBadgeClass(getGradeBadgeClass(flexGrade)); 
+	}
+	
+	private static String getGradeBadgeClass(int value) {
+		if (value == 0) { return "badge-empty";
+		} else if (value <= 20) { return "badge-graded-darkest-red";
+		} else if (value <= 24) { return "badge-graded-darker-red";
+		} else if (value <= 28) { return "badge-graded-dark-red";
+		} else if (value <= 32) { return "badge-graded-darkish-red";
+		} else if (value <= 36) { return "badge-graded-red";
+		} else if (value <= 40) { return "badge-graded-light-red";
+		} else if (value <= 44) { return "badge-graded-lighter-red";
+		} else if (value <= 48) { return "badge-graded-lightest-red";
+		} else if (value <= 52) { return "badge-graded-white";
+		} else if (value <= 56) { return "badge-graded-lightest-green";
+		} else if (value <= 60) { return "badge-graded-lighter-green";
+		} else if (value <= 63) { return "badge-graded-light-green";
+		} else if (value <= 66) { return "badge-graded-green";
+		} else if (value <= 69) { return "badge-graded-darkish-green";
+		} else if (value <= 72) { return "badge-graded-dark-green";
+		} else if (value <= 75) { return "badge-graded-darker-green";
+		} else { return "badge-graded-darkest-green";
+		}
+	}
+
+	public String getFlexGradeBadgeClass() {
+		return flexGradeBadgeClass;
+	}
+
+	public void setFlexGradeBadgeClass(String flexGradeBadgeClass) {
+		this.flexGradeBadgeClass = flexGradeBadgeClass;
 	}
 
 }

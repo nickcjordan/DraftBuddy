@@ -1,6 +1,5 @@
 package com.falifa.draftbuddy.ui.prep.scraper;
 
-import static com.falifa.draftbuddy.ui.constants.DataSourcePaths.DRAFT_STRATEGY_BY_ROUND_FILE_PATH;
 import static com.falifa.draftbuddy.ui.constants.DataSourcePaths.PLAYER_TAGS_FILE_PATH;
 import static com.falifa.draftbuddy.ui.constants.DataSourcePaths.TAGS_CUSTOM_PATH;
 
@@ -11,7 +10,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
 
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,15 +20,12 @@ import com.falifa.draftbuddy.ui.constants.Position;
 import com.falifa.draftbuddy.ui.draft.compare.AlphabetizedPlayerComparator;
 import com.falifa.draftbuddy.ui.draft.compare.PlayerADPComparator;
 import com.falifa.draftbuddy.ui.draft.data.DraftState;
-import com.falifa.draftbuddy.ui.model.RoundSpecificStrategy;
 import com.falifa.draftbuddy.ui.model.player.Player;
 import com.falifa.draftbuddy.ui.model.team.NFLTeam;
 import com.falifa.draftbuddy.ui.prep.NFLTeamCache;
 import com.falifa.draftbuddy.ui.prep.PlayerCache;
 import com.falifa.draftbuddy.ui.prep.api.PlayerNameMatcher;
-import com.falifa.draftbuddy.ui.prep.data.NFLTeamManager;
 import com.falifa.draftbuddy.ui.prep.data.StrategyFileHandler;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Component
 public class DataPopulatorHelper {
@@ -97,11 +92,33 @@ public class DataPopulatorHelper {
 				for (Position pos : Position.values()) {
 					try {
 						List<Player> positionPlayers = getPlayersByPosition(pos, team);
-						Collections.sort(positionPlayers, new PlayerADPComparator());
-						Player starter = positionPlayers.get(0);
-						for (Player backup : positionPlayers.subList(1, positionPlayers.size() - 1)) {
-							starter.getDraftingDetails().addBackup(backup);
+						List<Player> allPositionPlayers = new ArrayList<Player>();
+						for (Player p : positionPlayers) {
+							allPositionPlayers.add(p);
 						}
+						
+						
+						Collections.sort(positionPlayers, new PlayerADPComparator());
+						Collections.sort(allPositionPlayers, new PlayerADPComparator());
+						
+
+//						Player starter = positionPlayers.get(0);
+//						for (Player backup : positionPlayers.subList(1, positionPlayers.size() - 1)) {
+//							starter.getDraftingDetails().addBackup(backup);
+//						}
+						
+						for (Player positionPlayer : positionPlayers) {
+							for (Player playerToAddAsTeammate : positionPlayers) { 
+								if (!positionPlayer.getFantasyProsId().equals(playerToAddAsTeammate.getFantasyProsId())) {
+									if (positionPlayer.getDraftingDetails().getPositionTeammates().size() < 5) {
+										positionPlayer.getDraftingDetails().getPositionTeammates().add(new TeammateTO(playerToAddAsTeammate.getFantasyProsId(), playerToAddAsTeammate.getPlayerName()));
+										Collections.sort(positionPlayer.getDraftingDetails().getPositionTeammates(), new PlayerADPComparator());
+									}
+								}
+							}
+						}
+						
+						
 					} catch (Exception e) {
 						log.debug("Could not populate backups for team {} and position {}", team.getTeam().getFullName(), pos.getAbbrev());
 					}

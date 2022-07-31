@@ -24,32 +24,31 @@ body {
 }
 
 /* FALIFA GREEN: #6EE5A1 */
-
 .dark-falifa-bg {
-	background-color: #373737;	
+	background-color: #373737;
 }
 
 .progress-bar {
-	background-color: #272727!important;
+	background-color: #272727 !important;
 }
 
 .progress-bar-tube {
-	background-color: #484848!important;
+	background-color: #484848 !important;
 	margin-bottom: 10px !important;
 }
 
 .table-striped>tbody>tr:nth-child(odd) {
-    background-color: #272727!important;
-    border-color: black;
+	background-color: #272727 !important;
+	border-color: black;
 }
 
 .table-striped>tbody>tr:nth-child(even) {
-    background-color: #111111!important;
-    border-color: black;
+	background-color: #111111 !important;
+	border-color: black;
 }
 
 .table>thead>tr>th {
-    border-bottom: 2px solid #4b4b4b!important;
+	border-bottom: 2px solid #4b4b4b !important;
 }
 
 .table-striped {
@@ -99,17 +98,17 @@ body {
 	background-color: transparent;
 	border: none;
 }
+
 .nameLinkWhite {
-	color: #ffffff!important;
+	color: #ffffff !important;
 	background-color: transparent;
 }
 
 .nameLinkWhite:hover {
-	color: #9797ff!important;
+	color: #9797ff !important;
 	background-color: transparent;
 	border: none;
 }
-
 
 h1, h2, h3, h4, h5, h6 {
 	color: #000;
@@ -187,19 +186,16 @@ a {
 }
 
 .menu {
-	background-color: #;
 	z-index: 9999;
 	margin-top: 80px;
 }
 
 .menu-teams {
-	background-color: #;
 	z-index: 9999;
 	margin-top: 10px;
 }
 
 .menu-drafters {
-	background-color: #;
 	z-index: 9999;
 	margin-top: 80px;
 }
@@ -248,26 +244,26 @@ a {
 }
 
 .posLine {
-	border-bottom: 1px solid #000000!important;
+	border-bottom: 1px solid #000000 !important;
 	border-top: none !important;
 	border-left: none !important;
 	border-right: none !important;
-	background-color: #e5e5e5!important;
+	background-color: #e5e5e5 !important;
 }
+
 .posLineLight {
-	border-bottom: 1px solid #f3f3f3!important;
+	border-bottom: 1px solid #f3f3f3 !important;
 	border-top: none !important;
 	border-left: none !important;
 	border-right: none !important;
-	background-color: #e5e5e5!important;
+	background-color: #e5e5e5 !important;
 }
+
 .no-border {
 	border-top: none !important;
 	border-left: none !important;
 	border-right: none !important;
 }
-
-
 
 .nav-pills>li {
 	float: left;
@@ -426,25 +422,25 @@ a {
 	border: none;
 }
 
-.center > td {
-    text-align: center;
-    font-size: 10px;
-    /* float: initial !important; */
-    padding-top: 1px !important;
-    padding-bottom: 1px !important;
-    letter-spacing: 6px;
-    background-color: #494949;
-    color: white;
-    /* #292b2c */
-    /* #e5e5e5 */
-    /* #494949 */
+.center>td {
+	text-align: center;
+	font-size: 10px;
+	/* float: initial !important; */
+	padding-top: 1px !important;
+	padding-bottom: 1px !important;
+	letter-spacing: 6px;
+	background-color: #494949;
+	color: white;
+	/* #292b2c */
+	/* #e5e5e5 */
+	/* #494949 */
 }
 
 .table-divider {
 	border: none !important;
 }
 
-.table-divider > td {
+.table-divider>td {
 	width: 25%;
 	float: left !important;
 }
@@ -595,8 +591,6 @@ ul.social-network li a {
 	color: #6EE5A1;
 }
 
-
-
 .P-num {
 	width: 16%;
 	font-size: 9pt;
@@ -661,15 +655,16 @@ ul.social-network li a {
 	width: 60%;
 }
 
-
 .id-suggest {
 	width: 4%;
 	font-size: 10pt;
 }
+
 .pos_rank-suggest {
 	width: 4%;
 	font-size: 10pt;
 }
+
 .name-suggest {
 	width: 12%;
 	font-size: 10pt;
@@ -678,7 +673,7 @@ ul.social-network li a {
 	overflow: auto;
 }
 
-.name-suggest::-webkit-scrollbar { 
+.name-suggest::-webkit-scrollbar {
 	width: 0 !important;
 	display: none;
 }
@@ -688,47 +683,56 @@ ul.social-network li a {
 	font-size: 10pt;
 	text-align: center;
 }
+
 .proj-avg-pts-suggest {
 	width: 5%;
 	font-size: 11pt;
 	text-align: center;
 	font-weight: 1000 !important;
 }
+
 .value-suggest {
 	width: 5%;
 	font-size: 10pt;
 	text-align: center;
 }
+
 .tags-suggest {
 	width: 8%;
 	font-size: 10pt;
 	text-align: center;
 }
+
 .pos-suggest {
 	width: 6%;
 	font-size: 10pt;
 	text-align: center;
 }
+
 .team-suggest {
 	width: 5%;
 	font-size: 10pt;
 	text-align: center;
 }
+
 .bye-suggest {
 	width: 3%;
 	font-size: 10pt;
 	text-align: center;
 }
+
 .stddev-suggest {
 	width: 5%;
 	font-size: 10pt;
 	text-align: center;
 }
+
 .vsadp-suggest {
 	width: 5%;
 	font-size: 10pt;
 	text-align: center;
 }
+
 .handcuff-suggest {
 	width: 28%;
 	font-size: 10pt;
@@ -737,7 +741,7 @@ ul.social-network li a {
 	overflow: auto;
 }
 
-.handcuff-suggest::-webkit-scrollbar { 
+.handcuff-suggest::-webkit-scrollbar {
 	width: 0 !important;
 	display: none;
 }
@@ -746,44 +750,51 @@ ul.social-network li a {
 	width: 3%;
 	font-size: 11pt;
 }
+
 .adp-posList {
 	width: 3%;
 	font-size: 11pt;
 }
+
 .bye-posList {
 	width: 2%;
 	font-size: 11pt;
 }
+
 .team-posList {
 	width: 3%;
 	font-size: 11pt;
 }
+
 .name-posList {
 	width: 10%;
 	font-size: 11pt;
 }
+
 .handcuff-posList {
 	width: 28%;
 	font-size: 11pt;
 }
+
 .pos-posList {
 	width: 4%;
 	font-size: 11pt;
 }
+
 .tags-posList {
 	width: 10%;
 	font-size: 11pt;
 }
+
 .proj-pts-posList {
 	width: 4%;
 	font-size: 11pt;
 }
+
 .value-posList {
 	width: 4%;
 	font-size: 11pt;
 }
-
-
 
 /*@media all and (min-width:768px)*/
 .modal-dialog {
@@ -815,9 +826,8 @@ ul.social-network li a {
 	width: 4%;
 }
 
-
 .draft-board {
-	height: auto !important;	
+	height: auto !important;
 	width: auto;
 }
 
@@ -910,20 +920,17 @@ ul.social-network li a {
 	background-color: transparent;
 }
 
-.error-text {
-	
-}
-
 .btn-filter {
-    color: #6EE5A1;
-    background-color: #333;
-    border-color: #1a1a1a;
+	color: #6EE5A1;
+	background-color: #333;
+	border-color: #1a1a1a;
 }
 
-.btn-filter:hover, .btn-filter:focus, .btn-filter.focus, .btn-filter:active, .btn-filter.active, .open>.dropdown-toggle.btn-filter {
-    color: #ffffff;
-    background-color: #121212;
-    border-color: #000000;
+.btn-filter:hover, .btn-filter:focus, .btn-filter.focus, .btn-filter:active,
+	.btn-filter.active, .open>.dropdown-toggle.btn-filter {
+	color: #ffffff;
+	background-color: #121212;
+	border-color: #000000;
 }
 
 /* style of navbar Round number header */
@@ -997,7 +1004,7 @@ ul.social-network li a {
 }
 
 .positions {
-	margin-bottom:0px;
+	margin-bottom: 0px;
 }
 
 .dash>tbody {
@@ -1039,7 +1046,7 @@ html, body {
 	color: white;
 	background-color: transparent;
 	border-color: black;
-    border-bottom: 0;
+	border-bottom: 0;
 }
 
 .strategy-panel {
@@ -1063,7 +1070,7 @@ html, body {
 .strategy-list-box {
 	background-color: #272727;
 	border-color: black;
-    list-style-type: none;
+	list-style-type: none;
 }
 
 .tier-list {
@@ -1109,7 +1116,7 @@ html, body {
 }
 
 .tag-button {
-	color: #2e2e2e!important;
+	color: #2e2e2e !important;
 	background-color: #f8f8f8;
 	border-color: #2e2e2e;
 	opacity: 0.7;
@@ -1157,6 +1164,21 @@ html, body {
 	-webkit-border-radius: 9px;
 	-moz-border-radius: 9px;
 	border-radius: 9px;
+}
+
+.medium-badge {
+	padding: 1px 9px 2px;
+	font-size: 18px;
+	font-weight: normal;
+	white-space: nowrap;
+	-webkit-border-radius: 9px;
+	-moz-border-radius: 9px;
+	border-radius: 9px;
+}
+
+.ffballers-col {
+	color: white;
+	background-color: #c0c0c0 !important;
 }
 
 .tier-badge-text {
@@ -1288,51 +1310,47 @@ html, body {
 	background-color: #953b39;
 }
 
-.smaller-text {
-	font-size: %;
-}
-
 /* Tooltip container */
 .tooltip {
-	    position: relative;
-	    display: inline-block;
-	    border-bottom: 1px dotted black;
+	 position: relative;
+	 display: inline-block;
+	 border-bottom: 1px dotted black;
 	/* If you want dots under the hoverable text */
 }
 
 /* Tooltip text */
 .tooltip .tooltiptext {
-	    visibility: hidden;
-	    width: 120px;
-	    background-color: #555;
-	    color: #fff;
-	    text-align: center;
-	    padding: 5px 0;
-	    border-radius: 6px;     /* Position the tooltip text */    
-	position : absolute;
-	    z-index: 1;
-	    bottom: 125%;
-	    left: 50%;
-	    margin-left: -60px;     /* Fade in tooltip */     opacity : 0;
-	    transition: opacity 1s;
+	 visibility: hidden;
+	 width: 120px;
+	 background-color: #555;
+	 color: #fff;
+	 text-align: center;
+	 padding: 5px 0;
+	 border-radius: 6px;  /* Position the tooltip text */
+	position: absolute;
+	 z-index: 1;
+	 bottom: 125%;
+	 left: 50%;
+	 margin-left: -60px;  /* Fade in tooltip */  opacity : 0;
+	 transition: opacity 1s;
 }
 
 /* Tooltip arrow */
 .tooltip .tooltiptext::after {
-	    content: "";
-	    position: absolute;
-	    top: 100%;
-	    left: 50%;
-	    margin-left: -5px;
-	    border-width: 5px;
-	    border-style: solid;
-	    border-color: #555 transparent transparent transparent;
+	 content: "";
+	 position: absolute;
+	 top: 100%;
+	 left: 50%;
+	 margin-left: -5px;
+	 border-width: 5px;
+	 border-style: solid;
+	 border-color: #555 transparent transparent transparent;
 }
 
 /* Show the tooltip text when you mouse over the tooltip container */
 .tooltip:hover .tooltiptext {
-	    visibility: visible;
-	    opacity: 1;
+	 visibility: visible;
+	 opacity: 1;
 }
 
 .tier1, .tier1>th, .tier1>td {
@@ -1443,11 +1461,13 @@ html, body {
 }
 
 .suggestion-link {
-	margin-top: 10px; padding-top : 5px !important;
+	margin-top: 10px;
+	padding-top: 5px !important;
 	padding-bottom: 5px !important;
 	padding-left: 10px !important;
-	padding-top: 5px !important; padding-bottom : 5px !important;
-	padding-left : 10px !important;
+	padding-top: 5px !important;
+	padding-bottom: 5px !important;
+	padding-left: 10px !important;
 	padding-right: 10px !important;
 }
 
@@ -1487,11 +1507,11 @@ html, body {
 }
 
 .white-title {
-	color: white;	
+	color: white;
 }
 
 .green-title {
-	color: #6EE5A1;	
+	color: #6EE5A1;
 }
 
 .modal-spacer {
@@ -1500,15 +1520,15 @@ html, body {
 }
 
 .modal-stat {
-	float:right;
+	float: right;
 }
 
-.modal-list-item > h3{
+.modal-list-item>h3 {
 	font-size: 20px;
 	margin: 0px;
 }
 
-.modal-list-item > h4{
+.modal-list-item>h4 {
 	line-height: 1.2em;
 }
 
@@ -1533,14 +1553,14 @@ html, body {
 	font-size: 60%;
 }
 
-.player-modal-pic-wrapper  {
+.player-modal-pic-wrapper {
 	height: 100%;
 	text-align: center;
 	display: block;
 	min-width: 200px;
 }
 
-.player-modal-pic-wrapper > img {
+.player-modal-pic-wrapper>img {
 	vertical-align: middle;
 	border: none;
 	min-width: 200px;
@@ -1565,11 +1585,10 @@ html, body {
 .modal-backups-text {
 	font-size: 1em;
 }
+
 .space-on-top-col {
 	margin-top: 20px;
 }
-
-
 
 .no-pad {
 	padding: 0px;
@@ -1583,6 +1602,7 @@ html, body {
 	background-color: #6a6a6a;
 	font-size: 12pt;
 }
+
 .intro-alternate {
 	text-align: center;
 	padding-top: 100px;
@@ -1633,7 +1653,7 @@ html, body {
 .proj-stat-column-header-text {
 	text-decoration: underline;
 	font-size: 120%;
-	margin-bottom: 10px;	
+	margin-bottom: 10px;
 }
 
 .proj-stat-text {
@@ -1651,42 +1671,59 @@ html, body {
 	margin: auto;
 }
 
+.badge-empty {
+	background-color: #8c8c8c20;
+}
 
 .badge-neg-40 {
 	background-color: #b42124;
 }
+
 .badge-neg-20 {
 	background-color: #de4b4f;
 }
+
 .badge-neg-10 {
 	background-color: #e47073;
 }
+
 .badge-neg-5 {
 	background-color: #efa5a7;
 	color: black !important;
 }
+
 .badge-neg-2 {
 	background-color: #f9dbdc;
 	color: black !important;
+	text-shadow: none !important;
 }
+
 .badge-even {
 	background-color: #ffffff;
 	color: black !important;
+	text-shadow: none !important;
 }
+
 .badge-pos-2 {
 	background-color: #d9ffd5;
 	color: black !important;
+	text-shadow: none !important;
 }
+
 .badge-pos-5 {
 	background-color: #9fff95;
 	color: black !important;
+	text-shadow: none !important;
 }
+
 .badge-pos-10 {
 	background-color: #4aca4a;
 }
+
 .badge-pos-20 {
 	background-color: #30a530;
 }
+
 .badge-pos-40 {
 	background-color: #1d631d;
 }
@@ -1694,6 +1731,119 @@ html, body {
 .badge-val {
 	color: white;
 	border: thin solid #6a6a6a;
+}
+
+.badge-graded-darkest-green {
+	background-color: #2d5f27;
+	text-shadow: 0.1px 0.1px 0.1px black, 0 0 0.1px black, 0 0 0.1px black
+		!important;
+}
+
+.badge-graded-darker-green {
+	background-color: #45843c;
+	text-shadow: 0.1px 0.1px 0.1px black, 0 0 0.1px black, 0 0 0.1px black
+		!important;
+}
+
+.badge-graded-dark-green {
+	background-color: #5eab52;
+	text-shadow: 0.1px 0.1px 0.1px black, 0 0 0.1px black, 0 0 0.1px black
+		!important;
+}
+
+.badge-graded-darkish-green {
+	background-color: #79d468;
+	color: black !important;
+	text-shadow: 0.1px 0.1px 0.1px black, 0 0 0.1px black, 0 0 0.1px black
+		!important;
+}
+
+.badge-graded-green {
+	background-color: #95fe80;
+	color: black !important;
+	text-shadow: 0.1px 0.1px 0.1px black, 0 0 0.1px black, 0 0 0.1px black
+		!important;
+}
+
+.badge-graded-light-green {
+	background-color: #b4ffa1;
+	color: black !important;
+	text-shadow: 0.1px 0.1px 0.1px black, 0 0 0.1px black, 0 0 0.1px black
+		!important;
+}
+
+.badge-graded-lighter-green {
+	background-color: #cfffc0;
+	color: black !important;
+	text-shadow: 0.1px 0.1px 0.1px black, 0 0 0.1px black, 0 0 0.1px black
+		!important;
+}
+
+.badge-graded-lightest-green {
+	background-color: #e8ffe0;
+	color: black !important;
+	text-shadow: 0.1px 0.1px 0.1px black, 0 0 0.1px black, 0 0 0.1px black
+		!important;
+}
+
+.badge-graded-white {
+	background-color: #ffffff;
+	color: black !important;
+	text-shadow: 0.1px 0.1px 0.1px black, 0 0 0.1px black, 0 0 0.1px black
+		!important;
+}
+
+.badge-graded-lightest-red {
+	background-color: #ffd3ca;
+	color: black !important;
+	text-shadow: 0.1px 0.1px 0.1px black, 0 0 0.1px black, 0 0 0.1px black
+		!important;
+}
+
+.badge-graded-lighter-red {
+	background-color: #ffa697;
+	color: black !important;
+	text-shadow: 0.1px 0.1px 0.1px black, 0 0 0.1px black, 0 0 0.1px black
+		!important;
+}
+
+.badge-graded-light-red {
+	background-color: #ff7667;
+	color: black !important;
+	text-shadow: 0.1px 0.1px 0.1px black, 0 0 0.1px black, 0 0 0.1px black
+		!important;
+}
+
+.badge-graded-red {
+	background-color: #ff3939;
+	color: black !important;
+	text-shadow: 0.1px 0.1px 0.1px black, 0 0 0.1px black, 0 0 0.1px black
+		!important;
+}
+
+.badge-graded-darkish-red {
+	background-color: #ca2f32;
+	color: black !important;
+	text-shadow: 0.1px 0.1px 0.1px black, 0 0 0.1px black, 0 0 0.1px black
+		!important;
+}
+
+.badge-graded-dark-red {
+	background-color: #982629;
+	text-shadow: 0.1px 0.1px 0.1px black, 0 0 0.1px black, 0 0 0.1px black
+		!important;
+}
+
+.badge-graded-darker-red {
+	background-color: #671e1f;
+	text-shadow: 0.1px 0.1px 0.1px black, 0 0 0.1px black, 0 0 0.1px black
+		!important;
+}
+
+.badge-graded-darkest-red {
+	background-color: #3a1414;
+	text-shadow: 0.1px 0.1px 0.1px black, 0 0 0.1px black, 0 0 0.1px black
+		!important;
 }
 
 .id-drafter-team-condensed {
@@ -1710,9 +1860,11 @@ html, body {
 	height: 960px;
 	padding-top: 15px;
 }
+
 .drafter-title {
 	text-align: center;
 }
+
 .condensed-column {
 	padding-left: 5px;
 	padding-right: 5px;

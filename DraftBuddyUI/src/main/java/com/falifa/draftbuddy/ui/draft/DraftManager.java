@@ -16,7 +16,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
 
-import com.falifa.draftbuddy.ui.constants.Position;
 import com.falifa.draftbuddy.ui.draft.compare.DraftSelectionOrderComparator;
 import com.falifa.draftbuddy.ui.draft.compare.UserDraftOrderComparator;
 import com.falifa.draftbuddy.ui.draft.data.DraftState;
@@ -30,9 +29,8 @@ import com.falifa.draftbuddy.ui.model.team.Team;
 import com.falifa.draftbuddy.ui.prep.data.ModelUpdater;
 import com.falifa.draftbuddy.ui.prep.data.NFLTeamManager;
 import com.falifa.draftbuddy.ui.prep.data.StrategyFileHandler;
+import com.falifa.draftbuddy.ui.prep.scraper.TeammateTO;
 import com.falifa.draftbuddy.ui.results.ResultsProcessor;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Component
 public class DraftManager {
@@ -189,8 +187,8 @@ public class DraftManager {
 	private List<Player> getHandcuffsForCurrentDrafter() {
 		List<Player> players = new ArrayList<Player>();
 		for (Player drafted : draftState.getCurrentDrafter().getDraftedTeam().getAllInDraftedOrder()) {
-			for (Player handcuff : drafted.getDraftingDetails().getBackups()) {
-				players.add(handcuff);
+			for (TeammateTO teammate : drafted.getDraftingDetails().getPositionTeammates()) {
+				players.add(NFLTeamManager.getPlayerById(teammate.getId()));
 			}
 		}
 		return players;
@@ -200,7 +198,8 @@ public class DraftManager {
 		draftedPlayer.getDraftingDetails().setRoundDrafted(draftState.roundNum);
 		addPlayerToDraftersTeam(draftedPlayer, drafter.getDraftedTeam());
 		draftedPlayer.getDraftingDetails().setAvailable(false);
-		for (Player handcuff : draftedPlayer.getDraftingDetails().getBackups()) {
+		for (TeammateTO teammate : draftedPlayer.getDraftingDetails().getPositionTeammates()) {
+			Player handcuff = NFLTeamManager.getPlayerById(teammate.getId());
 			handcuff.getDraftingDetails().setHandcuff(true);
 		}
 		return new DraftPick(draftState.getPickNumber(), draftState.getRoundNum(), draftState.getDraftOrderIndex() + 1, drafter, draftedPlayer);

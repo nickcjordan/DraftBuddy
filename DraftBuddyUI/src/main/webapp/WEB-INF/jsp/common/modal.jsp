@@ -99,26 +99,18 @@
 						</div>
 						<div class="col-sm-3 space-on-top-col">
 
-							<c:if test="${player.getPositionalStats().getProjectedTotalPoints() != null}">
+							<c:if test="${player.getFfBallersPlayerProjection().getAvgPoints() != null}">
 								<table class="table table-bordered table-sm modal-table">
 									<thead>
 										<tr>
-											<th class="modal-top-category" scope="col" colspan="2">Prior Pts</th>
-											<th class="modal-top-category" scope="col" colspan="2">Proj Pts</th>
-										</tr>
-										<tr>
-											<th scope="col">Avg</th>
-											<th scope="col">Tot</th>
-											<th scope="col">Avg</th>
-											<th scope="col">Tot</th>
+											<th class="modal-top-category" scope="col" colspan="1">Prior Pts</th>
+											<th class="modal-top-category" scope="col" colspan="1">Proj Pts</th>
 										</tr>
 									</thead>
 									<tbody>
 										<tr>
 											<td>${player.getPositionalStats().getPriorAveragePointsPerGame()}</td>
-											<td>${player.getPositionalStats().getPriorTotalPoints()}</td>
-											<td>${player.getPositionalStats().getProjectedAveragePointsPerGame()}</td>
-											<td>${player.getPositionalStats().getProjectedTotalPoints()}</td>
+											<td>${player.getFfBallersPlayerProjection().getAvgPoints()}</td>
 										</tr>
 									</tbody>
 								</table>
@@ -145,6 +137,15 @@
 							</c:if>
 						</div>
 					</div>
+					
+					<c:if test="${player.getFfBallersPlayerProjection().getBlurb() != null}">
+						<div class="row">
+								<div class="col-md-12">
+									<p>${player.getFfBallersPlayerProjection().getBlurb()}</p>
+								</div>
+						</div>
+					</c:if>
+					
 
 					<c:if test="${player.getPriorRawStatsDetails().getStats().size() != 0}">
 						<div class="row">

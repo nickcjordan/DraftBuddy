@@ -1,15 +1,16 @@
 package com.falifa.draftbuddy.ui.prep.data;
 
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
-import org.springframework.ui.Model;
 
 import com.falifa.draftbuddy.ui.draft.compare.AlphabetizedPlayerComparator;
+import com.falifa.draftbuddy.ui.draft.compare.FFBallerFlexGradeComparator;
+import com.falifa.draftbuddy.ui.draft.compare.FFBallerFlexRankComparator;
+import com.falifa.draftbuddy.ui.draft.compare.FFBallerPositionRankComparator;
 import com.falifa.draftbuddy.ui.draft.compare.PlayerADPComparator;
 import com.falifa.draftbuddy.ui.draft.compare.PlayerADPValueComparator;
 import com.falifa.draftbuddy.ui.draft.compare.PlayerAveragePriorPointsComparator;
@@ -88,6 +89,22 @@ public class PlayerFilterSorter {
 								Collections.sort(players, new PlayerPriorAverageTargetsComparator());
 								Collections.reverse(players);
 								break;
+			case "FFB_RANK" : 
+								players = players.stream().filter(p -> (p.getFfBallersPlayerProjection() != null && p.getFfBallersPlayerProjection().getPositionRank() != null)).collect(Collectors.toList()); 
+								Collections.sort(players, new FFBallerPositionRankComparator());
+								Collections.reverse(players);
+								break;
+			case "FFB_FLEX_RANK" : 
+								players = players.stream().filter(p -> (p.getFfBallersPlayerProjection() != null && p.getFfBallersPlayerProjection().getFlexRank() != 0)).collect(Collectors.toList()); 
+								Collections.sort(players, new FFBallerFlexRankComparator());
+								Collections.reverse(players);
+								break;
+			case "FFB_FLEX_GRADE" : 
+								players = players.stream().filter(p -> (p.getFfBallersPlayerProjection() != null && p.getFfBallersPlayerProjection().getFlexGrade() != 0)).collect(Collectors.toList()); 
+								Collections.sort(players, new FFBallerFlexGradeComparator());
+								break;
+								
+								
 			case "SUGGESTED" : break;
 		}
 		return players;
