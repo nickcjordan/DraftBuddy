@@ -1127,8 +1127,6 @@ html, body {
 }
 
 .badge {
-	padding: 2px 9px 3px;
-	font-size: 12.025px;
 	font-weight: bold;
 	white-space: nowrap;
 	color: #ffffff;

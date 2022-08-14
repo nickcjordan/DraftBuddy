@@ -112,7 +112,39 @@ public class DataPopulatorHelper {
 								if (!positionPlayer.getFantasyProsId().equals(playerToAddAsTeammate.getFantasyProsId())) {
 									if (positionPlayer.getDraftingDetails().getPositionTeammates().size() < 5) {
 										positionPlayer.getDraftingDetails().getPositionTeammates().add(new TeammateTO(playerToAddAsTeammate.getFantasyProsId(), playerToAddAsTeammate.getPlayerName()));
-										Collections.sort(positionPlayer.getDraftingDetails().getPositionTeammates(), new PlayerADPComparator());
+//										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										//Collections.sort(positionPlayer.getDraftingDetails().getPositionTeammates(), new PlayerADPComparator());
+										
+							
+										
+										
+										// SORT THIS!!!
+										
+										// TODO
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
 									}
 								}
 							}

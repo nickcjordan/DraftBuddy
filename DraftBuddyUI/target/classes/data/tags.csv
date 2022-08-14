@@ -4,7 +4,7 @@ Aaron Jones,$,16673
 Adam Thielen,i,13429
 Albert Okwuegbunam,-*,18246
 Alec Pierce,R,23791
-Allen Lazard,*,17301
+Allen Lazard,*$,17301
 Alvin Kamara,!,16421
 Amari Cooper,C,13894
 Anthony Schwartz,C,20125
@@ -14,7 +14,7 @@ Breece Hall,R*,22982
 Cade York,C,24549
 Cam Akers,B,19268
 CeeDee Lamb,^,19202
-Chase Edmonds,*,17496
+Chase Edmonds,*$,17496
 Chris Godwin,Bi,16406
 Chris Olave,RS,20111
 Christian McCaffrey,i,16393
@@ -22,7 +22,7 @@ Christian Watson,RS,23886
 Cleveland Browns,C,8070
 Cole Kmet,^*,19229
 Corey Davis,i,16385
-Courtland Sutton,*,17253
+Courtland Sutton,*^,17253
 Curtis Samuel,i,16434
 D'Ernest Johnson,C,19111
 DJ Chark Jr.,i,17292
@@ -36,7 +36,7 @@ Darnell Mooney,$,19810
 Davante Adams,-,12123
 David Bell,RC,23108
 David Montgomery,$,18239
-David Njoku,C,16399
+David Njoku,CS,16399
 DeAndre Hopkins,Bi,11606
 Demetric Felton Jr.,C,20105
 Derrick Henry,i,15514
@@ -57,7 +57,6 @@ Isaiah Spiller,R,23143
 J.K. Dobbins,^i,19245
 Jacoby Brissett,C,15642
 Jahan Dotson,R,23101
-Jakeem Grant Sr.,C,15680
 Jalen Hurts,^,19275
 Jalen Tolbert,R,23770
 Jamaal Williams,iR,16424
@@ -65,7 +64,6 @@ Jameis Winston,iS,13891
 James Conner,$,16447
 James Cook,R,22958
 James Robinson,i,19631
-James White,i,12195
 Jamison Crowder,S,13976
 Javonte Williams,^,22739
 Jelani Woods,R,23829
@@ -77,7 +75,9 @@ John Metchie III,R,22895
 JuJu Smith-Schuster,$i,16427
 Julio Jones,-*,9867
 Justin Fields,B,19781
+K.J. Osborn,S,19708
 KJ Hamler,i,19267
+Kadarius Toney,S,20119
 Kareem Hunt,C*,16425
 Ken Walker III,R,23021
 Kenny Pickett,R,22722
@@ -89,6 +89,8 @@ Malik Willis,R,23499
 Mark Ingram II,-*,9872
 Marquise Brown,$,18226
 Matt Corral,R,23028
+Matthew Stafford,i,9451
+Melvin Gordon III,$,13903
 Michael Gallup,i,17259
 Michael Pittman Jr.,*,19278
 Michael Thomas,i,15528
@@ -107,14 +109,15 @@ Rashod Bateman,^*,19794
 Rhamondre Stevenson,*,22726
 Robert Tonyan,i,16502
 Ronald Jones II,S,17243
-Russell Wilson,$,11180
+Rondale Moore,S,19796
+Russell Wilson,$*,11180
 Ryan Tannehill,B,11174
 Saquon Barkley,i,17240
 Skyy Moore,R*,23905
 Sterling Shepard,i,15569
-Tim Patrick,S,16556
-Tom Brady,$,9603
+Tom Brady,$*,9603
 Travis Etienne Jr.,i,19231
+Trevor Lawrence,S,19780
 Trey Lance,*,20082
 Trey McBride,R,22936
 Treylon Burks,R,22905
@@ -123,6 +126,7 @@ Tyler Allgeier,R,24172
 Tyler Lockett,B,13971
 Tyquan Thornton,R,22913
 Tyrion Davis-Price,R,22992
+Van Jefferson,i,19483
 Velus Jones Jr.,R,24214
 Wan'Dale Robinson,R,22985
 Zach Ertz,$,11689

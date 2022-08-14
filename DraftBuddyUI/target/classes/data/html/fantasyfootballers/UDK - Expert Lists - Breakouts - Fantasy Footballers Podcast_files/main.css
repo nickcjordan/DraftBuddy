@@ -5,7 +5,7 @@
 * @package ffb
 *
 **/
-@import url("https://fonts.googleapis.com/css?family=Montserrat:400,600&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700,800&display=swap");
 html, body, div, span, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 abbr, address, cite, code,
@@ -136,8 +136,8 @@ h1 {
 
 h2 {
   font-family: "Montserrat", Helvetica, Arial, sans-serif;
-  font-weight: 600;
-  font-size: 18px;
+  font-weight: 700;
+  font-size: 20px;
   margin: 0 0 10px 0;
   line-height: 1.3;
   color: #222222;
@@ -145,8 +145,8 @@ h2 {
 
 h3 {
   font-family: "Montserrat", Helvetica, Arial, sans-serif;
-  font-weight: 600;
-  font-size: 17px;
+  font-weight: 700;
+  font-size: 18px;
   margin: 0 0 10px 0;
   line-height: 1.3;
   color: #222222;
@@ -154,7 +154,7 @@ h3 {
 
 h4 {
   font-family: "Montserrat", Helvetica, Arial, sans-serif;
-  font-weight: 600;
+  font-weight: 700;
   font-size: 16px;
   margin: 0 0 10px 0;
   color: #222222;
@@ -162,7 +162,7 @@ h4 {
 
 h5 {
   font-family: "Montserrat", Helvetica, Arial, sans-serif;
-  font-weight: 600;
+  font-weight: 700;
   font-size: 16px;
   margin: 0 0 10px 0;
   color: #222222;
@@ -170,7 +170,7 @@ h5 {
 
 h6 {
   font-family: "Montserrat", Helvetica, Arial, sans-serif;
-  font-weight: 600;
+  font-weight: 700;
   font-size: 15px;
   text-transform: uppercase;
 }
@@ -270,194 +270,6 @@ img {
   color: #FFFFFF;
 }
 
-.ffb-content a.button,
-.ffb-content a.button:visited,
-.ffb-content button.button,
-.ffb-content .elementor-button,
-.ffb-content .elementor-button-link,
-.ffb-content .elementor-button-link:visited,
-.elementor-popup-modal a.button,
-.elementor-popup-modal a.button:visited,
-.elementor-popup-modal button.button,
-.elementor-popup-modal .elementor-button,
-.elementor-popup-modal .elementor-button-link,
-.elementor-popup-modal .elementor-button-link:visited {
-  display: inline-block;
-  background: none;
-  border-radius: 4px;
-  border: 1px solid #42AB4E;
-  font-family: "Montserrat", Helvetica, Arial, sans-serif;
-  color: #42AB4E;
-  cursor: pointer;
-  font-size: 15px;
-  font-weight: 600;
-  margin: 0;
-  line-height: 1.1;
-  padding: 15px 24px;
-  transition: all 0.2s ease-out;
-  position: relative;
-  z-index: 1;
-  overflow: hidden;
-  vertical-align: middle;
-}
-.ffb-content a.button svg,
-.ffb-content a.button:visited svg,
-.ffb-content button.button svg,
-.ffb-content .elementor-button svg,
-.ffb-content .elementor-button-link svg,
-.ffb-content .elementor-button-link:visited svg,
-.elementor-popup-modal a.button svg,
-.elementor-popup-modal a.button:visited svg,
-.elementor-popup-modal button.button svg,
-.elementor-popup-modal .elementor-button svg,
-.elementor-popup-modal .elementor-button-link svg,
-.elementor-popup-modal .elementor-button-link:visited svg {
-  vertical-align: text-top;
-}
-.ffb-content a.button::after,
-.ffb-content a.button:visited::after,
-.ffb-content button.button::after,
-.ffb-content .elementor-button::after,
-.ffb-content .elementor-button-link::after,
-.ffb-content .elementor-button-link:visited::after,
-.elementor-popup-modal a.button::after,
-.elementor-popup-modal a.button:visited::after,
-.elementor-popup-modal button.button::after,
-.elementor-popup-modal .elementor-button::after,
-.elementor-popup-modal .elementor-button-link::after,
-.elementor-popup-modal .elementor-button-link:visited::after {
-  content: "";
-  display: block;
-  position: absolute;
-  background: #42AB4E;
-  height: 500%;
-  left: 50%;
-  top: 50%;
-  width: 0;
-  z-index: -1;
-  transform: translateX(-50%) translateY(-50%) rotate(25deg);
-  transition: all 0.3s ease-out;
-}
-.ffb-content a.button:hover,
-.ffb-content a.button:visited:hover,
-.ffb-content button.button:hover,
-.ffb-content .elementor-button:hover,
-.ffb-content .elementor-button-link:hover,
-.ffb-content .elementor-button-link:visited:hover,
-.elementor-popup-modal a.button:hover,
-.elementor-popup-modal a.button:visited:hover,
-.elementor-popup-modal button.button:hover,
-.elementor-popup-modal .elementor-button:hover,
-.elementor-popup-modal .elementor-button-link:hover,
-.elementor-popup-modal .elementor-button-link:visited:hover {
-  color: #FFFFFF !important;
-  border-color: #42AB4E;
-  text-decoration: none;
-}
-.ffb-content a.button:hover::after,
-.ffb-content a.button:visited:hover::after,
-.ffb-content button.button:hover::after,
-.ffb-content .elementor-button:hover::after,
-.ffb-content .elementor-button-link:hover::after,
-.ffb-content .elementor-button-link:visited:hover::after,
-.elementor-popup-modal a.button:hover::after,
-.elementor-popup-modal a.button:visited:hover::after,
-.elementor-popup-modal button.button:hover::after,
-.elementor-popup-modal .elementor-button:hover::after,
-.elementor-popup-modal .elementor-button-link:hover::after,
-.elementor-popup-modal .elementor-button-link:visited:hover::after {
-  width: 110%;
-}
-.ffb-content a.button.filled,
-.ffb-content a.button:visited.filled,
-.ffb-content button.button.filled,
-.ffb-content .elementor-button.filled,
-.ffb-content .elementor-button-link.filled,
-.ffb-content .elementor-button-link:visited.filled,
-.elementor-popup-modal a.button.filled,
-.elementor-popup-modal a.button:visited.filled,
-.elementor-popup-modal button.button.filled,
-.elementor-popup-modal .elementor-button.filled,
-.elementor-popup-modal .elementor-button-link.filled,
-.elementor-popup-modal .elementor-button-link:visited.filled {
-  color: #FFFFFF;
-  background: #42AB4E;
-}
-.ffb-content a.button.filled::after,
-.ffb-content a.button:visited.filled::after,
-.ffb-content button.button.filled::after,
-.ffb-content .elementor-button.filled::after,
-.ffb-content .elementor-button-link.filled::after,
-.ffb-content .elementor-button-link:visited.filled::after,
-.elementor-popup-modal a.button.filled::after,
-.elementor-popup-modal a.button:visited.filled::after,
-.elementor-popup-modal button.button.filled::after,
-.elementor-popup-modal .elementor-button.filled::after,
-.elementor-popup-modal .elementor-button-link.filled::after,
-.elementor-popup-modal .elementor-button-link:visited.filled::after {
-  background: #000000;
-}
-.ffb-content a.button.filled:hover,
-.ffb-content a.button:visited.filled:hover,
-.ffb-content button.button.filled:hover,
-.ffb-content .elementor-button.filled:hover,
-.ffb-content .elementor-button-link.filled:hover,
-.ffb-content .elementor-button-link:visited.filled:hover,
-.elementor-popup-modal a.button.filled:hover,
-.elementor-popup-modal a.button:visited.filled:hover,
-.elementor-popup-modal button.button.filled:hover,
-.elementor-popup-modal .elementor-button.filled:hover,
-.elementor-popup-modal .elementor-button-link.filled:hover,
-.elementor-popup-modal .elementor-button-link:visited.filled:hover {
-  border-color: #000000;
-  color: #42AB4E !important;
-}
-.ffb-content .reversed .elementor-button,
-.ffb-content .reversed .elementor-button-link,
-.ffb-content .reversed .elementor-button-link:visited,
-.elementor-popup-modal .reversed .elementor-button,
-.elementor-popup-modal .reversed .elementor-button-link,
-.elementor-popup-modal .reversed .elementor-button-link:visited {
-  border-color: #FFFFFF;
-  color: #FFFFFF;
-}
-.ffb-content .reversed .elementor-button::after,
-.ffb-content .reversed .elementor-button-link::after,
-.ffb-content .reversed .elementor-button-link:visited::after,
-.elementor-popup-modal .reversed .elementor-button::after,
-.elementor-popup-modal .reversed .elementor-button-link::after,
-.elementor-popup-modal .reversed .elementor-button-link:visited::after {
-  background: #42AB4E;
-}
-.ffb-content .reversed .elementor-button:hover,
-.ffb-content .reversed .elementor-button-link:hover,
-.ffb-content .reversed .elementor-button-link:visited:hover,
-.elementor-popup-modal .reversed .elementor-button:hover,
-.elementor-popup-modal .reversed .elementor-button-link:hover,
-.elementor-popup-modal .reversed .elementor-button-link:visited:hover {
-  border-color: #42AB4E;
-}
-.ffb-content .reversed a,
-.ffb-content .reversed a:visited,
-.elementor-popup-modal .reversed a,
-.elementor-popup-modal .reversed a:visited {
-  color: #FFFFFF;
-}
-.ffb-content .elementor-align-justify a.button:hover::after,
-.ffb-content .elementor-align-justify a.button:visited:hover::after,
-.ffb-content .elementor-align-justify button.button:hover::after,
-.ffb-content .elementor-align-justify .elementor-button:hover::after,
-.ffb-content .elementor-align-justify .elementor-button-link:hover::after,
-.ffb-content .elementor-align-justify .elementor-button-link:visited:hover::after,
-.elementor-popup-modal .elementor-align-justify a.button:hover::after,
-.elementor-popup-modal .elementor-align-justify a.button:visited:hover::after,
-.elementor-popup-modal .elementor-align-justify button.button:hover::after,
-.elementor-popup-modal .elementor-align-justify .elementor-button:hover::after,
-.elementor-popup-modal .elementor-align-justify .elementor-button-link:hover::after,
-.elementor-popup-modal .elementor-align-justify .elementor-button-link:visited:hover::after {
-  height: 1000%;
-}
-
 .breadcrumb {
   font-size: 14px;
   color: #888888;
@@ -532,9 +344,9 @@ img {
   :root {
     --header-offset: 114px;
     --scrolled-header-offset: 71px;
-    --feature-height: 340px;
-    --feature-slant-offset: 300px;
-    --feature-slant-offset-with-ad: 300px;
+    --feature-height: 440px;
+    --feature-slant-offset: 400px;
+    --feature-slant-offset-with-ad: 400px;
     --builder-offset: 40px;
     --headline-offset: -76px;
     --table-header-offset: 71px;
@@ -553,7 +365,6 @@ img {
   :root {
     --header-offset: 114px;
     --scrolled-header-offset: 74px;
-    --feature-height: 350px;
     --article-sidebar-left-offset: -15px;
     --article-sidebar-right-offset: -50px;
     --builder-offset: 45px;
@@ -566,9 +377,6 @@ img {
   :root {
     --header-offset: 120px;
     --scrolled-header-offset: 80px;
-    --feature-height: 400px;
-    --feature-slant-offset: 360px;
-    --feature-slant-offset-with-ad: 360px;
     --article-sidebar-left-offset: -5px;
     --article-sidebar-right-offset: -45px;
     --table-header-offset: 80px;
@@ -577,9 +385,9 @@ img {
 }
 @media screen and (min-width: 1400px) {
   :root {
-    --feature-height: 480px;
-    --feature-slant-offset: 410px;
-    --feature-slant-offset-with-ad: 410px;
+    --feature-height: 500px;
+    --feature-slant-offset: 430px;
+    --feature-slant-offset-with-ad: 430px;
     --article-sidebar-left-offset: -20px;
     --article-sidebar-right-offset: -70px;
   }
@@ -668,7 +476,7 @@ img {
     width: 100%;
   }
 }
-@media (min-width: 1150px) {
+@media (min-width: 1280px) {
   .container {
     width: 90%;
     padding: 0;
@@ -2792,7 +2600,8 @@ header .header nav.primary #mega-menu-wrap-primary_test #mega-menu-primary_test 
   transform: skewY(-3deg);
   transition: all 0.2s ease-out;
 }
-.ffb-content .hide-on-mobile {
+.ffb-content .hide-on-mobile,
+.ffb-content .hide-on-tablet {
   display: none;
 }
 .ffb-content.with-ad::after {
@@ -2837,6 +2646,9 @@ header .header nav.primary #mega-menu-wrap-primary_test #mega-menu-primary_test 
   .ffb-content .hide-on-mobile {
     display: block;
   }
+  .ffb-content .hide-on-tablet {
+    display: none;
+  }
   .ffb-content.no-leaderboard {
     padding-top: 25px;
   }
@@ -2848,6 +2660,11 @@ header .header nav.primary #mega-menu-wrap-primary_test #mega-menu-primary_test 
 
   .ffb-content.no-leaderboard {
     padding-top: 45px;
+  }
+}
+@media (min-width: 1400px) {
+  .ffb-content .hide-on-tablet {
+    display: block;
   }
 }
 /**
@@ -3093,6 +2910,200 @@ footer .footer--copyright {
     padding-top: 140px;
   }
 }
+/**
+*
+* Buttons
+* @package ffb
+*
+**/
+.ffb-content a.button,
+.ffb-content a.button:visited,
+.ffb-content button.button,
+.ffb-content .elementor-button,
+.ffb-content .elementor-button-link,
+.ffb-content .elementor-button-link:visited,
+.elementor-popup-modal a.button,
+.elementor-popup-modal a.button:visited,
+.elementor-popup-modal button.button,
+.elementor-popup-modal .elementor-button,
+.elementor-popup-modal .elementor-button-link,
+.elementor-popup-modal .elementor-button-link:visited {
+  display: inline-block;
+  background: none;
+  border-radius: 4px;
+  border: 1px solid #42AB4E;
+  font-family: "Montserrat", Helvetica, Arial, sans-serif;
+  color: #42AB4E;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+  margin: 0;
+  line-height: 1.1;
+  padding: 15px 24px;
+  transition: all 0.2s ease-out;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  vertical-align: middle;
+}
+.ffb-content a.button svg,
+.ffb-content a.button:visited svg,
+.ffb-content button.button svg,
+.ffb-content .elementor-button svg,
+.ffb-content .elementor-button-link svg,
+.ffb-content .elementor-button-link:visited svg,
+.elementor-popup-modal a.button svg,
+.elementor-popup-modal a.button:visited svg,
+.elementor-popup-modal button.button svg,
+.elementor-popup-modal .elementor-button svg,
+.elementor-popup-modal .elementor-button-link svg,
+.elementor-popup-modal .elementor-button-link:visited svg {
+  vertical-align: text-top;
+}
+.ffb-content a.button::after,
+.ffb-content a.button:visited::after,
+.ffb-content button.button::after,
+.ffb-content .elementor-button::after,
+.ffb-content .elementor-button-link::after,
+.ffb-content .elementor-button-link:visited::after,
+.elementor-popup-modal a.button::after,
+.elementor-popup-modal a.button:visited::after,
+.elementor-popup-modal button.button::after,
+.elementor-popup-modal .elementor-button::after,
+.elementor-popup-modal .elementor-button-link::after,
+.elementor-popup-modal .elementor-button-link:visited::after {
+  content: "";
+  display: block;
+  position: absolute;
+  background: #42AB4E;
+  height: 500%;
+  left: 50%;
+  top: 50%;
+  width: 0;
+  z-index: -1;
+  transform: translateX(-50%) translateY(-50%) rotate(25deg);
+  transition: all 0.3s ease-out;
+}
+.ffb-content a.button:hover,
+.ffb-content a.button:visited:hover,
+.ffb-content button.button:hover,
+.ffb-content .elementor-button:hover,
+.ffb-content .elementor-button-link:hover,
+.ffb-content .elementor-button-link:visited:hover,
+.elementor-popup-modal a.button:hover,
+.elementor-popup-modal a.button:visited:hover,
+.elementor-popup-modal button.button:hover,
+.elementor-popup-modal .elementor-button:hover,
+.elementor-popup-modal .elementor-button-link:hover,
+.elementor-popup-modal .elementor-button-link:visited:hover {
+  color: #FFFFFF !important;
+  border-color: #42AB4E;
+  text-decoration: none;
+}
+.ffb-content a.button:hover::after,
+.ffb-content a.button:visited:hover::after,
+.ffb-content button.button:hover::after,
+.ffb-content .elementor-button:hover::after,
+.ffb-content .elementor-button-link:hover::after,
+.ffb-content .elementor-button-link:visited:hover::after,
+.elementor-popup-modal a.button:hover::after,
+.elementor-popup-modal a.button:visited:hover::after,
+.elementor-popup-modal button.button:hover::after,
+.elementor-popup-modal .elementor-button:hover::after,
+.elementor-popup-modal .elementor-button-link:hover::after,
+.elementor-popup-modal .elementor-button-link:visited:hover::after {
+  width: 110%;
+}
+.ffb-content a.button.filled,
+.ffb-content a.button:visited.filled,
+.ffb-content button.button.filled,
+.ffb-content .elementor-button.filled,
+.ffb-content .elementor-button-link.filled,
+.ffb-content .elementor-button-link:visited.filled,
+.elementor-popup-modal a.button.filled,
+.elementor-popup-modal a.button:visited.filled,
+.elementor-popup-modal button.button.filled,
+.elementor-popup-modal .elementor-button.filled,
+.elementor-popup-modal .elementor-button-link.filled,
+.elementor-popup-modal .elementor-button-link:visited.filled {
+  color: #FFFFFF;
+  background: #42AB4E;
+}
+.ffb-content a.button.filled::after,
+.ffb-content a.button:visited.filled::after,
+.ffb-content button.button.filled::after,
+.ffb-content .elementor-button.filled::after,
+.ffb-content .elementor-button-link.filled::after,
+.ffb-content .elementor-button-link:visited.filled::after,
+.elementor-popup-modal a.button.filled::after,
+.elementor-popup-modal a.button:visited.filled::after,
+.elementor-popup-modal button.button.filled::after,
+.elementor-popup-modal .elementor-button.filled::after,
+.elementor-popup-modal .elementor-button-link.filled::after,
+.elementor-popup-modal .elementor-button-link:visited.filled::after {
+  background: #000000;
+}
+.ffb-content a.button.filled:hover,
+.ffb-content a.button:visited.filled:hover,
+.ffb-content button.button.filled:hover,
+.ffb-content .elementor-button.filled:hover,
+.ffb-content .elementor-button-link.filled:hover,
+.ffb-content .elementor-button-link:visited.filled:hover,
+.elementor-popup-modal a.button.filled:hover,
+.elementor-popup-modal a.button:visited.filled:hover,
+.elementor-popup-modal button.button.filled:hover,
+.elementor-popup-modal .elementor-button.filled:hover,
+.elementor-popup-modal .elementor-button-link.filled:hover,
+.elementor-popup-modal .elementor-button-link:visited.filled:hover {
+  border-color: #000000;
+  color: #42AB4E !important;
+}
+.ffb-content .reversed .elementor-button,
+.ffb-content .reversed .elementor-button-link,
+.ffb-content .reversed .elementor-button-link:visited,
+.elementor-popup-modal .reversed .elementor-button,
+.elementor-popup-modal .reversed .elementor-button-link,
+.elementor-popup-modal .reversed .elementor-button-link:visited {
+  border-color: #FFFFFF;
+  color: #FFFFFF;
+}
+.ffb-content .reversed .elementor-button::after,
+.ffb-content .reversed .elementor-button-link::after,
+.ffb-content .reversed .elementor-button-link:visited::after,
+.elementor-popup-modal .reversed .elementor-button::after,
+.elementor-popup-modal .reversed .elementor-button-link::after,
+.elementor-popup-modal .reversed .elementor-button-link:visited::after {
+  background: #42AB4E;
+}
+.ffb-content .reversed .elementor-button:hover,
+.ffb-content .reversed .elementor-button-link:hover,
+.ffb-content .reversed .elementor-button-link:visited:hover,
+.elementor-popup-modal .reversed .elementor-button:hover,
+.elementor-popup-modal .reversed .elementor-button-link:hover,
+.elementor-popup-modal .reversed .elementor-button-link:visited:hover {
+  border-color: #42AB4E;
+}
+.ffb-content .reversed a,
+.ffb-content .reversed a:visited,
+.elementor-popup-modal .reversed a,
+.elementor-popup-modal .reversed a:visited {
+  color: #FFFFFF;
+}
+.ffb-content .elementor-align-justify a.button:hover::after,
+.ffb-content .elementor-align-justify a.button:visited:hover::after,
+.ffb-content .elementor-align-justify button.button:hover::after,
+.ffb-content .elementor-align-justify .elementor-button:hover::after,
+.ffb-content .elementor-align-justify .elementor-button-link:hover::after,
+.ffb-content .elementor-align-justify .elementor-button-link:visited:hover::after,
+.elementor-popup-modal .elementor-align-justify a.button:hover::after,
+.elementor-popup-modal .elementor-align-justify a.button:visited:hover::after,
+.elementor-popup-modal .elementor-align-justify button.button:hover::after,
+.elementor-popup-modal .elementor-align-justify .elementor-button:hover::after,
+.elementor-popup-modal .elementor-align-justify .elementor-button-link:hover::after,
+.elementor-popup-modal .elementor-align-justify .elementor-button-link:visited:hover::after {
+  height: 1000%;
+}
+
 /**
 *
 * Page Builder
@@ -3449,13 +3460,18 @@ main article.ffb-content.video-open .page-content .sidebar--right {
 .page-ad {
   background: #000000;
   padding: 10px 0;
+  min-height: 50px;
+  overflow-x: hidden;
+}
+.page-ad iframe {
+  background: #FFFFFF;
 }
 
 .page-photo,
 .page-video {
   height: var(--feature-height);
   background-size: cover;
-  background-position: center 15%;
+  background-position: center 10%;
   background-repeat: no-repeat;
   position: relative;
 }
@@ -4140,7 +4156,12 @@ main article.ffb-content.video-open .page-content .sidebar--right {
   }
 
   .page-ad {
-    display: none;
+    position: absolute;
+    z-index: 3;
+    top: 0;
+    right: 0;
+    left: 0;
+    background: none;
   }
 
   .comments--respond form .comment-form-author {
@@ -5408,48 +5429,174 @@ body:not(.logged-in) .elementor-popup-modal {
 * @package ffb
 *
 **/
-.ffb-home--heading {
-  margin-bottom: 0 !important;
+.ffb-home > .elementor-container {
+  padding: 0 12px !important;
 }
-.ffb-home--heading h2 {
-  display: block;
-  background: #000000;
-  color: #FFFFFF;
-  padding: 10px 15px 10px 40px;
-  font-size: 16px;
-  text-transform: uppercase;
-}
-.ffb-home--heading--icon {
-  position: absolute !important;
+.ffb-home--feature {
+  margin-top: -75px;
+  position: relative;
   z-index: 2;
-  top: 0;
-  left: 0;
-  height: 40px;
-  width: 40px !important;
-  display: -webkit-box;
-  display: -moz-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 0 !important;
 }
-.ffb-home--articles {
+.ffb-home--feature::after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 10px;
+  right: 0;
+  bottom: 30px;
+  left: 0;
+  transform: skewY(-3deg);
+  background: #42AB4E;
+}
+.ffb-home--body {
+  padding-top: 20px !important;
+}
+.ffb-home--internal-ad-top {
+  position: relative;
+  z-index: 3;
+  margin-bottom: 10px !important;
+}
+.ffb-home--ad-top {
+  position: relative;
+  z-index: 3;
+}
+.ffb-home--ad-top .elementor-widget-container {
+  display: flex;
+  justify-content: center;
+  min-height: 50px;
+}
+.ffb-home--sidebar.left {
+  display: none;
+}
+.ffb-home--sidebar .elementor-column-wrap {
+  padding: 0 !important;
+}
+.ffb-home--sidebar .elementor-nav-menu--main {
+  display: block;
+}
+.ffb-home--sidebar .elementor-nav-menu--main ul {
+  display: block;
+}
+.ffb-home--sidebar .elementor-nav-menu--main ul li {
+  display: block;
+}
+.ffb-home--sidebar .elementor-nav-menu--main ul li a {
+  font-size: 14px;
+  padding: 8px 12px;
+  border-radius: 4px;
+  color: #000000;
+  font-weight: 600;
+}
+.ffb-home--sidebar .elementor-nav-menu--main ul li a:hover {
+  padding: 8px 12px;
+  background: #EBEBEB;
+}
+.ffb-home--sidebar .elementor-nav-menu--main ul li a::after {
+  display: none;
+}
+.ffb-home--sidebar #thefantasyfootballers_medrec_right_atf {
+  min-height: 250px;
+  background: #EBEBEB;
+}
+.ffb-home--sidebar #thefantasyfootballers_medrec_right_atf iframe {
+  background: #FFFFFF;
+}
+.ffb-home--content .elementor-column-wrap {
+  padding: 0 !important;
+}
+.ffb-home--mid-content .elementor-row {
+  flex-wrap: wrap;
+}
+.ffb-home--mid-content .elementor-column-wrap {
+  padding: 10px 20px 20px 20px !important;
+  margin-top: 10px;
+  border-left: 1px solid;
+  border-right: 1px solid;
+  border-image-source: linear-gradient(180deg, #D8D8D8 0, #FFFFFF 80%);
+  border-image-slice: 1;
+  position: relative;
+}
+.ffb-home--mid-content .elementor-column-wrap::before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: -10px;
+  left: -1px;
+  right: -1px;
+  height: 10px;
+  border-radius: 4px 4px 0 0;
+  border-top: 1px solid #D8D8D8;
+  border-right: 1px solid #D8D8D8;
+  border-left: 1px solid #D8D8D8;
+}
+.ffb-home--mid-content .elementor-column {
+  min-width: 100%;
   width: 100% !important;
 }
-.ffb-home--articles .elementor-widget-wrap {
-  position: relative;
-  padding-bottom: 35px;
+.ffb-home--mid-content .elementor-widget-ffb-icon-link {
+  margin: 0 !important;
+  padding: 0;
 }
-.ffb-home--articles .elementor-widget-wrap .elementor-widget-button {
-  position: absolute;
-  bottom: 0;
+.ffb-home--mid-content .elementor-widget-ffb-icon-link a {
+  padding: 13px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  background: #EBEBEB;
+  margin-bottom: 4px;
+  border-radius: 4px;
+}
+.ffb-home--mid-content .elementor-widget-ffb-icon-link a:hover {
+  background: #D8D8D8;
+}
+.ffb-home--mid-content .elementor-widget-ffb-icon-link svg {
+  margin-right: 10px;
+}
+.ffb-home--mid-content .elementor-widget-ffb-icon-link h4 {
+  font-size: 15px;
+  margin: 0;
 }
 
-@media (min-width: 960px) {
-  .ffb-home--articles {
+@media (min-width: 768px) {
+  .ffb-home > .elementor-container {
+    padding: 0 25px !important;
+  }
+  .ffb-home--ad-top .elementor-widget-container {
+    min-height: 90px;
+  }
+  .ffb-home--sidebar.right {
+    width: 300px !important;
+  }
+  .ffb-home--content {
+    width: calc(100% - 320px) !important;
+    margin-right: 20px;
+  }
+}
+@media (min-width: 1150px) {
+  .ffb-home > .elementor-container {
+    padding: 0 !important;
+  }
+}
+@media (min-width: 1280px) {
+  .ffb-home--sidebar.left {
+    width: 250px !important;
+    display: flex;
+  }
+  .ffb-home--content {
+    width: calc(100% - 590px) !important;
+    margin-left: 20px;
+  }
+}
+@media (min-width: 1400px) {
+  .ffb-home--mid-content .elementor-column {
+    min-width: 50%;
     width: 50% !important;
+  }
+  .ffb-home--mid-content .elementor-column:first-child .elementor-column-wrap {
+    margin-right: 10px;
+  }
+  .ffb-home--mid-content .elementor-column:last-child .elementor-column-wrap {
+    margin-left: 10px;
   }
 }
 /**
@@ -6107,7 +6254,7 @@ body:not(.logged-in) .elementor-popup-modal {
     padding-bottom: 100px;
   }
   .ffb-dynasty--feature h1 {
-    font-size: 10vw;
+    font-size: 9.75vw;
   }
   .ffb-dynasty--feature h2 {
     font-size: 2.8vw;
@@ -6238,47 +6385,6 @@ body:not(.logged-in) .elementor-popup-modal {
   font-size: 15px;
   margin: 0;
   padding: 9px 15px;
-}
-.ranking--list {
-  margin: 0 0 10px 0;
-  padding: 0;
-  list-style: none;
-}
-.ranking--list li {
-  list-style: none;
-  margin: 0 0 4px 0;
-  padding: 0;
-}
-.ranking--list li .player-container {
-  align-items: center;
-}
-.ranking--list li .player-container a {
-  color: #FFFFFF;
-}
-.ranking--list li .player-container a:hover {
-  color: #42AB4E;
-}
-.ranking--list li .player-container .player-portrait {
-  width: 25px;
-  height: 25px;
-  min-width: 25px;
-  min-height: 25px;
-}
-.ranking--list li .player-container .player-portrait svg {
-  width: 25px;
-  height: 25px;
-}
-.ranking--list li .player-container .player-rank {
-  opacity: 0.4;
-}
-.ranking--list li .player-container .player-matchup {
-  opacity: 0.4;
-  font-size: 13px;
-}
-.ranking--list li .player-container .player-right-line-one .player-name {
-  font-size: 15px;
-  color: #FFFFFF;
-  font-weight: 400;
 }
 .ranking--title {
   color: #42AB4E;
@@ -8135,11 +8241,11 @@ body .ui-helper-hidden-accessible {
   display: none;
 }
 
-.with-tooltip.footclan .ffb-tooltip, .with-tooltip.udk .ffb-tooltip {
+.with-tooltip.footclan .ffb-tooltip, .with-tooltip.udk .ffb-tooltip, .with-tooltip.udk-plus .ffb-tooltip {
   background: #000000;
   padding: 10px 25px 12px 25px;
 }
-.with-tooltip.footclan .ffb-tooltip .snipe, .with-tooltip.udk .ffb-tooltip .snipe {
+.with-tooltip.footclan .ffb-tooltip .snipe, .with-tooltip.udk .ffb-tooltip .snipe, .with-tooltip.udk-plus .ffb-tooltip .snipe {
   position: absolute;
   top: 0;
   right: 0;
@@ -8149,18 +8255,18 @@ body .ui-helper-hidden-accessible {
   text-align: right;
   border-radius: 0 3px 0 0;
 }
-.with-tooltip.footclan .ffb-tooltip .snipe svg, .with-tooltip.udk .ffb-tooltip .snipe svg {
+.with-tooltip.footclan .ffb-tooltip .snipe svg, .with-tooltip.udk .ffb-tooltip .snipe svg, .with-tooltip.udk-plus .ffb-tooltip .snipe svg {
   opacity: 1;
   margin-right: 1px;
   margin-top: 1px;
   width: 16px;
   height: 16px;
 }
-.with-tooltip.footclan .ffb-tooltip p, .with-tooltip.udk .ffb-tooltip p {
+.with-tooltip.footclan .ffb-tooltip p, .with-tooltip.udk .ffb-tooltip p, .with-tooltip.udk-plus .ffb-tooltip p {
   margin-bottom: 0;
   line-height: 1.3;
 }
-.with-tooltip.footclan .ffb-tooltip::after, .with-tooltip.udk .ffb-tooltip::after {
+.with-tooltip.footclan .ffb-tooltip::after, .with-tooltip.udk .ffb-tooltip::after, .with-tooltip.udk-plus .ffb-tooltip::after {
   border-top: 10px solid #000000;
 }
 .with-tooltip.footclan .ffb-tooltip .snipe {
@@ -8187,16 +8293,29 @@ body .ui-helper-hidden-accessible {
 .with-tooltip.udk .ffb-tooltip a:hover {
   color: #0F76FE;
 }
+.with-tooltip.udk-plus .ffb-tooltip .snipe {
+  background: linear-gradient(45deg, transparent 49.9%, #0F76FE 50%);
+}
+.with-tooltip.udk-plus .ffb-tooltip .snipe svg {
+  fill: #000000;
+}
+.with-tooltip.udk-plus .ffb-tooltip a {
+  color: #0F76FE;
+}
+.with-tooltip.udk-plus .ffb-tooltip a:hover {
+  color: #42AB4E;
+}
 
 .ffb-data--table th:hover,
 .with-tooltip:hover {
-  cursor: pointer;
+  cursor: default;
 }
 .ffb-data--table th:hover .ffb-tooltip,
 .with-tooltip:hover .ffb-tooltip {
   opacity: 1;
   visibility: visible;
   transform: translateY(0);
+  transition-delay: 200ms;
 }
 
 /**

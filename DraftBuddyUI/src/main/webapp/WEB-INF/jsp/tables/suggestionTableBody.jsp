@@ -59,6 +59,7 @@
 										<c:choose>
 											<c:when
 												test="${player.getDraftingDetails().isPlayerToTarget()}">
+												<!-- <span class="badge badge-val badge-graded-green"><strong>${player.getPlayerName()}</strong></span> -->
 												<strong>${player.getPlayerName()}</strong>
 											</c:when>
 											<c:when
