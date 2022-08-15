@@ -15,18 +15,28 @@ public class PlayerNameMatcher {
 	private static final Logger log = LoggerFactory.getLogger(PlayerNameMatcher.class);
 	
 	private Map<String, String> playerAlternateNamesToIdsMap;
+	private Map<String, String> playerNamesToIdsMap;
 	private Map<String, String> playerAlternateNamesToOriginalNamesMap;
 
 	public PlayerNameMatcher() {
 		this.playerAlternateNamesToIdsMap = new HashMap<String, String>();
+		this.playerNamesToIdsMap = new HashMap<String, String>();
 		this.playerAlternateNamesToOriginalNamesMap = new HashMap<String, String>();
 	}
 	
 	public void addAlternateNames(String fullName, String id) {
-		playerAlternateNamesToIdsMap.put(buildAlternateNameKey(fullName), id);
-		playerAlternateNamesToOriginalNamesMap.put(buildAlternateNameKey(fullName), fullName);
+		String alternateNameKey = buildAlternateNameKey(fullName);
+		String nameKey = buildNameKey(fullName);
+		playerAlternateNamesToIdsMap.put(alternateNameKey, id);
+		playerAlternateNamesToOriginalNamesMap.put(alternateNameKey, fullName);
+		playerNamesToIdsMap.put(nameKey, id);
 	}
 
+	private String buildNameKey(String fullName) {
+		String filteredFirst = getFilteredFirstName(fullName);
+		return  filteredFirst + getFilteredLastName(fullName);
+	}
+	
 	private String buildAlternateNameKey(String fullName) {
 		String filteredFirst = getFilteredFirstName(fullName);
 		int firstPartLength = 3;
@@ -57,7 +67,9 @@ public class PlayerNameMatcher {
 		String filteredLookingFor = null;
 		Integer levenshteinDistance = null;
 		String alternate = null;
+		String firstId = null;
 		try {
+			firstId = playerNamesToIdsMap.get(buildNameKey(fullName));
 			alternate = buildAlternateNameKey(fullName);
 			id = playerAlternateNamesToIdsMap.get(alternate);
 			original = playerAlternateNamesToOriginalNamesMap.get(alternate);
@@ -70,7 +82,7 @@ public class PlayerNameMatcher {
 		} catch (NullPointerException e) {
 			log.debug("NULL POINTER trying to find player in alternate name list :: levenshteinDistance={} :: id={} :: key found={} :: INQUIRED[name={}, filtered={}] :: FOUND[name={}, filtered={}]", levenshteinDistance, id, alternate, fullName, filteredLookingFor, original, filteredOriginal);
 		}
-		return id;
+		return firstId != null ? firstId : id;
 	}
 	
 	public String filter(String playerName) {

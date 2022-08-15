@@ -20,7 +20,7 @@ public class Team {
 	public List<Player> d;
 	int id;
 	String city;
-	List<Player> draftedPlayersInOrder;
+	List<Player> draftedPlayersInOrder = new ArrayList<Player>();
 	HashMap<Position, List<Player>> playersByPosition;
 	String fullName;
 	String abbrev;
@@ -97,6 +97,18 @@ public class Team {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+	
+	public void addPlayer(Player player){
+		switch(player.getPosition()) {
+			case QUARTERBACK: addQb(player); break;
+			case RUNNINGBACK: addRb(player); break;
+			case WIDERECEIVER: addWr(player); break;
+			case TIGHTEND: addTe(player); break;
+			case DEFENSE: addD(player); break;
+			case KICKER: addK(player); break;
+		}
+		draftedPlayersInOrder.add(player);
 	}
 
 	public void addQb(Player player){

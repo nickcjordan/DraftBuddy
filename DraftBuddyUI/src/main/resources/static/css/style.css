@@ -1209,6 +1209,17 @@ html, body {
 	border-radius: 9px;
 }
 
+.refresh-button-badge {
+	padding: 6px;
+	font-size: 22px;
+	font-weight: normal;
+	white-space: nowrap;
+	background-color: #21517e;
+	-webkit-border-radius: 9px;
+	-moz-border-radius: 9px;
+	border-radius: 9px;
+}
+
 .badge-ecr {
 	padding: 2px 9px 3px;
 	font-size: 13px;

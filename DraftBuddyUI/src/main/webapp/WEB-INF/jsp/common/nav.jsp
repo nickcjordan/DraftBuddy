@@ -28,8 +28,20 @@
 						<span class="big-badge">Pick ${draft.pickNumber}</span>
 					</div>
 				</li>
-				<c:if test="${!draft.isMockDraftMode() && draft.getDraftPicks().size() > 0}">
+				<c:if test="${!draft.isMockDraftMode() && !draft.isSleeper() && draft.getDraftPicks().size() > 0}">
 					<li><div class="navUndoButton"><span class="undo-button-badge"><a href="/undo">Undo</a></span></div></li>
+				</c:if>
+
+				<c:if test="${draft.isSleeper()}">
+					<li>
+						<div class="navUndoButton">
+							<span class="refresh-button-badge">
+								<a href="/refreshSleeper">
+									<span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
+								</a>
+							</span>
+						</div>
+					</li>
 				</c:if>
 			</ul>
 			

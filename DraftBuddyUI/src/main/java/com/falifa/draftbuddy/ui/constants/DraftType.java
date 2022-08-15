@@ -8,7 +8,8 @@ public enum DraftType {
 	
 	REAL_DRAFT("real"),
 	AUTO_DRAFT("auto"),
-	MOCK_DRAFT("mock");
+	MOCK_DRAFT("mock"),
+	SLEEPER("sleeper");
 
 	private String[] order;
 	private String type;
@@ -20,7 +21,8 @@ public enum DraftType {
 
 	private String[] getDraftOrder(String t) {
 		switch(t) {
-			case "real"		: return currentSet();
+			case "sleeper"	: return SLEEPER_LEAGUE;
+			case "real"	: return currentSet();
 			case "auto"	: return currentSet();
 			case "mock"	: return currentSet();
 		}
@@ -71,6 +73,8 @@ public enum DraftType {
 		}
 		return null;
 	}
+	
+	private String[] SLEEPER_LEAGUE = new String[]{};
 	
 	private String[] FALIFA_LEAGUE = new String[]{
 			"Chris",

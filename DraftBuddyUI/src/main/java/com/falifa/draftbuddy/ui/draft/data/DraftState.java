@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import com.falifa.draftbuddy.api.sleeper.model.SleeperDraftState;
 import com.falifa.draftbuddy.ui.constants.DraftType;
 import com.falifa.draftbuddy.ui.model.Draft;
 import com.falifa.draftbuddy.ui.model.DraftPick;
@@ -45,6 +46,10 @@ public class DraftState {
 	
 	public Map<String, RoundSpecificStrategy> strategyByRound;
 	public List<Player> currentRoundHandcuffs;
+
+	public SleeperDraftState sleeperState;
+
+	public String draftId;
 	
 	public void initializeDraft() {
     	errorMessage = null;
@@ -92,6 +97,7 @@ public class DraftState {
 			drafter.setDraftPickIndices(draftPickIndicies);
 		}
 	}
+	
 	
 	public int getPickNumber() {
 		return pickNumber;
@@ -192,6 +198,10 @@ public class DraftState {
 
 	public void setCurrentRoundHandcuffs(List<Player> currentRoundHandcuffs) {
 		this.currentRoundHandcuffs = currentRoundHandcuffs;
+	}
+	
+	public boolean isSleeper() {
+		return this.sleeperState != null;
 	}
 
 	

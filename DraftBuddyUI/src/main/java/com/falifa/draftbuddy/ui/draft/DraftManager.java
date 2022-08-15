@@ -146,7 +146,7 @@ public class DraftManager {
 		setDraftStateHandcuffsForCurrentDrafter();
 		modelUpdater.updateCommonAttributes(model);
 	}
-
+	
 	public String mockDraft(Model model) {
 		if (draftState.getCurrentDrafter().isOptimized()) {
 			// draftState.getTimeIncrement("right before exiting java");
@@ -181,12 +181,12 @@ public class DraftManager {
 	}
 
 	private void setDraftStateHandcuffsForCurrentDrafter() {
-		draftState.setCurrentRoundHandcuffs(getHandcuffsForCurrentDrafter());
+		draftState.setCurrentRoundHandcuffs(getHandcuffsForDrafter(draftState.getCurrentDrafter()));
 	}
 	
-	private List<Player> getHandcuffsForCurrentDrafter() {
+	public List<Player> getHandcuffsForDrafter(Drafter drafter) {
 		List<Player> players = new ArrayList<Player>();
-		for (Player drafted : draftState.getCurrentDrafter().getDraftedTeam().getAllInDraftedOrder()) {
+		for (Player drafted : drafter.getDraftedTeam().getAllInDraftedOrder()) {
 			for (TeammateTO teammate : drafted.getDraftingDetails().getPositionTeammates()) {
 				players.add(NFLTeamManager.getPlayerById(teammate.getId()));
 			}

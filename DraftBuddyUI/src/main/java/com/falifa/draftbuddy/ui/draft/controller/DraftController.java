@@ -1,6 +1,7 @@
 package com.falifa.draftbuddy.ui.draft.controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -8,17 +9,18 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.falifa.draftbuddy.api.sleeper.model.SleeperDraftState;
 import com.falifa.draftbuddy.ui.constants.DraftType;
 import com.falifa.draftbuddy.ui.constants.Position;
 import com.falifa.draftbuddy.ui.draft.DraftManager;
 import com.falifa.draftbuddy.ui.draft.LogicHandler;
 import com.falifa.draftbuddy.ui.draft.data.DraftState;
+import com.falifa.draftbuddy.ui.draft.sleeper.SleeperAPIManager;
+import com.falifa.draftbuddy.ui.draft.sleeper.SleeperDraftManager;
 import com.falifa.draftbuddy.ui.model.Draft;
-import com.falifa.draftbuddy.ui.model.Drafter;
 import com.falifa.draftbuddy.ui.model.player.Player;
 import com.falifa.draftbuddy.ui.prep.data.ModelUpdater;
 import com.falifa.draftbuddy.ui.prep.data.NFLTeamManager;
@@ -44,6 +46,12 @@ public class DraftController {
 	
 	@Autowired
 	private LogicHandler handler;
+	
+	@Autowired
+	private SleeperAPIManager sleeperApi;
+	
+	@Autowired
+	private SleeperDraftManager sleeperManager;
 	
 	
 	@RequestMapping(value = "/")
@@ -73,6 +81,48 @@ public class DraftController {
 		draftManager.clearUndoToStack();
 		return (draftState.draftType.equals(DraftType.AUTO_DRAFT)) ? draftManager.autoDraft(model) 
 				: (draftState.draftType.equals(DraftType.MOCK_DRAFT ))  ? draftManager.mockDraft(model) : DASHBOARD_PAGE;
+	}
+	
+	@RequestMapping(value = "/startSleeper")
+	public String startSleeper(@RequestParam String draftId, Model model) {
+		NFLTeamManager.initializeNFL();
+		draftState.initializeDraft();
+		draftManager.updateDraftStrategyDataFromFile();
+		
+		draftState.mockDraftMode = false;
+		draftState.draftType = DraftType.SLEEPER;
+		log.info("SLEEPER DRAFT :: " + draftId);
+		
+		
+		SleeperDraftState sleeperState = sleeperApi.getDraftState(draftId);
+		draftState.draft = new Draft(sleeperState.getDrafters().stream().map(x -> x.getDisplayName()).collect(Collectors.toList()).toArray(new String[0]));
+		draftState.sleeperState = sleeperState;
+		draftState.draftId = draftId;
+		
+		draftState.initializeDraftersDraftPickIndexList();
+		
+		sleeperManager.updateDraftStateWithSleeperPicks(sleeperState);
+
+		modelUpdater.updateCommonAttributes(model);
+		
+		
+		return DASHBOARD_PAGE;
+	}
+	
+	@RequestMapping(value = "/refreshSleeper")
+	public String refreshSleeper(Model model) {
+		if (draftState.sleeperState != null) {
+			
+			String draftId = draftState.sleeperState.getDraft().getDraftId();
+			SleeperDraftState sleeperState = sleeperApi.getDraftState(draftId);
+			draftState.sleeperState = sleeperState;
+			
+			sleeperManager.updateDraftStateWithSleeperPicks(sleeperState);
+			
+			modelUpdater.updateCommonAttributes(model);
+		}
+		
+		return DASHBOARD_PAGE;
 	}
 
 	@RequestMapping(value = "/pickPlayer")

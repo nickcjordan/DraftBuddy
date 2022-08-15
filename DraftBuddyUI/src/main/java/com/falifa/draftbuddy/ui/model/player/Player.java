@@ -39,7 +39,25 @@ public class Player {
 	private NotesMetadata notesMetadata;
 	
 	private FFBallersConsolidatedProjection ffBallersPlayerProjection;
+	private SleeperPlayerData sleeperData;
+	private String sleeperId;
 	
+
+	public SleeperPlayerData getSleeperData() {
+		return sleeperData;
+	}
+	
+	public void setSleeperData(SleeperPlayerData sleeperData) {
+		this.sleeperData = sleeperData;
+	}
+	
+	public String getSleeperId() {
+		return sleeperId;
+	}
+
+	public void setSleeperId(String sleeperId) {
+		this.sleeperId = sleeperId;
+	}
 
 	public Player() {
 		this.draftingDetails = new DraftingDetails();

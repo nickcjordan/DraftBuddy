@@ -1,44 +1,36 @@
 package com.falifa.draftbuddy.ui.prep.data;
 
-import static com.falifa.draftbuddy.ui.constants.DataSourcePaths.DRAFT_STRATEGY_BY_ROUND_FILE_PATH;
 import static com.falifa.draftbuddy.ui.constants.DataSourcePaths.MASTER_NFL_TEAMS_JSON_FILE_PATH;
 import static com.falifa.draftbuddy.ui.constants.DataSourcePaths.MASTER_PLAYERS_JSON_FILE_PATH;
-import static com.falifa.draftbuddy.ui.constants.DataSourcePaths.PLAYER_TAGS_FILE_PATH;
-import static com.falifa.draftbuddy.ui.constants.DataSourcePaths.TAGS_CUSTOM_PATH;
+import static com.falifa.draftbuddy.ui.constants.DataSourcePaths.MASTER_SLEEPER_PLAYERS_JSON_FILE_PATH;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeSet;
 import java.util.stream.Collectors;
 
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.util.CollectionUtils;
 
 import com.falifa.draftbuddy.ui.constants.NflTeamMetadata;
 import com.falifa.draftbuddy.ui.constants.Position;
-import com.falifa.draftbuddy.ui.draft.DraftManager;
-import com.falifa.draftbuddy.ui.draft.compare.AlphabetizedPlayerComparator;
 import com.falifa.draftbuddy.ui.draft.compare.AlphabetizedTeamComparator;
 import com.falifa.draftbuddy.ui.draft.compare.PlayerADPComparator;
 import com.falifa.draftbuddy.ui.draft.compare.PlayerRankComparator;
-import com.falifa.draftbuddy.ui.draft.data.DraftState;
 import com.falifa.draftbuddy.ui.model.MasterPlayersTO;
 import com.falifa.draftbuddy.ui.model.MasterTeamTO;
-import com.falifa.draftbuddy.ui.model.RoundSpecificStrategy;
 import com.falifa.draftbuddy.ui.model.player.Player;
+import com.falifa.draftbuddy.ui.model.player.SleeperPlayerData;
 import com.falifa.draftbuddy.ui.model.team.NFLTeam;
-import com.falifa.draftbuddy.ui.prep.PlayerCache;
 import com.falifa.draftbuddy.ui.prep.api.PlayerNameMatcher;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Component
@@ -48,19 +40,47 @@ public class NFLTeamManager {
 
 	private static Map<String, NFLTeam> teamsByAbbreviation;
 	private static Map<String, Player> playersById;
+	private static Map<String, SleeperPlayerData> sleeperPlayersById;
+	
+	private static PlayerNameMatcher nameMatcher;
 
 	 static {
 		playersById = new HashMap<String, Player>();
 		teamsByAbbreviation = new HashMap<String, NFLTeam>();
+		sleeperPlayersById = new HashMap<String, SleeperPlayerData>();
+		nameMatcher = new PlayerNameMatcher();
 	}
 
 	public static void initializeNFL() {
 		try {
 			populateMasterPlayersFromJsonFile();
 			populateMasterTeamsFromJsonFile();
+			populateMasterSleeperPlayersFromJsonFile();
+			
+			updatePlayersWithSleeperData();
 			log.info("NFL initialized with {} teams and {} players", teamsByAbbreviation.size(), playersById.size());
 		} catch (Exception e) {
 			log.error("ERROR initializing master players from json", e);
+		}
+	}
+
+	private static void updatePlayersWithSleeperData() {
+		for (Player p : playersById.values()) {
+			nameMatcher.addAlternateNames(p.getPlayerName(), p.getFantasyProsId());
+		}
+		
+		for (String key : sleeperPlayersById.keySet()) {
+			SleeperPlayerData sleeperPlayer = sleeperPlayersById.get(key);
+			List<String> fantasyPositions = Arrays.asList("QB", "WR", "RB", "TE", "DST", "K");
+			if (fantasyPositions.contains(sleeperPlayer.getDepthChartPosition())) {
+				String id = nameMatcher.findIdForClosestMatchingName(sleeperPlayer.getFullName());
+				Player player = playersById.get(id);
+				if (player != null) {
+					player.setSleeperData(sleeperPlayer);
+					player.setSleeperId(key);
+					sleeperPlayer.setFantasyProsId(player.getFantasyProsId());
+				}
+			}
 		}
 	}
 
@@ -84,6 +104,29 @@ public class NFLTeamManager {
 			log.error("ERROR extracting master players json from file at path={}", MASTER_PLAYERS_JSON_FILE_PATH);
 			e.printStackTrace();
 		}
+	}
+	
+	private static void populateMasterSleeperPlayersFromJsonFile() {
+		try {
+		    TypeReference<HashMap<String,SleeperPlayerData>> typeRef = new TypeReference<HashMap<String,SleeperPlayerData>>() {};
+			sleeperPlayersById = new ObjectMapper().readValue(new File(MASTER_SLEEPER_PLAYERS_JSON_FILE_PATH), typeRef);
+		} catch (FileNotFoundException ex) {
+			log.error("Did not find master sleeper players json at path={}", MASTER_SLEEPER_PLAYERS_JSON_FILE_PATH);
+		} catch (Exception e) {
+			log.error("ERROR extracting master sleeper players json from file at path={}", MASTER_SLEEPER_PLAYERS_JSON_FILE_PATH);
+			e.printStackTrace();
+		}
+	}
+	
+	public static Player getPlayerBySleeperId(String sleeperId) {
+		SleeperPlayerData sleeperPlayer = sleeperPlayersById.get(sleeperId);
+		if (sleeperPlayer != null) {
+			String id = NFLTeamManager.nameMatcher.findIdForClosestMatchingName(sleeperPlayer.getFullName());
+			sleeperPlayer.setFantasyProsId(id);
+			Player player = playersById.get(id);
+			player.setSleeperData(sleeperPlayer);
+			return player;
+		} else { return null; }
 	}
 
 	public static Map<String, Player> getPlayersById() {

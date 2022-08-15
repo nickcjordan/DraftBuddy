@@ -14,6 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.falifa.draftbuddy.api.model.PlayerMapResponse;
 import com.falifa.draftbuddy.api.model.PlayerTO;
+import com.falifa.draftbuddy.api.sleeper.SleeperAPI;
+import com.falifa.draftbuddy.api.sleeper.model.SleeperDraft;
+import com.falifa.draftbuddy.api.sleeper.model.SleeperDraftPick;
+import com.falifa.draftbuddy.api.sleeper.model.SleeperDraftState;
 
 @RestController
 @RequestMapping("/api")
@@ -26,6 +30,9 @@ public class DraftBuddyApiController {
 	
 	@Autowired
 	private PlayerDataStorage data;
+	
+	@Autowired
+	private SleeperAPI sleeper;
 	
 	@RequestMapping(value = "/players", method = RequestMethod.GET)
     public List<PlayerTO> getAllPlayers() {
@@ -57,12 +64,20 @@ public class DraftBuddyApiController {
     	return playerManager.updateAllPlayers();
     }
 	
-//    @RequestMapping(value = "/players", method = RequestMethod.GET)
-//    public List<Player> getAllPlayers() {
-//    	log.info("Getting all players...");
-//    	List<Player> players = playerManager.getAllPlayers();
-//    	log.info("Retrieved " + players.size() + " players");
-//    	return players;
-//    }
+    @RequestMapping(value = "/draft/picks", method = RequestMethod.GET)
+    public List<SleeperDraftPick> getDraftPicks(@RequestParam(name = "draftId", required = false, defaultValue = "864554201542443008") String draftId) {
+    	log.info("Getting Sleeper draft picks for draft id = {}...", draftId);
+    	List<SleeperDraftPick> picks = sleeper.getDraftPicks(draftId);
+    	log.info("Retrieved {} draft picks from Sleeper for draft id = {}", picks.size(), draftId);
+    	return picks;
+    }
+    
+    @RequestMapping(value = "/draft", method = RequestMethod.GET)
+    public SleeperDraftState getDraft(@RequestParam(name = "draftId", required = false, defaultValue = "864554201542443008") String draftId) {
+    	log.info("Getting Sleeper draft state for draft id = {}...", draftId);
+    	SleeperDraftState draft = sleeper.getDraftState(draftId);
+    	log.info("Built draft state from Sleeper response for draft id = {}", draftId);
+    	return draft;
+    }
 
 }
