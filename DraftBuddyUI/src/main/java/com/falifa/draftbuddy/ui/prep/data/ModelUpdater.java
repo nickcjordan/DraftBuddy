@@ -64,14 +64,16 @@ public class ModelUpdater {
 	}
 
 	public void updateCurrentDrafterAttributes(Model model) {
-		model.addAttribute("currentDrafter", draftState.getCurrentDrafter());
-		List<Player> suggs = handler.getSortedSuggestedPlayers(draftState.getCurrentDrafter());
-		model.addAttribute("playersSortedBySuggestions", suggs);
-		for (Position position : Position.values()) {
-			model.addAttribute("drafted" + position.getAbbrev(),
-					draftState.currentDrafter.getDraftedTeam().getPlayersByPosition(position));
+		if (draftState.getCurrentDrafter() != null) {
+			model.addAttribute("currentDrafter", draftState.getCurrentDrafter());
+			List<Player> suggs = handler.getSortedSuggestedPlayers(draftState.getCurrentDrafter());
+			model.addAttribute("playersSortedBySuggestions", suggs);
+			for (Position position : Position.values()) {
+				model.addAttribute("drafted" + position.getAbbrev(),
+						draftState.currentDrafter.getDraftedTeam().getPlayersByPosition(position));
+			}
+			log.debug("Models updated for drafter={}", draftState.getCurrentDrafter().getName());
 		}
-		log.debug("Models updated for drafter={}", draftState.getCurrentDrafter().getName());
 	}
 
 	public void updateNflTeamListsAttributes(Model model) {
@@ -169,7 +171,10 @@ public class ModelUpdater {
 			for (Drafter drafter : draftState.getDraft().getDrafters()) {
 				if (drafter.getDraftPickIndices().contains(pickInd)) {
 					int round = Math.floorDiv(pickInd, drafterCount) + 1;
-					int roundIndex = (pickInd % drafterCount) + 1;
+					int roundIndex = (pickInd % drafterCount);
+					if (roundIndex == 0) {
+						roundIndex = drafterCount;
+					}
 					DrafterSummary summary = buildDrafterSummary(drafter, round, roundIndex);
 					drafterSummaries.add(summary);
 				}

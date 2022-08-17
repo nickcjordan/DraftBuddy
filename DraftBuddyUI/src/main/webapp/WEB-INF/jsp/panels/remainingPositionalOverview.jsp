@@ -16,34 +16,34 @@
                 <div class="row">
                     <div class="strategy-wrapper">
                         <div class="col-sm-3 remaining-players-box">
-                            <b class="green-title">QB: (${remainingPositionPlayersOverview.QB.getTotal()})</b>
+                            <b class=""><span class="badge position-badge badge-warning">QB</span> (${remainingPositionPlayersOverview.QB.getTotal()})</b>
                             <c:forEach items="${remainingPositionPlayersOverview.QB.getRemainingCounts()}" var="remaining" varStatus="iteration">
                                 <div class="row">
-                                    ${iteration.index + 1} : ${remaining}
+                                    ${remaining}
                                 </div>
                             </c:forEach>
                         </div>
                         <div class="col-sm-3 remaining-players-box">
-                            <b class="green-title">RB: (${remainingPositionPlayersOverview.RB.getTotal()})</b>
+                            <b class=""><span class="badge position-badge badge-info">RB</span> (${remainingPositionPlayersOverview.RB.getTotal()})</b>
                             <c:forEach items="${remainingPositionPlayersOverview.RB.getRemainingCounts()}" var="remaining" varStatus="iteration">
                                 <div class="row">
-                                    ${iteration.index + 1} : ${remaining}
+                                    ${remaining}
                                 </div>
                             </c:forEach>
                         </div>
                         <div class="col-sm-3 remaining-players-box">
-                            <b class="green-title">WR: (${remainingPositionPlayersOverview.WR.getTotal()})</b>
+                            <b class=""><span class="badge position-badge badge-success">WR</span> (${remainingPositionPlayersOverview.WR.getTotal()})</b>
                             <c:forEach items="${remainingPositionPlayersOverview.WR.getRemainingCounts()}" var="remaining" varStatus="iteration">
                                 <div class="row">
-                                    ${iteration.index + 1} : ${remaining}
+                                    ${remaining}
                                 </div>
                             </c:forEach>
                         </div>
                         <div class="col-sm-3 remaining-players-box">
-                            <b class="green-title">TE: (${remainingPositionPlayersOverview.TE.getTotal()})</b>
+                            <b class=""><span class="badge position-badge badge-error">TE</span> (${remainingPositionPlayersOverview.TE.getTotal()})</b>
                             <c:forEach items="${remainingPositionPlayersOverview.TE.getRemainingCounts()}" var="remaining" varStatus="iteration">
                                 <div class="row">
-                                    ${iteration.index + 1} : ${remaining}
+                                    ${remaining}
                                 </div>
                             </c:forEach>
                         </div>

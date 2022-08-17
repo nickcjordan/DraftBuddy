@@ -32,9 +32,9 @@
 			<p>
 				<form class="" action="/startSleeper" method="post">
 					<div class="form-group">
-						<input type="text" class="form-control" placeholder="857115695748603904" name="draftId" id="draftId">
+						<input type="text" class="form-control" placeholder="Enter Sleeper Draft ID" name="draftId" id="draftId">
 					</div>
-					<button type="submit" class=class="btn btn-block btn-primary">Sleeper Draft</button>
+					<button type="submit" class="btn btn-block btn-primary">Sleeper Draft</button>
 				</form>
 			</p>
 		</div>

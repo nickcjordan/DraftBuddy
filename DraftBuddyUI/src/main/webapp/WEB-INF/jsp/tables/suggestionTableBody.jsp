@@ -43,44 +43,43 @@
 					<td class="value-suggest"><span class="badge badge-val badge-${player.getDraftingDetails().getCurrentPlayerValueBadgeClass()}"><strong>${player.getDraftingDetails().getCurrentPlayerValue()}</strong></span></td>
 					<td class="name-suggest">
 						<a class="nameLink" data-toggle="modal" data-target="#${player.getFantasyProsId()}playerModal">
-								<c:choose>
-									<c:when test="${draft.getCurrentRoundHandcuffs().contains(player)}">
-										<c:choose>
-											<c:when
-												test="${player.getDraftingDetails().isPlayerToTarget()}">
-												<span class="handcuff-player-text"><strong>${player.getPlayerName()}</strong></span>
-											</c:when>
-											<c:otherwise>
-												<span class="handcuff-player-text">${player.getPlayerName()}</span>
-											</c:otherwise>
-										</c:choose>
-									</c:when>
-									<c:otherwise>
-										<c:choose>
-											<c:when
-												test="${player.getDraftingDetails().isPlayerToTarget()}">
-												<!-- <span class="badge badge-val badge-graded-green"><strong>${player.getPlayerName()}</strong></span> -->
-												<strong>${player.getPlayerName()}</strong>
-											</c:when>
-											<c:when
-												test="${player.getDraftingDetails().getTags().contains('B')}">
-												<strike>${player.getPlayerName()}</<strike>
-											</c:when>
-											<c:when
-												test="${player.getDraftingDetails().getTags().contains('+')}">
-												<em>${player.getPlayerName()}</<em>
-											</c:when>
-											<c:when
-												test="${player.getDraftingDetails().getTags().contains('$')}">
-												<em>${player.getPlayerName()}</<em>
-											</c:when>
-											<c:otherwise>${player.getPlayerName()}</c:otherwise>
-										</c:choose>
-									</c:otherwise>
-								</c:choose>
-							
+							<c:choose>
+								<c:when test="${draft.getCurrentRoundHandcuffs().contains(player)}">
+									<c:choose>
+										<c:when
+											test="${player.getDraftingDetails().isPlayerToTarget()}">
+											<span class="handcuff-player-text"><strong>${player.getPlayerName()}</strong></span>
+										</c:when>
+										<c:otherwise>
+											<span class="handcuff-player-text">${player.getPlayerName()}</span>
+										</c:otherwise>
+									</c:choose>
+								</c:when>
+								<c:otherwise>
+									<c:choose>
+										<c:when
+											test="${player.getDraftingDetails().isPlayerToTarget()}">
+											<!-- <span class="badge badge-val badge-graded-green"><strong>${player.getPlayerName()}</strong></span> -->
+											<strong>${player.getPlayerName()}</strong>
+										</c:when>
+										<c:when
+											test="${player.getDraftingDetails().getTags().contains('B')}">
+											<strike>${player.getPlayerName()}</<strike>
+										</c:when>
+										<c:when
+											test="${player.getDraftingDetails().getTags().contains('+')}">
+											<em>${player.getPlayerName()}</<em>
+										</c:when>
+										<c:when
+											test="${player.getDraftingDetails().getTags().contains('$')}">
+											<em>${player.getPlayerName()}</<em>
+										</c:when>
+										<c:otherwise>${player.getPlayerName()}</c:otherwise>
+									</c:choose>
+								</c:otherwise>
+							</c:choose>
 						</a>
-			</td>
+					</td>
 					<td class="pos-suggest"><span class="badge position-badge ${player.getPosition().getBadgeClass()}">${player.getPosition().getAbbrev()}${player.getRankMetadata().getPositionRank()}</span></td>
 					<td class="proj-avg-pts-suggest ffballers-col"><span class="badge position-badge medium-badge ${player.getPosition().getBadgeClass()}">${player.getFfBallersPlayerProjection().getPositionRank()}</span></td>
 					<td class="proj-avg-pts-suggest ffballers-col"><span class="badge position-badge medium-badge ${player.getPosition().getBadgeClass()}">${player.getFfBallersPlayerProjection().getFlexRank()}</span></td>

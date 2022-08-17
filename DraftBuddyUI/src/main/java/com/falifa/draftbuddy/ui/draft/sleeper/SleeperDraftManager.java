@@ -3,6 +3,7 @@ package com.falifa.draftbuddy.ui.draft.sleeper;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,6 +38,10 @@ public class SleeperDraftManager {
 	
 	public void updateDraftStateWithSleeperPicks(SleeperDraftState sleeperState) {
 		List<SleeperDraftPick> allPicks = api.getDraftPicks(sleeperState.getDraft().getDraftId());
+		if (CollectionUtils.isEmpty(allPicks)) {
+			Drafter firstDrafter = draftState.draft.getDrafters().stream().filter(x -> x.getDraftPickIndices().contains(1)).findFirst().orElse(null);
+			draftState.setCurrentDrafter(firstDrafter);
+		}
 		int lastPickNumber = Math.min(draftState.getDraftPicks().size(), allPicks.size());
 		List<SleeperDraftPick> unprocessedPicks = 
 				lastPickNumber == 0 ? allPicks : 
