@@ -42,6 +42,8 @@ public class NFLTeamManager {
 	private static Map<String, Player> playersById;
 	private static Map<String, SleeperPlayerData> sleeperPlayersById;
 	
+	
+	
 	private static PlayerNameMatcher nameMatcher;
 
 	 static {
@@ -66,12 +68,19 @@ public class NFLTeamManager {
 
 	private static void updatePlayersWithSleeperData() {
 		for (Player p : playersById.values()) {
+			if (p.getPosition().equals(Position.DEFENSE)) {
+				nameMatcher.addNameMapping(p.getTeam().getAbbreviation(), p.getFantasyProsId());
+				nameMatcher.addNameMapping(p.getTeam().getFullName(), p.getFantasyProsId());
+			}
 			nameMatcher.addAlternateNames(p.getPlayerName(), p.getFantasyProsId());
 		}
 		
+		
+		
+		
 		for (String key : sleeperPlayersById.keySet()) {
 			SleeperPlayerData sleeperPlayer = sleeperPlayersById.get(key);
-			List<String> fantasyPositions = Arrays.asList("QB", "WR", "RB", "TE", "DST", "K");
+			List<String> fantasyPositions = Arrays.asList("QB", "WR", "RB", "TE", "DEF", "DST", "K");
 			if (fantasyPositions.contains(sleeperPlayer.getDepthChartPosition())) {
 				String id = nameMatcher.findIdForClosestMatchingName(sleeperPlayer.getFullName());
 				Player player = playersById.get(id);
@@ -121,10 +130,18 @@ public class NFLTeamManager {
 	public static Player getPlayerBySleeperId(String sleeperId) {
 		SleeperPlayerData sleeperPlayer = sleeperPlayersById.get(sleeperId);
 		if (sleeperPlayer != null) {
-			String id = NFLTeamManager.nameMatcher.findIdForClosestMatchingName(sleeperPlayer.getFullName());
+			String playerName = sleeperPlayer.getFullName();
+			if (sleeperPlayer.getPosition().equals("DEF") || sleeperPlayer.getPosition().equals("DST")) {
+				playerName = sleeperPlayer.getFirstName() + " " + sleeperPlayer.getLastName();
+			}
+			String id = NFLTeamManager.nameMatcher.findIdForClosestMatchingName(playerName);
 			sleeperPlayer.setFantasyProsId(id);
 			Player player = playersById.get(id);
-			player.setSleeperData(sleeperPlayer);
+			if (player != null) {
+				player.setSleeperData(sleeperPlayer);
+			} else {
+				throw new RuntimeException("SLEEPER PICK PLAYER WAS NULL :: " + playerName);
+			}
 			return player;
 		} else { return null; }
 	}

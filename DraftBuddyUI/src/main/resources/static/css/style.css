@@ -1049,6 +1049,44 @@ html, body {
 	border-bottom: 0;
 }
 
+
+.reduced-height-panel {
+	max-height: 65vh !important;
+}
+
+.strategy-wrapper {
+	padding: 5px;
+}
+
+.upcoming-drafters-panel {
+	display: flex;
+	justify-content: space-around;
+}
+
+.upcoming-drafter-wrapper {
+	color: whitesmoke;
+	background-color: rgba(0, 0, 0, 0.24);
+	border: 1px solid black;
+	box-shadow: 4px 2px 2px rgb(0, 0, 0);
+	margin-left: 6px !important;
+	margin-right: 6px !important;
+	padding-left: 0px !important;
+	padding-right: 0px !important;
+}
+
+.condensed-row {
+	margin-left: 0px !important;
+	margin-right: 0px !important;
+}
+
+.remaining-players-box {
+	margin-left: auto;
+    margin-right: auto;
+	text-align: center;
+	padding: 0px !important;
+	color: lightgrey;
+}
+
 .strategy-panel {
 	margin-top: 10px;
 	margin-bottom: 10px;
@@ -1523,6 +1561,15 @@ html, body {
 	color: #6EE5A1;
 }
 
+.gray-title {
+	color: #797979;
+}
+
+.left-offset-title {
+	text-align: left;
+}
+
+
 .modal-spacer {
 	margin-left: 10px;
 	text-align: right;
@@ -1874,9 +1921,18 @@ html, body {
 	text-align: center;
 }
 
+.center-title {
+	text-align: center;
+}
+
 .condensed-column {
 	padding-left: 5px;
 	padding-right: 5px;
+}
+
+.very-condensed-col {
+	padding-left: 3px;
+	padding-right: 3px;
 }
 
 .condensed-players>tbody>tr>td {

@@ -52,7 +52,7 @@ public class LogicHandler {
 	}
 	
 	public List<Player> getSortedSuggestedPlayers(Drafter currentDrafter) {
-		return currentDrafter.isOptimized() ? getOptimizedSuggestions(currentDrafter) : getAiSuggestions(currentDrafter);
+		return (currentDrafter != null) && currentDrafter.isOptimized() ? getOptimizedSuggestions(currentDrafter) : getAiSuggestions(currentDrafter);
 	}
 	
 	public List<Player> getOptimizedSuggestions(Drafter currentDrafter) {

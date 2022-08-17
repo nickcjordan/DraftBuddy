@@ -18,12 +18,18 @@
   
 	<div class="container-fluid">
 		<%@include file="../common/nav.jsp"%>
+		<!-- <div class="row"> -->
+			<%@include file="../panels/upcomingDraftersPanel.jsp"%>
+		<!-- </div> -->
 		<div class="row">
 			<div class="col-md-2">
 				<div class="center thin-text">
 					<h3 class="white-title"><strong>Draft Feed:</strong></h3>
 				</div>
 				<%@include file="../tables/lists/draftFeedList.jsp"%>
+				<div class="center thin-text">
+					<%@include file="../panels/remainingPositionalOverview.jsp"%>
+				</div>
 			</div>
 			
 			<div class="col-md-2">
@@ -34,6 +40,7 @@
 				<div class="row">
 					<%@include file="../panels/strategyBox.jsp"%>
 				</div>
+				
 			</div>
 			
 			<div class="col-md-1 thin-lane">

@@ -3,7 +3,9 @@ package com.falifa.draftbuddy.ui.model;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import com.falifa.draftbuddy.api.sleeper.model.SleeperUser;
 import com.falifa.draftbuddy.ui.model.team.Team;
 
 public class Draft {
@@ -20,6 +22,20 @@ public class Draft {
 			drafters.add(draftPosition, buildDrafter(orderedNames[draftPosition], draftPosition+1));
 		}
 		
+	}
+
+	public Draft(List<SleeperUser> sleeperDrafters) {
+		this.orderedNames = sleeperDrafters.stream().map(x -> x.getDisplayName()).collect(Collectors.toList()).toArray(new String[0]);
+		drafters = new ArrayList<Drafter>(sleeperDrafters.size());
+		
+		for (int draftPosition = 0; draftPosition < sleeperDrafters.size(); draftPosition++){
+			drafters.add(draftPosition, buildDrafter(sleeperDrafters.get(draftPosition), draftPosition+1));
+		}
+	}
+
+	private Drafter buildDrafter(SleeperUser sleeperUser, int draftPosition) {
+		Drafter drafter = new Drafter(sleeperUser, draftPosition);
+		return drafter;
 	}
 
 	private Drafter buildDrafter(String name, int draftPosition) {

@@ -36,9 +36,12 @@ public class SleeperDraftManager {
 	private DraftState draftState;
 	
 	public void updateDraftStateWithSleeperPicks(SleeperDraftState sleeperState) {
-		int lastPickNumber = draftState.getDraftPicks().size();
 		List<SleeperDraftPick> allPicks = api.getDraftPicks(sleeperState.getDraft().getDraftId());
-		List<SleeperDraftPick> unprocessedPicks = lastPickNumber == 0 ? allPicks : allPicks.size() == lastPickNumber ? new ArrayList<SleeperDraftPick>() : allPicks.subList(lastPickNumber, allPicks.size());
+		int lastPickNumber = Math.min(draftState.getDraftPicks().size(), allPicks.size());
+		List<SleeperDraftPick> unprocessedPicks = 
+				lastPickNumber == 0 ? allPicks : 
+				allPicks.size() == lastPickNumber ? new ArrayList<SleeperDraftPick>() 
+				: allPicks.subList(lastPickNumber, allPicks.size());
 		if (CollectionUtils.isEmpty(unprocessedPicks)) {
 			return;
 		}

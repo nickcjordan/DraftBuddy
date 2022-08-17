@@ -22,7 +22,17 @@ public class SleeperUser {
 	private String displayName;
 	@JsonProperty("avatar")
 	private String avatar;
+	@JsonProperty("metadata")
+	private SleeperUserMetadata metadata;
 	
+	public SleeperUserMetadata getMetadata() {
+		return metadata;
+	}
+
+	public void setMetadata(SleeperUserMetadata metadata) {
+		this.metadata = metadata;
+	}
+
 	private Integer pickPosition;
 
 	public Integer getPickPosition() {

@@ -9,7 +9,7 @@
 				<th class="Player">Player</th>
 			</tr>
 		</thead>
-		<tbody>
+		<tbody class="reduced-height-panel">
 			<c:forEach items="${draft.getDraftPicks()}" var="pick">
 				<tr>
 					<td class="P-num">${pick.round}.<strong>${pick.getRoundIndex()}</strong></td>

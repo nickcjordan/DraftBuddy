@@ -5,10 +5,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang3.time.StopWatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -19,9 +17,8 @@ import com.falifa.draftbuddy.ui.model.DraftPick;
 import com.falifa.draftbuddy.ui.model.Drafter;
 import com.falifa.draftbuddy.ui.model.RoundSpecificStrategy;
 import com.falifa.draftbuddy.ui.model.player.Player;
-import com.falifa.draftbuddy.ui.prep.data.NFLTeamManager;
+import com.falifa.draftbuddy.ui.model.player.PositionalOverview;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.databind.deser.DataFormatReaders.Match;
 
 @Component
 public class DraftState {
@@ -48,7 +45,7 @@ public class DraftState {
 	public List<Player> currentRoundHandcuffs;
 
 	public SleeperDraftState sleeperState;
-
+	public Map<String, PositionalOverview> initialOverviews;
 	public String draftId;
 	
 	public void initializeDraft() {

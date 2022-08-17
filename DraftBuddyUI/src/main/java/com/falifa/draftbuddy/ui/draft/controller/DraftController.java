@@ -95,7 +95,8 @@ public class DraftController {
 		
 		
 		SleeperDraftState sleeperState = sleeperApi.getDraftState(draftId);
-		draftState.draft = new Draft(sleeperState.getDrafters().stream().map(x -> x.getDisplayName()).collect(Collectors.toList()).toArray(new String[0]));
+//		draftState.draft = new Draft(sleeperState.getDrafters().stream().map(x -> x.getDisplayName()).collect(Collectors.toList()).toArray(new String[0]));
+		draftState.draft = new Draft(sleeperState.getDrafters());
 		draftState.sleeperState = sleeperState;
 		draftState.draftId = draftId;
 		
@@ -113,11 +114,12 @@ public class DraftController {
 	public String refreshSleeper(Model model) {
 		if (draftState.sleeperState != null) {
 			
-			String draftId = draftState.sleeperState.getDraft().getDraftId();
-			SleeperDraftState sleeperState = sleeperApi.getDraftState(draftId);
-			draftState.sleeperState = sleeperState;
+//			String draftId = draftState.sleeperState.getDraft().getDraftId();
+//			SleeperDraftState sleeperState = sleeperApi.getDraftState(draftId);
+//			draftState.sleeperState = sleeperState;
 			
-			sleeperManager.updateDraftStateWithSleeperPicks(sleeperState);
+//			sleeperManager.updateDraftStateWithSleeperPicks(sleeperState);
+			sleeperManager.updateDraftStateWithSleeperPicks(draftState.sleeperState);
 			
 			modelUpdater.updateCommonAttributes(model);
 		}

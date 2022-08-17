@@ -3,13 +3,16 @@ package com.falifa.draftbuddy.ui.prep.data;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
 
@@ -18,7 +21,9 @@ import com.falifa.draftbuddy.ui.constants.Tag;
 import com.falifa.draftbuddy.ui.draft.LogicHandler;
 import com.falifa.draftbuddy.ui.draft.data.DraftState;
 import com.falifa.draftbuddy.ui.model.Drafter;
+import com.falifa.draftbuddy.ui.model.DrafterSummary;
 import com.falifa.draftbuddy.ui.model.player.Player;
+import com.falifa.draftbuddy.ui.model.player.PositionalOverview;
 import com.falifa.draftbuddy.ui.model.team.NFLTeam;
 import com.falifa.draftbuddy.ui.prep.data.model.HighestRemainingPositionInTierTO;
 import com.falifa.draftbuddy.ui.prep.data.model.RemainingTierTO;
@@ -39,6 +44,9 @@ public class ModelUpdater {
 
 	private String nameFilterText;
 	private String selectedSort;
+	
+	@Value("${numberOfRounds}")
+	private String numberOfRounds;
 
 	public void updateCommonAttributes(Model model) {
 		updateCurrentDrafterAttributes(model);
@@ -136,12 +144,96 @@ public class ModelUpdater {
 	}
 
 	public void updateDraftStateAttributes(Model model) {
+		Map<String, PositionalOverview> overviews = buildRemainingPositionPlayersOverview();
+		if (draftState.initialOverviews == null) {
+			draftState.initialOverviews = overviews;
+		}
+		model.addAttribute("remainingPositionPlayersOverview", overviews);
+		model.addAttribute("upcomingDrafters", buildUpcomingDrafters());
 		model.addAttribute("progressPercent", draftState.getPercent());
 		model.addAttribute("draft", draftState);
 		model.addAttribute("roundNumber", Math.min(draftState.roundNum, draftState.NUMBER_OF_ROUNDS));
 		model.addAttribute("drafters", draftState.getCorrectlyOrderedDrafterList());
 		model.addAttribute("strategy", draftState.getStrategyByRound().get(String.valueOf(draftState.roundNum)));
 		log.debug("Models updated for draft state attributes");
+	}
+
+	private List<DrafterSummary> buildUpcomingDrafters() {
+		List<DrafterSummary> drafterSummaries = new ArrayList<DrafterSummary>();
+		int rounds = this.draftState.sleeperState != null ? this.draftState.sleeperState.getDraft().getSettings().getRounds() : Integer.valueOf(numberOfRounds);
+		int drafterCount = draftState.getDraft().getDrafters().size();
+		int totalPickCount = rounds * drafterCount;
+		int remainingPicks = totalPickCount - draftState.getDraftPicks().size();
+		for (int i = 1; i <= Math.min(remainingPicks, 12); i++) {
+			int pickInd = draftState.getDraftPicks().size() + 1 + i;
+			for (Drafter drafter : draftState.getDraft().getDrafters()) {
+				if (drafter.getDraftPickIndices().contains(pickInd)) {
+					int round = Math.floorDiv(pickInd, drafterCount) + 1;
+					int roundIndex = (pickInd % drafterCount) + 1;
+					DrafterSummary summary = buildDrafterSummary(drafter, round, roundIndex);
+					drafterSummaries.add(summary);
+				}
+			}
+		}
+		return drafterSummaries;
+	}
+
+	private DrafterSummary buildDrafterSummary(Drafter drafter, int roundNumber, int roundIndex) {
+		DrafterSummary summary = new DrafterSummary();
+		String teamName = "Team " + drafter.getName();
+		String avatar = null;
+		if (drafter.getSleeperUser() != null && drafter.getSleeperUser().getMetadata() != null) {
+			if (drafter.getSleeperUser().getMetadata().getTeamName() != null) {
+				teamName = drafter.getSleeperUser().getMetadata().getTeamName();
+			}
+			if (drafter.getSleeperUser().getMetadata().getAvatar() != null) {
+				avatar = drafter.getSleeperUser().getMetadata().getAvatar();
+			}
+		}
+		summary.setAvatar(avatar);
+		summary.setTeamName(teamName);
+		summary.setDrafter(drafter);
+		summary.setRoundNumber(roundNumber);
+		summary.setRoundIndex(roundIndex);
+		return summary;
+	}
+
+	private Map<String, PositionalOverview> buildRemainingPositionPlayersOverview() {
+		Map<String, PositionalOverview> overviews = new HashMap<String, PositionalOverview>();
+		for (Position pos : Position.values()) {
+			overviews.put(pos.getAbbrev(), buildPositionalOverview(pos));
+		}
+		if (draftState.initialOverviews != null) {
+			draftState.initialOverviews = overviews;
+		}
+		return overviews;
+	}
+
+	private PositionalOverview buildPositionalOverview(Position pos) {
+		PositionalOverview overview = new PositionalOverview(pos);
+		int numberOfFirstStringPlayersAtPosition = 0;
+		int numberOfSecondStringPlayersAtPosition = 0;
+		int numberOfThirdStringPlayersAtPosition = 0;
+		int numberOfFourthStringPlayersAtPosition = 0;
+		int numberOfFifthStringPlayersAtPosition = 0;
+		int numberOfTotalPlayersAtPosition = 0;
+		for (Player player : NFLTeamManager.getAvailablePlayersByPositionAsListByADP(pos)) {
+			Integer rank = Integer.parseInt(player.getRankMetadata().getPositionRank());
+			int numberOfDrafters = draftState.getDraft().getDrafters().size();
+			if (rank <= numberOfDrafters) { numberOfFirstStringPlayersAtPosition++; }
+			else if (rank <= (numberOfDrafters * 2)) { numberOfSecondStringPlayersAtPosition++; }
+			else if (rank <= (numberOfDrafters * 3)) { numberOfThirdStringPlayersAtPosition++; }
+			else if (rank <= (numberOfDrafters * 4)) { numberOfFourthStringPlayersAtPosition++; }
+			else if (rank <= (numberOfDrafters * 5)) { numberOfFifthStringPlayersAtPosition++; }
+			numberOfTotalPlayersAtPosition++;
+		}
+		overview.getRemainingCounts().set(0, numberOfFirstStringPlayersAtPosition);
+		overview.getRemainingCounts().set(1, numberOfSecondStringPlayersAtPosition);
+		overview.getRemainingCounts().set(2, numberOfThirdStringPlayersAtPosition);
+		overview.getRemainingCounts().set(3, numberOfFourthStringPlayersAtPosition);
+		overview.getRemainingCounts().set(4, numberOfFifthStringPlayersAtPosition);
+		overview.setTotal(numberOfTotalPlayersAtPosition);
+		return overview;
 	}
 
 	public void updateModelForPositionPage(String pos, Model model) {

@@ -31,6 +31,10 @@ public class PlayerNameMatcher {
 		playerAlternateNamesToOriginalNamesMap.put(alternateNameKey, fullName);
 		playerNamesToIdsMap.put(nameKey, id);
 	}
+	
+	public void addNameMapping(String val, String id) {
+		playerNamesToIdsMap.put(val, id);
+	}
 
 	private String buildNameKey(String fullName) {
 		String filteredFirst = getFilteredFirstName(fullName);
