@@ -7,29 +7,31 @@
                             ${drafterSummary.getRoundNumber()}.${drafterSummary.getRoundIndex()}
                         </div>
                         <div class="col-sm-9 very-condensed-col green-title drafter-title">
-                            <strong>
-                                ${drafterSummary.getDrafter().getName()} 
-                            </strong>
+                                <a data-toggle="modal" data-target="#${drafterSummary.getDrafter().getDraftOrderNumber()}IntelModal">
+                                <strong>
+                                    ${drafterSummary.getDrafter().getName()} 
+                                </strong>
+                            </a>
+                            </div>
                         </div>
+                        <div class="row condensed-row">
+                            <div class="col-sm-6 very-condensed-col center-title">
+                                <span class="badge position-badge badge-warning translucent-badge">QB</span> ${drafterSummary.getDrafter().getDraftedTeam().getQb().size()}
+                            </div>
+                            <div class="col-sm-6 very-condensed-col center-title">
+                                <span class="badge position-badge badge-info translucent-badge">RB</span> ${drafterSummary.getDrafter().getDraftedTeam().getRb().size()}
+                            </div>
+                        </div>
+                        <div class="row condensed-row">
+                            <div class="col-sm-6 very-condensed-col center-title">
+                                <span class="badge position-badge badge-success translucent-badge">WR</span> ${drafterSummary.getDrafter().getDraftedTeam().getWr().size()}
+                            </div>
+                            <div class="col-sm-6 very-condensed-col center-title">
+                                <span class="badge position-badge badge-error translucent-badge">TE</span> ${drafterSummary.getDrafter().getDraftedTeam().getTe().size()}
+                            </div>
+                        </div>
+                        
                     </div>
-                    <div class="row condensed-row">
-                        <div class="col-sm-6 very-condensed-col center-title">
-                            <span class="badge position-badge badge-warning translucent-badge">QB</span> ${drafterSummary.getDrafter().getDraftedTeam().getQb().size()}
-                        </div>
-                        <div class="col-sm-6 very-condensed-col center-title">
-                            <span class="badge position-badge badge-info translucent-badge">RB</span> ${drafterSummary.getDrafter().getDraftedTeam().getRb().size()}
-                        </div>
-                    </div>
-                    <div class="row condensed-row">
-                        <div class="col-sm-6 very-condensed-col center-title">
-                            <span class="badge position-badge badge-success translucent-badge">WR</span> ${drafterSummary.getDrafter().getDraftedTeam().getWr().size()}
-                        </div>
-                        <div class="col-sm-6 very-condensed-col center-title">
-                            <span class="badge position-badge badge-error translucent-badge">TE</span> ${drafterSummary.getDrafter().getDraftedTeam().getTe().size()}
-                        </div>
-                    </div>
-                    
-                </div>
             </c:forEach>
 
     </div>

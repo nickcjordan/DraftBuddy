@@ -17,3 +17,9 @@
 		<%@include file="../common/modal.jsp"%>
 	</c:forEach>
 </div>
+
+<div class="container-fluid">
+	<c:forEach items="${drafters}" var="drafter" varStatus="iteration">
+		<%@include file="../common/imageModal.jsp"%>
+	</c:forEach>
+</div>
