@@ -24,6 +24,7 @@ import com.falifa.draftbuddy.ui.constants.Position;
 import com.falifa.draftbuddy.ui.draft.compare.AlphabetizedTeamComparator;
 import com.falifa.draftbuddy.ui.draft.compare.PlayerADPComparator;
 import com.falifa.draftbuddy.ui.draft.compare.PlayerRankComparator;
+import com.falifa.draftbuddy.ui.draft.compare.PlayerSleeperADPComparator;
 import com.falifa.draftbuddy.ui.model.MasterPlayersTO;
 import com.falifa.draftbuddy.ui.model.MasterTeamTO;
 import com.falifa.draftbuddy.ui.model.player.Player;
@@ -187,6 +188,10 @@ public class NFLTeamManager {
 	public static List<Player> getAllAvailablePlayersByADP() {
 		return getAllPlayers(new PlayerADPComparator(), true);
 	}
+	
+	public static List<Player> getAllAvailablePlayersBySleeperADP() {
+		return getAllPlayers(new PlayerSleeperADPComparator(), true);
+	}
 
 	public static List<Player> getAllAvailablePlayersByRank() {
 		return getAllPlayers(new PlayerRankComparator(), true);
@@ -198,6 +203,10 @@ public class NFLTeamManager {
 	
 	public static List<Player> getAllPlayersByADP() {
 		return getAllPlayers(new PlayerADPComparator());
+	}
+	
+	public static List<Player> getAllPlayersBySleeperADP() {
+		return getAllPlayers(new PlayerSleeperADPComparator());
 	}
 	
 	public static List<Player> getAvailablePlayersByPositionAsListByADP(Position position) {

@@ -17,10 +17,10 @@
 		<a class="navbar-brand front-brand white-title" href="/">Falifa Industries Presents: The Draft Buddy</a>
 		<div class="intro-alternate">
 			<p>
-				<a class="btn btn-block btn-primary update-data-files-button" href="/updateApi">Update API Data</a>
+				<a class="btn btn-block btn-primary update-data-files-button" href="/updateApi">Update NFL Metadata</a>
 			</p>
 			<p>
-				<a class="btn btn-block btn-primary update-data-files-button" href="/updateAll">Update Player Data</a>
+				<a class="btn btn-block btn-primary update-data-files-button" href="/updateAll">Update Draft Prep Data</a>
 			</p>
 		</div>
 	</div>
@@ -32,7 +32,7 @@
 			<p>
 				<form class="" action="/startSleeper" method="post">
 					<div class="form-group">
-						<input type="text" class="form-control" placeholder="Enter Sleeper Draft ID" name="draftId" id="draftId">
+						<input type="text" class="form-control" placeholder="Enter Sleeper Draft ID" name="draftId" id="draftId" value="857115695748603904">
 					</div>
 					<button type="submit" class="btn btn-block btn-primary">Sleeper Draft</button>
 				</form>

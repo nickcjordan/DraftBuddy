@@ -7,9 +7,9 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.stereotype.Component;
 
+import com.falifa.draftbuddy.api.model.DraftType;
 import com.falifa.draftbuddy.api.sleeper.model.SleeperDraft;
 import com.falifa.draftbuddy.api.sleeper.model.SleeperDraftPick;
 import com.falifa.draftbuddy.api.sleeper.model.SleeperDraftState;
@@ -63,7 +63,8 @@ public class SleeperAPI {
 	private List<SleeperUser> getUsersForMockDraft(SleeperDraft draft) {
 		List<SleeperUser> users = new ArrayList<>();
 		for (int i = 1; i <= draft.getSettings().getTeams(); i++) {
-			users.add(new SleeperUser("Bot" + i, i));
+			String name = DraftType.SLEEPER.getOrder()[i-1];
+			users.add(new SleeperUser(name, i));
 		}
 		for (String userId : draft.getDraftOrder().keySet()) {
 			Integer pickPosition = Integer.valueOf(draft.getDraftOrder().get(userId));

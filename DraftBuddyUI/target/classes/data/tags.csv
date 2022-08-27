@@ -1,10 +1,11 @@
 #	RISK("!"), SLEEPER("$"), ROOKIE("R"), NEW_TEAM("@"), FAVORITE("*"), RISING("+"), FALLING("-"), INJURY_RISK("i"), BUST("B")
-AJ Dillon,^,19358
+AJ Dillon,^*,19358
 Aaron Jones,$,16673
 Adam Thielen,i,13429
 Albert Okwuegbunam,-*,18246
 Alec Pierce,R,23791
 Allen Lazard,*$,17301
+Allen Robinson II,*,12126
 Alvin Kamara,!,16421
 Amari Cooper,C,13894
 Anthony Schwartz,C,20125
@@ -17,7 +18,7 @@ Cam Akers,B,19268
 CeeDee Lamb,^,19202
 Chase Edmonds,*$,17496
 Chris Godwin,Bi,16406
-Chris Olave,RS,20111
+Chris Olave,RS*,20111
 Christian Kirk,*,17268
 Christian McCaffrey,i,16393
 Christian Watson,RS,23886
@@ -49,6 +50,7 @@ Donovan Peoples-Jones,C,19298
 Drake London,R,23163
 Evan Engram,S,16411
 Ezekiel Elliott,i,15498
+Gabriel Davis,*,19398
 Garrett Wilson,R,23072
 George Pickens,R,22963
 Gerald Everett,^,16459
@@ -64,7 +66,7 @@ Jalen Tolbert,R,23770
 Jamaal Williams,iR,16424
 Jameis Winston,iS,13891
 James Conner,$,16447
-James Cook,R,22958
+James Cook,RS,22958
 James Robinson,i,19631
 Jameson Williams,iR,23677
 Jamison Crowder,S,13976
@@ -91,7 +93,6 @@ Logan Thomas,Bi,12095
 Malik Willis,R,23499
 Mark Ingram II,-*,9872
 Marquise Brown,$,18226
-Matt Corral,R,23028
 Matthew Stafford,i,9451
 Melvin Gordon III,$,13903
 Michael Gallup,i,17259
@@ -133,4 +134,4 @@ Van Jefferson,i,19483
 Velus Jones Jr.,R,24214
 Wan'Dale Robinson,R,22985
 Zach Ertz,$,11689
-Zach Wilson,S,22679
+Zach Wilson,Si,22679

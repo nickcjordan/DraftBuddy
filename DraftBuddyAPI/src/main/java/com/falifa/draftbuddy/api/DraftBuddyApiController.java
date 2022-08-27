@@ -65,7 +65,7 @@ public class DraftBuddyApiController {
     }
 	
     @RequestMapping(value = "/draft/picks", method = RequestMethod.GET)
-    public List<SleeperDraftPick> getDraftPicks(@RequestParam(name = "draftId", required = false, defaultValue = "864554201542443008") String draftId) {
+    public List<SleeperDraftPick> getDraftPicks(@RequestParam(name = "draftId", required = false, defaultValue = "857115695748603904") String draftId) {
     	log.info("Getting Sleeper draft picks for draft id = {}...", draftId);
     	List<SleeperDraftPick> picks = sleeper.getDraftPicks(draftId);
     	log.info("Retrieved {} draft picks from Sleeper for draft id = {}", picks.size(), draftId);
@@ -73,11 +73,11 @@ public class DraftBuddyApiController {
     }
     
     @RequestMapping(value = "/draft", method = RequestMethod.GET)
-    public SleeperDraftState getDraft(@RequestParam(name = "draftId", required = false, defaultValue = "864554201542443008") String draftId) {
+    public SleeperDraftState getDraft(@RequestParam(name = "draftId", required = false, defaultValue = "857115695748603904") String draftId) {
     	log.info("Getting Sleeper draft state for draft id = {}...", draftId);
     	SleeperDraftState draft = sleeper.getDraftState(draftId);
     	log.info("Built draft state from Sleeper response for draft id = {}", draftId);
     	return draft;
     }
-
+    
 }

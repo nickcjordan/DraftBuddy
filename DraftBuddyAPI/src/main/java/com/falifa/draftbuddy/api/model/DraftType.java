@@ -1,4 +1,4 @@
-package com.falifa.draftbuddy.ui.constants;
+package com.falifa.draftbuddy.api.model;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -21,7 +21,7 @@ public enum DraftType {
 
 	private String[] getDraftOrder(String t) {
 		switch(t) {
-			case "sleeper"	: return SLEEPER_LEAGUE;
+			case "sleeper"	: return FALIFA_LEAGUE;
 			case "real"	: return currentSet();
 			case "auto"	: return currentSet();
 			case "mock"	: return currentSet();
@@ -86,9 +86,9 @@ public enum DraftType {
 			"Hunter",
 			"Nick J",
 			"Will",
-			"Ryan",
 			"Austin",
-			"Dan"
+			"Dan",
+			"Ryan"
 	};
 	
 	private String[] NEELY_LEAGUE = new String[]{

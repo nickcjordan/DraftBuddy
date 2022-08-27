@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
+import org.springframework.util.CollectionUtils;
 
 import com.falifa.draftbuddy.ui.constants.Position;
 import com.falifa.draftbuddy.ui.constants.Tag;
@@ -77,9 +78,9 @@ public class ModelUpdater {
 	}
 
 	public void updateNflTeamListsAttributes(Model model) {
-		model.addAttribute("playersToBuildModalFor", NFLTeamManager.getAllPlayersByADP().subList(0,
-				Math.min(NFLTeamManager.getAllPlayersByADP().size(), 250)));
+		model.addAttribute("playersToBuildModalFor", NFLTeamManager.getAllPlayersByADP().subList(0, Math.min(NFLTeamManager.getAllPlayersByADP().size(), 250)));
 		model.addAttribute("playersSortedByAdp", NFLTeamManager.getAllAvailablePlayersByADP());
+		model.addAttribute("playersSortedBySleeperAdp", NFLTeamManager.getAllAvailablePlayersBySleeperADP());
 		model.addAttribute("playersSortedByRank", NFLTeamManager.getAllAvailablePlayersByRank());
 		updateRemainingPlayersForTierByPosition(model);
 		log.debug("Models updated for team list attributes");
@@ -132,6 +133,9 @@ public class ModelUpdater {
 
 	private List<Player> getAllRemainingPlayersAtHighestTier(int amount) {
 		List<Player> list = NFLTeamManager.getAllAvailablePlayersByRank();
+		if (CollectionUtils.isEmpty(list)) {
+			return new ArrayList<Player>();
+		}
 		Player first = list.get(0);
 		if (list.size() > 0) {
 			List<Player> filtered = list.stream().filter(p -> p.getTier() <= first.getTier())

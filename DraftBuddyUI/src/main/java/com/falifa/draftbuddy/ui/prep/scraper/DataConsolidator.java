@@ -27,6 +27,7 @@ import com.falifa.draftbuddy.ui.prep.NFLTeamCache;
 import com.falifa.draftbuddy.ui.prep.PlayerCache;
 import com.falifa.draftbuddy.ui.prep.data.ModelUpdater;
 import com.falifa.draftbuddy.ui.prep.data.StrategyFileHandler;
+import com.falifa.draftbuddy.ui.prep.data.model.SleeperADP;
 import com.falifa.draftbuddy.ui.prep.scraper.webjson.FFBallersAPI;
 import com.falifa.draftbuddy.ui.prep.scraper.webjson.WebJsonExtractor;
 import com.falifa.draftbuddy.ui.prep.scraper.webjson.WebJsonPlayerConverter;
@@ -66,6 +67,9 @@ public class DataConsolidator {
 	
 	@Autowired
 	private FFBallersAPI ballersApi;
+	
+	@Autowired
+	private SleeperADPAPI sleeper;
 
 	public boolean parseAllDataSources() {
 		boolean success = true;
@@ -83,12 +87,26 @@ public class DataConsolidator {
 		success &= jsonFileManager.parseAndUpdateStatsFromAPI();
 		success &= jsonFileManager.downloadAndSetPlayerImages();
 		success &= parseAndUpdateFantasyFootballers();
+		success &= parseAndUpdateSleeperADP();
 		
 		
 		modelUpdater.clearFiltersAndSorts();
 		success &= PlayerCache.updatePlayerJsonFileWithCachedData();
 		success &= NFLTeamCache.updateNflJsonFileWithCachedData();
 		return success;
+	}
+
+	private boolean parseAndUpdateSleeperADP() {
+		List<SleeperADP> adp = sleeper.getADP();
+		for (int i = 0; i < adp.size(); i++) {
+			SleeperADP val = adp.get(i);
+			Player player = dataPopulator.getPlayerFromName(val.getName());
+			if (player != null) {
+				player.getRankMetadata().setSleeperAdpVal(String.valueOf(val.getAdp()));
+				player.getRankMetadata().setSleeperAdp(String.valueOf(i));
+			}
+		}
+		return true;
 	}
 
 	private boolean parseAndUpdateFantasyFootballersRankings() {

@@ -4,8 +4,10 @@
 		<thead class="thead-inverse">
 			<tr>
 				<th class="id-suggest"><a href="/sortSuggestions?sortBy=ADP">ADP</a></th>
+				<th class="id-suggest"><a href="/sortSuggestions?sortBy=SLEEPER_ADP">SADP</a></th>
 				<th class="pos_rank-suggest"><a href="/sortSuggestions?sortBy=ECR">ECR</a></th>
 				<th class="value-suggest"><a href="/sortSuggestions?sortBy=ADP_VAL"><span title="" data-placement="top" data-html="true" data-toggle="tooltip" data-original-title="Current number of picks player differs from their original <b>ADP</b>">Value</span> <script>$('span').tooltip();</script></a></th>
+				<th class="pos-suggest">-</th>
 				<th class="name-suggest"><a href="/sortSuggestions?sortBy=NAME">Name</a></th>
 				<th class="pos-suggest">Pos</th>
 				<th class="proj-pts-suggest"><a href="/sortSuggestions?sortBy=FFB_RANK">FFB</a></th>
@@ -39,8 +41,13 @@
 
 				<tr class="tier${player.getTier()}">
 					<td class="id-suggest"><a href="/pickPlayer?playerId=${player.getFantasyProsId()}"> <span class="badge-adp">${player.getRankMetadata().getAdp()}</span>
+					<td class="id-suggest"><a href="/pickPlayer?playerId=${player.getFantasyProsId()}"> <span class="badge-adp">${player.getRankMetadata().getSleeperAdpVal()}</span>
 					<td class="pos_rank-suggest"><span class="badge-ecr">${player.getRankMetadata().getOverallRank()}</span></td></a></td>
+					
 					<td class="value-suggest"><span class="badge badge-val badge-${player.getDraftingDetails().getCurrentPlayerValueBadgeClass()}"><strong>${player.getDraftingDetails().getCurrentPlayerValue()}</strong></span></td>
+					<td class="pos-suggest no-pad">
+						<img src="${player.getPictureMetadata().getPicLocation()}" class="img-fluid player-icon-image tiny-image-icon" alt="No Photo Available">
+					</td>
 					<td class="name-suggest">
 						<a class="nameLink" data-toggle="modal" data-target="#${player.getFantasyProsId()}playerModal">
 							<c:choose>

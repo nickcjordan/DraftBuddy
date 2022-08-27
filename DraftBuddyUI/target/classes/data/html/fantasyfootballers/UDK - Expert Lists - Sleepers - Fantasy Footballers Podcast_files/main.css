@@ -6423,6 +6423,23 @@ body:not(.logged-in) .elementor-popup-modal {
   align-items: flex-end;
   border-bottom: 2px solid #42AB4E;
   width: 100%;
+  max-width: calc(100vw - 30px);
+  overflow-x: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.ranking--tabs ul::-webkit-scrollbar {
+  display: none;
+}
+.ranking--tabs ul.overset::after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 10px;
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.1) 100%);
 }
 .ranking--tabs ul li {
   display: block;
@@ -6438,6 +6455,7 @@ body:not(.logged-in) .elementor-popup-modal {
   font-weight: 600;
   color: #42AB4E;
   text-align: center;
+  white-space: nowrap;
 }
 .ranking--tabs ul li a:hover {
   background: #EBEBEB;

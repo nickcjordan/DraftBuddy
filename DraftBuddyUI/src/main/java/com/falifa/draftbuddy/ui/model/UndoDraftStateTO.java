@@ -3,7 +3,7 @@ package com.falifa.draftbuddy.ui.model;
 import java.util.List;
 import java.util.Map;
 
-import com.falifa.draftbuddy.ui.constants.DraftType;
+import com.falifa.draftbuddy.api.model.DraftType;
 import com.falifa.draftbuddy.ui.model.player.Player;
 
 public class UndoDraftStateTO {

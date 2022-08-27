@@ -12,8 +12,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.falifa.draftbuddy.api.model.DraftType;
 import com.falifa.draftbuddy.api.sleeper.model.SleeperDraftState;
-import com.falifa.draftbuddy.ui.constants.DraftType;
 import com.falifa.draftbuddy.ui.constants.Position;
 import com.falifa.draftbuddy.ui.draft.DraftManager;
 import com.falifa.draftbuddy.ui.draft.LogicHandler;
@@ -114,11 +114,6 @@ public class DraftController {
 	public String refreshSleeper(Model model) {
 		if (draftState.sleeperState != null) {
 			
-//			String draftId = draftState.sleeperState.getDraft().getDraftId();
-//			SleeperDraftState sleeperState = sleeperApi.getDraftState(draftId);
-//			draftState.sleeperState = sleeperState;
-			
-//			sleeperManager.updateDraftStateWithSleeperPicks(sleeperState);
 			sleeperManager.updateDraftStateWithSleeperPicks(draftState.sleeperState);
 			
 			modelUpdater.updateCommonAttributes(model);

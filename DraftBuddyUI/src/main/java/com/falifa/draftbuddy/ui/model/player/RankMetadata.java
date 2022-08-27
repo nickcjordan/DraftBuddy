@@ -11,7 +11,21 @@ public class RankMetadata {
 	private String adp;
 	private String vsAdp;
 	private String rookieRanking;
+	private String sleeperAdp;
+	private String sleeperAdpVal;
 	
+	public String getSleeperAdpVal() {
+		return sleeperAdpVal;
+	}
+	public void setSleeperAdpVal(String sleeperAdpVal) {
+		this.sleeperAdpVal = sleeperAdpVal;
+	}
+	public String getSleeperAdp() {
+		return sleeperAdp;
+	}
+	public void setSleeperAdp(String sleeperAdp) {
+		this.sleeperAdp = sleeperAdp;
+	}
 	public String getOverallRank() {
 		return overallRank;
 	}

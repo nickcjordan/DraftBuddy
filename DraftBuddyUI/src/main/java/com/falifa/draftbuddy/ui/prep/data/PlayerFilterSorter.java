@@ -19,6 +19,7 @@ import com.falifa.draftbuddy.ui.draft.compare.PlayerPriorPointsComparator;
 import com.falifa.draftbuddy.ui.draft.compare.PlayerPriorTotalTargetsComparator;
 import com.falifa.draftbuddy.ui.draft.compare.PlayerProjectedPointsComparator;
 import com.falifa.draftbuddy.ui.draft.compare.PlayerRankComparator;
+import com.falifa.draftbuddy.ui.draft.compare.PlayerSleeperADPComparator;
 import com.falifa.draftbuddy.ui.draft.compare.PlayerVsADPValueComparator;
 import com.falifa.draftbuddy.ui.model.player.Player;
 
@@ -47,6 +48,10 @@ public class PlayerFilterSorter {
 			case "ADP" : 	
 								players = players.stream().filter(p -> StringUtils.isNotEmpty(p.getRankMetadata().getAdp())).collect(Collectors.toList()); 
 								Collections.sort(players, new PlayerADPComparator());
+								break;
+			case "SLEEPER_ADP" : 	
+								players = players.stream().filter(p -> StringUtils.isNotEmpty(p.getRankMetadata().getSleeperAdp())).collect(Collectors.toList()); 
+								Collections.sort(players, new PlayerSleeperADPComparator());
 								break;
 			case "ECR" : 	
 								players = players.stream().filter(p -> StringUtils.isNotEmpty(p.getRankMetadata().getOverallRank())).collect(Collectors.toList()); 
