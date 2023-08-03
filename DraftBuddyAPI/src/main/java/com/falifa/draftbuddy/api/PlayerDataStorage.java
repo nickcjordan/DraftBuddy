@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import com.falifa.draftbuddy.api.data.builder.DataFileCache;
 import com.falifa.draftbuddy.api.model.PlayerTO;
@@ -65,8 +66,14 @@ public class PlayerDataStorage {
 
 	private Map<String, PlayerTO> buildPlayerNameMap() {
 		Map<String, PlayerTO> temp = new HashMap<String, PlayerTO>();
-		playerIdMap.forEach((String id, PlayerTO p) -> temp.put(p.getPlayerName(), p));
+		playerIdMap.forEach((String id, PlayerTO p) -> addNameToMapIfNotNull(temp, p));
 		return temp;
+	}
+		
+	private void addNameToMapIfNotNull(Map<String, PlayerTO> map, PlayerTO p) {
+		if (!StringUtils.isEmpty(p.getPlayerName())) {
+			map.put(p.getPlayerName(), p);
+		}
 	}
 
 	public Map<String, PlayerTO> getPlayerNameMap() {

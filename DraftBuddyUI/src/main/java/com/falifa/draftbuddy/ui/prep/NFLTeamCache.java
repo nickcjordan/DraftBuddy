@@ -63,5 +63,17 @@ public class NFLTeamCache {
 	public static void setNflTeamsByAbbreviation(Map<String, NFLTeam> nflTeamsByAbbreviation) {
 		NFLTeamCache.nflTeamsByAbbreviation = nflTeamsByAbbreviation;
 	}
+	
+	public static NFLTeam getNflTeamByFullTeamName(String name) {
+		for (NFLTeam team : nflTeamsByAbbreviation.values()) {
+			if (team.getTeam().getFullName().toLowerCase().equals(name.toLowerCase()) 
+					|| name.toLowerCase().contains(team.getTeam().getMascot().toLowerCase())) {
+				return team;
+			}
+		}
+		return null;
+	}
+	
+	
 
 }

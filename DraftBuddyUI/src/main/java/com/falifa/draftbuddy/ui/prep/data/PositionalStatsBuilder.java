@@ -8,21 +8,22 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.falifa.draftbuddy.api.model.PositionStatsDetails;
+import com.falifa.draftbuddy.ui.constants.StatCategory;
 import com.falifa.draftbuddy.ui.model.player.Player;
 import com.falifa.draftbuddy.ui.model.player.stats.StatisticCategory;
 import com.falifa.draftbuddy.ui.model.player.stats.StatisticValue;
-
+import static com.falifa.draftbuddy.ui.constants.StatCategory.*;
 @Component
 public class PositionalStatsBuilder {
 	
 	private static final Logger log = LoggerFactory.getLogger(PositionalStatsBuilder.class);
 
 	private static final String FANTASY_POINTS = "FPTS";
-	private static final String PASSING = "PASSING";
-	private static final String RECEIVING = "RECEIVING";
-	private static final String RUSHING = "RUSHING";
-	private static final String MISC = "MISC";
-	private static final String ALL = "ALL";
+//	private static final String PASSING = "PASSING";
+//	private static final String RECEIVING = "RECEIVING";
+//	private static final String RUSHING = "RUSHING";
+//	private static final String MISC = "MISC";
+//	private static final String ALL = "ALL";
 	private static final String ZERO = "0";
 
 	public void buildQuarterbackStats(Map<String, PositionStatsDetails> statsByWeek, Player player) {
@@ -82,19 +83,19 @@ public class PositionalStatsBuilder {
 		}
 	}
 	
-	private void zeroOutPriorTotal(Player player, String categoryName) {
+	private void zeroOutPriorTotal(Player player, StatCategory misc) {
 		try {
-			player.getPriorRawStatsDetails().getStatCategory(categoryName).getStatisticValue(FANTASY_POINTS).setValue(ZERO);
+			player.getPriorRawStatsDetails().getStatCategory(misc.getValue()).getStatisticValue(FANTASY_POINTS).setValue(ZERO);
 		} catch (Exception e) {
 			log.debug("ERROR setting prior point totals to 0 for player={}", player.getPlayerName());
 		}
 	}
 
 	private void addStatValuesToTotalsForKicker(PositionStatsDetails week, Player player) {
-		StatisticCategory category = player.getPriorRawStatsDetails().getStatCategory(ALL);
+		StatisticCategory category = player.getPriorRawStatsDetails().getStatCategory(ALL.getValue());
 		 if (category == null) {
 			 category = new StatisticCategory();
-			 category.setName(ALL);
+			 category.setName(ALL.getValue());
 			 player.getPriorRawStatsDetails().addStatCategory(category);
 		 }
 		 category.setColspan(category.getStats().size());
@@ -107,10 +108,10 @@ public class PositionalStatsBuilder {
 	}
 
 	private void addStatValuesToTotalsForPassing(PositionStatsDetails week, Player player) {
-		 StatisticCategory category = player.getPriorRawStatsDetails().getStatCategory(PASSING);
+		 StatisticCategory category = player.getPriorRawStatsDetails().getStatCategory(PASSING.getValue());
 		 if (category == null) {
 			 category = new StatisticCategory();
-			 category.setName(PASSING);
+			 category.setName(PASSING.getValue());
 			 player.getPriorRawStatsDetails().addStatCategory(category);
 		 }
 		 category.setColspan(category.getStats().size());
@@ -122,10 +123,10 @@ public class PositionalStatsBuilder {
 	}
 	
 	private void addStatValuesToTotalsForRushing(PositionStatsDetails week, Player player) {
-		 StatisticCategory category = player.getPriorRawStatsDetails().getStatCategory(RUSHING);
+		 StatisticCategory category = player.getPriorRawStatsDetails().getStatCategory(RUSHING.getValue());
 		 if (category == null) {
 			 category = new StatisticCategory();
-			 category.setName(RUSHING);
+			 category.setName(RUSHING.getValue());
 			 player.getPriorRawStatsDetails().addStatCategory(category);
 		 }
 		 category.setColspan(category.getStats().size());
@@ -135,10 +136,10 @@ public class PositionalStatsBuilder {
 	}
 	
 	private void addStatValuesToTotalsForReceiving(PositionStatsDetails week, Player player) {
-		 StatisticCategory category = player.getPriorRawStatsDetails().getStatCategory(RECEIVING);
+		 StatisticCategory category = player.getPriorRawStatsDetails().getStatCategory(RECEIVING.getValue());
 		 if (category == null) {
 			 category = new StatisticCategory();
-			 category.setName(RECEIVING);
+			 category.setName(RECEIVING.getValue());
 			 player.getPriorRawStatsDetails().addStatCategory(category);
 		 }
 		 category.setColspan(category.getStats().size());
@@ -148,10 +149,10 @@ public class PositionalStatsBuilder {
 	}
 	
 	private void addStatValuesToTotalsForMisc(PositionStatsDetails week, Player player) {
-		 StatisticCategory category = player.getPriorRawStatsDetails().getStatCategory(MISC);
+		 StatisticCategory category = player.getPriorRawStatsDetails().getStatCategory(MISC.getValue());
 		 if (category == null) {
 			 category = new StatisticCategory();
-			 category.setName(MISC);
+			 category.setName(MISC.getValue());
 			 player.getPriorRawStatsDetails().addStatCategory(category);
 		 }
 		 category.setColspan(category.getStats().size());
@@ -159,10 +160,10 @@ public class PositionalStatsBuilder {
 	}
 	
 	private void addStatValuesToTotalsForAll(PositionStatsDetails week, Player player) {
-		 StatisticCategory category = player.getPriorRawStatsDetails().getStatCategory(ALL);
+		 StatisticCategory category = player.getPriorRawStatsDetails().getStatCategory(ALL.getValue());
 		 if (category == null) {
 			 category = new StatisticCategory();
-			 category.setName(ALL);
+			 category.setName(ALL.getValue());
 			 player.getPriorRawStatsDetails().addStatCategory(category);
 		 }
 		 category.setColspan(category.getStats().size());

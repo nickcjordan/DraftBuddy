@@ -55,4 +55,10 @@ public class PageController {
     	return "pages/draftBoardPage";
     }
     
+    @RequestMapping(value = "/tiers")
+	public String tiersPage(@RequestParam(required=false, defaultValue="jj") String source, Model model) {
+    	modelUpdater.updateModelForTiersPage(source, model);
+    	return "pages/tierPage";
+    }
+    
 }

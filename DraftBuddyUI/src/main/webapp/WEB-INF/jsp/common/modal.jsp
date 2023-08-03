@@ -146,6 +146,87 @@
 						</div>
 					</c:if>
 					
+					<c:if test="${player.getTrends() != null}">
+						<div class="row">
+								<div class="col-md-12">
+									<table class="table table-bordered table-sm modal-table">
+										<thead>
+											<tr>
+												<th>Depth</th>
+												<th>Years Exp</th>
+												<th>Zone</th>
+												<th></th>
+												<th>Early</th>
+												<th>Deadzone</th>
+												<th>Middle</th>
+												<th>Late</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td>${player.getTrends().getDepthChartPosition()}</td>
+												<td>${player.getSleeperData().getYearsExp()}</td>
+												<td>${player.getTrends().getDraftZone()}</td>
+												<th>:</th>
+												<td>${player.getTrends().getPositionMatesInEarlyRounds()}</td>
+												<td>${player.getTrends().getPositionMatesInDeadZone()}</td>
+												<td>${player.getTrends().getPositionMatesInMiddleRounds()}</td>
+												<td>${player.getTrends().getPositionMatesInLateRounds()}</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+						</div>
+					</c:if>
+					
+					<c:if test="${player.getPositionalStats() != null}">
+						<div class="row">
+								<div class="col-md-12">
+									<table class="table table-bordered table-sm modal-table">
+										<thead>
+											<tr>
+												<th>Target Share</th>
+												<th>Avg Target</th>
+												<th>Avg REC</th>
+												<th>Avg RushAtt</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td>${player.getPositionalStats().getPriorTargetSharePercentage()}%</td>
+												<td>${player.getPositionalStats().getPriorAverageTargetsPerGame()}</td>
+												<td>${player.getPositionalStats().getPriorAverageReceptionsPerGame()}</td>
+												<td>${player.getPositionalStats().getPriorAverageRushAttemptsPerGame()}</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+						</div>
+					</c:if>
+					
+					<c:if test="${player.getTrendAnalysis() != null && player.getTrendAnalysis().size() > 0}">
+						<div class="row">
+								<div class="col-md-12">
+									<table class="table table-bordered table-sm modal-table">
+										<thead>
+											<tr>
+												<th>Trend Analysis</th>
+												<th>Sentiment</th>
+											</tr>
+										</thead>
+										<tbody>
+											<c:forEach items="${player.getTrendAnalysis()}" var="analysis">
+												<tr>
+													<td>${analysis.getBlurb()}</td>
+													<td>${analysis.getSentimentValue()}</td>
+												</tr>
+											</c:forEach>
+										</tbody>
+									</table>
+								</div>
+						</div>
+					</c:if>
+					
 
 					<c:if test="${player.getPriorRawStatsDetails().getStats().size() != 0}">
 						<div class="row">
@@ -194,14 +275,14 @@
 											<th class="modal-top-category" class="modal-top-category" scope="col" colspan="16">Prior Fantasy Points By Week</th>
 										</tr>
 										<tr>
-											<c:forEach var="i" begin="1" end="16">
+											<c:forEach var="i" begin="1" end="17">
 												<th scope="col">${i}</th>
 											</c:forEach>
 										</tr>
 									</thead>
 									<tbody>
 										<tr>
-											<c:forEach var="i" begin="1" end="16">
+											<c:forEach var="i" begin="1" end="17">
 												<c:choose>
 													<c:when test="${player.getPositionalStats().getPriorStatsByWeekNumber().get(String.valueOf(i)) != null}">
 														<td>${player.getPositionalStats().getPriorStatsByWeekNumber().get(String.valueOf(i)).getStats().get("FPTS").getValue()}</td>
@@ -252,11 +333,12 @@
 										
 										
 										<c:choose>
-													<c:when test="${!player.getNameAndTags().contains(tag.getTag())}">
+													<c:when test="${player.getDraftingDetails().getTags().contains(tag.getValue())}">
+														
 														<td>
 														
-															<form action="/tagPlayer" method="post">
-																<button type="submit" value="${player.getFantasyProsId()},${tag}" name="playerIdWithTag" class="btn btn-default modal-pick-button tag-button">${tag}</button>
+															<form action="/untagPlayer" method="post">
+																<button type="submit" value="${player.getFantasyProsId()},${tag.getName()},${tag.getValue()}" name="playerIdWithTag" class="btn btn-default modal-pick-button untag-button">${tag.getName()}</button>
 															</form>
 														
 														</td>
@@ -264,8 +346,8 @@
 													<c:otherwise>
 														<td>
 														
-															<form action="/untagPlayer" method="post">
-																<button type="submit" value="${player.getFantasyProsId()},${tag}" name="playerIdWithTag" class="btn btn-default modal-pick-button untag-button">${tag}</button>
+															<form action="/tagPlayer" method="post">
+																<button type="submit" value="${player.getFantasyProsId()},${tag.getName()},${tag.getValue()}" name="playerIdWithTag" class="btn btn-default modal-pick-button tag-button">${tag.getName()}</button>
 															</form>
 														
 														</td>

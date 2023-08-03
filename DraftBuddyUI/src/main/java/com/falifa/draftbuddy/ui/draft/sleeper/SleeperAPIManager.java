@@ -20,7 +20,7 @@ public class SleeperAPIManager {
 	
 	private static final Logger log = LoggerFactory.getLogger(SleeperAPIManager.class);
 	
-	private static final String SLEEPER_DRAFT_ID_2022 = "857115695748603904";
+	private static final String SLEEPER_DRAFT_ID_CURRENT_DEFAULT = "978319352829202432";
 
 	
 	private static final String SLEEPER_API_URL = "http://localhost:8081/api/draft";
@@ -32,7 +32,7 @@ public class SleeperAPIManager {
 	
 	public SleeperDraftState getDraftState(String draftId) {
 		if (StringUtils.isEmpty(draftId)) {
-			draftId = SLEEPER_DRAFT_ID_2022;
+			draftId = SLEEPER_DRAFT_ID_CURRENT_DEFAULT;
 		}
 		SleeperDraftState response = null;
 		try {

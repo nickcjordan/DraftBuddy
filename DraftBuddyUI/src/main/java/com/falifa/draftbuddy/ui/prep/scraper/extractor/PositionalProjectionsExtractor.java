@@ -15,6 +15,7 @@ import com.falifa.draftbuddy.ui.model.player.stats.StatisticCategory;
 import com.falifa.draftbuddy.ui.model.player.stats.StatisticValue;
 import com.falifa.draftbuddy.ui.prep.PlayerCache;
 import com.falifa.draftbuddy.ui.prep.data.PlayerPopulator;
+import com.falifa.draftbuddy.ui.prep.scraper.DataPopulatorHelper;
 import com.jaunt.Element;
 import com.jaunt.Elements;
 import com.jaunt.NotFound;
@@ -26,6 +27,9 @@ public class PositionalProjectionsExtractor {
 
 	@Autowired
 	private PlayerPopulator playerPopulator;
+	
+	@Autowired
+	private DataPopulatorHelper helper;
 
 	public boolean extractPositionalProjectionDataFromElement(Element table) throws NotFound {
 		List<StatisticCategory> categories = buildStatisticsCategories(table.findFirst("<thead>").findEach("<tr>"));
@@ -43,8 +47,12 @@ public class PositionalProjectionsExtractor {
 	private boolean handlePlayerRow(Element playerRow, List<StatisticCategory> categories) {
 		String fantasyProsId;
 		try {
-			fantasyProsId = playerRow.getAt("class").split("-")[2];
-			Player p = PlayerCache.getPlayer(fantasyProsId);
+			Element node = playerRow.findFirst("<a>");
+			String name = node.getTextContent();
+			Player p = helper.getPlayerFromName(name);
+			
+//			fantasyProsId = playerRow.getAt("class").split("-")[2];
+//			Player p = PlayerCache.getPlayer(fantasyProsId);
 			if (p != null) {
 				Iterator<Element> statsIterator = playerRow.findEach("<td>").iterator();
 				for (StatisticCategory category : categories) {
@@ -52,6 +60,10 @@ public class PositionalProjectionsExtractor {
 				}
 				playerPopulator.populateProjectedStatsMap(p);
 				playerPopulator.populatePlayerProjectedTotalsFields(p);
+				String pointsString = p.getProjectedRawStatsDetails().getStats().get("MISC").getStat("FPTS");
+				if (pointsString != null) {
+					p.getPositionalStats().setProjectedTotalPoints(pointsString);
+				}
 				return true;
 			}
 		} catch (Exception e) {

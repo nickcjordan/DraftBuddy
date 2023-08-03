@@ -4,6 +4,7 @@ import static com.falifa.draftbuddy.ui.constants.DataSourcePaths.MASTER_PLAYERS_
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -29,6 +30,14 @@ public class PlayerCache {
 			p.getDraftingDetails().setAvailable(true);
 		}
 		players.putAll(playerData);
+		return true;
+	}
+	
+	public static boolean addPlayerDataToExisting(List<Player> playerData) {
+		for (Player p : playerData) {
+			p.getDraftingDetails().setAvailable(true);
+			players.put(p.getFantasyProsId(), p);
+		}
 		return true;
 	}
 

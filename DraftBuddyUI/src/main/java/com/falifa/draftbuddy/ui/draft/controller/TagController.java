@@ -49,8 +49,10 @@ public class TagController {
     public String tagPlayer(@RequestParam(defaultValue="") String playerIdWithTag, Model model) {
 		modelUpdater.updateCommonAttributes(model);
 		String[] split = playerIdWithTag.split(",");
-		Player player = NFLTeamManager.getPlayerById(draftManager.resolvePlayerId(split[0]));
-		Tag tag = Tag.valueOf(Tag.class, split[1]);
+		String fantasyProsPlayerId = split[0];
+		String tagName = split[1];
+		Player player = NFLTeamManager.getPlayerById(draftManager.resolvePlayerId(fantasyProsPlayerId));
+		Tag tag = Tag.valueOf(Tag.class, tagName);
 		log.info("tagging player " + player.getPlayerName() + " with tag " + tag.toString());
 		strategyHandler.addTagsToPlayer(player, tag.getTag());
 		updateTagFileWithNewPlayerTag(player);

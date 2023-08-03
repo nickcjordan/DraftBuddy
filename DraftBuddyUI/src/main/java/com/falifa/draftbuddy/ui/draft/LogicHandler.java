@@ -34,9 +34,6 @@ public class LogicHandler {
 	private DraftState draftState;
 
 	@Autowired
-	private NFLTeamManager nflTeams;
-	
-	@Autowired
 	private RandomIndexGenerator randomGenerator;
 
 	
@@ -52,19 +49,35 @@ public class LogicHandler {
 	}
 	
 	public List<Player> getSortedSuggestedPlayers(Drafter currentDrafter) {
-		return (currentDrafter != null) && currentDrafter.isOptimized() ? getOptimizedSuggestions(currentDrafter) : getAiSuggestions(currentDrafter);
+//		return (currentDrafter != null) && currentDrafter.isOptimized() ? getOptimizedSuggestions(currentDrafter) : getAiSuggestions(currentDrafter);
+		return getOptimizedSuggestions(currentDrafter);
 	}
 	
 	public List<Player> getOptimizedSuggestions(Drafter currentDrafter) {
-		List<Player> suggestions = getPlayersForPositionsThatAreEmptyIfLateInDraft(currentDrafter);
-		if (CollectionUtils.isEmpty(suggestions)) {
-			suggestions = nflTeams.getAllAvailablePlayersByADP().stream().filter(p -> 
-				isAtLeastInitialRoundForPosition(p) &&
-				positionSlotIsNotFull(p, currentDrafter) //&& 
-//				hasNotFilledEarlyRoundMaxForPositionCount(p, currentDrafter) // if already drafted a qb or te, probably want to wait until later to relook at them
-			).collect(Collectors.toList());
-			reorderSuggestionsBasedOnTagLogic(suggestions);
-		}
+		
+		// no longer limiting view, going to return all players and let my brain make the judgement call
+		List<Player> suggestions = NFLTeamManager.getAllAvailablePlayersByADP();
+		
+		// realistically only need flex and QB -- hide kickers and D from this view - I can use other views for that
+		suggestions = suggestions.stream().filter(p -> 
+			p.getPosition() == Position.QUARTERBACK || 
+			p.getPosition() == Position.RUNNINGBACK || 
+			p.getPosition() == Position.WIDERECEIVER || 
+			p.getPosition() == Position.TIGHTEND
+		).collect(Collectors.toList());
+		
+		
+//		List<Player> suggestions = getPlayersForPositionsThatAreEmptyIfLateInDraft(currentDrafter);
+//		if (CollectionUtils.isEmpty(suggestions)) {
+			
+//			suggestions = nflTeams.getAllAvailablePlayersByADP().stream().filter(p -> 
+////				isAtLeastInitialRoundForPosition(p) &&
+////				positionSlotIsNotFull(p, currentDrafter) //&& 
+////				hasNotFilledEarlyRoundMaxForPositionCount(p, currentDrafter) // if already drafted a qb or te, probably want to wait until later to relook at them
+//			).collect(Collectors.toList());
+			// Taking out the 'reorder' based on tags - it is more advantageous to see the order based on stats, not arbitrarily manipulated based on preference
+//			reorderSuggestionsBasedOnTagLogic(suggestions);
+//		}
 		return suggestions;
 	}
 	
@@ -76,7 +89,7 @@ public class LogicHandler {
 	public List<Player> getAiSuggestions(Drafter currentComputerDrafter) {
 		List<Player> suggestions = getPlayersForPositionsThatAreEmptyIfLateInDraft(currentComputerDrafter);
 		if (CollectionUtils.isEmpty(suggestions)) {
-			suggestions = nflTeams.getAllAvailablePlayersByADP().stream().filter(p -> positionSlotIsNotFull(p, currentComputerDrafter)).collect(Collectors.toList());
+			suggestions = NFLTeamManager.getAllAvailablePlayersByADP().stream().filter(p -> positionSlotIsNotFull(p, currentComputerDrafter)).collect(Collectors.toList());
 		}
 		return suggestions;
 	}
@@ -127,7 +140,7 @@ public class LogicHandler {
 		for (Entry<Position, List<Player>> draftedPositionList : currentDrafter.getDraftedTeam().getPlayersByPosition().entrySet()) {
 			if ((draftedPositionList.getValue().size() == 0) && (draftState.getRoundNum() >= draftState.getNumberOfRounds() - prop(draftedPositionList.getKey().getAbbrev().toLowerCase() + "Warn"))) {
 				log.info("addIfPositionIsEmptyAndItIsLateEnoughToMatter " + currentDrafter.getDraftedTeam().getName() + " :: adding position = " + draftedPositionList.getKey().getName());
-				positionsThatHaveNotBeenDrafted.addAll(nflTeams.getAvailablePlayersByPositionAsListByADP(draftedPositionList.getKey()));
+				positionsThatHaveNotBeenDrafted.addAll(NFLTeamManager.getAvailablePlayersByPositionAsListByADP(draftedPositionList.getKey()));
 			}
 		}
 		if (!positionsThatHaveNotBeenDrafted.isEmpty()) {

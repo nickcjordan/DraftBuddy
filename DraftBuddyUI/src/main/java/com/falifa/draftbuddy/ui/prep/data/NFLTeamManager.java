@@ -18,10 +18,12 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
 import com.falifa.draftbuddy.ui.constants.NflTeamMetadata;
 import com.falifa.draftbuddy.ui.constants.Position;
 import com.falifa.draftbuddy.ui.draft.compare.AlphabetizedTeamComparator;
+import com.falifa.draftbuddy.ui.draft.compare.JJRankComparator;
 import com.falifa.draftbuddy.ui.draft.compare.PlayerADPComparator;
 import com.falifa.draftbuddy.ui.draft.compare.PlayerRankComparator;
 import com.falifa.draftbuddy.ui.draft.compare.PlayerSleeperADPComparator;
@@ -29,8 +31,10 @@ import com.falifa.draftbuddy.ui.model.MasterPlayersTO;
 import com.falifa.draftbuddy.ui.model.MasterTeamTO;
 import com.falifa.draftbuddy.ui.model.player.Player;
 import com.falifa.draftbuddy.ui.model.player.SleeperPlayerData;
+import com.falifa.draftbuddy.ui.model.player.TierTO;
 import com.falifa.draftbuddy.ui.model.team.NFLTeam;
 import com.falifa.draftbuddy.ui.prep.api.PlayerNameMatcher;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -46,7 +50,7 @@ public class NFLTeamManager {
 	
 	
 	private static PlayerNameMatcher nameMatcher;
-
+	
 	 static {
 		playersById = new HashMap<String, Player>();
 		teamsByAbbreviation = new HashMap<String, NFLTeam>();
@@ -58,17 +62,18 @@ public class NFLTeamManager {
 		try {
 			populateMasterPlayersFromJsonFile();
 			populateMasterTeamsFromJsonFile();
-			populateMasterSleeperPlayersFromJsonFile();
 			
-			updatePlayersWithSleeperData();
+			populateMasterSleeperPlayersFromJsonFile();
+			updatePlayersWithSleeperData(playersById, sleeperPlayersById);
+			
 			log.info("NFL initialized with {} teams and {} players", teamsByAbbreviation.size(), playersById.size());
 		} catch (Exception e) {
 			log.error("ERROR initializing master players from json", e);
 		}
 	}
 
-	private static void updatePlayersWithSleeperData() {
-		for (Player p : playersById.values()) {
+	public static void updatePlayersWithSleeperData(Map<String, Player> players, Map<String, SleeperPlayerData> sleeperPlayers) {
+		for (Player p : players.values()) {
 			if (p.getPosition().equals(Position.DEFENSE)) {
 				nameMatcher.addNameMapping(p.getTeam().getAbbreviation(), p.getFantasyProsId());
 				nameMatcher.addNameMapping(p.getTeam().getFullName(), p.getFantasyProsId());
@@ -76,19 +81,19 @@ public class NFLTeamManager {
 			nameMatcher.addAlternateNames(p.getPlayerName(), p.getFantasyProsId());
 		}
 		
-		
-		
-		
-		for (String key : sleeperPlayersById.keySet()) {
-			SleeperPlayerData sleeperPlayer = sleeperPlayersById.get(key);
+		for (String key : sleeperPlayers.keySet()) {
+			SleeperPlayerData sleeperPlayer = sleeperPlayers.get(key);
 			List<String> fantasyPositions = Arrays.asList("QB", "WR", "RB", "TE", "DEF", "DST", "K");
-			if (fantasyPositions.contains(sleeperPlayer.getDepthChartPosition())) {
+			if (fantasyPositions.contains(sleeperPlayer.getPosition())) {
+				
 				String id = nameMatcher.findIdForClosestMatchingName(sleeperPlayer.getFullName());
-				Player player = playersById.get(id);
+				Player player = players.get(id);
 				if (player != null) {
 					player.setSleeperData(sleeperPlayer);
 					player.setSleeperId(key);
 					sleeperPlayer.setFantasyProsId(player.getFantasyProsId());
+				} else {
+					log.debug("Did not find player " + sleeperPlayer.getFullName() + " from PlayerCache");
 				}
 			}
 		}
@@ -144,7 +149,16 @@ public class NFLTeamManager {
 				throw new RuntimeException("SLEEPER PICK PLAYER WAS NULL :: " + playerName);
 			}
 			return player;
-		} else { return null; }
+		} else { 
+			log.error("DID NOT FIND SLEEPER PLAYER WITH ID " + sleeperId);
+			try {
+				System.out.println(new ObjectMapper().writeValueAsString(sleeperPlayersById));
+			} catch (JsonProcessingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return null; 
+		}
 	}
 
 	public static Map<String, Player> getPlayersById() {
@@ -234,6 +248,19 @@ public class NFLTeamManager {
 			int value = pickNum - Integer.valueOf(p.getRankMetadata().getAdp());
 			p.getDraftingDetails().setCurrentPlayerValue(value);
 			p.getDraftingDetails().setCurrentPlayerValueBadgeClass(getValueBadgeClass(value));
+			
+			// adding VORP (value over replacement player)
+			/* 
+			 * 		With any kind of VORP approach, your goal is to
+					compare some player versus a replacement-level
+					player at his position in order to see how much
+					value the player you’re analyzing holds. You’re
+					comparing a player to some baseline player who
+					plays the same position.
+			 * 
+			 * */
+			
+//			int vorp = 
 		}
 	}
 	
@@ -250,6 +277,58 @@ public class NFLTeamManager {
 		} else if (value <= 40) { return "pos-20";
 		} else { return "pos-40";
 		}
+	}
+
+	public static Object getAllAvailablePlayersByTier(String source) {
+		Map<Integer, List<Player>> playersByTier = new HashMap<Integer, List<Player>>();
+		int highestTier = 0;
+		for (Player p : getAllAvailablePlayersByADP()) {
+			int tierValue = grabTierValue(source, p);
+			if (tierValue > highestTier) {
+				highestTier = tierValue;
+			}
+			if (playersByTier.containsKey(tierValue)) {
+				List<Player> list = playersByTier.get(tierValue);
+				list.add(p);
+				playersByTier.put(tierValue, list);
+			} else {
+				List<Player> list = new ArrayList<Player>();
+				list.add(p);
+				playersByTier.put(tierValue, list);
+			}
+		}
+		List<TierTO> tierList = new ArrayList<TierTO>();
+		for (int i = 1; i <= highestTier; i++) {
+			List<Player> sortedInTier = playersByTier.get(i);
+			if (!CollectionUtils.isEmpty(sortedInTier)) {
+
+				if (source.equals("fantasy_pros")) {
+					Collections.sort(sortedInTier, new PlayerRankComparator());
+				} else if (source.equals("jj")) {
+					Collections.sort(sortedInTier, new JJRankComparator());
+				}
+			}
+			tierList.add(new TierTO(i, sortedInTier));
+		}
+
+		return tierList;
+	}
+	
+	private static int grabTierValue(String source, Player p) {
+		// this correlates to tierPage.jsp
+		if (source.equals("fantasy_pros")) {
+			return p.getTier();
+		}
+		else if (source.equals("jj")) {
+			if (p.getLateRoundRank() != null) {
+				return Integer.valueOf(p.getLateRoundRank().getTier());
+			} else {
+				return 100;
+			}
+		} else {
+			return p.getTier();
+		}
+
 	}
 
 	// public static static List<Player> getAllPickedPlayersList(){

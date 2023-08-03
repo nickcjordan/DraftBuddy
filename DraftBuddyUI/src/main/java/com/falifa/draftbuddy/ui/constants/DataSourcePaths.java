@@ -32,12 +32,15 @@ public class DataSourcePaths {
 	public static final String FANTASYPROS_TARGET_LEADERS_URL = FANTASYPROS_BASE_URL + "/reports/targets/";
 	public static final String FANTASYPROS_TARGET_LEADERS_HTML_FILE_PATH = FANTASYPROS_BASE_HTML_FILE_PATH
 			+ "fantasy_pros_target_leaders.html";
+	
+	public static final String FANTASYPROS_TEAM_TARGETS_URL = FANTASYPROS_BASE_URL + "/reports/targets-distribution/";
+	public static final String FANTASYPROS_TEAM_TARGETS_HTML_FILE_PATH = FANTASYPROS_BASE_HTML_FILE_PATH
+			+ "fantasy_pros_team_targets.html";
 
 	public static final String FANTASYPROS_POSITIONAL_PROJECTIONS_BASE_URL = FANTASYPROS_BASE_URL
 			+ "/projections/%s.php?scoring=PPR&week=draft";
 	public static final String FANTASYPROS_POSITIONAL_PROJECTIONS_BASE_HTML_FILE_PATH = FANTASYPROS_BASE_HTML_FILE_PATH
 			+ "fantasy_pros_positional_projections_%s.html";
-
 
 	// *************** FANTASY FOOTBALLERS ***************
 	public static final String FANTASYFOOTBALLERS_BASE_URL = "https://www.thefantasyfootballers.com/";
@@ -124,5 +127,8 @@ public class DataSourcePaths {
 	public static final String TE_PROJECTIONS_PATH = "src/main/resources/data/projections/FantasyPros_Fantasy_Football_Projections_TE.csv";
 	public static final String K_PROJECTIONS_PATH = "src/main/resources/data/projections/FantasyPros_Fantasy_Football_Projections_K.csv";
 	public static final String DST_PROJECTIONS_PATH = "src/main/resources/data/projections/FantasyPros_Fantasy_Football_Projections_DST.csv";
+
+	
+	public static final String LATE_ROUND_GUIDE_PATH = "src/main/resources/data/LateRoundDraftGuideRankings.csv";
 
 }

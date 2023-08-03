@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <Context>
 
-	<Resources cacheMaxSize="51200" />
+	<Resources cachingAllowed="true" cacheMaxSize="409600" />
 
 </Context>

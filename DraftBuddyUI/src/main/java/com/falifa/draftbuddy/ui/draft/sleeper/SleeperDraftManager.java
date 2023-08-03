@@ -54,6 +54,9 @@ public class SleeperDraftManager {
 		for (SleeperDraftPick pick : unprocessedPicks) {
 			int drafterIndex = pick.getDraftSlot() - 1;
 			Player player = NFLTeamManager.getPlayerBySleeperId(pick.getPlayerId());
+			if (player == null) {
+				log.error("DID NOT FIND SLEEPER PLAYER");
+			}
 			Drafter drafter = draftState.getDraft().getDrafters().get(drafterIndex);
 			draftState.getDraftPicks().add(draftPlayer(drafter, player, pick, sleeperState));
 		}

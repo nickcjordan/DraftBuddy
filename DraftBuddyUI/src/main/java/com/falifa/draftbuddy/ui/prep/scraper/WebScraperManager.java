@@ -58,9 +58,14 @@ public class WebScraperManager {
 		success &= updateFantasyProsRookiesRankingsDataSource();
 		success &= updateFantasyProsPositionalProjectionsDataSource();
 		success &= updateFantasyProsTargetLeadersDataSource();
+		success &= updateFantasyProsTeamTargetsDataSource();
 		return success;
 	}
 
+	private boolean updateFantasyProsTeamTargetsDataSource() {
+		return updater.downloadFileFromUrl(FANTASYPROS_TEAM_TARGETS_URL, FANTASYPROS_TEAM_TARGETS_HTML_FILE_PATH);
+	}
+	
 	private boolean updateFantasyProsTargetLeadersDataSource() {
 		return updater.downloadFileFromUrl(FANTASYPROS_TARGET_LEADERS_URL, FANTASYPROS_TARGET_LEADERS_HTML_FILE_PATH);
 	}

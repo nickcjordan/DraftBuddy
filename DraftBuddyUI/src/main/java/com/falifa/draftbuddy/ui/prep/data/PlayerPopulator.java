@@ -102,6 +102,16 @@ public class PlayerPopulator {
 						 case DEFENSE : positionalStatsBuilder.buildDefenseStats(statsByWeek, player); break;
 						 case KICKER : positionalStatsBuilder.buildKickerStats(statsByWeek, player); break;
 					 }
+					 
+					 int totalGamesPlayedPriorYear = 0;
+					 for (String weekKey : statsByWeek.keySet()) {
+						 PositionStatsDetails val = statsByWeek.get(weekKey);
+						 if (val != null && val.getTotalPointsScored() > 0) {
+							 totalGamesPlayedPriorYear++;
+						 }
+					 }
+					 player.getPositionalStats().setTotalGamesWithFantasyPointsPriorYear(totalGamesPlayedPriorYear);
+					 
 				 } else {
 					 log.debug("No Position assigned to player when trying to populate player stats from API weekly stats map :: player={} :: id={}", player.getPlayerName(), player.getFantasyProsId());
 				 }

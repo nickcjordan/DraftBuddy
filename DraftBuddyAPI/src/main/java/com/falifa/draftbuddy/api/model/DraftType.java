@@ -77,18 +77,18 @@ public enum DraftType {
 	private String[] SLEEPER_LEAGUE = new String[]{};
 	
 	private String[] FALIFA_LEAGUE = new String[]{
-			"Chris",
-			"Matt",
-			"Nick W",
-			"Mason",
+			"Dan",
 			"Scott",
-			"Josh",
-			"Hunter",
-			"Nick J",
+			"Mason",
+			"Nick W",
 			"Will",
 			"Austin",
-			"Dan",
-			"Ryan"
+			"Josh",
+			"Ryan",
+			"Chris",
+			"Hunter",
+			"Matt",
+			"Nick J"
 	};
 	
 	private String[] NEELY_LEAGUE = new String[]{

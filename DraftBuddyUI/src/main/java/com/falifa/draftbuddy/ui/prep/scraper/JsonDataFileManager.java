@@ -110,8 +110,10 @@ public class JsonDataFileManager {
 
 	public boolean downloadAndSetPlayerImages() {
 		for (Player p : PlayerCache.getPlayers().values().stream().distinct().collect(Collectors.toList())) {
-			downloadPictureFileAndSetField(p);
-			PlayerCache.addOrUpdatePlayer(p);
+			if (Integer.valueOf(p.getRankMetadata().getAdp()) < 400) { // trying to save some data space 
+				downloadPictureFileAndSetField(p);
+				PlayerCache.addOrUpdatePlayer(p);
+			}
 		}
 		return true;
 	}

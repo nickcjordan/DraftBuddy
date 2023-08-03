@@ -18,6 +18,24 @@ public class NFLTeam {
 	private Map<Position, List<Player>> playersByPosition;
 	private List<Player> players;
 	private NFLTeamSOSData sosData;
+	public NflTrends trends;
+	public NflTeamStats stats;
+
+	public NflTeamStats getStats() {
+		return stats;
+	}
+
+	public void setStats(NflTeamStats stats) {
+		this.stats = stats;
+	}
+
+	public NflTrends getTrends() {
+		return trends;
+	}
+
+	public void setTrends(NflTrends trends) {
+		this.trends = trends;
+	}
 
 	public NFLTeamSOSData getSosData() {
 		return sosData;
@@ -62,6 +80,8 @@ public class NFLTeam {
 		playersByPosition.put(Position.KICKER, new ArrayList<Player>());
 		playersByPosition.put(Position.DEFENSE, new ArrayList<Player>());
 		this.players = new ArrayList<Player>();
+		this.stats = new NflTeamStats();
+		this.trends = new NflTrends();
 	}
 
 	public List<Player> getPlayers() {

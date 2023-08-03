@@ -115,15 +115,6 @@ public class DataPopulatorHelper {
 //										
 										
 										
-										
-										
-										
-										
-										
-										
-										
-										
-										
 										//Collections.sort(positionPlayer.getDraftingDetails().getPositionTeammates(), new PlayerADPComparator());
 										
 							

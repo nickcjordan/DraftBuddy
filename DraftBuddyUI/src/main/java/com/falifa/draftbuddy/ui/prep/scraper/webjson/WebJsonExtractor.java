@@ -1,6 +1,6 @@
 package com.falifa.draftbuddy.ui.prep.scraper.webjson;
 
-import static com.falifa.draftbuddy.ui.constants.DataSourcePaths.FANTASYPROS_RANKINGS_HTML_FILE_PATH;
+import static com.falifa.draftbuddy.ui.constants.DataSourcePaths.*;
 
 import java.io.IOException;
 import java.nio.file.FileSystems;
@@ -27,6 +27,13 @@ public class WebJsonExtractor {
 
 	public ECRData getECRDataFromFile() {
 		List<String> lines = toLines(FileSystems.getDefault().getPath(FANTASYPROS_RANKINGS_HTML_FILE_PATH)).filter(x -> x.contains(ECR_DATA)).collect(Collectors.toList());
+		String line = lines.get(0);
+		String json = line.substring(line.indexOf("{"), line.lastIndexOf("}") + 1);
+		return convertToECRData(json);
+	}
+	
+	public ECRData getRookieECRDataFromFile() {
+		List<String> lines = toLines(FileSystems.getDefault().getPath(FANTASYPROS_ROOKIES_RANKINGS_HTML_FILE_PATH)).filter(x -> x.contains(ECR_DATA)).collect(Collectors.toList());
 		String line = lines.get(0);
 		String json = line.substring(line.indexOf("{"), line.lastIndexOf("}") + 1);
 		return convertToECRData(json);

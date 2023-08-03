@@ -19,6 +19,7 @@
 				<li><div class="navName">Drafting: <span class="nav-name-badge">${draft.getCurrentDrafter().getName()}</span></div></li>
 				<li><a href="/dashboard">Dashboard</a></li>
 				<li><a href="/pos">Players</a></li>
+				<li><a href="/tiers">Tiers</a></li>
 				<li><a href="/nflTeams">Teams</a></li>
 				<li><a href="/drafters">Drafters</a></li>
 				<li><a href="/draftBoard">Draft Board</a></li>

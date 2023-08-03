@@ -16,6 +16,10 @@ public class PlayerPositionalStats {
 	private String priorTotalTargets;
 	private String priorAverageTargetsPerGame;
 	private Map<String, StatisticCategory> priorStatsByWeekNumber; 
+	private Integer totalGamesWithFantasyPointsPriorYear;
+	private Double priorAverageRushAttemptsPerGame;
+	private Double priorAverageReceptionsPerGame;
+	private Double priorTargetSharePercentage;
 	
 	public PlayerPositionalStats() {
 		this.priorStatsByWeekNumber = new TreeMap<String, StatisticCategory>(new StatCategoryByWeekComparator());
@@ -65,6 +69,38 @@ public class PlayerPositionalStats {
 	}
 	public void addWeekStatCategory(StatisticCategory cat) {
 		priorStatsByWeekNumber.put(cat.getName(), cat);
+	}
+
+	public Integer getTotalGamesWithFantasyPointsPriorYear() {
+		return totalGamesWithFantasyPointsPriorYear == null ? 0 : totalGamesWithFantasyPointsPriorYear;
+	}
+
+	public void setTotalGamesWithFantasyPointsPriorYear(Integer totalGamesWithFantasyPointsPriorYear) {
+		this.totalGamesWithFantasyPointsPriorYear = totalGamesWithFantasyPointsPriorYear;
+	}
+
+	public Double getPriorAverageRushAttemptsPerGame() {
+		return priorAverageRushAttemptsPerGame == null ? 0.0 : priorAverageRushAttemptsPerGame;
+	}
+
+	public void setPriorAverageRushAttemptsPerGame(Double priorAverageRushAttemptsPerGame) {
+		this.priorAverageRushAttemptsPerGame = priorAverageRushAttemptsPerGame;
+	}
+
+	public Double getPriorAverageReceptionsPerGame() {
+		return priorAverageReceptionsPerGame == null ? 0.0 : priorAverageReceptionsPerGame;
+	}
+
+	public void setPriorAverageReceptionsPerGame(Double priorAverageReceptionsPerGame) {
+		this.priorAverageReceptionsPerGame = priorAverageReceptionsPerGame;
+	}
+
+	public Double getPriorTargetSharePercentage() {
+		return priorTargetSharePercentage == null ? 0.0 : priorTargetSharePercentage;
+	}
+
+	public void setPriorTargetSharePercentage(Double priorTargetSharePercentage) {
+		this.priorTargetSharePercentage = priorTargetSharePercentage;
 	}
 	
 }

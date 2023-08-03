@@ -48,6 +48,10 @@ public class HtmlDataFileParser {
 		return pullTableHtmlOutOfFile(FANTASYPROS_TARGET_LEADERS_HTML_FILE_PATH, "<table>");
 	}
 
+	public String parseTableDataFromFantasyProsTeamTargets() {
+		return pullTableHtmlOutOfFile(FANTASYPROS_TEAM_TARGETS_HTML_FILE_PATH, "<table>");
+	}
+
 	public String parseTableDataFromFantasyProsPositionalProjections(String position) {
 		return pullTableHtmlOutOfFile(DataSourcePaths.buildPositionalPath(position, FANTASYPROS_POSITIONAL_PROJECTIONS_BASE_HTML_FILE_PATH), "<table>");
 	}
@@ -81,6 +85,7 @@ public class HtmlDataFileParser {
 		}
 		return html;
 	}
+
 
 
 }

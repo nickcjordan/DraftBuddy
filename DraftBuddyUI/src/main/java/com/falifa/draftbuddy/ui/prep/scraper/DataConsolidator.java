@@ -1,7 +1,13 @@
 package com.falifa.draftbuddy.ui.prep.scraper;
 
+import static com.falifa.draftbuddy.ui.constants.DataSourcePaths.LATE_ROUND_GUIDE_PATH;
+import static com.falifa.draftbuddy.ui.constants.DataSourcePaths.MASTER_SLEEPER_PLAYERS_JSON_FILE_PATH;
 import static com.falifa.draftbuddy.ui.constants.DataSourcePaths.TAGS_CUSTOM_PATH;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -21,12 +27,17 @@ import com.falifa.draftbuddy.ui.draft.compare.AlphabetizedPlayerComparator;
 import com.falifa.draftbuddy.ui.model.FantasyFootballerPlayerTO;
 import com.falifa.draftbuddy.ui.model.player.Player;
 import com.falifa.draftbuddy.ui.model.player.PlayerNote;
+import com.falifa.draftbuddy.ui.model.player.SleeperPlayerData;
 import com.falifa.draftbuddy.ui.model.team.NFLTeam;
 import com.falifa.draftbuddy.ui.model.team.NFLTeamSOSData;
 import com.falifa.draftbuddy.ui.prep.NFLTeamCache;
 import com.falifa.draftbuddy.ui.prep.PlayerCache;
 import com.falifa.draftbuddy.ui.prep.data.ModelUpdater;
+import com.falifa.draftbuddy.ui.prep.data.NFLTeamManager;
+import com.falifa.draftbuddy.ui.prep.data.PlayerTrendsManager;
 import com.falifa.draftbuddy.ui.prep.data.StrategyFileHandler;
+import com.falifa.draftbuddy.ui.prep.data.TeamTrendsManager;
+import com.falifa.draftbuddy.ui.prep.data.model.LateRoundGuideConsolidatedRank;
 import com.falifa.draftbuddy.ui.prep.data.model.SleeperADP;
 import com.falifa.draftbuddy.ui.prep.scraper.webjson.FFBallersAPI;
 import com.falifa.draftbuddy.ui.prep.scraper.webjson.WebJsonExtractor;
@@ -34,6 +45,7 @@ import com.falifa.draftbuddy.ui.prep.scraper.webjson.WebJsonPlayerConverter;
 import com.falifa.draftbuddy.ui.prep.scraper.webjson.model.ECRData;
 import com.falifa.draftbuddy.ui.prep.scraper.webjson.model.TeamSOSData;
 import com.falifa.draftbuddy.ui.prep.scraper.webjson.model.ffballers.FFBallersAPIData;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Component
@@ -70,6 +82,12 @@ public class DataConsolidator {
 	
 	@Autowired
 	private SleeperADPAPI sleeper;
+	
+	@Autowired
+	private PlayerTrendsManager playerTrendsManager;
+	
+	@Autowired
+	private TeamTrendsManager teamTrendsManager;
 
 	public boolean parseAllDataSources() {
 		boolean success = true;
@@ -88,6 +106,21 @@ public class DataConsolidator {
 		success &= jsonFileManager.downloadAndSetPlayerImages();
 		success &= parseAndUpdateFantasyFootballers();
 		success &= parseAndUpdateSleeperADP();
+		success &= parseAndUpdateJJLateRoundRank();
+		
+		// add sleeper data to players
+		Map<String, SleeperPlayerData> sleeperPlayers = getMasterSleeperPlayersFromJsonFile();
+		NFLTeamManager.updatePlayersWithSleeperData(PlayerCache.getPlayers(), sleeperPlayers);
+		
+		// add calculated stats for team totals
+		buildCalculatedTeamStats();
+		
+		buildDerivedPlayerStats();
+		
+		// build trends from stats and apply trend analysis
+		buildPlayerTrendsFromRawData();
+		teamTrendsManager.buildAllTeamTrends(NFLTeamCache.getNflTeamsByAbbreviation().values());
+		buildPlayerTrendsThatRelyOnTeamTrends();
 		
 		
 		modelUpdater.clearFiltersAndSorts();
@@ -95,6 +128,40 @@ public class DataConsolidator {
 		success &= NFLTeamCache.updateNflJsonFileWithCachedData();
 		return success;
 	}
+	
+	private void buildDerivedPlayerStats() {
+		//set isRookie from sleeper data
+		for (Player player : PlayerCache.getPlayers().values()) {
+			if (player.getSleeperData() != null) {
+				if (player.getSleeperData().getYearsExp() != null) {
+					if (player.getSleeperData().getYearsExp() == 0) {
+						player.setRookie(true);
+					}
+				}
+			}
+		}
+	}
+
+	private void buildCalculatedTeamStats() {
+		for (NFLTeam team : NFLTeamCache.getNflTeamsByAbbreviation().values()) {
+//			for ()
+		}
+	}
+
+	private void buildPlayerTrendsFromRawData() {
+		for( Player p : PlayerCache.getPlayers().values()) {
+			NFLTeam team = NFLTeamCache.getNflTeamsByAbbreviation().get(p.getTeam().getAbbreviation());
+			playerTrendsManager.buildTrendsForPlayerFromRawData(p, team);
+		}
+	}
+	
+	private void buildPlayerTrendsThatRelyOnTeamTrends() {
+		for( Player p : PlayerCache.getPlayers().values()) {
+			NFLTeam team = NFLTeamCache.getNflTeamsByAbbreviation().get(p.getTeam().getAbbreviation());
+			playerTrendsManager.buildTrendsForPlayerThatRelyOnTeamTrends(p, team);
+		}
+	}
+	
 
 	private boolean parseAndUpdateSleeperADP() {
 		List<SleeperADP> adp = sleeper.getADP();
@@ -107,6 +174,20 @@ public class DataConsolidator {
 			}
 		}
 		return true;
+	}
+	
+	private static Map<String, SleeperPlayerData> getMasterSleeperPlayersFromJsonFile() {
+		Map<String, SleeperPlayerData> sleeperPlayersById = null;
+		try {
+		    TypeReference<HashMap<String,SleeperPlayerData>> typeRef = new TypeReference<HashMap<String,SleeperPlayerData>>() {};
+		    sleeperPlayersById = new ObjectMapper().readValue(new File(MASTER_SLEEPER_PLAYERS_JSON_FILE_PATH), typeRef);
+		} catch (FileNotFoundException ex) {
+			log.error("Did not find master sleeper players json at path={}", MASTER_SLEEPER_PLAYERS_JSON_FILE_PATH);
+		} catch (Exception e) {
+			log.error("ERROR extracting master sleeper players json from file at path={}", MASTER_SLEEPER_PLAYERS_JSON_FILE_PATH);
+			e.printStackTrace();
+		}
+		return sleeperPlayersById;
 	}
 
 	private boolean parseAndUpdateFantasyFootballersRankings() {
@@ -125,6 +206,7 @@ public class DataConsolidator {
 		success &= parseAndUpdateFantasyProsRookiesRankings();
 		success &= parseAndUpdateFantasyProsPositionalProjections();
 		success &= parseAndUpdateFantasyProsTargetLeaders();
+		success &= parseAndUpdateFantasyProsTeamTargets();
 		success &= parseAndUpdateFantasyProsNotes();
 		return success;
 	}
@@ -135,9 +217,29 @@ public class DataConsolidator {
 		
 		ECRData ecrData = jsonExtractor.getECRDataFromFile();
 		
+		
 		Map<String, Player> playerData = playerConverter.convertToPlayerData(ecrData);
 		return PlayerCache.addPlayerDataToExisting(playerData);
 	}
+	
+	private boolean parseAndUpdateFantasyProsRookiesRankings() {
+		
+		ECRData ecrData = jsonExtractor.getRookieECRDataFromFile();
+		List<com.falifa.draftbuddy.ui.prep.scraper.webjson.model.Player> rookies = ecrData.getPlayers();
+		List<Player> rookiesToPopulate = new ArrayList<Player>();
+		for (com.falifa.draftbuddy.ui.prep.scraper.webjson.model.Player p : rookies) {
+			Player rookieToPopulate = PlayerCache.getPlayer(String.valueOf(p.getPlayerId()));
+			if (rookieToPopulate != null) {
+				rookieToPopulate.getDraftingDetails().setRookie(true);
+				rookieToPopulate.getRankMetadata().setRookieRanking(String.valueOf(p.getRankEcr()));
+				rookiesToPopulate.add(rookieToPopulate);
+			} else {
+				log.debug("Did not find rookie in temporary storage :: name={} :: fantasyProsId={}", p.getPlayerName(), p.getPlayerId());
+			}
+		}
+		return PlayerCache.addPlayerDataToExisting(rookiesToPopulate);
+	}
+	
 	
 	private boolean parseAndUpdateFantasyProsStrengthOfSchedule() {
 		boolean allSuccess = true;
@@ -226,10 +328,16 @@ public class DataConsolidator {
 		return extractor.extractPlayerDataFromFantasyProsTargetLeaders(htmlTable);
 	}
 	
-	private boolean parseAndUpdateFantasyProsRookiesRankings() {
-		String htmlTable = htmlParser.parseTableDataFromFantasyProsRookiesRankings();
-		return extractor.extractPlayerDataFromFantasyProsRookiesRankings(htmlTable);
+	private boolean parseAndUpdateFantasyProsTeamTargets() {
+		String htmlTable = htmlParser.parseTableDataFromFantasyProsTeamTargets();
+		return extractor.extractTeamDataFromFantasyProsTeamTargets(htmlTable);
 	}
+	
+	// rookies changed to ecr json style extraction
+//	private boolean parseAndUpdateFantasyProsRookiesRankings() {
+//		String htmlTable = htmlParser.parseTableDataFromFantasyProsRookiesRankings();
+//		return extractor.extractPlayerDataFromFantasyProsRookiesRankings(htmlTable);
+//	}
 
 	private boolean parseAndUpdateFantasyProsProjectionsByPosition(String position) {
 		String htmlTable = htmlParser.parseTableDataFromFantasyProsPositionalProjections(position);
@@ -257,6 +365,23 @@ public class DataConsolidator {
 			return false;
 		}
 		return true;
+	}
+	
+	private boolean parseAndUpdateJJLateRoundRank() {
+		try {
+			for (List<String> split : strategyHandler.getSplitLinesFromFile(LATE_ROUND_GUIDE_PATH, true)) {
+				Player p = dataPopulator.getPlayerFromName(split.get(1));
+				if (p != null && split.get(1) != null) {
+					p.setLateRoundRank(new LateRoundGuideConsolidatedRank(split.get(0), split.get(3), split.get(4)));
+				} else {
+					log.error("ERROR cleaning up players :: Player not found = {}", split.get(0));
+				}
+			}
+			return true;
+		} catch (Exception e) {
+			log.error("ERROR parsing JJ Zachariason stats :: message={}", e.getMessage(), e);
+			return false;
+		}
 	}
 	
 	private void cycleThroughAllPlayersAndCheckForNewCoach(Map<String, Player> updated) {

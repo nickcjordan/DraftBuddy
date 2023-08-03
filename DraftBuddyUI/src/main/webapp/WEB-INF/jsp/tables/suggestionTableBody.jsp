@@ -7,12 +7,14 @@
 				<th class="id-suggest"><a href="/sortSuggestions?sortBy=SLEEPER_ADP">SADP</a></th>
 				<th class="pos_rank-suggest"><a href="/sortSuggestions?sortBy=ECR">ECR</a></th>
 				<th class="value-suggest"><a href="/sortSuggestions?sortBy=ADP_VAL"><span title="" data-placement="top" data-html="true" data-toggle="tooltip" data-original-title="Current number of picks player differs from their original <b>ADP</b>">Value</span> <script>$('span').tooltip();</script></a></th>
+				<th class="team-suggest">Trends</th>
 				<th class="pos-suggest">-</th>
 				<th class="name-suggest"><a href="/sortSuggestions?sortBy=NAME">Name</a></th>
 				<th class="pos-suggest">Pos</th>
+				<th class="proj-pts-suggest"><a href="/sortSuggestions?sortBy=JJ_RANK">JJ</a></th>
 				<th class="proj-pts-suggest"><a href="/sortSuggestions?sortBy=FFB_RANK">FFB</a></th>
 				<th class="proj-pts-suggest"><a href="/sortSuggestions?sortBy=FFB_FLEX_RANK">FlxRnk</a></th>
-				<th class="proj-pts-suggest"><a href="/sortSuggestions?sortBy=FFB_FLEX_GRADE">FlxGrd</a></th>
+				<!-- <th class="proj-pts-suggest"><a href="/sortSuggestions?sortBy=FFB_FLEX_GRADE">FlxGrd</a></th> -->
 				<th class="vsadp-suggest">Prj</th>
 				<th class="proj-pts-suggest"><a href="/sortSuggestions?sortBy=AVG_PRIOR_PTS">PriAvg</a></th>
 				<th class="tags-suggest">Tags</th>
@@ -45,9 +47,25 @@
 					<td class="pos_rank-suggest"><span class="badge-ecr">${player.getRankMetadata().getOverallRank()}</span></td></a></td>
 					
 					<td class="value-suggest"><span class="badge badge-val badge-${player.getDraftingDetails().getCurrentPlayerValueBadgeClass()}"><strong>${player.getDraftingDetails().getCurrentPlayerValue()}</strong></span></td>
+					
+					
+					<td class="team-suggest no-pad">
+						<c:choose>
+						<c:when test="${player.getTrendAnalysisScore() > 0}">
+							<strong>${player.getTrendAnalysisScore()}</strong>
+						</c:when>
+						<c:otherwise>
+							&nbsp;
+						</c:otherwise>
+					</c:choose>
+					</td>
+					
 					<td class="pos-suggest no-pad">
 						<img src="${player.getPictureMetadata().getPicLocation()}" class="img-fluid player-icon-image tiny-image-icon" alt="No Photo Available">
 					</td>
+					
+					
+					
 					<td class="name-suggest">
 						<a class="nameLink" data-toggle="modal" data-target="#${player.getFantasyProsId()}playerModal">
 							<c:choose>
@@ -88,10 +106,11 @@
 						</a>
 					</td>
 					<td class="pos-suggest"><span class="badge position-badge ${player.getPosition().getBadgeClass()}">${player.getPosition().getAbbrev()}${player.getRankMetadata().getPositionRank()}</span></td>
+					<td class="proj-avg-pts-suggest "><span class="badge position-badge medium-badge">${player.getLateRoundRank().getOverall()}</span></td>
 					<td class="proj-avg-pts-suggest ffballers-col"><span class="badge position-badge medium-badge ${player.getPosition().getBadgeClass()}">${player.getFfBallersPlayerProjection().getPositionRank()}</span></td>
 					<td class="proj-avg-pts-suggest ffballers-col"><span class="badge position-badge medium-badge ${player.getPosition().getBadgeClass()}">${player.getFfBallersPlayerProjection().getFlexRank()}</span></td>
-					<td class="proj-avg-pts-suggest ffballers-col"><span class="badge position-badge medium-badge ${player.getFfBallersPlayerProjection().getFlexGradeBadgeClass()}">${player.getFfBallersPlayerProjection().getFlexGrade()}</span></td>
-					<td class="vsadp-suggest">${player.getFfBallersPlayerProjection().getAvgPoints()}</td>
+					<!-- <td class="proj-avg-pts-suggest ffballers-col"><span class="badge position-badge medium-badge ${player.getFfBallersPlayerProjection().getFlexGradeBadgeClass()}">${player.getFfBallersPlayerProjection().getFlexGrade()}</span></td> -->
+					<td class="vsadp-suggest">${player.getPositionalStats().getProjectedTotalPoints()}</td>
 					<td class="proj-pts-suggest"><strong>${player.getPositionalStats().getPriorAveragePointsPerGame()}</strong></td>
 
 
@@ -107,6 +126,21 @@
 							</c:otherwise>
 						</c:choose>
 					</td>
+					
+					<!-- <td class="tags-suggest">
+						<c:choose>
+							<c:when test="${player.getTrendAnalysis().size()==0}">&nbsp;</c:when>
+							<c:otherwise>
+							<span title="" data-placement="top" data-html="true" data-toggle="tooltip" data-original-title="${player.getTrendAnalysis().size()}">
+								<c:forEach items="${player.getTrendAnalysis()}" var="analysis">
+									<span>
+									${analysis.blurb}
+									</span>
+								</c:forEach>
+							</span><script>$('span').tooltip();</script>
+							</c:otherwise>
+						</c:choose>
+					</td> -->
 
 
 

@@ -21,6 +21,7 @@ public class SleeperADPDelegate {
 			Unirest.setTimeouts(0, 0);
 			HttpResponse<String> rr = Unirest.get(adpUrl)
 			  .asString();
+			log.info("Sleeper ADP API response body: " + rr.getBody());
 			SleeperADPResponse body = new ObjectMapper().readValue(rr.getBody(), SleeperADPResponse.class);
 			
 			return body;

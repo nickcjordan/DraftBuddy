@@ -51,13 +51,8 @@
   box-sizing: border-box;
 }
 
-.mepr-stripe-card-element {
-  border: 1px solid rgba(0, 0, 0, 0.2) !important;
-  padding: 10px !important;
-  background-color: white;
-}
-
 .mepr-stripe-card-errors,
+.mepr-paypal-card-errors,
 .mepr-stripe-checkout-errors {
   color: #eb1c26;
 }

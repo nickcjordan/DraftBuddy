@@ -12,7 +12,7 @@ public class SleeperADPItem {
 	private SleeperADPItemPlayer player;
 	
 	@JsonProperty("Redraft PPR ADP")
-	private String adp;
+	private SleeperADPItemDetail adp;
 
 	@JsonProperty("Player")
 	public SleeperADPItemPlayer getPlayer() {
@@ -25,12 +25,12 @@ public class SleeperADPItem {
 	}
 
 	@JsonProperty("Redraft PPR ADP")
-	public String getAdp() {
+	public SleeperADPItemDetail getAdp() {
 		return adp;
 	}
 
 	@JsonProperty("Redraft PPR ADP")
-	public void setAdp(String adp) {
+	public void setAdp(SleeperADPItemDetail adp) {
 		this.adp = adp;
 	}
 

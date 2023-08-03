@@ -25,6 +25,7 @@ import com.falifa.draftbuddy.ui.model.Drafter;
 import com.falifa.draftbuddy.ui.model.DrafterSummary;
 import com.falifa.draftbuddy.ui.model.player.Player;
 import com.falifa.draftbuddy.ui.model.player.PositionalOverview;
+import com.falifa.draftbuddy.ui.model.player.TagTO;
 import com.falifa.draftbuddy.ui.model.team.NFLTeam;
 import com.falifa.draftbuddy.ui.prep.data.model.HighestRemainingPositionInTierTO;
 import com.falifa.draftbuddy.ui.prep.data.model.RemainingTierTO;
@@ -53,15 +54,23 @@ public class ModelUpdater {
 		updateCurrentDrafterAttributes(model);
 		updateDraftStateAttributes(model);
 		updateNflTeamListsAttributes(model);
-		model.addAttribute("allTags", Arrays.asList(Tag.values()));
+		model.addAttribute("allTags", buildTagTOs());
 		log.debug("Models updated for all fields :: updated for drafter={}", draftState.getCurrentDrafter().getName());
 	}
 
 	private void updateCommonAttributesSubset(Model model) {
 		model.addAttribute("error", draftState.errorMessage);
-		model.addAttribute("allTags", Arrays.asList(Tag.values()));
+		model.addAttribute("allTags", buildTagTOs());
 		updateDraftStateAttributes(model);
 		log.debug("Models updated for common subset");
+	}
+	
+	private List<TagTO> buildTagTOs() {
+		List<TagTO> vals = new ArrayList<TagTO>();
+		for (Tag t : Tag.values()) {
+			vals.add(new TagTO(t.name(), t.getTag()));
+		}
+		return vals;
 	}
 
 	public void updateCurrentDrafterAttributes(Model model) {
@@ -73,12 +82,18 @@ public class ModelUpdater {
 				model.addAttribute("drafted" + position.getAbbrev(),
 						draftState.currentDrafter.getDraftedTeam().getPlayersByPosition(position));
 			}
+			double totalDraftedProjectedPoints = draftState.getCurrentDrafter().getDraftedTeam().getDraftedPlayersInOrder().stream().map(x -> (
+					x.getPositionalStats().getProjectedTotalPoints() != null ? Double.valueOf(x.getPositionalStats().getProjectedTotalPoints()) : 
+					x.getFfBallersPlayerProjection().getOverallPoints() != null ? Double.valueOf(x.getFfBallersPlayerProjection().getOverallPoints()) : 0
+					)).reduce(0.0, Double::sum);
+			double rounded = Math.round(totalDraftedProjectedPoints*10)/10;
+			model.addAttribute("currentDraftedProjectedPoints", rounded);
 			log.debug("Models updated for drafter={}", draftState.getCurrentDrafter().getName());
 		}
 	}
 
 	public void updateNflTeamListsAttributes(Model model) {
-		model.addAttribute("playersToBuildModalFor", NFLTeamManager.getAllPlayersByADP().subList(0, Math.min(NFLTeamManager.getAllPlayersByADP().size(), 250)));
+		model.addAttribute("playersToBuildModalFor", NFLTeamManager.getAllPlayersByADP().subList(0, Math.min(NFLTeamManager.getAllPlayersByADP().size(), 300)));
 		model.addAttribute("playersSortedByAdp", NFLTeamManager.getAllAvailablePlayersByADP());
 		model.addAttribute("playersSortedBySleeperAdp", NFLTeamManager.getAllAvailablePlayersBySleeperADP());
 		model.addAttribute("playersSortedByRank", NFLTeamManager.getAllAvailablePlayersByRank());
@@ -262,6 +277,16 @@ public class ModelUpdater {
 		updateCommonAttributesSubset(model);
 		log.debug("Models updated for position page");
 	}
+	
+	public void updateModelForTiersPage(String source, Model model) {
+		model.addAttribute("playerList", NFLTeamManager.getAllAvailablePlayersByADP());
+		model.addAttribute("playersToBuildModalFor", NFLTeamManager.getAllAvailablePlayersByADP());
+		model.addAttribute("tierList", NFLTeamManager.getAllAvailablePlayersByTier(source));
+		model.addAttribute("positionAbbrev", "ALL");
+		model.addAttribute("tierSource", source);
+		updateCommonAttributesSubset(model);
+		log.debug("Models updated for tier page");
+	}
 
 	public void updateModelForTeamPage(String teamAbbrev, Model model) {
 		NFLTeam team = NFLTeamManager.getTeam(teamAbbrev);
@@ -312,4 +337,6 @@ public class ModelUpdater {
 		nameFilterText = null;
 		selectedSort = null;
 	}
+
+	
 }

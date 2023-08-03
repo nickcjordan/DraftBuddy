@@ -12,51 +12,79 @@ import com.falifa.draftbuddy.ui.model.player.stats.PlayerPositionalStats;
 import com.falifa.draftbuddy.ui.model.player.stats.RawStatsDetails;
 import com.falifa.draftbuddy.ui.model.team.NFLTeam;
 import com.falifa.draftbuddy.ui.prep.data.NFLTeamManager;
+import com.falifa.draftbuddy.ui.prep.data.model.LateRoundGuideConsolidatedRank;
 import com.falifa.draftbuddy.ui.prep.scraper.webjson.model.ffballers.FFBallersConsolidatedProjection;
-import com.falifa.draftbuddy.ui.prep.scraper.webjson.model.ffballers.PlayerInfo;
-import com.falifa.draftbuddy.ui.prep.scraper.webjson.model.ffballers.Projection;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class Player {
 
 	private String fantasyProsId;
 	private int tier;
-	private String playerName;	
+	private String playerName;
 	private Position position;
 	private String bye;
 	private NflTeamMetadata team;
-	
+
 	private DraftingDetails draftingDetails;
 
 	private RawStatsDetails priorRawStatsDetails;
 	private RawStatsDetails projectedRawStatsDetails;
-	
+
 	private PlayerPositionalStats positionalStats;
 
 	private RankMetadata rankMetadata;
 	private OffensiveLineMetadata offensiveLineMetadata;
 	private PictureMetadata pictureMetadata;
 	private NotesMetadata notesMetadata;
-	
+
 	private FFBallersConsolidatedProjection ffBallersPlayerProjection;
 	private SleeperPlayerData sleeperData;
 	private String sleeperId;
-	
+
+	private LateRoundGuideConsolidatedRank lateRoundRank;
+
+	public PlayerTrends trends;
+	public List<TrendAnalysis> trendAnalysis;
+	public boolean isRookie;
+
+	public List<TrendAnalysis> getTrendAnalysis() {
+		return trendAnalysis;
+	}
+
+	public void setTrendAnalysis(List<TrendAnalysis> trendAnalysis) {
+		this.trendAnalysis = trendAnalysis;
+	}
+
+	public PlayerTrends getTrends() {
+		return trends;
+	}
+
+	public void setTrends(PlayerTrends trends) {
+		this.trends = trends;
+	}
 
 	public SleeperPlayerData getSleeperData() {
 		return sleeperData;
 	}
-	
+
 	public void setSleeperData(SleeperPlayerData sleeperData) {
 		this.sleeperData = sleeperData;
 	}
-	
+
 	public String getSleeperId() {
 		return sleeperId;
 	}
 
 	public void setSleeperId(String sleeperId) {
 		this.sleeperId = sleeperId;
+	}
+
+	public boolean isRookie() {
+		return isRookie;
+	}
+
+	public void setRookie(boolean isRookie) {
+		this.isRookie = isRookie;
 	}
 
 	public Player() {
@@ -68,12 +96,14 @@ public class Player {
 		this.pictureMetadata = new PictureMetadata();
 		this.notesMetadata = new NotesMetadata();
 		this.positionalStats = new PlayerPositionalStats();
+		this.trendAnalysis = new ArrayList<TrendAnalysis>();
 	}
+
 	@JsonIgnore
 	public String checkForHandcuff() {
 		return (draftingDetails.getHandcuffs() == null) ? " - " : draftingDetails.getHandcuffs();
 	}
-	
+
 	@JsonIgnore
 	public String getPositionalSOSRank() {
 //		Map<String, NFLTeam> map = NFLTeamCache.getNflTeamsByAbbreviation();
@@ -81,45 +111,62 @@ public class Player {
 		NFLTeam nflTeam = map.get(team.getAbbreviation());
 		try {
 			switch (position) {
-				case QUARTERBACK: return String.valueOf(nflTeam.getSosData().getQbRank());
-				case RUNNINGBACK: return String.valueOf(nflTeam.getSosData().getRbRank());
-				case WIDERECEIVER: return String.valueOf(nflTeam.getSosData().getWrRank());
-				case TIGHTEND: return String.valueOf(nflTeam.getSosData().getTeRank());
-				case DEFENSE: return String.valueOf(nflTeam.getSosData().getDstRank());
-				case KICKER: return String.valueOf(nflTeam.getSosData().getkRank());
+			case QUARTERBACK:
+				return String.valueOf(nflTeam.getSosData().getQbRank());
+			case RUNNINGBACK:
+				return String.valueOf(nflTeam.getSosData().getRbRank());
+			case WIDERECEIVER:
+				return String.valueOf(nflTeam.getSosData().getWrRank());
+			case TIGHTEND:
+				return String.valueOf(nflTeam.getSosData().getTeRank());
+			case DEFENSE:
+				return String.valueOf(nflTeam.getSosData().getDstRank());
+			case KICKER:
+				return String.valueOf(nflTeam.getSosData().getkRank());
 			}
-		} catch (Exception e) {}
+		} catch (Exception e) {
+		}
 		return "";
 	}
+
 	@JsonIgnore
 	@Override
 	public String toString() {
 		return playerName;
 	}
+
 	@JsonIgnore
 	public String getNameAndTags() {
-		return (draftingDetails.getTags() == null || draftingDetails.getTags().isEmpty()) ? playerName : playerName + " [" + draftingDetails.getTags() + "]";
+		return (draftingDetails.getTags() == null || draftingDetails.getTags().isEmpty()) ? playerName
+				: playerName + " [" + draftingDetails.getTags() + "]";
 	}
-	
+
 	@JsonIgnore
 	public String getTagDescriptions() {
-		return (draftingDetails.getTags() == null || draftingDetails.getTags().isEmpty()) ? "No tags" : buildDescriptionOfTags(draftingDetails.getTags());
+		return (draftingDetails.getTags() == null || draftingDetails.getTags().isEmpty()) ? "No tags"
+				: buildDescriptionOfTags(draftingDetails.getTags());
 	}
 
 	public FFBallersConsolidatedProjection getFfBallersPlayerProjection() {
 		return ffBallersPlayerProjection;
 	}
+
 	public void setFfBallersPlayerProjection(FFBallersConsolidatedProjection ffBallersPlayerProjection) {
 		this.ffBallersPlayerProjection = ffBallersPlayerProjection;
 	}
 
 	private String buildDescriptionOfTags(String tags) {
-		List<String> tagList = new ArrayList<String> ();
+		List<String> tagList = new ArrayList<String>();
 		for (int i = 0; i < tags.length(); i++) {
 			tagList.add(String.valueOf(tags.charAt(i)));
 		}
 		String x = tagList.stream().map(tag -> Tag.getName(tag)).collect(Collectors.joining(", "));
 		return x;
+	}
+
+	@JsonIgnore
+	public int getTrendAnalysisScore() {
+		return getTrendAnalysis().stream().map(x -> x.getSentimentValue()).reduce(0, Integer::sum);
 	}
 	
 	public String getFantasyProsId() {
@@ -129,7 +176,7 @@ public class Player {
 	public void setFantasyProsId(String fantasyProsId) {
 		this.fantasyProsId = fantasyProsId;
 	}
-	
+
 	public int getTier() {
 		return tier;
 	}
@@ -141,7 +188,7 @@ public class Player {
 	public String getPlayerName() {
 		return playerName;
 	}
-	
+
 	@JsonIgnore
 	public String getFirstName() {
 		if (position != null && position == Position.DEFENSE && team != null) {
@@ -150,7 +197,7 @@ public class Player {
 			return playerName.split(" ")[0].trim();
 		}
 	}
-	
+
 	@JsonIgnore
 	public String getLastName() {
 		if (position != null && position == Position.DEFENSE && team != null) {
@@ -195,9 +242,11 @@ public class Player {
 	public void setProjectedRawStatsDetails(RawStatsDetails projectedRawStatsDetails) {
 		this.projectedRawStatsDetails = projectedRawStatsDetails;
 	}
+
 	public DraftingDetails getDraftingDetails() {
 		return draftingDetails;
 	}
+
 	public void setDraftingDetails(DraftingDetails draftMetadata) {
 		this.draftingDetails = draftMetadata;
 	}
@@ -241,28 +290,50 @@ public class Player {
 	public void setTeam(NflTeamMetadata team) {
 		this.team = team;
 	}
+
 	public PlayerPositionalStats getPositionalStats() {
 		return positionalStats;
 	}
+
 	public void setPositionalStats(PlayerPositionalStats positionalStats) {
 		this.positionalStats = positionalStats;
 	}
-	
+
 	@JsonIgnore
 	public String getSosBadgeClass(String text) {
-		if (text.equals("")) { return "even"; }
+		if (text.equals("")) {
+			return "even";
+		}
 		int value = Integer.valueOf(text);
-		if (value > 27) { return "neg-40";
-		} else if (value > 24) { return "neg-20";
-		} else if (value > 21) { return "neg-10";
-		} else if (value > 18) { return "neg-5";
-		} else if (value > 15) { return "neg-2";
-		} else if (value > 12) { return "pos-2";
-		} else if (value > 9) { return "pos-5";
-		} else if (value > 6) { return "pos-10";
-		} else if (value > 3) { return "pos-20";
-		} else { return "pos-40";
+		if (value > 27) {
+			return "neg-40";
+		} else if (value > 24) {
+			return "neg-20";
+		} else if (value > 21) {
+			return "neg-10";
+		} else if (value > 18) {
+			return "neg-5";
+		} else if (value > 15) {
+			return "neg-2";
+		} else if (value > 12) {
+			return "pos-2";
+		} else if (value > 9) {
+			return "pos-5";
+		} else if (value > 6) {
+			return "pos-10";
+		} else if (value > 3) {
+			return "pos-20";
+		} else {
+			return "pos-40";
 		}
 	}
-	
+
+	public LateRoundGuideConsolidatedRank getLateRoundRank() {
+		return lateRoundRank;
+	}
+
+	public void setLateRoundRank(LateRoundGuideConsolidatedRank lateRoundRank) {
+		this.lateRoundRank = lateRoundRank;
+	}
+
 }

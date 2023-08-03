@@ -34,7 +34,7 @@
 			
 			<div class="col-md-2">
 				<div class="row">
-					<div class="center thin-text"><h3 class="white-title"><strong>${currentDrafter.name}'s Team:</strong></h3></div>
+					<div class="center thin-text"><h3 class="white-title"><strong>${currentDrafter.name}'s Team: (${currentDraftedProjectedPoints})</strong></h3></div>
 					<%@include file="../tables/dash_draftersTeamTable.jsp"%>
 				</div>
 				<div class="row">
@@ -64,24 +64,6 @@
 				<div class="tab-content" id="suggestionTableTabContent">
 					<div class="section">
 						<table data-toggle="table" class="table table-sm header-fixed dashboard-dash tabbed-table thin-celled-table outer-scrollbar">
-							<%-- <thead class="thead-inverse">
-								<tr>
-									<th class="id-suggest"><a href="/sortSuggestions?sortBy=ADP">ADP</a></th>
-									<th class="pos_rank-suggest"><a href="/sortSuggestions?sortBy=ECR">ECR</a></th>
-									<th class="name-suggest"><a href="/sortSuggestions?sortBy=NAME">Name</a></th>
-									<th class="proj-pts-suggest"><a href="/sortSuggestions?sortBy=PROJ_PTS">PrjAvg</a></th>
-									<th class="value-suggest"><a href="/sortSuggestions?sortBy=ADP_VAL"><span title="" data-placement="top" data-html="true" data-toggle="tooltip" data-original-title="Current number of picks player differs from their original <b>ADP</b>">Value</span> <script>$('span').tooltip();</script></a></th>
-									<th class="vsadp-suggest"><a href="/sortSuggestions?sortBy=VS_ADP_VAL"><span title="" data-placement="top" data-html="true" data-toggle="tooltip" data-original-title="How far away the player's <b>ADP</b> is from the player's <b>Overall Rank</b>">VsAdp</span> <script>$('span').tooltip();</script></a></th>
-									<th class="proj-pts-suggest"><a href="/sortSuggestions?sortBy=AVG_PRIOR_PTS">PriAvg</a></th>
-									<th class="tags-suggest">Tags</th>
-									<th class="pos-suggest">Pos</th>
-									<th class="team-suggest">Team</th>
-									<th class="team-suggest">SOS</th>
-									<th class="bye-suggest">Bye</th>
-									<th class="stddev-suggest"><span title="" data-placement="top" data-html="true" data-toggle="tooltip" data-original-title="How <b>unsure</b> people are of this player. This measures how much a set of values drifts from the <b>Average</b>, or <em>'a measure confidence'</em> in statistical conclusions">St-Dv</span><script>$('span').tooltip();</script></th>
-									<th class="handcuff-suggest">Backups</th>
-								</tr>
-							</thead> --%>
 		
 							<c:set var="playerListContent" value="${playersSortedBySuggestions}" scope="application"></c:set>
 							<%@include file="../tables/suggestionTableBody.jsp"%>

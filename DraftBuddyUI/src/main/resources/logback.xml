@@ -6,6 +6,7 @@
         <logger name="org.springframework" level="INFO"/>
         <logger name="sf.icptp.springextensions.utils" level="INFO"/>
         <logger name="org.springframework.beans.factory" level="WARN"/>
+         <logger name="org.apache.catalina.webresources.Cache" level="SEVERE"/>
  
  
  

@@ -11,6 +11,7 @@ import com.falifa.draftbuddy.ui.draft.compare.AlphabetizedPlayerComparator;
 import com.falifa.draftbuddy.ui.draft.compare.FFBallerFlexGradeComparator;
 import com.falifa.draftbuddy.ui.draft.compare.FFBallerFlexRankComparator;
 import com.falifa.draftbuddy.ui.draft.compare.FFBallerPositionRankComparator;
+import com.falifa.draftbuddy.ui.draft.compare.JJRankComparator;
 import com.falifa.draftbuddy.ui.draft.compare.PlayerADPComparator;
 import com.falifa.draftbuddy.ui.draft.compare.PlayerADPValueComparator;
 import com.falifa.draftbuddy.ui.draft.compare.PlayerAveragePriorPointsComparator;
@@ -107,6 +108,10 @@ public class PlayerFilterSorter {
 			case "FFB_FLEX_GRADE" : 
 								players = players.stream().filter(p -> (p.getFfBallersPlayerProjection() != null && p.getFfBallersPlayerProjection().getFlexGrade() != 0)).collect(Collectors.toList()); 
 								Collections.sort(players, new FFBallerFlexGradeComparator());
+								break;
+			case "JJ_RANK" : 
+								players = players.stream().filter(p -> (p.getLateRoundRank() != null && Integer.valueOf(p.getLateRoundRank().getOverall()) != 0)).collect(Collectors.toList()); 
+								Collections.sort(players, new JJRankComparator());
 								break;
 								
 								

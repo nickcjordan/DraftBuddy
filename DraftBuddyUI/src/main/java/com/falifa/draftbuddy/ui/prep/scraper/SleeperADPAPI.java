@@ -25,7 +25,8 @@ public class SleeperADPAPI {
 					
 				for (SleeperADPItem x : response.getItems()) {
 					String name = x.getPlayer().getUnformatted();
-					Double val = Double.parseDouble(x.getAdp());
+//					Double val = Double.parseDouble(x.getAdp()); // old structure from 2022
+					Double val = x.getAdp().getUnformatted(); // new structure 2023
 					SleeperADP sleeperADP = new SleeperADP(name, val);
 					adp.add(sleeperADP);
 				}
